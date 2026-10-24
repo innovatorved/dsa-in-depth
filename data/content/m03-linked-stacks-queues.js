@@ -3,14 +3,15 @@ window.MODULE_CONTENT["m03"] = {
   "singly-doubly-intrusive-lists": {
     title: "Singly, Doubly & Intrusive Linked Lists (Linux Kernel list_head)",
     video: {
-      youtubeId: "0sIR2sE32NI",
-      id: "0sIR2sE32NI",
-      url: "https://www.youtube.com/embed/0sIR2sE32NI",
-      id: "0sIR2sE32NI",
-      url: "https://www.youtube.com/embed/0sIR2sE32NI",
-      title: "Linus Torvalds on Good Taste in Linked List Pointers & Linux list_head",
-      channel: "TED / Linux Kernel",
-      duration: "15 min"
+      youtubeId: "8hswwLiZNkY",
+      id: "8hswwLiZNkY",
+      url: "https://www.youtube.com/embed/8hswwLiZNkY",
+      title: "Intrusive Circular Doubly Linked Lists (Linux Kernel list_head Architecture)",
+      channel: "Codotaku",
+      duration: "22:40",
+      start: 0,
+      length: "22m",
+      why: "Deep-dive lecture covering Singly, Doubly & Intrusive Linked Lists (Linux Kernel list_head)."
     },
     intuition: "Standard library linked lists (<code>std::list<T></code>) invert ownership by wrapping every payload inside a separately heap-allocated node—doubling allocator traffic, fragmenting L1 cache lines, and restricting an object to one list at a time. Intrusive linked lists (like the Linux kernel's <code>struct list_head</code>) embed the <code>next</code>/<code>prev</code> hooks directly inside the domain struct, recovering the parent struct via compile-time <code>offsetof</code> pointer arithmetic (<code>container_of</code>) with zero dynamic allocations.",
     content: `
@@ -413,14 +414,15 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
   "unrolled-linked-lists-ropes": {
     title: "Unrolled Linked Lists & Gap Buffers: Defeating Pointer Chasing",
     video: {
-      youtubeId: "Q2sFmqvpBe0",
-      id: "Q2sFmqvpBe0",
-      url: "https://www.youtube.com/embed/Q2sFmqvpBe0",
-      id: "Q2sFmqvpBe0",
-      url: "https://www.youtube.com/embed/Q2sFmqvpBe0",
-      title: "Text Editor Data Structures: Gap Buffers, Piece Tables, and Ropes",
-      channel: "MIT 6.172 / Systems Engineering",
-      duration: "42 min"
+      youtubeId: "34ky600VTN0",
+      id: "34ky600VTN0",
+      url: "https://www.youtube.com/embed/34ky600VTN0",
+      title: "Why Linked Lists vs Contiguous Arrays Isn't a Real Choice (CPU Cache Locality)",
+      channel: "SimonDev",
+      duration: "14:52",
+      start: 0,
+      length: "14m",
+      why: "Deep-dive lecture covering Unrolled Linked Lists & Gap Buffers: Defeating Pointer Chasing."
     },
     intuition: "A standard linked list pays 16 bytes of pointer overhead and a full 64-byte cache-line miss for every single element. Packing $B$ elements into each node's inline array (an Unrolled Linked List, sized so each node equals 1–2 cache lines) amortizes pointer overhead by $B\\times$ and turns pointer chasing into sequential SIMD/cache-line streaming—while Gap Buffers and Ropes apply the same cache-locality principle to text editors.",
     content: `
@@ -1155,14 +1157,15 @@ public:
   "monotonic-stack-next-greater": {
     title: "Monotonic Stacks: Next Greater Element, Histogram & Subarray Mins",
     video: {
-      youtubeId: "ZX2B913lHzk",
-      id: "ZX2B913lHzk",
-      url: "https://www.youtube.com/embed/ZX2B913lHzk",
-      id: "ZX2B913lHzk",
-      url: "https://www.youtube.com/embed/ZX2B913lHzk",
-      title: "Monotonic Stack & Largest Rectangle in Histogram Explained",
-      channel: "NeetCode / Algorithms",
-      duration: "17 min"
+      youtubeId: "zx5Sw9130L0",
+      id: "zx5Sw9130L0",
+      url: "https://www.youtube.com/embed/zx5Sw9130L0",
+      title: "Largest Rectangle in Histogram — Monotonic Stack Invariants in O(N)",
+      channel: "NeetCode",
+      duration: "14:42",
+      start: 0,
+      length: "14m",
+      why: "Deep-dive lecture covering Monotonic Stacks: Next Greater Element, Histogram & Subarray Mins."
     },
     intuition: "A monotonic stack maintains indices whose values are strictly ordered from bottom to top by evicting every dominated index as soon as a new element arrives. When an index $m$ is popped by incoming index $R$, $R$ is provably the first element to the right that breaks $m$'s dominance, while the element sitting immediately below $m$ on the stack ($L$) is the first element to the left that breaks $m$'s dominance—yielding both nearest-smaller/greater boundaries $[L+1, R-1]$ in a single $O(N)$ pass!",
     content: `
@@ -1804,14 +1807,15 @@ public:
   "case-redis-skiplist-ziplist": {
     title: "Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing)",
     video: {
-      youtubeId: "kBwUoWpeH_Q",
-      id: "kBwUoWpeH_Q",
-      url: "https://www.youtube.com/embed/kBwUoWpeH_Q",
-      id: "kBwUoWpeH_Q",
-      url: "https://www.youtube.com/embed/kBwUoWpeH_Q",
-      title: "Skip Lists, Order Statistics, and Redis Sorted Sets Architecture",
-      channel: "MIT OpenCourseWare / Systems Architecture",
-      duration: "50 min"
+      youtubeId: "MUKlxdBQZ7g",
+      id: "MUKlxdBQZ7g",
+      url: "https://www.youtube.com/embed/MUKlxdBQZ7g",
+      title: "Redis Sorted Sets (ZSET) Internals: Listpack vs SkipList + Hash Table Dual Indexing",
+      channel: "Redis",
+      duration: "08:35",
+      start: 0,
+      length: "8m",
+      why: "Deep-dive lecture covering Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing)."
     },
     intuition: "How does a Redis Sorted Set (<code>ZSET</code>) support <code>ZSCORE member</code> (point lookup by string key) in $O(1)$ time, <code>ZRANGEBYSCORE min max</code> (1D range query by floating-point score) in $O(\\log N + M)$ time, AND <code>ZRANK member</code> / <code>ZRANGE start stop</code> (positional rank queries) in $O(\\log N + M)$ time? By adaptively switching from a flat cache-local <code>listpack</code> for small sets ($\\le 128$ items) to a dual-indexed <code>dict</code> + rank-augmented <code>zskiplist</code> for large sets.",
     content: `
@@ -2018,14 +2022,15 @@ public:
   "build-lfu-lru-cache": {
     title: "Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine",
     video: {
-      youtubeId: "b6s3_pJ3kCE",
-      id: "b6s3_pJ3kCE",
-      url: "https://www.youtube.com/embed/b6s3_pJ3kCE",
-      id: "b6s3_pJ3kCE",
-      url: "https://www.youtube.com/embed/b6s3_pJ3kCE",
-      title: "Designing O(1) LFU Cache from Scratch",
-      channel: "NeetCode",
-      duration: "24 min"
+      youtubeId: "bLEIHn-DgoA",
+      id: "bLEIHn-DgoA",
+      url: "https://www.youtube.com/embed/bLEIHn-DgoA",
+      title: "Designing an O(1) LFU Cache with Frequency-Bucketed Doubly Linked Lists",
+      channel: "NeetCodeIO",
+      duration: "21:15",
+      start: 0,
+      length: "21m",
+      why: "Deep-dive lecture covering Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine."
     },
     intuition: "Building a production-grade $O(1)$ LFU Cache requires orchestrating three invariants simultaneously without a single memory leak or dangling iterator: (1) a key lookup table <code>key -> Node</code>, (2) per-frequency circular doubly linked lists <code>freq -> List</code> that preserve LRU tie-breaking within each frequency tier, and (3) a deterministic <code>min_freq</code> cursor that tracks the lowest populated frequency bucket in $O(1)$ time.",
     content: `

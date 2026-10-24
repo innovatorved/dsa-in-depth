@@ -39,7 +39,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=19951d0523"></script>
+  <script src="js/manifest.js?v=f59e0416cd"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;0sIR2sE32NI&quot;,&quot;id&quot;:&quot;0sIR2sE32NI&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/0sIR2sE32NI&quot;,&quot;title&quot;:&quot;Linus Torvalds on Good Taste in Linked List Pointers &amp; Linux list_head&quot;,&quot;channel&quot;:&quot;TED / Linux Kernel&quot;,&quot;duration&quot;:&quot;15 min&quot;}">
-      <div class="video-embed" id="video-0sIR2sE32NI"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="0sIR2sE32NI">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/0sIR2sE32NI/hqdefault.jpg"
-               alt="Linus Torvalds on Good Taste in Linked List Pointers &amp; Linux list_head"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;8hswwLiZNkY&quot;,&quot;id&quot;:&quot;8hswwLiZNkY&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/8hswwLiZNkY&quot;,&quot;title&quot;:&quot;Intrusive Circular Doubly Linked Lists (Linux Kernel list_head Architecture)&quot;,&quot;channel&quot;:&quot;Codotaku&quot;,&quot;duration&quot;:&quot;22:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;22m&quot;,&quot;why&quot;:&quot;Deep-dive lecture covering Singly, Doubly &amp; Intrusive Linked Lists (Linux Kernel list_head).&quot;}">
+      <div class="video-embed" id="video-8hswwLiZNkY"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="8hswwLiZNkY">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/8hswwLiZNkY/hqdefault.jpg"
+               alt="Intrusive Circular Doubly Linked Lists (Linux Kernel list_head Architecture)"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">TED / Linux Kernel</span>
-        <span class="video-embed__title">Linus Torvalds on Good Taste in Linked List Pointers &amp; Linux list_head</span>
-        <a href="https://www.youtube.com/watch?v=0sIR2sE32NI" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Codotaku</span>
+        <span class="video-embed__title">Intrusive Circular Doubly Linked Lists (Linux Kernel list_head Architecture)</span>
+        <a href="https://www.youtube.com/watch?v=8hswwLiZNkY" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      </div>
+      <p class="video-embed__why">Deep-dive lecture covering Singly, Doubly &amp; Intrusive Linked Lists (Linux Kernel list_head).</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body">Standard library linked lists (<code>std::list<T></code>) invert ownership by wrapping every payload inside a separately heap-allocated node—doubling allocator traffic, fragmenting L1 cache lines, and restricting an object to one list at a time. Intrusive linked lists (like the Linux kernel's <code>struct list_head</code>) embed the <code>next</code>/<code>prev</code> hooks directly inside the domain struct, recovering the parent struct via compile-time <code>offsetof</code> pointer arithmetic (<code>container_of</code>) with zero dynamic allocations.</div>

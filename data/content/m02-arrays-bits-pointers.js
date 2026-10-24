@@ -459,14 +459,15 @@ public:
   "two-pointers-invariant-proofs": {
     title: "Two-Pointer Invariants: Converging, Fast-Slow & Dutch National Flag",
     video: {
-      youtubeId: "s1XVDc71fy0",
-      id: "s1XVDc71fy0",
-      url: "https://www.youtube.com/embed/s1XVDc71fy0",
-      id: "s1XVDc71fy0",
-      url: "https://www.youtube.com/embed/s1XVDc71fy0",
-      title: "Dijkstra's Dutch National Flag & Partitioning Invariants",
-      channel: "MIT OpenCourseWare",
-      duration: "48 min"
+      youtubeId: "4xbWSRZHqac",
+      id: "4xbWSRZHqac",
+      url: "https://www.youtube.com/embed/4xbWSRZHqac",
+      title: "Dutch National Flag & 3-Way Partitioning Two-Pointer Invariants",
+      channel: "NeetCode",
+      duration: "11:24",
+      start: 0,
+      length: "11m",
+      why: "Deep-dive lecture covering Two-Pointer Invariants: Converging, Fast-Slow & Dutch National Flag."
     },
     intuition: "A two-pointer algorithm replaces an $O(N^2)$ nested loop over index pairs $(i, j)$ with an $O(N)$ linear progression by exploiting a monotonicity or partitioning invariant: every time a pointer advances by 1 step, it eliminates an entire row or column of the $(i, j)$ search matrix, or narrows the unclassified gap $[\\text{mid} \\dots \\text{high}]$ by exactly one element.",
     content: `
@@ -1263,14 +1264,15 @@ void enumerate_all_submasks(int n) noexcept {
   "bitsets-word-level-parallelism": {
     title: "Bitsets, Popcount (__builtin_popcount) & O(N/64) Word-Level Parallelism",
     video: {
-      youtubeId: "b881z78K5CA",
-      id: "b881z78K5CA",
-      url: "https://www.youtube.com/embed/b881z78K5CA",
-      id: "b881z78K5CA",
-      url: "https://www.youtube.com/embed/b881z78K5CA",
-      title: "SWAR, Popcount, and Word-Level Parallelism",
-      channel: "MIT OpenCourseWare",
-      duration: "50 min"
+      youtubeId: "jqJ5s077OKo",
+      id: "jqJ5s077OKo",
+      url: "https://www.youtube.com/embed/jqJ5s077OKo",
+      title: "C++ Bitsets & O(N/64) Word-Level Parallelism in Competitive Programming",
+      channel: "Errichto Algorithms",
+      duration: "26:18",
+      start: 0,
+      length: "26m",
+      why: "Deep-dive lecture covering Bitsets, Popcount (__builtin_popcount) & O(N/64) Word-Level Parallelism."
     },
     intuition: "A 64-bit CPU register is not merely a single scalar integer—it is a 64-lane SIMD vector of booleans. Packing boolean states into contiguous <code>uint64_t</code> words compresses memory by $64\\times$ (fitting 524,288 flags inside a single 64 KB L2 cache) and executes set union (<code>|</code>), intersection (<code>&</code>), symmetric difference (<code>^</code>), shift, and cardinality (<code>POPCNT</code>) across 64 elements per clock cycle.",
     content: `
@@ -1940,14 +1942,15 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
   "build-dynamic-circular-deque": {
     title: "Build Lab: Dynamic Circular Buffer & Amortized O(1) Vector",
     video: {
-      youtubeId: "5AllG-i_yto",
-      id: "5AllG-i_yto",
-      url: "https://www.youtube.com/embed/5AllG-i_yto",
-      id: "5AllG-i_yto",
-      url: "https://www.youtube.com/embed/5AllG-i_yto",
-      title: "Circular Buffers, Deques, and Power-of-Two Masking",
-      channel: "MIT OpenCourseWare",
-      duration: "51 min"
+      youtubeId: "dn01XST9-bI",
+      id: "dn01XST9-bI",
+      url: "https://www.youtube.com/embed/dn01XST9-bI",
+      title: "Circular Queue & Ring Buffer Array Implementation (Modulo Wrap-Around)",
+      channel: "Jenny's Lectures CS IT",
+      duration: "24:13",
+      start: 0,
+      length: "24m",
+      why: "Deep-dive lecture covering Build Lab: Dynamic Circular Buffer & Amortized O(1) Vector."
     },
     intuition: "A flat <code>std::vector</code> supports $O(1)$ amortized <code>push_back</code>, but <code>push_front</code> or <code>pop_front</code> shifts all $N$ elements in $\\Theta(N)$ time. By wrapping a contiguous power-of-two array into a ring indexed via bitwise AND masking <code>(head + i) & (cap - 1)</code>—and linearizing the ring during $2\\times$ geometric expansion—a dynamic circular deque achieves $O(1)$ amortized push/pop at both ends AND $O(1)$ random access in a single L1-friendly allocation.",
     content: `

@@ -219,14 +219,14 @@ public:
   "asymptotic-notations-rigor": {
     title: "Asymptotic Notation Rigor: O, Ω, Θ, o, ω & Limit Laws",
     video: {
-      youtubeId: "2Rr2tW9zvRg",
-      id: "2Rr2tW9zvRg",
-      url: "https://www.youtube.com/embed/2Rr2tW9zvRg",
-      title: "MIT 6.046J Lecture 1: Introduction & Asymptotic Notation",
+      youtubeId: "CWkh5kb4TGc",
+      id: "CWkh5kb4TGc",
+      url: "https://www.youtube.com/embed/CWkh5kb4TGc",
+      title: "MIT 6.042J: Asymptotic Notation (Big-O, Omega, Theta & Little-o Rigor)",
       channel: "MIT OpenCourseWare",
-      duration: "1:18:10",
+      duration: "14:28",
       start: 0,
-      length: "78m",
+      length: "14m",
       why: "Erik Demaine and Charles Leiserson establish the formal set-theoretic foundations of asymptotic notation, limit laws, and macro-convention algebra."
     },
     intuition: "<p>Asymptotic notations ($O, \\Omega, \\Theta, o, \\omega$) are not vague approximations—they are <strong>formal sets of functions</strong> defined by existential and universal quantifiers over a threshold $n_0$ and positive constants $c_1, c_2$. Just as real numbers obey relational operators ($\\le, \\ge, =, &lt;, &gt;$), asymptotic sets classify growth rates up to constant factors as $n \\to \\infty$.</p><p>Rigorously distinguishing between <strong>asymptotic bounds</strong> ($O$ vs $\\Omega$ vs $\\Theta$) and <strong>execution case regimes</strong> (Worst-Case vs Best-Case vs Expected-Case) is essential: Big-$O$ is NOT synonymous with worst-case, and $\\Omega$ is NOT synonymous with best-case. One can bound the worst-case runtime from below ($T_{\\text{worst}}(n) \\in \\Omega(n^2)$ for Bubble Sort) or bound the best-case runtime from above ($T_{\\text{best}}(n) \\in O(n)$).</p>",
@@ -601,14 +601,14 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
   "akra-bazzi-uneven-divides": {
     title: "Beyond Master Theorem: Akra-Bazzi for Uneven Subproblems",
     video: {
-      youtubeId: "k4RRi_ntQc8",
-      id: "k4RRi_ntQc8",
-      url: "https://www.youtube.com/embed/k4RRi_ntQc8",
-      title: "MIT 6.046J Recitation: Akra-Bazzi Method & Uneven Divide-and-Conquer",
-      channel: "MIT OpenCourseWare",
-      duration: "48:20",
+      youtubeId: "763SRiovouc",
+      id: "763SRiovouc",
+      url: "https://www.youtube.com/embed/763SRiovouc",
+      title: "The Akra-Bazzi Method: Solving Divide-and-Conquer Recurrences Beyond Master Theorem",
+      channel: "Nitish Kumar",
+      duration: "18:45",
       start: 0,
-      length: "48m",
+      length: "18m",
       why: "Complete derivation of the characteristic exponent p and the Akra-Bazzi integral formula for recurrences with unequal subproblem splits."
     },
     intuition: "<p>What happens when a divide-and-conquer algorithm splits an array into <strong>unequal fractions</strong>, such as a 1-to-9 split in lopsided Quicksort ($T(n) = T(n/10) + T(9n/10) + \\Theta(n)$) or the Median-of-Medians deterministic selection algorithm ($T(n) = T(n/5) + T(7n/10) + \\Theta(n)$)? The Master Theorem fails immediately because there is no single uniform divisor $b$.</p><p>In 1998, Mohamad Akra and Louay Bazzi proved a sweeping generalization that subsumes the Master Theorem completely. For any recurrence $T(x) = \\sum_{i=1}^k a_i T(b_i x + h_i(x)) + g(x)$, we first find the unique real <strong>characteristic exponent</strong> $p$ satisfying $\\sum_{i=1}^k a_i b_i^p = 1$, and then evaluate a single continuous integral that unifies all three Master Theorem regimes without any case-splitting.</p>",
@@ -1555,14 +1555,14 @@ size_t collectLeftOffsets(const int64_t* block, int64_t pivot, uint8_t* offsetsO
   "complexity-tradeoff-framework": {
     title: "Time-Space-Precomputation Tradeoff Design Framework",
     video: {
-      youtubeId: "r4-cftqTcdI",
-      id: "r4-cftqTcdI",
-      url: "https://www.youtube.com/embed/r4-cftqTcdI",
-      title: "MIT 6.006 Lecture 9: Table Doubling, Karp-Rabin & Time-Space Tradeoffs",
+      youtubeId: "HtSuA80QTyo",
+      id: "HtSuA80QTyo",
+      url: "https://www.youtube.com/embed/HtSuA80QTyo",
+      title: "MIT 6.006 Lecture 1: Algorithmic Thinking, Peak Finding & Complexity Tradeoffs",
       channel: "MIT OpenCourseWare",
-      duration: "50:15",
+      duration: "53:20",
       start: 0,
-      length: "50m",
+      length: "53m",
       why: "Demonstrates how precomputation, hashing, and auxiliary indexing trade controlled memory overhead for orders-of-magnitude query speedups."
     },
     intuition: "<p>When faced with an unfamiliar algorithmic problem in an interview or a production system design, how do you systematically deduce the optimal complexity target before writing a single line of code? The answer is a two-step engineering discipline: <strong>(1) Constraint Inversion</strong> (reading the maximum input size $N$ and latency budget to immediately rule out impossible complexity classes) and <strong>(2) The Time-Space-Precomputation Duality</strong>.</p><p>Almost every optimization from $O(N^2)$ to $O(N \\log N)$ or $O(N)$ trades a controlled increase in <strong>auxiliary state</strong> (a hash table, a prefix sum array, a monotonic stack, or a Sparse Table) to avoid recomputing overlapping queries from scratch.</p>",

@@ -417,12 +417,14 @@ public:
   "robin-hood-cuckoo-hashing": {
     title: "Variance Reduction: Robin Hood Hashing (PSL) & Cuckoo Hashing",
     video: {
-      youtubeId: "T9gct6Dx-Ro",
-      title: "MIT 6.851 Advanced Data Structures: Hashing (Cuckoo & Perfect Hashing)",
-      channel: "MIT OpenCourseWare",
-      duration: "1:22:14",
+      youtubeId: "M2-PXRHS2_w",
+      id: "M2-PXRHS2_w",
+      url: "https://www.youtube.com/embed/M2-PXRHS2_w",
+      title: "Cuckoo Hashing & Open-Addressed Displacement Probing Explained",
+      channel: "VividCode",
+      duration: "12:18",
       start: 0,
-      length: "1h 22m",
+      length: "12m",
       why: "Erik Demaine analyzes the bipartite cuckoo graph structure, proves why load factor α < 0.5 prevents bicyclic component overflow with high probability, and bounds worst-case lookups to 2 probes."
     },
     intuition: "<p>Standard Linear Probing is a \"first-come, first-served\" collision scheme: a key inserted early sits at its home bucket with <strong>Probe Sequence Length ($\\text{PSL} = 0$)</strong>, while a key inserted later into the same cluster may be pushed $40$ slots away ($\\text{PSL} = 40$). <strong>Robin Hood Hashing</strong> (Celis, Larson, Munro, 1985) leaves the <em>mean</em> probe length unchanged at $\\frac{1}{2}(1 + \\frac{1}{1-\\alpha})$, but crushes the <strong>variance</strong> from $O(1/(1-\\alpha)^3)$ down to $O(\\ln(1/(1-\\alpha)))$ by enforcing a simple rule: if the probing key has traveled further from its home bucket ($\\text{PSL}_{\\text{curr}} > \\text{PSL}_{\\text{occupant}}$), it steals the slot and the displaced \"rich\" occupant continues probing.</p><p><strong>Cuckoo Hashing</strong> (Pagh &amp; Rodler, 2004) goes even further: by giving every key two independent candidate locations $h_1(x)$ and $h_2(x)$ and evicting occupants along alternating Cuckoo paths during insertion, it guarantees <strong>strict worst-case $O(1)$ lookups (at most 2 memory reads)</strong>.</p>",
@@ -636,12 +638,14 @@ public:
   "hashdos-siphash-random-seeds": {
     title: "Algorithmic Complexity Attacks (HashDoS) & SipHash Defense",
     video: {
-      youtubeId: "rvdJDijO2Ro",
-      title: "MIT 6.006 Lecture 10: Open Addressing, Cryptographic Hashing",
-      channel: "MIT OpenCourseWare",
-      duration: "49:05",
-      start: 1620,
-      length: "22m",
+      youtubeId: "Vdrab3sB7MU",
+      id: "Vdrab3sB7MU",
+      url: "https://www.youtube.com/embed/Vdrab3sB7MU",
+      title: "29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks & SipHash Defense",
+      channel: "CCC (29C3)",
+      duration: "57:10",
+      start: 0,
+      length: "57m",
       why: "Srini Devadas explains preimage resistance, second-preimage resistance, and collision resistance, establishing why unkeyed non-cryptographic hashes fail against adversarial inputs."
     },
     intuition: "<p>In December 2011 (28C3, Klink &amp; Wälde, building on Crosby &amp; Wallach 2003), security researchers demonstrated that a single <strong>2 MB HTTP POST request</strong> containing $65{,}536$ crafted form parameter names could peg a multi-core web server's CPU at $100\\%$ for <strong>15 to 90 minutes</strong> across Java, Python, PHP, Ruby, and V8 Node.js. When a server inserts $N$ untrusted keys into a hash map whose hash function is deterministic and unkeyed (such as DJB2 <code>h = h * 33 + c</code>, Java <code>String.hashCode()</code> <code>h = h * 31 + c</code>, or unseeded MurmurHash), an attacker can precompute $N$ strings that all hash to the exact same bucket.</p><p>Each insertion traverses a chain (or probe cluster) of length $0, 1, 2, \\dots, N-1$, executing $\\sum_{i=0}^{N-1} i = \\frac{N(N-1)}{2} = \\Theta(N^2)$ string comparisons! Worse yet, simply adding a random seed to MurmurHash2/3 or CityHash fails because differential cryptanalysis recovers the seed or constructs <strong>universal multicollisions</strong> independent of the seed. Defeating HashDoS requires either a <strong>Cryptographic Pseudorandom Function (PRF)</strong> like <strong>SipHash-2-4</strong> (Aumasson &amp; Bernstein, 2012) keyed with 128 bits of CSPRNG entropy, or <strong>Treeified Chaining</strong> (Java 8+ converting chains of length $\\ge 8$ into Red-Black Trees).</p>",
@@ -1263,12 +1267,14 @@ public:
   "count-min-sketch-heavy-hitters": {
     title: "Count-Min Sketch & Streaming Frequency Estimation Error Bounds",
     video: {
-      youtubeId: "kx-XDoPjoHw",
-      title: "MIT 6.851 Advanced Data Structures: Streaming Algorithms & Count-Min Sketch",
-      channel: "MIT OpenCourseWare",
-      duration: "1:24:12",
+      youtubeId: "hJitoHv4rAU",
+      id: "hJitoHv4rAU",
+      url: "https://www.youtube.com/embed/hJitoHv4rAU",
+      title: "Count-Min Sketch: Streaming Frequency Estimation & Error Bounds",
+      channel: "Ben Langmead",
+      duration: "16:22",
       start: 0,
-      length: "1h 24m",
+      length: "16m",
       why: "Erik Demaine proves the (ε, δ) Markov inequality bound for Count-Min Sketch, shows why pairwise independence suffices, and demonstrates dyadic range heavy-hitter queries."
     },
     intuition: "<p>Imagine monitoring a core network router processing $N = 10^{10}$ packets per minute across billions of distinct <code>(src_ip, dst_ip)</code> flows. Maintaining an exact hash table of flow frequencies requires gigabytes of DRAM, whereas high-speed SRAM on an ASIC switch is measured in megabytes. The <strong>Count-Min Sketch (CMS)</strong> (Cormode &amp; Muthukrishnan, 2005) maintains a compact 2D matrix of $d \\times w$ counters Whose size is <strong>completely independent of the number of distinct keys</strong>, depending only on the desired additive error $\\varepsilon$ and failure probability $\\delta$!</p><p>By choosing width $w = \\lceil e / \\varepsilon \\rceil$ and depth $d = \\lceil \\ln(1/\\delta) \\rceil$ with $d$ pairwise-independent hash functions, taking the minimum across the $d$ rows ($\\hat{f}_x = \\min_{j} C[j][h_j(x)]$) guarantees via Markov's inequality that $f_x \\le \\hat{f}_x \\le f_x + \\varepsilon N$ with probability at least $1 - \\delta$.</p>",
@@ -1485,12 +1491,14 @@ public:
   "hyperloglog-cardinality": {
     title: "HyperLogLog: Harmonic Mean & Stochastic Averaging in 1.5 KB",
     video: {
-      youtubeId: "kx-XDoPjoHw",
-      title: "MIT 6.851 Advanced Data Structures: Distinct Elements & F0 Estimation",
-      channel: "MIT OpenCourseWare",
-      duration: "1:24:12",
-      start: 2100,
-      length: "40m",
+      youtubeId: "tOsb-tFoPCg",
+      id: "tOsb-tFoPCg",
+      url: "https://www.youtube.com/embed/tOsb-tFoPCg",
+      title: "HyperLogLog & Stochastic Cardinality Estimation Internals",
+      channel: "Arpit Bhayani",
+      duration: "23:45",
+      start: 0,
+      length: "23m",
       why: "Erik Demaine explains the Flajolet-Martin leading-zero bit-pattern estimator, stochastic averaging across m buckets, and why the harmonic mean suppresses outlier variance."
     },
     intuition: "<p>How does Redis (<code>PFADD</code> / <code>PFCOUNT</code>), BigQuery (<code>APPROX_COUNT_DISTINCT</code>), or DuckDB count $10^9$ distinct user IDs (<code>COUNT(DISTINCT user_id)</code>) using only <strong>1.5 KB to 12 KB of memory</strong> with $< 0.81\\%$ standard error? If we hash every element uniformly to a 64-bit integer, a pattern of $\\rho - 1$ leading zeros followed by a <code>1</code> (e.g., <code>00001...</code>, where $\\rho = 5$) occurs with probability $2^{-\\rho}$. Thus, if the maximum position of the leftmost <code>1</code>-bit seen across a stream of distinct hashes is $R = \\max_x \\rho(h(x))$, then $2^R$ is a rough order-of-magnitude estimate of the cardinality $n$.</p><p>A single register $R$ has huge variance (powers of 2) and is easily skewed by a single lucky hash (<code>000000000001...</code>). <strong>HyperLogLog</strong> (Flajolet, Fusy, Gandouet, Meunier, 2007) uses the top $p$ bits of each 64-bit hash to partition the stream into $m = 2^p$ substreams (e.g., $p = 14 \\implies m = 16{,}384$ registers of 6 bits each = $12\\text{ KB}$) and combines the $m$ register maxima via the <strong>Harmonic Mean</strong>, achieving a tight standard error of $\\sigma \\approx \\frac{1.04}{\\sqrt{m}}$.</p>",
@@ -1894,12 +1902,14 @@ struct Sse2Group16 {
   "build-robin-hood-hash-map": {
     title: "Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion",
     video: {
-      youtubeId: "T9gct6Dx-Ro",
-      title: "MIT 6.851 Advanced Data Structures: High-Performance Open Addressing",
-      channel: "MIT OpenCourseWare",
-      duration: "1:22:14",
-      start: 2400,
-      length: "35m",
+      youtubeId: "xIejolxzZS8",
+      id: "xIejolxzZS8",
+      url: "https://www.youtube.com/embed/xIejolxzZS8",
+      title: "Hash Table Open Addressing & Linear Probing Invariants",
+      channel: "WilliamFiset",
+      duration: "15:04",
+      start: 0,
+      length: "15m",
       why: "Demonstrates how probe distance tracking and dynamic table resizing combine to provide cache-resident O(1) dictionary operations."
     },
     intuition: "<p>In this Build Lab, we engineer a complete, zero-dependency, production-grade <strong>Open-Addressed Robin Hood Hash Map</strong> in C++20 (<code>RobinHoodMap&lt;K, V&gt;</code>). Unlike naive linear-probing tables that degrade over time as <code>TOMBSTONE</code> markers accumulate from deletions, our engine maintains explicit <strong>Probe Sequence Length (<code>psl</code>)</strong> metadata per slot, enforces the <strong>Robin Hood displacement invariant</strong> on insertion, uses <strong>PSL early-exit</strong> on unsuccessful searches, and executes <strong>Tombstone-Free Backward-Shift Deletion</strong> on <code>erase(key)</code>.</p><p>You can also launch the interactive <a href=\"/build/build-robin-hood-hash-map/\">Robin Hood Hash Map Build Lab</a> in the browser to inspect live PSL histograms and probe telemetry.</p>",

@@ -799,12 +799,14 @@ private:
   "bipartite-matching-hopcroft-karp": {
     title: "Maximum Bipartite Matching: König's Theorem, Hall's Marriage Theorem & Hopcroft-Karp O(E√V)",
     video: {
-      youtubeId: "l6bbd3KTpqM",
-      title: "Maximum Bipartite Matching & Hopcroft-Karp O(E sqrt(V)) Algorithm",
-      channel: "William Fiset",
-      duration: "17:42",
-      length: "17:42",
+      youtubeId: "lM5eIpF0xjA",
+      id: "lM5eIpF0xjA",
+      url: "https://www.youtube.com/embed/lM5eIpF0xjA",
+      title: "Hopcroft-Karp O(E√V) Maximum Bipartite Matching Algorithm Explained",
+      channel: "Joromy Bou Khalil",
+      duration: "12:40",
       start: 0,
+      length: "12m",
       why: "Explains alternating and augmenting paths in bipartite graphs, Hall's Marriage condition, and Hopcroft-Karp's simultaneous path augmentation."
     },
     intuition: "<p>A <strong>matching</strong> $M \\subseteq E$ in a bipartite graph $G = (L \\cup R, E)$ is a set of edges where no two edges share an endpoint. We can solve Maximum Bipartite Matching by adding a super-source $s$ connected to all $u \\in L$ (capacity $1$) and a super-sink $t$ connected from all $v \\in R$ (capacity $1$), or directly via John Hopcroft and Richard Karp's (1973) specialized $O(E \\sqrt{V})$ algorithm.</p><p>Better still, bipartite graphs enjoy a clean combinatorial duality that fails on general graphs: <strong>König's Theorem</strong> states that the size of a Maximum Matching $|M^*|$ equals the size of a <strong>Minimum Vertex Cover</strong> $|C^*|$, and its complement $V \\setminus C^*$ is a <strong>Maximum Independent Set</strong>!</p>",
@@ -1123,12 +1125,14 @@ AssignmentResult hungarianMinWeightAssignment(const std::vector&lt;std::vector&l
   "min-cost-max-flow-mcmf": {
     title: "Minimum-Cost Maximum Flow (MCMF): Successive Shortest Paths with Johnson Potentials",
     video: {
-      youtubeId: "Rr22_4M4PKM",
-      title: "Min-Cost Max-Flow (MCMF) — Successive Shortest Paths & Potentials",
-      channel: "MIT OpenCourseWare",
-      duration: "51:04",
-      length: "51:04",
+      youtubeId: "UtSrgTsKUfU",
+      id: "UtSrgTsKUfU",
+      url: "https://www.youtube.com/embed/UtSrgTsKUfU",
+      title: "Minimum-Cost Network Flow & Successive Shortest Augmenting Paths",
+      channel: "NPTEL (IIT Kharagpur)",
+      duration: "54:20",
       start: 0,
+      length: "54m",
       why: "Explains residual edge cost skew-symmetry (-cost on reverse arcs) and why Johnson node potentials let Dijkstra replace Bellman-Ford."
     },
     intuition: "<p>In <strong>Minimum-Cost Maximum Flow (MCMF)</strong>, every directed edge $e = (u, v)$ has both a capacity $c(e)$ and a per-unit shipping cost $w(e)$. We want to route the maximum possible flow $|f^*|$ from $s$ to $t$ at the minimum total cost $\\sum_{e} f(e) \\cdot w(e)$.</p><p>Notice what happens to the residual graph $G_f$: if pushing $1$ unit forward along $(u, v)$ costs $+w(u, v)$, then canceling $1$ unit via the reverse residual edge $(v, u)$ refunds $-w(u, v)$! Because reverse edges have <strong>negative costs</strong>, we cannot run raw Dijkstra on $G_f$. However, by maintaining Johnson vertex potentials $\\pi(u)$ updated after each augmentation ($\\pi'(u) = \\pi(u) + d(s, u)$), every reduced residual edge cost $w_\\pi(u, v) = w(u, v) + \\pi(u) - \\pi(v)$ stays non-negative ($\\ge 0$), allowing fast $O(E \\log V)$ Dijkstra on every augmentation!</p>",
@@ -1296,12 +1300,14 @@ private:
   "flow-reductions-project-selection": {
     title: "Network Flow Modeling Patterns: Closure Problem (Project Selection), Circulation with Demands & Image Segmentation",
     video: {
-      youtubeId: "uJ024E931BM",
-      title: "Network Flow Reductions — Project Selection, Min-Cut & Circulation with Demands",
-      channel: "MIT OpenCourseWare",
-      duration: "50:22",
-      length: "50:22",
+      youtubeId: "kTwC_D8ol-c",
+      id: "kTwC_D8ol-c",
+      url: "https://www.youtube.com/embed/kTwC_D8ol-c",
+      title: "Maximum Flow & Minimum Cut Reductions: The Project Selection (Closure) Problem",
+      channel: "Thomas Meeks",
+      duration: "15:10",
       start: 0,
+      length: "15m",
       why: "Shows how non-obvious optimization problems reduce to s-t Min-Cut and lower-bound circulation."
     },
     intuition: "<p>In staff-level systems engineering and algorithmic competitions, network flow rarely appears disguised as water pipes. Instead, it hides inside resource scheduling, compiler register allocation, open-pit mining (<strong>Maximum-Weight Closure / Project Selection</strong>), computer vision <strong>Graph-Cut Image Segmentation</strong>, and <strong>Circulation with Lower Bounds</strong>.</p><p>The secret to Min-Cut modeling is viewing an $s$-$t$ cut $(S, T)$ as a <strong>binary decision engine</strong>: placing a node $u \\in S$ means \"Select / True / Foreground\", placing $u \\in T$ means \"Reject / False / Background\", and a directed edge $(u, v)$ of capacity $C$ imposes a penalty of $C$ if and only if $u \\in S$ and $v \\in T$ ( setting $C = \\infty$ makes $u \\in S \\implies v \\in S$ a hard prerequisite constraint)!</p>",
@@ -1421,12 +1427,14 @@ ClosureResult solveMaxWeightClosure(
   "build-dinic-max-flow-engine": {
     title: "Build Lab: Dinic's Maximum Flow, Min-Cut Partitioning & Bipartite Matching Engine",
     video: {
-      youtubeId: "M6cm8UeeziI",
-      title: "Engineering a Complete Dinic Flow, Min-Cut & Matching Library",
-      channel: "William Fiset",
-      duration: "21:19",
-      length: "21:19",
+      youtubeId: "GhjwOiJ4SqU",
+      id: "GhjwOiJ4SqU",
+      url: "https://www.youtube.com/embed/GhjwOiJ4SqU",
+      title: "Maximum Bipartite Matching via Network Flow & Augmenting Paths",
+      channel: "WilliamFiset",
+      duration: "14:15",
       start: 0,
+      length: "14m",
       why: "Demonstrates how a single Dinic engine powers max-flow, s-t min-cut partition extraction, and bipartite matching."
     },
     intuition: "<p>In this Build Lab, we assemble a unified, zero-allocation-per-phase <strong>Dinic Network Flow, Min-Cut &amp; Bipartite Matching Engine</strong>. By exposing clean inspection APIs over the paired residual arc array, a single 100-line class solves maximum throughput, extracts minimum $s$-$t$ cuts, solves Maximum-Weight Project Selection, and computes $O(E \\sqrt{V})$ Maximum Bipartite Matchings.</p>",

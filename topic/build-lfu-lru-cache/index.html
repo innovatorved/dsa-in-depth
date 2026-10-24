@@ -39,7 +39,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=19951d0523"></script>
+  <script src="js/manifest.js?v=f59e0416cd"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;b6s3_pJ3kCE&quot;,&quot;id&quot;:&quot;b6s3_pJ3kCE&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/b6s3_pJ3kCE&quot;,&quot;title&quot;:&quot;Designing O(1) LFU Cache from Scratch&quot;,&quot;channel&quot;:&quot;NeetCode&quot;,&quot;duration&quot;:&quot;24 min&quot;}">
-      <div class="video-embed" id="video-b6s3_pJ3kCE"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="b6s3_pJ3kCE">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/b6s3_pJ3kCE/hqdefault.jpg"
-               alt="Designing O(1) LFU Cache from Scratch"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;bLEIHn-DgoA&quot;,&quot;id&quot;:&quot;bLEIHn-DgoA&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/bLEIHn-DgoA&quot;,&quot;title&quot;:&quot;Designing an O(1) LFU Cache with Frequency-Bucketed Doubly Linked Lists&quot;,&quot;channel&quot;:&quot;NeetCodeIO&quot;,&quot;duration&quot;:&quot;21:15&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;21m&quot;,&quot;why&quot;:&quot;Deep-dive lecture covering Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine.&quot;}">
+      <div class="video-embed" id="video-bLEIHn-DgoA"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="bLEIHn-DgoA">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/bLEIHn-DgoA/hqdefault.jpg"
+               alt="Designing an O(1) LFU Cache with Frequency-Bucketed Doubly Linked Lists"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">NeetCode</span>
-        <span class="video-embed__title">Designing O(1) LFU Cache from Scratch</span>
-        <a href="https://www.youtube.com/watch?v=b6s3_pJ3kCE" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">NeetCodeIO</span>
+        <span class="video-embed__title">Designing an O(1) LFU Cache with Frequency-Bucketed Doubly Linked Lists</span>
+        <a href="https://www.youtube.com/watch?v=bLEIHn-DgoA" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      </div>
+      <p class="video-embed__why">Deep-dive lecture covering Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body">Building a production-grade $O(1)$ LFU Cache requires orchestrating three invariants simultaneously without a single memory leak or dangling iterator: (1) a key lookup table <code>key -> Node</code>, (2) per-frequency circular doubly linked lists <code>freq -> List</code> that preserve LRU tie-breaking within each frequency tier, and (3) a deterministic <code>min_freq</code> cursor that tracks the lowest populated frequency bucket in $O(1)$ time.</div>

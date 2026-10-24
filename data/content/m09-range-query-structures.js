@@ -944,12 +944,14 @@ class SegmentTreeBeats {
   "dynamic-persistent-segment-trees": {
     title: "Dynamic (Sparse) & Persistent Segment Trees: K-th Smallest in Subarray in O(log N)",
     video: {
-      youtubeId: "TH9n_H21254",
-      title: "Persistent Segment Tree — K-th Smallest Element in Range [L, R]",
-      channel: "Gaurav Sen",
-      duration: "16:14",
+      youtubeId: "m3uEG4NgJx8",
+      id: "m3uEG4NgJx8",
+      url: "https://www.youtube.com/embed/m3uEG4NgJx8",
+      title: "AlgorithmsThread 5: Persistent Segment Trees & Path-Copying K-th Order Statistics",
+      channel: "SecondThread",
+      duration: "39:42",
       start: 0,
-      length: 974,
+      length: "39m",
       why: "Explains how prefix frequency trees share O(N log N) nodes via path copying and how subtracting two roots answers subarray order statistics in O(log N)."
     },
     intuition: `<p>What if the index universe is $U = [0, 10^{18}]$ (too huge to allocate a $4U$ array), or we need to preserve all $N$ historical versions of a segment tree after $N$ point updates? Both problems are solved by replacing implicit heap indexing ($2v, 2v+1$) with explicit child indices <code> + "</code>left[v]<code>" + </code> and <code> + "</code>right[v]<code>" + </code> allocated from a flat node pool.</p>
@@ -1633,12 +1635,14 @@ class BinaryLiftingLCA {
   "heavy-light-decomposition": {
     title: "Heavy-Light Decomposition (HLD): Decomposing Trees into O(log N) Heavy Paths",
     video: {
-      youtubeId: "1PvT20V2qWc",
-      title: "Heavy-Light Decomposition (HLD) — Tree Path & Subtree Queries",
-      channel: "Gaurav Sen",
-      duration: "21:10",
+      youtubeId: "_S1CQ5g9uTg",
+      id: "_S1CQ5g9uTg",
+      url: "https://www.youtube.com/embed/_S1CQ5g9uTg",
+      title: "Algorithms & Data Structures: Heavy-Light Decomposition (HLD) on Trees",
+      channel: "Pavel Mavrin",
+      duration: "1:12:30",
       start: 0,
-      length: 1270,
+      length: "72m",
       why: "Explains the heavy/light edge classification, why every root-to-leaf path crosses at most log2(N) light edges, and how DFS ordering flattens both heavy chains and subtrees."
     },
     intuition: `<p>How do we support dynamic updates and range queries (sum, max, affine transformations) along the <strong>simple path between any two vertices $u$ and $v$</strong> in an arbitrary tree, AND simultaneously across any <strong>subtree $T_u$</strong>? If the tree is a single line, a Segment Tree solves it in $O(\\log N)$; if the tree branches arbitrarily, a naive DFS ordering keeps subtrees contiguous but shatters root-to-node paths into $O(N)$ disconnected pieces.</p>
@@ -1927,12 +1931,14 @@ class HeavyLightDecomposition {
   "cartesian-trees-treap-duality": {
     title: "Cartesian Trees: Linear-Time Monotonic Stack Construction & RMQ-LCA Duality",
     video: {
-      youtubeId: "Dr9s8ef8pdc",
-      title: "Cartesian Tree & Monotonic Stack — RMQ to LCA Reduction",
-      channel: "Pavel Mavrin",
-      duration: "19:45",
+      youtubeId: "0rCFkuQS968",
+      id: "0rCFkuQS968",
+      url: "https://www.youtube.com/embed/0rCFkuQS968",
+      title: "MIT 6.851 Lecture 15: Static Trees, RMQ-LCA Duality & Cartesian Trees in O(N)",
+      channel: "MIT OpenCourseWare",
+      duration: "1:18:50",
       start: 0,
-      length: 1185,
+      length: "78m",
       why: "Derives the O(N) right-spine monotonic stack construction of a Cartesian Tree and proves the bidirectional reduction between RMQ and LCA."
     },
     intuition: `<p>Given an array $A[0..N-1]$, its <strong>Min-Cartesian Tree</strong> (introduced by Jean Vuillemin in 1980) is the unique binary tree whose <strong>inorder traversal reproduces the array indices $0, 1, \\dots, N-1$</strong> and whose nodes satisfy the <strong>min-heap property on values $A[i]$</strong> ($A[\\text{parent}] \\le A[\\text{child}]$). Equivalently, the root of the Cartesian tree for $A[L..R]$ is the index $m = \\arg\\min_{i \\in [L, R]} A[i]$, its left subtree is the Cartesian tree of $A[L..m-1]$, and its right subtree is the Cartesian tree of $A[m+1..R]$.</p>

@@ -271,12 +271,14 @@ class RadixTree {
   "bitwise-tries-max-xor": {
     title: "Bitwise (0-1) Tries: Maximum XOR Subarray & Subtree Queries",
     video: {
-      youtubeId: "y4K6n6w8kG0",
-      title: "Bitwise Trie (0-1 Binary Trie) — Maximum XOR Pair & Subarray",
+      youtubeId: "EIhAwfHubE8",
+      id: "EIhAwfHubE8",
+      url: "https://www.youtube.com/embed/EIhAwfHubE8",
+      title: "Bitwise (0-1) Tries: Maximum XOR of Two Numbers & Subarray XOR Queries",
       channel: "take U forward",
-      duration: "18:40",
+      duration: "28:15",
       start: 0,
-      length: 1120,
+      length: "28m",
       why: "Shows how inserting fixed-width integers from MSB to LSB into a binary trie turns maximum XOR queries into a greedy O(W) bit-flip walk."
     },
     intuition: `<p>When keys are fixed-width $W$-bit integers (e.g., $W = 30$ or $64$), viewing each integer as a binary string from <strong>Most Significant Bit (MSB, bit $W-1$) down to Least Significant Bit (LSB, bit $0$)</strong> turns a Prefix Trie into a <strong>Bitwise (0-1) Trie</strong> of fixed depth $W$. Because $2^{k} > \\sum_{j=0}^{k-1} 2^{j}$, gaining a $1$ at bit position $k$ is strictly more valuable than gaining $1$s at <em>all lower bit positions combined</em>!</p>
@@ -1826,14 +1828,16 @@ struct Eertree {
   },
   "case-ripgrep-teddy-simd": {
     "title": "Production Case Study: Why ripgrep Is So Fast (Aho-Corasick, Boyer-Moore & SIMD Teddy)",
-    "video": {
-      "youtubeId": "3da43227b6w",
-      "title": "Why ripgrep Is Fast — Regex Literal Extraction & SIMD Acceleration",
-      "channel": "Systems Engineering Lectures",
-      "duration": "21:15",
-      "start": 0,
-      "length": 1275,
-      "why": "Examines how Andrew Gallant's ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton."
+    video: {
+      youtubeId: "8mlan8WbwV0",
+      id: "8mlan8WbwV0",
+      url: "https://www.youtube.com/embed/8mlan8WbwV0",
+      title: "Sublinear Boyer-Moore & Multi-Pattern String Matching Internals",
+      channel: "IIT Madras B.S. Degree Programme",
+      duration: "26:40",
+      start: 0,
+      length: "26m",
+      why: "Examines how Andrew Gallant's ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton."
     },
     "intuition": "<p>When you run <code>rg \"(ERR|WARN|FATAL)_SOCKET_[0-9]{4}\"</code> over a 10 GB log directory, why does Andrew Gallant's <code>ripgrep</code> finish in 80 milliseconds while naive regular expression engines take several seconds? Because <code>ripgrep</code> refuses to feed 10 GB of raw bytes through a finite automaton one byte at a time. Instead, its regex compiler parses the abstract syntax tree (AST), extracts required literal prefixes ($\\{\\texttt{\"ERR\\_SOCKET\\_\"}, \\texttt{\"WARN\\_SOCKET\\_\"}, \\texttt{\"FATAL\\_SOCKET\\_\"}\\}$), and hands those literals to a vectorized SIMD prefilter that rejects 99.99% of the file at memory-bandwidth speeds ($> 15\\text{ GB/s}$ per core).</p><p>Depending on whether the literal set contains one string, a small set of 2–64 strings, or thousands of strings, <code>ripgrep</code> dynamically selects between Packed-Pair SIMD (<code>memchr::memmem</code>), the <strong>SIMD Teddy</strong> nibble-lookup multi-pattern algorithm (originally invented for Intel's Hyperscan), or a contiguous DFA Aho-Corasick automaton— invoking the full Thompson/DFA regex verifier only on the rare lines where a literal candidate hits.</p>",
     "content": `<div class="lesson-content">
@@ -2050,14 +2054,16 @@ private:
   },
   "build-aho-corasick-scanner": {
     "title": "Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer",
-    "video": {
-      "youtubeId": "O7_w001f58c",
-      "title": "Implementing the Aho-Corasick Automaton from Scratch",
-      "channel": "Pavel Mavrin",
-      "duration": "24:10",
-      "start": 600,
-      "length": 850,
-      "why": "Covers the exact arena implementation details for wiring go[u][c], fail[u], and terminal exit links in a single BFS pass."
+    video: {
+      youtubeId: "aSee8B4rJ7g",
+      id: "aSee8B4rJ7g",
+      url: "https://www.youtube.com/embed/aSee8B4rJ7g",
+      title: "Aho-Corasick Multi-Pattern Automaton: Trie, BFS Failure Links & Output Links",
+      channel: "CodeLucky",
+      duration: "15:12",
+      start: 0,
+      length: "15m",
+      why: "Covers the exact arena implementation details for wiring go[u][c], fail[u], and terminal exit links in a single BFS pass."
     },
     "intuition": "<p>In this Build Lab, we assemble a production-grade, streaming <strong>Multi-Pattern Aho-Corasick Scanner</strong> capable of ingesting arbitrary 64 KB network chunks or log buffers and emitting every overlapping match $(i_{\\text{start}},\\; i_{\\text{end}},\\; \\text{pattern\\_id})$ in strict $O(N + Z)$ worst-case time. Unlike textbook snippets that require the entire text to sit in a single contiguous string or restrict the alphabet to 26 lowercase letters, a real scanner must preserve automaton state $u$ and global byte offset across chunk boundaries.</p><p>We will also solve the <strong>duplicate-pattern and substring-shadowing problem</strong>: when a ruleset contains identical patterns with different rule IDs or patterns that are suffixes of longer patterns (such as $\\texttt{\"sql\"}$, $\\texttt{\"psql\"}$, and $\\texttt{\"mysql\"}$), we chain same-node pattern IDs via a compact linked list inside the pattern table so each node stores only three 32-bit integers alongside its transition table.</p>",
     "content": `<div class="lesson-content">

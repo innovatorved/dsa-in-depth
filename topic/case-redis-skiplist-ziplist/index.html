@@ -39,7 +39,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=19951d0523"></script>
+  <script src="js/manifest.js?v=f59e0416cd"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;kBwUoWpeH_Q&quot;,&quot;id&quot;:&quot;kBwUoWpeH_Q&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/kBwUoWpeH_Q&quot;,&quot;title&quot;:&quot;Skip Lists, Order Statistics, and Redis Sorted Sets Architecture&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare / Systems Architecture&quot;,&quot;duration&quot;:&quot;50 min&quot;}">
-      <div class="video-embed" id="video-kBwUoWpeH_Q"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="kBwUoWpeH_Q">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/kBwUoWpeH_Q/hqdefault.jpg"
-               alt="Skip Lists, Order Statistics, and Redis Sorted Sets Architecture"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;MUKlxdBQZ7g&quot;,&quot;id&quot;:&quot;MUKlxdBQZ7g&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/MUKlxdBQZ7g&quot;,&quot;title&quot;:&quot;Redis Sorted Sets (ZSET) Internals: Listpack vs SkipList + Hash Table Dual Indexing&quot;,&quot;channel&quot;:&quot;Redis&quot;,&quot;duration&quot;:&quot;08:35&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;8m&quot;,&quot;why&quot;:&quot;Deep-dive lecture covering Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing).&quot;}">
+      <div class="video-embed" id="video-MUKlxdBQZ7g"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="MUKlxdBQZ7g">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/MUKlxdBQZ7g/hqdefault.jpg"
+               alt="Redis Sorted Sets (ZSET) Internals: Listpack vs SkipList + Hash Table Dual Indexing"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare / Systems Architecture</span>
-        <span class="video-embed__title">Skip Lists, Order Statistics, and Redis Sorted Sets Architecture</span>
-        <a href="https://www.youtube.com/watch?v=kBwUoWpeH_Q" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Redis</span>
+        <span class="video-embed__title">Redis Sorted Sets (ZSET) Internals: Listpack vs SkipList + Hash Table Dual Indexing</span>
+        <a href="https://www.youtube.com/watch?v=MUKlxdBQZ7g" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      </div>
+      <p class="video-embed__why">Deep-dive lecture covering Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing).</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body">How does a Redis Sorted Set (<code>ZSET</code>) support <code>ZSCORE member</code> (point lookup by string key) in $O(1)$ time, <code>ZRANGEBYSCORE min max</code> (1D range query by floating-point score) in $O(\log N + M)$ time, AND <code>ZRANK member</code> / <code>ZRANGE start stop</code> (positional rank queries) in $O(\log N + M)$ time? By adaptively switching from a flat cache-local <code>listpack</code> for small sets ($\le 128$ items) to a dual-indexed <code>dict</code> + rank-augmented <code>zskiplist</code> for large sets.</div>

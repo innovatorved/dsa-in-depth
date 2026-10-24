@@ -173,12 +173,14 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
   "sos-dp-fast-zeta-mobius": {
     title: "Sum Over Subsets (SOS) DP & Fast Walsh-Hadamard Transform (FWHT) for Bitwise Convolutions",
     video: {
-      youtubeId: "3C112_27pCA",
-      title: "Sum Over Subsets (SOS) Dynamic Programming & Fast Zeta/Mobius Transforms",
-      channel: "Errichto Algorithms",
-      duration: "28:42",
-      length: "28:42",
+      youtubeId: "RYdueyYBQS8",
+      id: "RYdueyYBQS8",
+      url: "https://www.youtube.com/embed/RYdueyYBQS8",
+      title: "Sum Over Subsets (SOS DP) & Fast Zeta Transform Fundamentals",
+      channel: "Vivek Gupta",
+      duration: "38:15",
       start: 0,
+      length: "38m",
       why: "Explains how processing the boolean hypercube dimension-by-dimension reduces O(3^N) submask aggregation to O(N * 2^N) in 6 lines of code."
     },
     intuition: "Enumerating submasks for every mask takes $O(3^N)$ time because each mask sums its submasks from scratch. Sum Over Subsets (SOS) DP views an $N$-bit mask as a point in an $N$-dimensional $\{0, 1\}^N$ hypercube and computes $N$-dimensional prefix sums one bit-dimension at a time—collapsing $O(3^N)$ down to $O(N \\cdot 2^N)$ in just 5 lines of in-place code!",
@@ -504,12 +506,14 @@ long long count_range_no_adjacent_equal(long long L, long long R) {
   "broken-profile-dp-grid-tiling": {
     title: "Broken Profile (Plug) DP: Domino Tilings & Grid Connectivity in O(N M 2^M)",
     video: {
-      youtubeId: "j6RG7eb8bN0",
-      title: "Broken Profile DP — Tilings and Grid Bitmask Dynamic Programming",
-      channel: "Algorithms Live!",
-      duration: "34:18",
-      length: "34:18",
+      youtubeId: "aWbxqYjaQM0",
+      id: "aWbxqYjaQM0",
+      url: "https://www.youtube.com/embed/aWbxqYjaQM0",
+      title: "Grid Tiling & Broken-Profile Bitmask Dynamic Programming",
+      channel: "CodeChef",
+      duration: "52:40",
       start: 0,
+      length: "52m",
       why: "Matt Fontaine explains why advancing the DP frontier one cell at a time instead of a full row at a time drops complexity from O(N 4^M) to O(N M 2^M)."
     },
     intuition: "If you try to tile an $N \\times M$ grid ($M \\le 16$) with dominoes by transitioning from one full row mask to the next, checking all compatible pairs of row masks takes $O(N \\cdot 4^M)$ time. Broken Profile DP advances the boundary *one single cell $(r, c)$ at a time*: the 'broken' staircase frontier between processed and unprocessed cells still has length $M$, so the state is still an $M$-bit mask, but each cell has at most 2 local choices—dropping runtime from $O(N \\cdot 4^M)$ to $O(N \\cdot M \\cdot 2^M)$!",
@@ -672,12 +676,14 @@ long long count_domino_tilings_broken_profile(int n, int m) {
   "divide-and-conquer-dp-quadrangle": {
     title: "Divide-and-Conquer DP Optimization & Quadrangle Inequality (Monge Matrices)",
     video: {
-      youtubeId: "wLXPG6_132E",
-      title: "Divide and Conquer DP Optimization & Quadrangle Inequality",
-      channel: "Algorithms Live!",
-      duration: "36:50",
-      length: "36:50",
+      youtubeId: "Ec3fSWk9JOw",
+      id: "Ec3fSWk9JOw",
+      url: "https://www.youtube.com/embed/Ec3fSWk9JOw",
+      title: "Divide & Conquer DP Optimization & Monotonic Optimal Split Points",
+      channel: "Algorithms Conquered",
+      duration: "21:30",
       start: 0,
+      length: "21m",
       why: "Explains the Quadrangle Inequality (Monge condition), decision monotonicity opt[k][i] <= opt[k][i+1], and the recursive midpoint split."
     },
     intuition: "When partitioning an array of length $N$ into $K$ segments, each layer of DP takes $O(N^2)$ time because every index $i$ searches all split points $j < i$. But if the segment cost function $C(j, i)$ is 'supermodular' (satisfies the Quadrangle Inequality), the optimal split point $\\text{opt}[i]$ never moves backward as $i$ moves right! Computing $\\text{opt}[\\text{mid}]$ first sandwiches the left half's splits to $[\\text{opt}_L, \\text{opt}[\\text{mid}]]$ and the right half's splits to $[\\text{opt}[\\text{mid}], \\text{opt}_R]$, dropping each layer from $O(N^2)$ to $O(N \\log N)$.",
@@ -835,12 +841,14 @@ long long partition_min_sum_of_squares_dnc(const std::vector&lt;long long&gt;&am
   "knuth-optimization-optimal-bst": {
     title: "Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)",
     video: {
-      youtubeId: "wB1hT_tKbdE",
-      title: "Dynamic Programming III: Optimal Binary Search Trees & Knuth's Optimization",
-      channel: "MIT OpenCourseWare",
-      duration: "52m",
-      length: "52:10",
+      youtubeId: "vLS-zRCHo-Y",
+      id: "vLS-zRCHo-Y",
+      url: "https://www.youtube.com/embed/vLS-zRCHo-Y",
+      title: "Optimal Binary Search Tree & Knuth Interval DP Optimization",
+      channel: "Abdul Bari",
+      duration: "31:55",
       start: 0,
+      length: "31m",
       why: "Demonstrates how the root of an Optimal BST shifts monotonically when keys are appended to the left or right, collapsing the cubic interval search into a quadratic telescoping sum."
     },
     intuition: "In standard interval DP ($dp[i][j] = \\min_{i \\le k < j} (dp[i][k] + dp[k+1][j]) + C(i, j)$), trying all $O(N)$ split points $k$ takes $O(N^3)$ time. Knuth (1971) observed that for Optimal Binary Search Trees and Order-Preserving Huffman Codes (Garsia-Wachs), extending an interval $[i, j-1]$ on the right to $[i, j]$ pulls the optimal split point $opt[i][j]$ to the right, while shrinking it on the left to $[i+1, j]$ also pulls the split point to the right: $opt[i][j-1] \\le opt[i][j] \\le opt[i+1][j]$. Across any fixed interval length $L = j - i$, the search ranges $[opt[i][j-1], opt[i+1][j]]$ telescope to at most $2N$ total iterations, collapsing $O(N^3)$ to $O(N^2)$!",
@@ -1002,12 +1010,14 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
   "convex-hull-trick-li-chao-tree": {
     title: "Convex Hull Trick (CHT) & Li Chao Segment Tree: Optimizing dp[i] = min_j (m_j x_i + b_j)",
     video: {
-      youtubeId: "TSv712Qq1v4",
-      title: "Convex Hull Trick and Li Chao Tree in Dynamic Programming",
-      channel: "Errichto Algorithms",
-      duration: "38m",
-      length: "38:15",
+      youtubeId: "KX_-7AqcnEU",
+      id: "KX_-7AqcnEU",
+      url: "https://www.youtube.com/embed/KX_-7AqcnEU",
+      title: "Dynamic Programming Optimizations: Convex Hull Trick (CHT) & Segment Tree DP",
+      channel: "Colin Galen",
+      duration: "1:45:12",
       start: 0,
+      length: "105m",
       why: "Explains the geometric duality between algebraically expanding quadratic DP transitions into y = mx + b lines and maintaining their lower envelope with a deque or Li Chao Segment Tree."
     },
     intuition: "Suppose a DP transition looks like $dp[i] = \\min_{j < i} (dp[j] + (x_i - x_j)^2)$. Expanding the square gives $dp[i] = x_i^2 + \\min_{j < i} (\\underbrace{-2x_j}_{m_j} \\cdot x_i + \\underbrace{dp[j] + x_j^2}_{b_j})$. Each previous state $j$ defines a straight line $L_j(x) = m_j x + b_j$, and finding the best $j$ at query point $x_i$ is simply evaluating the lower envelope of a set of lines! When slopes $m_j$ are inserted monotonically, a stack/deque maintains the lower envelope in $O(1)$ amortized time. When slopes and queries arrive in arbitrary order, a Li Chao Segment Tree maintains the dominant line at each interval midpoint in $O(\\log X)$ per insertion and query without tricky intersection rounding.",
@@ -1202,12 +1212,14 @@ public:
   "aliens-trick-wqs-binary-search": {
     title: "Aliens Trick (WQS Binary Search / Lagrangian Relaxation): Removing Cardinality Constraints",
     video: {
-      youtubeId: "U63f6S31X18",
-      title: "Aliens Trick (WQS Binary Search / Lagrangian Relaxation) Explained",
-      channel: "Errichto Algorithms",
-      duration: "34m",
-      length: "34:50",
+      youtubeId: "yxB88QleFto",
+      id: "yxB88QleFto",
+      url: "https://www.youtube.com/embed/yxB88QleFto",
+      title: "Aliens Trick (WQS Binary Search / Lagrangian Relaxation) DP Optimization",
+      channel: "Riya Arora",
+      duration: "22:10",
       start: 0,
+      length: "22m",
       why: "Shows geometrically how binary searching a per-item penalty lambda traces a tangent line along the convex cost curve f(k), turning a 2D O(NK) DP into O(N log C)."
     },
     intuition: "Suppose we want to select at most (or exactly) $K$ disjoint segments/groups to minimize total cost $f(k)$, and the marginal benefit of each extra group exhibits diminishing returns—meaning $f(k)$ is convex ($f(k+1) - f(k) \\ge f(k) - f(k-1)$). Tracking the exact count $k \\in [0, K]$ in the DP state adds an $O(K)$ dimension. Instead, Lagrangian Relaxation (WQS Binary Search, popularized by IOI 2016 'Aliens') deletes the $k$ dimension entirely and charges a flat toll $\\lambda$ every time we open a new group! Minimizing $g_\\lambda = \\min_k (f(k) + \\lambda k)$ finds the point where the line of slope $-\\lambda$ is tangent to the convex curve $f(k)$. By binary searching $\\lambda$ until the unconstrained optimal solution uses $k^*(\\lambda) = K$ groups, we recover $f(K) = g_\\lambda - \\lambda K$ in $O(N \\log C)$ time!",
@@ -1529,12 +1541,14 @@ MinPlusMatrix power(MinPlusMatrix base, int64_t exp) {
   "build-li-chao-convex-hull-dp": {
     title: "Build Lab: Dynamic Li Chao Tree & Monotonic Convex Hull Trick Optimizer",
     video: {
-      youtubeId: "f12F4h_t_tU",
-      title: "Implementing Convex Hull Trick and Li Chao Segment Trees from Scratch",
-      channel: "WilliamFiset",
-      duration: "31m",
-      length: "31:40",
+      youtubeId: "-StmrE2gY44",
+      id: "-StmrE2gY44",
+      url: "https://www.youtube.com/embed/-StmrE2gY44",
+      title: "Li Chao Segment Tree: Dynamic Lower Envelope Queries for Linear Functions",
+      channel: "Radoslav Dimitrov",
+      duration: "23:45",
       start: 0,
+      length: "23m",
       why: "Walks through engineering a bug-free CHT deque with 128-bit integer intersection checks alongside an implicit Li Chao Segment Tree supporting segment-restricted line insertions."
     },
     intuition: "In this Build Lab, we engineer two production-grade envelope optimizers side-by-side and benchmark them on classical slope-DP workloads (Frog 3 / Kalila and Dimna / Commando): (1) an $O(1)$ amortized Monotonic Deque CHT using exact `__int128_t` rational cross-multiplication with zero floating-point drift, and (2) an implicit Dynamic Li Chao Segment Tree supporting arbitrary-order line insertions and range-restricted line segments $[x_L, x_R]$ in $O(\\log X)$ time.",

@@ -757,12 +757,14 @@ void treeDelete(BSTNode*&amp; root, BSTNode* z) {
   "randomly-built-bst-height": {
     title: "Randomly Built BSTs: Expected Height O(log N) via Quicksort Dual Proof",
     video: {
-      youtubeId: "c4I62k_p2S4",
-      title: "MIT 6.046J Lecture 4: Randomized Algorithms & QuickSort / Random BST Analysis",
+      youtubeId: "9Jry5-82I68",
+      id: "9Jry5-82I68",
+      url: "https://www.youtube.com/embed/9Jry5-82I68",
+      title: "MIT 6.006 Lecture 5: Binary Search Trees, BST Sort & Random BST Expected Height",
       channel: "MIT OpenCourseWare",
-      duration: "1:18:10",
-      start: 2100,
-      length: "42m",
+      duration: "50:05",
+      start: 0,
+      length: "50m",
       why: "Proves the isomorphism between Randomized QuickSort pivot comparisons and Randomly Built BST ancestor-descendant depth using indicator random variables."
     },
     intuition: "<p>Why does inserting $N$ distinct keys in a uniformly random permutation $\\pi \\in S_N$ into an ordinary, <strong>unbalanced</strong> BST produce a balanced tree with expected search depth $O(\\log N)$ and expected height $\\approx 4.311 \\ln N$, without performing a single tree rotation? Because a Randomly Built BST is the exact structural trace—the <strong>static execution tree</strong>—of Randomized QuickSort!</p><p>The first key $\\pi_1$ inserted into the BST becomes the root, partitioning all remaining $N - 1$ keys into $L = \\{x &lt; \\pi_1\\}$ (which route left) and $R = \\{x &gt; \\pi_1\\}$ (which route right). That is identical to QuickSort choosing $\\pi_1$ as the first pivot and comparing every other element against $\\pi_1$. Consequently, the total internal path length of a randomly built BST equals the exact number of key comparisons made by QuickSort.</p>",
@@ -1434,12 +1436,14 @@ public:
   "case-timer-wheels-vs-heaps": {
     title: "Production Case Study: Hierarchical Hashed Timer Wheels vs Four-Heap Timers (Go runtime, Kafka, Linux)",
     video: {
-      youtubeId: "X2Q3bc1c9bY",
-      title: "Hashed and Hierarchical Timing Wheels: Efficient Data Structures for Implementing a Timer Facility",
-      channel: "Systems Engineering Papers",
-      duration: "24:15",
+      youtubeId: "AftX7rqx-Uc",
+      id: "AftX7rqx-Uc",
+      url: "https://www.youtube.com/embed/AftX7rqx-Uc",
+      title: "Implementations of Hashed & Hierarchical Timing Wheels (Varghese & Lauck Paper)",
+      channel: "Systems We Love (Julian Squires)",
+      duration: "38:20",
       start: 0,
-      length: "24m",
+      length: "38m",
       why: "Explains George Varghese and Tony Lauck's SOSP '87 paper classifying timer algorithms and deriving O(1) Hierarchical Hashed Timing Wheels."
     },
     intuition: "<p>Every network server, OS kernel, and language runtime manages hundreds of thousands of concurrent timers—TCP retransmission timeouts, HTTP request deadlines, Kafka delayed produce operations, and Go <code>time.After</code> channels. Crucially, <strong>99.9% of network request timeouts are cancelled before they ever fire</strong> because the RPC succeeds in milliseconds! If your timer subsystem uses a standard binary heap, every single RPC start and completion pays $O(\\log N)$ pointer-chasing heap operations under a lock.</p><p>In 1987, George Varghese and Tony Lauck introduced <strong>Hashed and Hierarchical Timing Wheels</strong>, trading fine-grained comparisons for bounded-resolution circular ring buffers to achieve <strong>strict $O(1)$ timer start, $O(1)$ cancellation, and $O(1)$ amortized tick advancement</strong>. Conversely, when nanosecond precision is mandatory and idle CPU wakeups must be zero, runtimes like <strong>Go (<code>runtime/time.go</code>)</strong> and <strong>libev</strong> deploy cache-aligned <strong>4-ary Min-Heaps</strong> with lazy deletion.</p>",

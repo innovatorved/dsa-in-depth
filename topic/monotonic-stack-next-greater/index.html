@@ -39,7 +39,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=19951d0523"></script>
+  <script src="js/manifest.js?v=f59e0416cd"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;ZX2B913lHzk&quot;,&quot;id&quot;:&quot;ZX2B913lHzk&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/ZX2B913lHzk&quot;,&quot;title&quot;:&quot;Monotonic Stack &amp; Largest Rectangle in Histogram Explained&quot;,&quot;channel&quot;:&quot;NeetCode / Algorithms&quot;,&quot;duration&quot;:&quot;17 min&quot;}">
-      <div class="video-embed" id="video-ZX2B913lHzk"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="ZX2B913lHzk">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/ZX2B913lHzk/hqdefault.jpg"
-               alt="Monotonic Stack &amp; Largest Rectangle in Histogram Explained"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;zx5Sw9130L0&quot;,&quot;id&quot;:&quot;zx5Sw9130L0&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/zx5Sw9130L0&quot;,&quot;title&quot;:&quot;Largest Rectangle in Histogram — Monotonic Stack Invariants in O(N)&quot;,&quot;channel&quot;:&quot;NeetCode&quot;,&quot;duration&quot;:&quot;14:42&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;14m&quot;,&quot;why&quot;:&quot;Deep-dive lecture covering Monotonic Stacks: Next Greater Element, Histogram &amp; Subarray Mins.&quot;}">
+      <div class="video-embed" id="video-zx5Sw9130L0"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="zx5Sw9130L0">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/zx5Sw9130L0/hqdefault.jpg"
+               alt="Largest Rectangle in Histogram — Monotonic Stack Invariants in O(N)"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">NeetCode / Algorithms</span>
-        <span class="video-embed__title">Monotonic Stack &amp; Largest Rectangle in Histogram Explained</span>
-        <a href="https://www.youtube.com/watch?v=ZX2B913lHzk" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">NeetCode</span>
+        <span class="video-embed__title">Largest Rectangle in Histogram — Monotonic Stack Invariants in O(N)</span>
+        <a href="https://www.youtube.com/watch?v=zx5Sw9130L0" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      </div>
+      <p class="video-embed__why">Deep-dive lecture covering Monotonic Stacks: Next Greater Element, Histogram &amp; Subarray Mins.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body">A monotonic stack maintains indices whose values are strictly ordered from bottom to top by evicting every dominated index as soon as a new element arrives. When an index $m$ is popped by incoming index $R$, $R$ is provably the first element to the right that breaks $m$'s dominance, while the element sitting immediately below $m$ on the stack ($L$) is the first element to the left that breaks $m$'s dominance—yielding both nearest-smaller/greater boundaries $[L+1, R-1]$ in a single $O(N)$ pass!</div>

@@ -579,12 +579,14 @@ public:
   "branch-and-bound-admissible-bounds": {
     title: "Branch and Bound: Best-First / DFS Relaxation Bounds for Combinatorial Optimization",
     video: {
-      youtubeId: "9f7426323w0",
-      title: "Branch and Bound — 0/1 Knapsack and TSP Lower Bounds",
+      youtubeId: "3RBNPc0_Q6g",
+      id: "3RBNPc0_Q6g",
+      url: "https://www.youtube.com/embed/3RBNPc0_Q6g",
+      title: "Branch and Bound Combinatorial Optimization: FIFO, LIFO & Least-Cost Bounding",
       channel: "Abdul Bari",
-      duration: "32:18",
-      length: "32:18",
+      duration: "19:35",
       start: 0,
+      length: "19m",
       why: "Demonstrates LP relaxation bounds for 0/1 Knapsack and reduced cost matrices for TSP under Best-First (LC) and DFS Branch and Bound."
     },
     intuition: "Backtracking asks 'Is this partial state legal?'; Branch and Bound asks 'Could this partial state possibly beat the best complete solution we already have?' By solving a fast continuous or graph relaxation (like Fractional Knapsack or 1-Tree MST) at each node, we prune entire subtrees that are mathematically incapable of improving the incumbent.",
@@ -1165,12 +1167,14 @@ long long minimize_weighted_completion_time(std::vector&lt;Job&gt; jobs) {
   "matroids-greedy-foundations": {
     title: "Matroid Theory: Graphic & Linear Matroids and When the Greedy Algorithm Is Guaranteed Optimal",
     video: {
-      youtubeId: "Ov33bf2bd1M",
-      title: "MIT 6.046J Design and Analysis of Algorithms — Matroids and Greedy Algorithms",
-      channel: "MIT OpenCourseWare",
-      duration: "1:18:40",
-      length: "1:18:40",
+      youtubeId: "Mo-aZVO9TTw",
+      id: "Mo-aZVO9TTw",
+      url: "https://www.youtube.com/embed/Mo-aZVO9TTw",
+      title: "Matroids & Why Greedy Algorithms Work (Hereditary Independence & Exchange Property)",
+      channel: "IIT Madras B.S. Degree Programme",
+      duration: "24:15",
       start: 0,
+      length: "24m",
       why: "Explains the axiomatic structure of matroids, the Rado-Edmonds Theorem, and why Kruskal's MST and Gaussian basis selection are the exact same greedy algorithm."
     },
     intuition: "Why does the greedy algorithm effortlessly find a Maximum Weight Spanning Forest or a Maximum Weight Linearly Independent XOR Basis, yet fail miserably on Maximum Weight Bipartite Matching? The answer is the Rado-Edmonds Theorem: the universal greedy algorithm is guaranteed optimal for arbitrary non-negative weights if and only if the underlying independence system is a Matroid.",
@@ -1360,12 +1364,14 @@ long long max_profit_deadline_scheduling(std::vector&lt;DeadlineJob&gt; jobs, in
   "regret-greedy-heap-rollback": {
     title: "Regret Greedy (Undoable Greedy with Priority Queues): Scheduling with Deadlines & Stock Trading",
     video: {
-      youtubeId: "Po3_2h8N0B4",
-      title: "Regret Greedy & Priority Queue Rollback — Course Schedule III & Buy/Sell Stock",
-      channel: "Errichto Algorithms",
-      duration: "24:15",
-      length: "24:15",
+      youtubeId: "ey8FxYsFAMU",
+      id: "ey8FxYsFAMU",
+      url: "https://www.youtube.com/embed/ey8FxYsFAMU",
+      title: "Regret Greedy with Priority Queue Rollback (Course Schedule III — Moore-Hodgson Algorithm)",
+      channel: "Algorithms Made Easy",
+      duration: "14:25",
       start: 0,
+      length: "14m",
       why: "Demonstrates how maintaining a priority queue of past choices allows a greedy algorithm to 'change its mind' in O(log N) time without full DP."
     },
     intuition: "Standard greedy makes irrevocable choices and fails when a decision made at step i blocks a better option at step j. Regret Greedy (or Undoable Greedy) optimistically takes every choice, pushes its 'regret cost' into a binary heap, and whenever a constraint is violated or a better trade appears, pops the worst historical choice to retroactively swap it in O(log N) time.",
@@ -1759,12 +1765,14 @@ public:
   "build-dancing-links-exact-cover": {
     title: "Build Lab: Knuth's Dancing Links (DLX) Exact Cover & Constraint Satisfaction Solver",
     video: {
-      youtubeId: "dsA9SnM2ELg",
-      title: "Solving Sudoku & N-Queens with Knuth's Algorithm X and Dancing Links",
-      channel: "Stand-up Maths / Computerphile",
-      duration: "21:40",
-      length: "21:40",
+      youtubeId: "dGBS9GXpn_w",
+      id: "dGBS9GXpn_w",
+      url: "https://www.youtube.com/embed/dGBS9GXpn_w",
+      title: "Knuth's Algorithm X & Dancing Links (DLX) Toroidal Doubly Linked Matrix Implementation",
+      channel: "ArmanDris",
+      duration: "16:18",
       start: 0,
+      length: "16m",
       why: "Walks through compiling real constraint satisfaction puzzles into a primary + secondary Exact Cover matrix and solving them in microseconds with DLX."
     },
     intuition: "In this Build Lab, we assemble a complete, zero-heap-allocation Dancing Links (DLX) engine supporting both Primary Columns (must be covered exactly once, like Sudoku cells/rows/cols/boxes or N-Queens rows/cols) and Secondary Columns (covered at most once, like N-Queens diagonals), capable of solving the hardest 17-clue Sudokus in under 200 microseconds.",

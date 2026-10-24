@@ -600,12 +600,14 @@ ImplicitTreapNode* reverseRange(ImplicitTreapNode* root, int l, int r) {
   "splay-trees-dynamic-optimality": {
     title: "Splay Trees: Zig-Zig / Zig-Zag Rotations, Amortized O(log N) Potential Proof & Static Optimality",
     video: {
-      youtubeId: "G5QIXywcJlY",
-      title: "MIT 6.851 Advanced Data Structures Lecture 5: Splay Trees & Dynamic Optimality",
+      youtubeId: "DZ7jt1F8KKw",
+      id: "DZ7jt1F8KKw",
+      url: "https://www.youtube.com/embed/DZ7jt1F8KKw",
+      title: "MIT 6.851 Lecture 5: Splay Trees, Amortized Potential Analysis & Dynamic Optimality",
       channel: "MIT OpenCourseWare",
-      duration: "1:22:18",
+      duration: "1:21:15",
       start: 0,
-      length: "82m",
+      length: "81m",
       why: "Erik Demaine proves the Access Lemma using potential Φ = ∑ log₂(size(x)) and explains why naive move-to-root fails while Sleator-Tarjan Zig-Zig succeeds."
     },
     intuition: "<p>Can a Binary Search Tree achieve $O(\\log N)$ amortized time per operation while storing <strong>zero bits of balance metadata</strong> (no AVL heights, no Red-Black color bits, no random Treap priorities) and automatically adapting to skewed temporal/spatial access distributions so that frequently accessed keys sit near the root? In 1985, Daniel Sleator and Robert Tarjan invented the <strong>Splay Tree</strong>, a self-adjusting BST that moves every accessed node $x$ all the way to the root via a sequence of double rotations called <code>splay(x)</code>.</p><p>Why doesn't simply rotating $x$ upward one edge at a time (Alan Allen &amp; Ian Munro's 1978 <em>Move-to-Root</em> heuristic) work? Because rotating $x$ one edge at a time on a skewed chain simply shifts the chain down by 1 without shortening it, leaving worst-case amortized cost at $\\Theta(N)$! Sleator and Tarjan's breakthrough is the <strong>Zig-Zig double rotation</strong>: when $x$ and its parent $p$ are both left children (or both right children) of grandparent $g$, we rotate $p$ with $g$ <em>first</em>, and then $x$ with $p$. This single change halves the depth of every node along the path!</p>",
@@ -780,12 +782,14 @@ SplayNode* splay(SplayNode* x) noexcept {
   "augmented-trees-order-intervals": {
     title: "Augmenting BSTs: Order-Statistic Trees (select/rank) & Interval Trees",
     video: {
-      youtubeId: "CF21Z26I13M",
-      title: "MIT 6.006 Lecture 7: Augmenting Data Structures (Order Statistics & Interval Trees)",
+      youtubeId: "RHyGlha7bjE",
+      id: "RHyGlha7bjE",
+      url: "https://www.youtube.com/embed/RHyGlha7bjE",
+      title: "MIT 6.046J Lecture 11: Augmenting Data Structures, Dynamic Order Statistics & Interval Trees",
       channel: "MIT OpenCourseWare",
-      duration: "49:18",
+      duration: "1:20:32",
       start: 0,
-      length: "49m",
+      length: "80m",
       why: "Covers the CLRS Augmentation Theorem, Order-Statistic select/rank algorithms, and Interval Tree max-endpoint invariant proof."
     },
     intuition: "<p>A standard balanced BST only answers predecessor/successor and key membership queries in $O(\\log N)$ time; it cannot directly answer positional array queries like <em>\"what is the $k$-th smallest element?\"</em> (<code>select(k)</code>) or <em>\"how many elements are strictly less than $x$?\"</em> (<code>rank(x)</code>), nor geometric overlap queries like <em>\"which scheduled reservation overlaps $[lo, hi]$?\"</em>. Instead of inventing a brand-new data structure from scratch for every domain, we <strong>augment</strong> an existing balanced BST (AVL, Red-Black, or Treap) by storing extra cached summary fields inside each node.</p><p>By the <strong>CLRS Augmentation Theorem (Theorem 14.1)</strong>, any node attribute $f(u)$ that can be computed in $O(1)$ time solely from $u$'s own key and the attributes of $u$'s immediate children—$f(u) = g(u.\\text{key}, f(u.\\text{left}), f(u.\\text{right}))$—can be maintained across all BST insertions, deletions, and rotations in $O(\\log N)$ time without increasing asymptotic complexity!</p>",
@@ -1512,12 +1516,14 @@ public:
   "case-linux-rbtree-cfs": {
     title: "Production Case Study: Intrusive Augmented Red-Black Trees in the Linux Kernel CFS & VMA Manager",
     video: {
-      youtubeId: "scfDO877bG0",
-      title: "Inside the Linux Kernel Scheduler & Red-Black Trees (rbtree)",
-      channel: "Linux Foundation / Kernel Recipes",
-      duration: "36:40",
+      youtubeId: "O3hI9FdxFOM",
+      id: "O3hI9FdxFOM",
+      url: "https://www.youtube.com/embed/O3hI9FdxFOM",
+      title: "MIT 6.046J Lecture 10: Red-Black Trees, Rotations & Rebalancing Invariants",
+      channel: "MIT OpenCourseWare",
+      duration: "1:17:45",
       start: 0,
-      length: "37m",
+      length: "77m",
       why: "Explains how the Linux kernel embeds struct rb_node intrusively inside task_struct and vm_area_struct with zero dynamic allocations and pointer-colored parent words."
     },
     intuition: "<p>Inside an operating system kernel—specifically inside the CPU scheduler (<code>kernel/sched/fair.c</code>) and the virtual memory allocator (<code>mm/mmap.c</code>)—you <strong>cannot call <code>malloc()</code> or <code>kmalloc()</code> to allocate a tree node wrapper</strong> when scheduling a thread or handling a page fault! Allocating memory inside the scheduler or memory manager itself would trigger circular deadlocks, memory exhaustion panics, and double pointer-indirection cache misses.</p><p>The Linux kernel solves this with <strong>Intrusive Augmented Red-Black Trees (<code>include/linux/rbtree.h</code> and <code>rbtree_augmented.h</code>)</strong>. Instead of a tree node owning a pointer to your struct (<code>Node&lt;Task*&gt;</code>), your <code>struct task_struct</code> or <code>struct vm_area_struct</code> <strong>physically embeds <code>struct rb_node</code> as a member field</strong>, recovers the enclosing struct address at compile time via pointer offset subtraction (<code>container_of</code> / <code>rb_entry</code>), packs the Red/Black color bit into bit 0 of the 8-byte aligned parent pointer (<code>__rb_parent_color</code>), and caches the leftmost node pointer (<code>rb_root_cached</code>) for $O(1)$ minimum retrieval!</p>",
@@ -1680,12 +1686,14 @@ inline TaskEntity* pickNextTaskO1(const rb_root_cached&amp; rq) noexcept {
   "build-llrb-order-statistic-tree": {
     title: "Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select",
     video: {
-      youtubeId: "xA5vP2wW8wI",
-      title: "Order Statistic Trees & Left-Leaning Red-Black Augmentation",
-      channel: "Princeton Algorithms / Sedgewick",
-      duration: "22:18",
+      youtubeId: "pUNPjI3PeHA",
+      id: "pUNPjI3PeHA",
+      url: "https://www.youtube.com/embed/pUNPjI3PeHA",
+      title: "Left-Leaning Red-Black Trees (LLRB): 2-3 Tree Isomorphism & 3-Line Rebalancing",
+      channel: "Richard Wang",
+      duration: "21:10",
       start: 0,
-      length: "22m",
+      length: "21m",
       why: "Synthesizes Sedgewick's LLRB 2-3 rotation invariants with subtree size augmentation to support O(log N) rank, select, and range count queries."
     },
     intuition: "<p>Standard C++ (<code>std::set</code>, <code>std::map</code>), Java (<code>TreeSet</code>, <code>TreeMap</code>), and Go/Rust collections share a frustrating limitation: even though their keys are stored in a balanced search tree, they only expose bidirectional iterators—so computing the index of a key (<code>rank(key)</code>), looking up the $k$-th smallest key by index (<code>select(k)</code>), or counting how many elements fall in $[lo, hi]$ (<code>rangeCount(lo, hi)</code>) degrades to an $O(N)$ linear iterator walk!</p><p>In this Build Lab, you will combine Sedgewick's <strong>Left-Leaning Red-Black (LLRB) Tree</strong> with the <strong>CLRS Order-Statistic Augmentation (<code>sz = 1 + sz(left) + sz(right)</code>)</strong>. Because LLRB encapsulates all structural rebalancing into <code>rotateLeft</code>, <code>rotateRight</code>, and <code>flipColors</code>, maintaining exact subtree sizes requires only <strong>two lines of size transfer inside the rotation helpers</strong>—giving you a complete, self-contained $O(\\log N)$ Order-Statistic Set in under 95 lines of production C++!</p>",

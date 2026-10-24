@@ -3,12 +3,14 @@ window.MODULE_CONTENT["m12"] = {
   "graph-representations-csr-cache": {
     title: "Graph Representations: Adjacency Lists, Bit Matrices & Compressed Sparse Row (CSR)",
     video: {
-      youtubeId: "bSZ57h7GN2w",
-      title: "MIT 6.006 Lecture 9: Breadth-First Search & Graph Representations",
-      channel: "MIT OpenCourseWare",
-      duration: "50:32",
-      length: "50:32",
+      youtubeId: "hlTwhuamoS0",
+      id: "hlTwhuamoS0",
+      url: "https://www.youtube.com/embed/hlTwhuamoS0",
+      title: "Compressed Sparse Row (CSR) Memory Layout for High-Performance Graph & Matrix Kernels",
+      channel: "Dayne Guy",
+      duration: "11:45",
       start: 0,
+      length: "11m",
       why: "Erik Demaine and Jason Ku establish the foundational memory models for sparse and dense graphs before contrasting pointer-heavy adjacency lists with flat array encodings."
     },
     intuition: "<p>In asymptotic analysis, an adjacency list of <code>std::vector&lt;std::vector&lt;int&gt;&gt;</code> and a Compressed Sparse Row (CSR) flat array both consume $O(V + E)$ space and iterate over a vertex's neighbors in $O(\\text{deg}(u))$ time. On physical silicon, however, their execution speed differs by $5\\times$ to $12\\times$. Pointer-chasing across $V$ separately heap-allocated dynamic arrays triggers an L3 cache miss and TLB walk on nearly every vertex transition, whereas CSR packs all edges into a single contiguous memory slab.</p><p>Selecting the right graph representation is an exercise in matching edge density $E / V^2$ and mutation frequency against the CPU's 64-byte cache line and hardware prefetcher. Static or batch-built sparse graphs belong in CSR; dense graphs where $V \\le 4096$ belong in 64-bit word-packed bitset adjacency matrices where 64 edge lookups execute in a single bitwise instruction.</p>",
@@ -1559,12 +1561,14 @@ Object.assign(window.MODULE_CONTENT["m12"], {
   "case-bundler-build-graph-cycles": {
     title: "Production Case Study: Topological Scheduling & SCC Cycle Reporting in Build Systems (bazel, turborepo, cargo)",
     video: {
-      youtubeId: "wUgWX0nc4NY",
-      title: "Dependency Graphs, Topological Scheduling & Cycle Diagnostics",
-      channel: "MIT OpenCourseWare",
-      duration: "48:15",
-      length: "48:15",
+      youtubeId: "R6uoSjZ2imo",
+      id: "R6uoSjZ2imo",
+      url: "https://www.youtube.com/embed/R6uoSjZ2imo",
+      title: "Strongly Connected Components (Kosaraju's Two-Pass Algorithm & Condensation DAGs)",
+      channel: "take U forward",
+      duration: "27:30",
       start: 0,
+      length: "27m",
       why: "Connects DAG scheduling, critical-path latency, and strongly connected component cycle diagnostics to large-scale software build systems."
     },
     intuition: "<p>Every invocation of <code>cargo build</code>, <code>bazel build //...</code>, or <code>turbo run build</code> constructs a directed dependency graph $G = (V, E)$ where vertices are compilation units (crates, targets, or monorepo packages) and directed edges $(u, v)$ encode that $u$ must finish building before $v$ can begin. A monorepo at Google or Meta contains millones of targets; scheduling them with maximum parallelism while immediately diagnosing circular dependencies is a mission-critical graph problem.</p><p>Production build engines combine three algorithms from this module: <strong>Tarjan's SCC</strong> to isolate minimal circular dependency chains, <strong>Kahn's event-driven work-stealing queue</strong> to feed worker threads dynamically as dependencies resolve, and <strong>Critical-Path DAG DP</strong> to prioritize targets sitting on the longest compilation chain.</p>",

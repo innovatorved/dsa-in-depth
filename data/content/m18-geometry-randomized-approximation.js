@@ -1069,12 +1069,14 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
   "las-vegas-monte-carlo-karger": {
     title: "Las Vegas vs Monte Carlo Algorithms: Karger's Randomized Min-Cut & Freivalds' Matrix Verification",
     video: {
-      youtubeId: "cHv11c8H9yY",
-      title: "Randomized Algorithms: Karger's Min-Cut, Las Vegas vs Monte Carlo",
-      channel: "Stanford Algorithms (Tim Roughgarden)",
-      duration: "32m",
-      length: "32:45",
+      youtubeId: "MMm9PZe1VdA",
+      id: "MMm9PZe1VdA",
+      url: "https://www.youtube.com/embed/MMm9PZe1VdA",
+      title: "Karger's Randomized Edge-Contraction Minimum Cut Algorithm & Probability Analysis",
+      channel: "François Schwarzentruber",
+      duration: "11:42",
       start: 0,
+      length: "11m",
       why: "Proves why randomly contracting edges in Karger's algorithm preserves a global minimum cut with probability at least 2 / (N(N-1)), and contrasts Las Vegas vs Monte Carlo guarantees."
     },
     intuition: "Randomized algorithms split into two paradigms: **Las Vegas** algorithms (like Randomized Quicksort or Randomized Incremental Convex Hull) *always* return the exact correct answer, with only their runtime being a random variable; **Monte Carlo** algorithms (like Miller-Rabin, **Karger's Min-Cut**, or **Freivalds' $O(N^2)$ Matrix Multiplication Verification**) run in deterministic time but have a bounded probability of error that can be amplified to $2^{-k}$ by independent repetition! In Karger's algorithm, repeatedly picking a random edge and contracting its endpoints until only 2 super-vertices remain survives without touching a specific minimum cut $C^*$ with probability $\\ge \\frac{2}{N(N-1)}$—which simultaneously proves that **any undirected multigraph has at most $\\frac{N(N-1)}{2}$ minimum cuts**!",
@@ -1419,12 +1421,14 @@ IndependentSetInstance reduce_3sat_to_independent_set(const std::vector&lt;Claus
   "approximation-algorithms-fptas": {
     title: "Approximation Algorithms: 2-Approx Vertex Cover, Greedy ln N Set Cover, Metric TSP & Knapsack FPTAS",
     video: {
-      youtubeId: "MEqpPn42_M8",
-      title: "Approximation Algorithms: Vertex Cover, Set Cover, TSP & Knapsack PTAS",
-      channel: "MIT OpenCourseWare (Erik Demaine)",
-      duration: "53m",
-      length: "53:10",
+      youtubeId: "F0VsQWWVWU4",
+      id: "F0VsQWWVWU4",
+      url: "https://www.youtube.com/embed/F0VsQWWVWU4",
+      title: "MIT 6.046J Lecture 23: Approximation Algorithms (Vertex Cover, TSP, PTAS & Knapsack FPTAS)",
+      channel: "MIT OpenCourseWare",
+      duration: "1:18:20",
       start: 0,
+      length: "78m",
       why: "Derives worst-case approximation ratios using LP duality / lower bounds for Vertex Cover, Set Cover, Metric TSP (Christofides), and value-scaled Knapsack FPTAS."
     },
     intuition: "When a problem is NP-Hard and inputs are too large for exponential search, we trade exact optimality for a **provable worst-case approximation ratio $\\rho$**. Because we cannot compute the true optimum $OPT$ directly, every approximation proof hinges on finding a **structural lower bound** on $OPT$: the size of any maximal matching lower-bounds Vertex Cover (giving a **2-approximation**), the weight of an MST lower-bounds Metric TSP (giving a **2-approximation**, or **1.5-approximation** via Christofides' minimum-weight perfect matching on odd-degree vertices), harmonic dual prices bound **Greedy Set Cover** within $\\ln N$, and rounding item values turns pseudo-polynomial 0-1 Knapsack DP into a **$(1 - \\varepsilon)$-FPTAS** running in $O(N^3 / \\varepsilon)$ time!",

@@ -701,14 +701,16 @@ int64_t count_distinct_substrings(int64_t n, const std::vector&lt;int&gt;&amp; l
   },
   "suffix-automaton-sam-endpos": {
     "title": "Suffix Automaton (SAM / DAWG): endpos Equivalence Classes & State Transitions",
-    "video": {
-      "youtubeId": "hAxp77aK_vY",
-      "title": "Suffix Automaton (SAM) — Endpos Equivalence Classes & Online Construction",
-      "channel": "Pavel Mavrin",
-      "duration": "32:18",
-      "start": 0,
-      "length": 1938,
-      "why": "Derives the endpos equivalence relation, suffix link tree, state cloning rule when len[q] > len[p] + 1, and proves the 2N - 1 state bound and 3N - 4 transition bound."
+    video: {
+      youtubeId: "-QgNAkzOm7g",
+      id: "-QgNAkzOm7g",
+      url: "https://www.youtube.com/embed/-QgNAkzOm7g",
+      title: "Suffix Automaton (SAM): endpos Equivalence Classes, Suffix Links & State Cloning",
+      channel: "TeKisH",
+      duration: "24:35",
+      start: 0,
+      length: "24m",
+      why: "Derives the endpos equivalence relation, suffix link tree, state cloning rule when len[q] > len[p] + 1, and proves the 2N - 1 state bound and 3N - 4 transition bound."
     },
     "intuition": "<p>A Suffix Automaton (SAM, or Directed Acyclic Word Graph / DAWG, Blumer et al. 1985) is the smallest deterministic finite automaton that recognizes all substrings of a string $S[0..N-1]$. How can a DFA that accepts up to $\\Theta(N^2)$ distinct substrings have at most $2N - 1$ states and $3N - 4$ transitions? By grouping substrings that always finish at the exact same set of text positions into a single state!</p><p>Formally, for any non-empty substring $t$ of $S$, let $\\text{endpos}(t) \\subseteq \\{0, 1, \\dots, N-1\\}$ be the set of 0-based indices in $S$ where occurrences of $t$ end. Two substrings $u$ and $v$ are <strong>$\\text{endpos}$-equivalent</strong> ($u \\sim v$) if and only if $\\text{endpos}(u) = \\text{endpos}(v)$. Every state $q$ in the Suffix Automaton corresponds bijectively to one $\\text{endpos}$ equivalence class, representing a contiguous interval of suffix lengths $[\\text{minlen}(q),\\; \\text{len}(q)]$, where $\\text{minlen}(q) = \\text{len}(\\text{link}(q)) + 1$!</p>",
     "content": `<div class="lesson-content">
@@ -1146,14 +1148,16 @@ private:
   },
   "thompson-nfa-vs-backtracking-regex": {
     "title": "Regular Expression Engines: Thompson's O(NM) NFA Simulation vs Catastrophic ReDoS Backtracking",
-    "video": {
-      "youtubeId": "3da43227b6w",
-      "title": "Regular Expression Matching Can Be Simple And Fast (Thompson NFA)",
-      "channel": "Systems Engineering Lectures",
-      "duration": "24:50",
-      "start": 0,
-      "length": 1490,
-      "why": "Contrasts recursive PCRE-style backtracking against Ken Thompson's 1968 lockstep multi-state NFA simulation and explains how Cloudflare and StackOverflow suffered ReDoS outages."
+    video: {
+      youtubeId: "528Jc3q86F8",
+      id: "528Jc3q86F8",
+      url: "https://www.youtube.com/embed/528Jc3q86F8",
+      title: "Regular Expressions & Finite Automata (Ken Thompson's NFA Construction)",
+      channel: "Computerphile",
+      duration: "15:40",
+      start: 0,
+      length: "15m",
+      why: "Contrasts recursive PCRE-style backtracking against Ken Thompson's 1968 lockstep multi-state NFA simulation and explains how Cloudflare and StackOverflow suffered ReDoS outages."
     },
     "intuition": "<p>Why does matching the regular expression <code>(a+)+b</code> against a 35-character string <code>\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac\"</code> freeze Python's <code>re</code>, JavaScript's <code>RegExp</code>, Java's <code>java.util.regex</code>, and PCRE for tens of seconds, whereas Go's <code>regexp</code>, Rust's <code>regex</code>, and Google's <code>RE2</code> finish in 2 microseconds? Because most mainstream languages implement regexes via <strong>recursive depth-first backtracking</strong>, which tries all $2^N$ ways to partition $\\texttt{\"a\"}^N$ among the inner and outer <code>+</code> quantifiers before concluding that no path reaches <code>'b'</code>!</p><p>In 1968, Ken Thompson published a 4-page paper showing how to compile any regular expression of length $M$ into a Nondeterministic Finite Automaton (NFA) with at most $2M$ states and simulate <strong>all active states in lockstep</strong> as a deduplicated set (<code>clist</code> $\\to$ <code>nlist</code>). Because there are at most $M$ states in the entire NFA, tracking which states are active at text position $i$ does at most $O(M)$ work per character—guaranteeing $O(N \\cdot M)$ worst-case time and making <strong>Regular Expression Denial of Service (ReDoS)</strong> mathematically impossible.</p>",
     "content": `<div class="lesson-content">
@@ -1341,14 +1345,16 @@ private:
   },
   "myers-diff-hirschberg-lcs": {
     "title": "Myers O(ND) Shortest Edit Script & Hirschberg's Linear-Space Alignment",
-    "video": {
-      "youtubeId": "Maye8193vbo",
-      "title": "Myers Diff Algorithm — Finding the Shortest Edit Script",
-      "channel": "Systems Engineering Lectures",
-      "duration": "23:15",
-      "start": 0,
-      "length": 1395,
-      "why": "Derives the edit graph, k = x - y diagonals, greedy snakes, and how Myers explores D = 0, 1, 2... edits in O((N + M)D) time."
+    video: {
+      youtubeId: "cPQeJt-2Y1Q",
+      id: "cPQeJt-2Y1Q",
+      url: "https://www.youtube.com/embed/cPQeJt-2Y1Q",
+      title: "Hirschberg's Divide-and-Conquer Linear-Space Sequence Alignment & LCS",
+      channel: "David Powell",
+      duration: "14:50",
+      start: 0,
+      length: "14m",
+      why: "Derives the edit graph, k = x - y diagonals, greedy snakes, and how Myers explores D = 0, 1, 2... edits in O((N + M)D) time."
     },
     "intuition": "<p>When you run <code>git diff</code> on two 10,000-line source files that differ by only $D = 5$ edited lines, standard dynamic programming for Longest Common Subsequence (LCS) allocates a $10{,}000 \\times 10{,}000$ table ($400\\text{ MB}$) and executes $10^8$ operations regardless of how similar the files are. Eugene Myers (1986) reframed diffing as a shortest-path search on an <strong>Edit Graph</strong> where horizontal edges delete from $A$ (cost $1$), vertical edges insert from $B$ (cost $1$), and diagonal edges match $A[x] == B[y]$ for <strong>cost $0$</strong>.</p><p>By parameterizing the search by the number of non-diagonal edits $d = 0, 1, \\dots, D$ and tracking only the furthest-reaching $x$-coordinate $V[k]$ on each diagonal $k = x - y$, Myers finds the Shortest Edit Script in $O((N + M)D)$ time—which is $O(N + M)$ when $D$ is small! And when $D$ is large and we need the full alignment path in $O(N + M)$ memory instead of $O(N \\cdot D)$ memory, <strong>Hirschberg's Divide-and-Conquer Algorithm (1975)</strong> runs a forward DP from the top-left and a reverse DP from the bottom-right to find the exact midpoint split in $O(N + M)$ space.</p>",
     "content": `<div class="lesson-content">
@@ -1823,14 +1829,16 @@ std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_siz
   },
   "case-git-myers-histogram-diff": {
     "title": "Production Case Study: Inside git diff (Myers vs Patience vs Histogram Diff)",
-    "video": {
-      "youtubeId": "Maye8193vbo",
-      "title": "Why Myers Diff Misaligns Braces & How Patience / Histogram Diff Fix It",
-      "channel": "Systems Engineering Lectures",
-      "duration": "23:15",
-      "start": 600,
-      "length": 795,
-      "why": "Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces."
+    video: {
+      youtubeId: "MGdlTzVyyrE",
+      id: "MGdlTzVyyrE",
+      url: "https://www.youtube.com/embed/MGdlTzVyyrE",
+      title: "Visualizing Eugene Myers' O(ND) Diff Algorithm & Edit Graphs",
+      channel: "sphaerophoria",
+      duration: "31:15",
+      start: 0,
+      length: "31m",
+      why: "Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces."
     },
     "intuition": "<p>Have you ever added a new function to a source file, run <code>git diff</code>, and seen Git claim that you deleted the closing brace <code>}</code> of the previous function and inserted the closing brace of the new function inside the old one? Mathematically, Eugene Myers' $O(ND)$ algorithm found a valid <strong>Shortest Edit Script</strong>—because every line has weight $1$, matching two boilerplate <code>}</code> or blank lines is worth the exact same score as matching two unique function signatures!</p><p>To produce human-readable diffs that respect semantic code structure, Bram Cohen invented <strong>Patience Diff</strong> and <code>JGit</code> / <code>git diff --histogram</code> refined it into <strong>Histogram Diff</strong>: before running Myers, anchor the diff on the <strong>lowest-frequency matching lines</strong> (such as unique function headers <code>fn parse_header() {</code> that occur $1$ time in both files) via Longest Increasing Subsequence (LIS), and recursively diff the regions between those anchors!</p>",
     "content": `<div class="lesson-content">
@@ -2019,14 +2027,16 @@ std::vector&lt;AnchorMatch&gt; find_patience_anchors(const std::vector&lt;std::s
   },
   "build-thompson-nfa-regex-engine": {
     "title": "Build Lab: ReDoS-Proof Regular Expression Engine via Thompson's Construction & NFA Step Simulation",
-    "video": {
-      "youtubeId": "3da43227b6w",
-      "title": "Implementing Thompson's Postfix-to-NFA Compiler and VM",
-      "channel": "Systems Engineering Lectures",
-      "duration": "24:50",
-      "start": 550,
-      "length": 940,
-      "why": "Walks through explicit concatenation insertion, Shunting-Yard postfix compilation, fragment stack patching, and the generation-stamped NFA step simulator."
+    video: {
+      youtubeId: "LT3wwkpt7ak",
+      id: "LT3wwkpt7ak",
+      url: "https://www.youtube.com/embed/LT3wwkpt7ak",
+      title: "Thompson's Construction Algorithm: Compiling Regular Expressions to Epsilon-NFAs",
+      channel: "CSE Concepts with Parinita",
+      duration: "17:25",
+      start: 0,
+      length: "17m",
+      why: "Walks through explicit concatenation insertion, Shunting-Yard postfix compilation, fragment stack patching, and the generation-stamped NFA step simulator."
     },
     "intuition": "<p>In this final Build Lab of Track 4, we build a complete, self-contained, <strong>ReDoS-proof Regular Expression Compiler and Virtual Machine</strong> supporting concatenation, alternation (<code>|</code>), grouping parentheses <code>(...)</code>, wildcard dot (<code>.</code>), and the three Kleene quantifiers (<code>*</code>, <code>+</code>, <code>?</code>) in strict $O(N \\cdot M)$ worst-case time.</p><p>Follow Russ Cox and Ken Thompson's classic three-stage compiler architecture: (1) a <strong>Lexer/Concatenation Inserter</strong> that inserts explicit concatenation operators (<code>\\x08</code>) between adjacent atoms (e.g., turning <code>a(b|c)*d</code> into <code>a·(b|c)*·d</code>) and converts the infix expression to postfix (Reverse Polish Notation) via Dijkstra's Shunting-Yard algorithm; (2) a <strong>Stack-Based NFA Fragment Compiler</strong> that patches dangling arrow indices without heap pointers; and (3) a <strong>Lockstep Subset Simulator</strong> using <code>step_id</code> generation counters.</p>",
     "content": `<div class="lesson-content">

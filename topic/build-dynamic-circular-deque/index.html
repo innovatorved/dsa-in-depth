@@ -39,7 +39,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=19951d0523"></script>
+  <script src="js/manifest.js?v=f59e0416cd"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;5AllG-i_yto&quot;,&quot;id&quot;:&quot;5AllG-i_yto&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/5AllG-i_yto&quot;,&quot;title&quot;:&quot;Circular Buffers, Deques, and Power-of-Two Masking&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare&quot;,&quot;duration&quot;:&quot;51 min&quot;}">
-      <div class="video-embed" id="video-5AllG-i_yto"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="5AllG-i_yto">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/5AllG-i_yto/hqdefault.jpg"
-               alt="Circular Buffers, Deques, and Power-of-Two Masking"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;dn01XST9-bI&quot;,&quot;id&quot;:&quot;dn01XST9-bI&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/dn01XST9-bI&quot;,&quot;title&quot;:&quot;Circular Queue &amp; Ring Buffer Array Implementation (Modulo Wrap-Around)&quot;,&quot;channel&quot;:&quot;Jenny&#039;s Lectures CS IT&quot;,&quot;duration&quot;:&quot;24:13&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;24m&quot;,&quot;why&quot;:&quot;Deep-dive lecture covering Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector.&quot;}">
+      <div class="video-embed" id="video-dn01XST9-bI"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="dn01XST9-bI">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/dn01XST9-bI/hqdefault.jpg"
+               alt="Circular Queue &amp; Ring Buffer Array Implementation (Modulo Wrap-Around)"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare</span>
-        <span class="video-embed__title">Circular Buffers, Deques, and Power-of-Two Masking</span>
-        <a href="https://www.youtube.com/watch?v=5AllG-i_yto" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Jenny&#039;s Lectures CS IT</span>
+        <span class="video-embed__title">Circular Queue &amp; Ring Buffer Array Implementation (Modulo Wrap-Around)</span>
+        <a href="https://www.youtube.com/watch?v=dn01XST9-bI" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      </div>
+      <p class="video-embed__why">Deep-dive lecture covering Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body">A flat <code>std::vector</code> supports $O(1)$ amortized <code>push_back</code>, but <code>push_front</code> or <code>pop_front</code> shifts all $N$ elements in $\Theta(N)$ time. By wrapping a contiguous power-of-two array into a ring indexed via bitwise AND masking <code>(head + i) & (cap - 1)</code>—and linearizing the ring during $2\times$ geometric expansion—a dynamic circular deque achieves $O(1)$ amortized push/pop at both ends AND $O(1)$ random access in a single L1-friendly allocation.</div>
