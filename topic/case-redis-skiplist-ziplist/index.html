@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -1041,7 +1041,138 @@
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">At Level L3, Node(-∞): invariant key(curr) ≤ 42 < key(curr.next[L3])</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div style="display:flex;flex-direction:column;gap:4px;"><div style="display:flex;gap:6px;align-items:center;"><span style="width:36px;font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">L3</span><div class="dsa-sim__cell is-pivot" style="min-width:52px;padding:5px;opacity:1;">
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🔗 Live Pointer &amp; State Transition Graph — Skip List Multi-Level Express Lane Search &amp; Insertion</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Matched/Optimal</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 175" style="width:100%;max-height:185px;display:block;overflow:visible;">
+          
+          
+        <g>
+          <line x1="58" y1="96" x2="79" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="81,96 74,92 74,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="125" y1="96" x2="146" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="148,96 141,92 141,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="192" y1="96" x2="213" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="215,96 208,92 208,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="259" y1="96" x2="280" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="282,96 275,92 275,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="326" y1="96" x2="347" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="349,96 342,92 342,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="393" y1="96" x2="414" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="416,96 409,92 409,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="460" y1="96" x2="481" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="483,96 476,92 476,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="527" y1="96" x2="548" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="550,96 543,92 543,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="594" y1="96" x2="615" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="617,96 610,92 610,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+          
+        <g>
+          
+          <rect x="14" y="76" width="44" height="40" rx="8" fill="rgba(139, 92, 246, 0.26)" stroke="#8b5cf6" stroke-width="2.4" />
+          <text x="36" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6" font-family="var(--font-mono, monospace)">HEAD</text>
+          <text x="36" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="81" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="103" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="103" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="148" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="170" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="170" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="215" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="237" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="237" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="282" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="304" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="304" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="349" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="371" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">50</text>
+          <text x="371" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="416" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="438" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="438" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[6]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="483" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="505" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="505" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[7]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="550" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="572" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">HEAD</text>
+          <text x="572" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[8]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="617" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="639" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">───</text>
+          <text x="639" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[9]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div style="display:flex;flex-direction:column;gap:4px;"><div style="display:flex;gap:6px;align-items:center;"><span style="width:36px;font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">L3</span><div class="dsa-sim__cell is-pivot" style="min-width:52px;padding:5px;opacity:1;">
               <span class="dsa-sim__cell-val">HEAD</span>
             </div><div class="dsa-sim__cell" style="min-width:52px;padding:5px;opacity:0.18;">
               <span class="dsa-sim__cell-val">───</span>
@@ -1552,7 +1683,7 @@ public:
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

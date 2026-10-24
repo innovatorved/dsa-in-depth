@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -964,7 +964,78 @@
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">3-Way QuickSort (Dijkstra Dutch National Flag): partitions subarray into < pivot, == pivot, and > pivot.</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">38</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">27</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">43</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3</span></div><div class="dsa-sim__cell is-active is-pivot"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">9</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">82</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">10</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">27</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🌳 Live 2D Hierarchical Tree Topology — Sorting Arena: 3-Way QuickSort, MergeSort &amp; LSD RadixSort</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Visited/Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot/Root</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Resolved</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 215" style="width:100%;max-height:220px;display:block;overflow:visible;">
+          <line x1="340" y1="34" x2="190" y2="82" stroke="#3b82f6" stroke-width="2.4" /><line x1="340" y1="34" x2="490" y2="82" stroke="#3b82f6" stroke-width="2.4" /><line x1="190" y1="82" x2="115" y2="129" stroke="#3b82f6" stroke-width="2.4" /><line x1="190" y1="82" x2="265" y2="129" stroke="#3b82f6" stroke-width="2.4" /><line x1="490" y1="82" x2="415" y2="129" stroke="#3b82f6" stroke-width="2.4" /><line x1="490" y1="82" x2="565" y2="129" stroke="#3b82f6" stroke-width="2.4" /><line x1="115" y1="129" x2="78" y2="177" stroke="#3b82f6" stroke-width="2.4" />
+          
+        <g>
+          
+          <circle cx="340" cy="34" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="340" y="38" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">38</text>
+          <text x="362" y="38" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="190" cy="82" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="190" y="86" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">27</text>
+          <text x="212" y="86" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="490" cy="82" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="490" y="86" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">43</text>
+          <text x="512" y="86" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="115" cy="129" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="115" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">3</text>
+          <text x="137" y="133" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="265" cy="129" r="18" fill="rgba(139, 92, 246, 0.26)" stroke="#8b5cf6" stroke-width="2.5" />
+          <text x="265" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6" font-family="var(--font-mono, monospace)">9</text>
+          <text x="287" y="133" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="415" cy="129" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="415" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">82</text>
+          <text x="437" y="133" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="565" cy="129" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="565" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">10</text>
+          <text x="587" y="133" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[6]</text>
+        </g>
+      
+        <g>
+          
+          <circle cx="78" cy="177" r="18" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.5" />
+          <text x="78" y="181" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">27</text>
+          <text x="100" y="181" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[7]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">38</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">27</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">43</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3</span></div><div class="dsa-sim__cell is-active is-pivot"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">9</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">82</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">10</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">27</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1452,7 +1523,7 @@ inline double theoretical_expected_comparisons(std::size_t n) noexcept {
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

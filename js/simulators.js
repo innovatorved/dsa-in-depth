@@ -164,6 +164,7 @@ window.Simulators = (() => {
       raw = String(raw)
         .replace(/<[^>]+>/g, ' ')
         .replace(/[🐢🐇♛✕✓★•]/g, ' ')
+        .replace(/⇄|↔/g, ' swapped with ')
         .replace(/->|→|⟶/g, ' to ')
         .replace(/<-|←/g, ' from ')
         .replace(/<=|≤/g, ' at most ')
@@ -171,38 +172,89 @@ window.Simulators = (() => {
         .replace(/===|==/g, ' equals ')
         .replace(/!==|!=/g, ' not equal ')
         .replace(/∞|-∞/g, ' infinity ')
+        .replace(/Φ/g, ' potential Phi ')
+        .replace(/ΔΦ/g, ' delta Phi ')
         .replace(/\bO\(([^)]+)\)/g, 'O of $1')
+        .replace(/\bA\[(\d+)\]/g, 'A at $1')
         .replace(/\[(\d+)\]/g, ' index $1 ')
         .replace(/\s+/g, ' ')
         .trim();
-      // Keep spoken cue concise and natural (first sentence or ~18 words)
       const words = raw.split(' ');
-      if (words.length > 20) {
-        raw = words.slice(0, 20).join(' ');
+      if (words.length > 22) {
+        raw = words.slice(0, 22).join(' ');
       }
       return `Step ${idx + 1}. ${raw}`;
     }
 
-    function speakStep(frame, idx, total, speedMs = 650) {
-      if (!voiceOn || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-      try {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-        const phrase = cleanSpeechText(frame, idx, total);
-        if (!phrase) return;
-        const utter = new SpeechSynthesisUtterance(phrase);
-        utter.volume = 0.85;
-        utter.pitch = 1.02;
-        utter.rate = speedMs <= 200 ? 1.65 : speedMs <= 360 ? 1.38 : speedMs <= 750 ? 1.15 : 1.0;
-        const voices = synth.getVoices ? synth.getVoices() : [];
-        const preferred = voices.find(v => /en[-_](US|GB)/i.test(v.lang) && /Samantha|Daniel|Google|Natural|Alex|Siri/i.test(v.name))
-          || voices.find(v => /^en/i.test(v.lang));
-        if (preferred) utter.voice = preferred;
-        synth.speak(utter);
-      } catch (_) {}
+    let activeUtterResolve = null;
+
+    function resolvePendingSpeech() {
+      if (activeUtterResolve) {
+        const fn = activeUtterResolve;
+        activeUtterResolve = null;
+        fn();
+      }
+    }
+
+    function speakStepAsync(frame, idx, total, speedMs = 750, callbacks = {}) {
+      resolvePendingSpeech();
+      if (!voiceOn || typeof window === 'undefined' || !('speechSynthesis' in window)) {
+        return Promise.resolve();
+      }
+      return new Promise((resolve) => {
+        try {
+          const synth = window.speechSynthesis;
+          synth.cancel();
+          const phrase = cleanSpeechText(frame, idx, total);
+          if (!phrase) {
+            resolve();
+            return;
+          }
+          const utter = new SpeechSynthesisUtterance(phrase);
+          utter.volume = 0.9;
+          utter.pitch = 1.02;
+          utter.rate = speedMs <= 200 ? 1.6 : speedMs <= 400 ? 1.32 : speedMs <= 800 ? 1.12 : 0.98;
+          const voices = synth.getVoices ? synth.getVoices() : [];
+          const preferred = voices.find(v => /en[-_](US|GB)/i.test(v.lang) && /Samantha|Daniel|Google|Natural|Alex|Siri|Guy/i.test(v.name))
+            || voices.find(v => /^en/i.test(v.lang));
+          if (preferred) utter.voice = preferred;
+
+          const wordCount = phrase.split(/\s+/).length;
+          const estMs = Math.max(1600, Math.min(7500, Math.round((wordCount * 360) / utter.rate) + 600));
+          let settled = false;
+
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(safetyTimer);
+            if (activeUtterResolve === finish) activeUtterResolve = null;
+            if (typeof callbacks.onEnd === 'function') callbacks.onEnd();
+            resolve();
+          };
+
+          activeUtterResolve = finish;
+          const safetyTimer = setTimeout(finish, estMs);
+
+          utter.onstart = () => {
+            if (typeof callbacks.onStart === 'function') callbacks.onStart(phrase);
+          };
+          utter.onend = finish;
+          utter.onerror = finish;
+
+          if (typeof callbacks.onStart === 'function') callbacks.onStart(phrase);
+          synth.speak(utter);
+        } catch (_) {
+          resolve();
+        }
+      });
+    }
+
+    function speakStep(frame, idx, total, speedMs = 750, callbacks = {}) {
+      speakStepAsync(frame, idx, total, speedMs, callbacks);
     }
 
     function stopSpeech() {
+      resolvePendingSpeech();
       try {
         if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
           window.speechSynthesis.cancel();
@@ -224,6 +276,7 @@ window.Simulators = (() => {
       },
       playStep,
       speakStep,
+      speakStepAsync,
       stopSpeech
     };
   })();
@@ -681,7 +734,439 @@ window.Simulators = (() => {
     } catch (e) {
       rawFrames = [];
     }
-    return ensureDeepInteractiveFrames(config, enrichedPreset, rawFrames, customRaw ? parsed : null);
+    const deepFrames = ensureDeepInteractiveFrames(config, enrichedPreset, rawFrames, customRaw ? parsed : null);
+    return enhanceFramesWithRichSvgVisuals(config, deepFrames);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     2b. Universal SVG Visual Stage Enhancer (Bars / Trees / Rings / Chains)
+     ───────────────────────────────────────────────────────────── */
+  function detectVisualArchetype(config) {
+    const id = String(config.id || '').toLowerCase();
+    const title = String(config.title || '').toLowerCase();
+    const slugs = (config.slugs || []).join(' ').toLowerCase();
+    const blob = `${id} ${title} ${slugs}`;
+
+    if (/\b(heap|tree|bst|avl|red-black|rb-|bplus|b-tree|treap|splay|segment|fenwick|bit\b|trie|aho|automaton|sam|hld|lca|van-emde|cartesian|kd-tree|quadtree)\b/.test(blob)) {
+      return 'tree';
+    }
+    if (/\b(hash|robin-hood|swiss|cuckoo|bloom|hyperloglog|consistent-hashing|count-min|sketch|quotient|xor-filter)\b/.test(blob)) {
+      return 'ring';
+    }
+    if (/\b(list|floyd|cycle|skip-list|lru|lfu|rope|dancing|queue|deque|stack|dp\b|knapsack|lis\b|lcs\b|edit-distance|bitmask|markov)\b/.test(blob)) {
+      return 'chain';
+    }
+    return 'bars';
+  }
+
+  function extractCellsFromStageHtml(stageHtml) {
+    if (!stageHtml) return [];
+    const cells = [];
+    const cellRegex = /<div\s+class="([^"]*dsa-sim__cell[^"]*)"[^>]*>([\s\S]*?)<\/div>/g;
+    let m;
+    while ((m = cellRegex.exec(stageHtml)) !== null) {
+      const cls = m[1] || '';
+      const inner = m[2] || '';
+      const idxMatch = inner.match(/dsa-sim__cell-idx[^>]*>\[?([^\Wg<]*)\]?<\/span>/);
+      const valMatch = inner.match(/dsa-sim__cell-val[^>]*>([\s\S]*?)<\/span>/);
+      const tagMatch = inner.match(/dsa-sim__cell-tag[^>]*>([\s\S]*?)<\/span>/);
+      const rawVal = valMatch ? valMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+      const rawIdx = idxMatch ? idxMatch[1].replace(/<[^>]+>/g, '').trim() : String(cells.length);
+      const rawTag = tagMatch ? tagMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+      let numVal = parseFloat(rawVal.replace(/[^0-9.-]/g, ''));
+      if (Number.isNaN(numVal)) {
+        if (rawVal.length === 1) {
+          numVal = rawVal.charCodeAt(0) - 64;
+          if (numVal < 1) numVal = rawVal.charCodeAt(0);
+        } else if (rawVal.length > 1) {
+          let sum = 0;
+          for (let i = 0; i < rawVal.length; i++) sum += rawVal.charCodeAt(i);
+          numVal = (sum % 60) + 12;
+        } else {
+          numVal = (cells.length + 1) * 8;
+        }
+      }
+
+      cells.push({
+        idx: rawIdx,
+        val: rawVal || String(cells.length),
+        num: numVal,
+        tag: rawTag,
+        active: cls.includes('is-active'),
+        match: cls.includes('is-match'),
+        warn: cls.includes('is-warn'),
+        pivot: cls.includes('is-pivot')
+      });
+    }
+
+    // Fallback for custom stage HTML that uses <b>[10 | 15]</b> or <code>[30]</code> blocks
+    if (!cells.length) {
+      const stripped = stageHtml.replace(/<style[\s\S]*?<\/style>/g, '');
+      const boldMatches = stripped.match(/<(?:b|code)[^>]*>([\s\S]*?)<\/(?:b|code)>/gi) || [];
+      const extractedNums = [];
+      for (const bm of boldMatches) {
+        const innerTxt = bm.replace(/<[^>]+>/g, '');
+        const nums = innerTxt.match(/-?\d+(?:\.\d+)?/g) || [];
+        for (const nStr of nums) {
+          extractedNums.push({
+            val: nStr,
+            num: parseFloat(nStr),
+            warn: bm.includes('f59e0b') || innerTxt.includes('*'),
+            match: bm.includes('10b981')
+          });
+        }
+      }
+      if (!extractedNums.length) {
+        const plainNums = stripped.replace(/<[^>]+>/g, ' ').match(/\b\d{1,4}\b/g) || [];
+        for (const nStr of plainNums.slice(0, 10)) {
+          extractedNums.push({ val: nStr, num: parseFloat(nStr), warn: false, match: false });
+        }
+      }
+      extractedNums.slice(0, 12).forEach((item, i) => {
+        cells.push({
+          idx: String(i),
+          val: item.val,
+          num: item.num || (i + 1) * 5,
+          tag: i === 0 ? 'root' : '',
+          active: i === 0,
+          match: Boolean(item.match),
+          warn: Boolean(item.warn),
+          pivot: false
+        });
+      });
+    }
+
+    return cells.slice(0, 16);
+  }
+
+  function cellPalette(c) {
+    if (c.match) {
+      return { fill: 'rgba(16, 185, 129, 0.25)', stroke: '#10b981', text: '#10b981', glow: 'rgba(16, 185, 129, 0.45)' };
+    }
+    if (c.pivot) {
+      return { fill: 'rgba(139, 92, 246, 0.26)', stroke: '#8b5cf6', text: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.45)' };
+    }
+    if (c.warn) {
+      return { fill: 'rgba(245, 158, 11, 0.26)', stroke: '#f59e0b', text: '#f59e0b', glow: 'rgba(245, 158, 11, 0.45)' };
+    }
+    if (c.active) {
+      return { fill: 'rgba(59, 130, 246, 0.26)', stroke: '#3b82f6', text: '#3b82f6', glow: 'rgba(59, 130, 246, 0.45)' };
+    }
+    return { fill: 'var(--bg-secondary, #f1f5f9)', stroke: 'var(--border-color, #94a3b8)', text: 'var(--fg-primary, #1e293b)', glow: 'none' };
+  }
+
+  function renderBarsSvg(cells, title) {
+    const n = cells.length;
+    if (!n) return '';
+    const W = 680;
+    const H = 190;
+    const padL = 36;
+    const padR = 24;
+    const padTop = 34;
+    const padBottom = 34;
+    const plotW = W - padL - padR;
+    const plotH = H - padTop - padBottom;
+
+    const nums = cells.map(c => Math.abs(c.num));
+    const maxVal = Math.max(1, ...nums);
+    const minVal = Math.min(...nums);
+    const slotW = plotW / n;
+    const barW = Math.max(18, Math.min(54, slotW * 0.68));
+
+    const barsSvg = cells.map((c, i) => {
+      const pal = cellPalette(c);
+      const norm = maxVal === minVal ? 0.65 : (Math.abs(c.num) / maxVal);
+      const barH = Math.max(20, Math.round(norm * plotH));
+      const x = Math.round(padL + i * slotW + (slotW - barW) / 2);
+      const y = Math.round(padTop + plotH - barH);
+      const cx = Math.round(x + barW / 2);
+      const dispVal = c.val.length > 7 ? c.val.slice(0, 6) + '…' : c.val;
+      const tagBadge = c.tag
+        ? `<g transform="translate(${cx}, ${Math.max(13, y - 18)})">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="${pal.stroke}" opacity="0.16" stroke="${pal.stroke}" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(c.tag.slice(0, 7))}</text>
+           </g>`
+        : '';
+
+      return `
+        <g class="dsa-sim__svg-bar-group">
+          ${tagBadge}
+          <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="5"
+                fill="${pal.fill}" stroke="${pal.stroke}" stroke-width="${c.active || c.match || c.pivot || c.warn ? 2.2 : 1.3}" />
+          <text x="${cx}" y="${Math.max(24, y - 5)}" text-anchor="middle"
+                font-size="11" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(dispVal)}</text>
+          <text x="${cx}" y="${H - 12}" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[${esc(c.idx)}]</text>
+        </g>
+      `;
+    }).join('');
+
+    return `
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>📊 Live Magnitude &amp; Pointer Stage — ${esc(title)}</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Match/Sorted</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-height:205px;display:block;overflow:visible;">
+          <line x1="${padL - 8}" y1="${padTop + plotH}" x2="${W - padR + 8}" y2="${padTop + plotH}"
+                stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="4 3" />
+          ${barsSvg}
+        </svg>
+      </div>
+    `;
+  }
+
+  function renderTreeSvg(cells, title) {
+    const nodes = cells.slice(0, 15);
+    const n = nodes.length;
+    if (!n) return '';
+    const W = 680;
+    const H = 215;
+    const maxDepth = Math.max(1, Math.floor(Math.log2(n)));
+    const coords = nodes.map((c, i) => {
+      const depth = Math.floor(Math.log2(i + 1));
+      const levelStart = (1 << depth) - 1;
+      const posInLevel = i - levelStart;
+      const countInLevel = 1 << depth;
+      const x = Math.round(((posInLevel + 0.5) / countInLevel) * (W - 80) + 40);
+      const y = Math.round(34 + (depth / Math.max(1, maxDepth)) * (H - 72));
+      return { x, y, c, i };
+    });
+
+    const edgesSvg = coords.map((node, i) => {
+      if (i === 0) return '';
+      const pIdx = Math.floor((i - 1) / 2);
+      const parent = coords[pIdx];
+      if (!parent) return '';
+      const isHighlighted = (node.c.active || node.c.match || node.c.pivot || node.c.warn) &&
+                            (parent.c.active || parent.c.match || parent.c.pivot || parent.c.warn);
+      const stroke = isHighlighted ? '#3b82f6' : 'var(--border-color, #94a3b8)';
+      const width = isHighlighted ? 2.4 : 1.5;
+      return `<line x1="${parent.x}" y1="${parent.y}" x2="${node.x}" y2="${node.y}" stroke="${stroke}" stroke-width="${width}" />`;
+    }).join('');
+
+    const nodesSvg = coords.map(({ x, y, c }) => {
+      const pal = cellPalette(c);
+      const dispVal = c.val.length > 6 ? c.val.slice(0, 5) + '…' : c.val;
+      const tagSvg = c.tag
+        ? `<text x="${x}" y="${y - 24}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(c.tag.slice(0, 8))}</text>`
+        : '';
+      return `
+        <g>
+          ${tagSvg}
+          <circle cx="${x}" cy="${y}" r="18" fill="${pal.fill}" stroke="${pal.stroke}" stroke-width="${c.active || c.match || c.pivot || c.warn ? 2.5 : 1.5}" />
+          <text x="${x}" y="${y + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(dispVal)}</text>
+          <text x="${x + 22}" y="${y + 4}" text-anchor="start" font-size="9" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[${esc(c.idx)}]</text>
+        </g>
+      `;
+    }).join('');
+
+    return `
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🌳 Live 2D Hierarchical Tree Topology — ${esc(title)}</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Visited/Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot/Root</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Resolved</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-height:220px;display:block;overflow:visible;">
+          ${edgesSvg}
+          ${nodesSvg}
+        </svg>
+      </div>
+    `;
+  }
+
+  function renderRingSvg(cells, title) {
+    const slots = cells.slice(0, 12);
+    const n = slots.length;
+    if (!n) return '';
+    const W = 680;
+    const H = 205;
+    const cx = 155;
+    const cy = 102;
+    const R = 72;
+
+    const pts = slots.map((c, i) => {
+      const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
+      return {
+        x: Math.round(cx + R * Math.cos(ang)),
+        y: Math.round(cy + R * Math.sin(ang)),
+        c,
+        i
+      };
+    });
+
+    // Draw probe/chord arcs between active/warn/match nodes
+    const highlighted = pts.filter(p => p.c.active || p.c.warn || p.c.match || p.c.pivot);
+    let chordsSvg = '';
+    for (let i = 0; i < highlighted.length - 1; i++) {
+      const a = highlighted[i];
+      const b = highlighted[i + 1];
+      chordsSvg += `<path d="M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 3" />`;
+    }
+
+    const ringNodesSvg = pts.map(({ x, y, c }) => {
+      const pal = cellPalette(c);
+      const disp = c.val.length > 5 ? c.val.slice(0, 4) + '…' : c.val;
+      return `
+        <g>
+          <circle cx="${x}" cy="${y}" r="16" fill="${pal.fill}" stroke="${pal.stroke}" stroke-width="${c.active || c.match || c.warn || c.pivot ? 2.4 : 1.4}" />
+          <text x="${x}" y="${y + 3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(disp)}</text>
+        </g>
+      `;
+    }).join('');
+
+    // Right side: bucket occupancy & probe profile table/bars
+    const rightX = 305;
+    const rightW = 350;
+    const rowH = Math.min(22, Math.floor(165 / n));
+    const rowsSvg = slots.map((c, i) => {
+      const pal = cellPalette(c);
+      const ry = 22 + i * rowH;
+      const isOccupied = c.val !== '—' && c.val !== '-' && c.val !== 'empty' && c.val !== '0';
+      const fillW = isOccupied ? Math.min(200, Math.max(55, (Math.abs(c.num) % 160) + 45)) : 24;
+      return `
+        <g transform="translate(${rightX}, ${ry})">
+          <text x="0" y="12" font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">B[${esc(c.idx)}]</text>
+          <rect x="42" y="2" width="${fillW}" height="${Math.max(12, rowH - 5)}" rx="4" fill="${pal.fill}" stroke="${pal.stroke}" stroke-width="1.2" />
+          <text x="50" y="12" font-size="10" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(c.val)}${c.tag ? ' (' + esc(c.tag) + ')' : ''}</text>
+        </g>
+      `;
+    }).join('');
+
+    return `
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🧭 Live Hash Ring &amp; Bucket Probe Telemetry — ${esc(title)}</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Probe</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#f59e0b"></span>Collision/Swap</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Hit/Placed</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-height:215px;display:block;overflow:visible;">
+          <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="5 4" />
+          ${chordsSvg}
+          ${ringNodesSvg}
+          ${rowsSvg}
+        </svg>
+      </div>
+    `;
+  }
+
+  function renderChainSvg(cells, title) {
+    const nodes = cells.slice(0, 10);
+    const n = nodes.length;
+    if (!n) return '';
+    const W = 680;
+    const H = 175;
+    const padX = 36;
+    const stepX = n > 1 ? Math.floor((W - padX * 2) / (n - 1)) : 0;
+    const cy = 96;
+
+    const pts = nodes.map((c, i) => ({
+      x: n === 1 ? W / 2 : padX + i * stepX,
+      y: cy,
+      c,
+      i
+    }));
+
+    const linksSvg = pts.slice(0, -1).map((p, i) => {
+      const next = pts[i + 1];
+      const activeEdge = (p.c.active || p.c.match) && (next.c.active || next.c.match);
+      const col = activeEdge ? '#3b82f6' : 'var(--border-color, #94a3b8)';
+      return `
+        <g>
+          <line x1="${p.x + 22}" y1="${p.y}" x2="${next.x - 24}" y2="${next.y}" stroke="${col}" stroke-width="${activeEdge ? 2.4 : 1.6}" />
+          <polygon points="${next.x - 22},${next.y} ${next.x - 29},${next.y - 4} ${next.x - 29},${next.y + 4}" fill="${col}" />
+        </g>
+      `;
+    }).join('');
+
+    // Curved transition/skip arc between first and last highlighted nodes if non-adjacent
+    const hi = pts.filter(p => p.c.active || p.c.match || p.c.pivot || p.c.warn);
+    let arcSvg = '';
+    if (hi.length >= 2) {
+      const a = hi[0];
+      const b = hi[hi.length - 1];
+      if (Math.abs(a.i - b.i) >= 2) {
+        const midX = Math.round((a.x + b.x) / 2);
+        arcSvg = `<path d="M ${a.x} ${a.y - 22} Q ${midX} ${cy - 68} ${b.x} ${b.y - 22}" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 3" />`;
+      }
+    }
+
+    const boxesSvg = pts.map(({ x, y, c }) => {
+      const pal = cellPalette(c);
+      const disp = c.val.length > 6 ? c.val.slice(0, 5) + '…' : c.val;
+      const tagSvg = c.tag
+        ? `<g transform="translate(${x}, ${y - 34})">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="${pal.stroke}" opacity="0.16" stroke="${pal.stroke}" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(c.tag.slice(0, 7))}</text>
+           </g>`
+        : '';
+      return `
+        <g>
+          ${tagSvg}
+          <rect x="${x - 22}" y="${y - 20}" width="44" height="40" rx="8" fill="${pal.fill}" stroke="${pal.stroke}" stroke-width="${c.active || c.match || c.pivot || c.warn ? 2.4 : 1.5}" />
+          <text x="${x}" y="${y + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="${pal.text}" font-family="var(--font-mono, monospace)">${esc(disp)}</text>
+          <text x="${x}" y="${y + 34}" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[${esc(c.idx)}]</text>
+        </g>
+      `;
+    }).join('');
+
+    return `
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🔗 Live Pointer &amp; State Transition Graph — ${esc(title)}</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Matched/Optimal</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-height:185px;display:block;overflow:visible;">
+          ${arcSvg}
+          ${linksSvg}
+          ${boxesSvg}
+        </svg>
+      </div>
+    `;
+  }
+
+  function enhanceFramesWithRichSvgVisuals(config, frames) {
+    if (!Array.isArray(frames) || !frames.length) return frames;
+    const archetype = detectVisualArchetype(config);
+    return frames.map((f) => {
+      if (!f || typeof f.stageHtml !== 'string') return f;
+      if (f.stageHtml.includes('<svg')) return f;
+
+      const cells = extractCellsFromStageHtml(f.stageHtml);
+      if (!cells.length) return f;
+
+      let svgBlock = '';
+      if (archetype === 'tree') {
+        svgBlock = renderTreeSvg(cells, config.title || config.id);
+      } else if (archetype === 'ring') {
+        svgBlock = renderRingSvg(cells, config.title || config.id);
+      } else if (archetype === 'chain') {
+        svgBlock = renderChainSvg(cells, config.title || config.id);
+      } else {
+        svgBlock = renderBarsSvg(cells, config.title || config.id);
+      }
+
+      if (!svgBlock) return f;
+      return Object.assign({}, f, {
+        stageHtml: svgBlock + f.stageHtml
+      });
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -824,6 +1309,8 @@ window.Simulators = (() => {
         let frames = buildFramesForPresetAndInput(config, presets[0], '');
         let idx = 0;
         let timer = null;
+        let isPlaying = false;
+        let playSessionId = 0;
 
         function syncAudioButtons() {
           const sOn = sound.isSfxOn();
@@ -838,15 +1325,24 @@ window.Simulators = (() => {
           }
         }
 
+        function setSpeakingState(speaking) {
+          if (elLog) {
+            elLog.classList.toggle('is-speaking', Boolean(speaking));
+          }
+        }
+
         function stopPlay() {
+          isPlaying = false;
+          playSessionId++;
           if (timer) {
             lc.stop(timer);
             timer = null;
           }
+          setSpeakingState(false);
           if (elPlay) elPlay.textContent = '⏵ Play';
         }
 
-        function renderFrame(withAudio = false, audioMode = 'step') {
+        function renderFrame(withAudio = false, audioMode = 'step', isSpeakingNow = false) {
           if (!frames.length) return;
           if (idx < 0) idx = 0;
           if (idx >= frames.length) idx = frames.length - 1;
@@ -867,8 +1363,14 @@ window.Simulators = (() => {
             `).join('');
           }
           if (elLog) {
-            const logsUpToNow = frames.slice(0, idx + 1).map((fr, i) => `[Step ${i + 1}] ${fr.log || ''}`);
-            elLog.innerHTML = logsUpToNow.map(l => `<div>${esc(l)}</div>`).join('');
+            const logsUpToNow = frames.slice(0, idx + 1).map((fr, i) => {
+              const isLatest = i === idx;
+              const pill = (isLatest && isSpeakingNow)
+                ? `<span class="dsa-sim__voice-pill">🎙️ Speaking</span> `
+                : '';
+              return `<div style="${isLatest ? 'font-weight:600;color:var(--fg-primary);' : 'opacity:0.8;'}">${pill}${esc(`[Step ${i + 1}] ${fr.log || ''}`)}</div>`;
+            });
+            elLog.innerHTML = logsUpToNow.join('');
             elLog.scrollTop = elLog.scrollHeight;
           }
           if (elPrev) elPrev.disabled = idx <= 0;
@@ -877,12 +1379,22 @@ window.Simulators = (() => {
           if (withAudio) {
             const speedMs = parseInt(elSpeed?.value, 10) || 750;
             sound.playStep(f, idx, frames.length, audioMode);
-            sound.speakStep(f, idx, frames.length, speedMs);
+            if (sound.isVoiceOn()) {
+              setSpeakingState(true);
+              renderFrame(false, audioMode, true);
+              sound.speakStepAsync(f, idx, frames.length, speedMs).then(() => {
+                if (!isPlaying) {
+                  setSpeakingState(false);
+                  renderFrame(false, audioMode, false);
+                }
+              });
+            }
           }
         }
 
         function loadPreset(pIdx, customRaw = '') {
           stopPlay();
+          sound.stopSpeech();
           presetIdx = pIdx;
           const basePreset = presets[presetIdx] || presets[0];
           frames = buildFramesForPresetAndInput(config, basePreset, customRaw);
@@ -921,6 +1433,7 @@ window.Simulators = (() => {
 
         lc.on(elScrubber, 'input', () => {
           stopPlay();
+          sound.stopSpeech();
           idx = parseInt(elScrubber.value, 10) || 0;
           renderFrame(true, 'step');
         });
@@ -934,14 +1447,25 @@ window.Simulators = (() => {
         lc.on(elVoiceToggle, 'click', () => {
           sound.setVoice(!sound.isVoiceOn());
           syncAudioButtons();
-          if (sound.isVoiceOn()) {
+          if (sound.isVoiceOn() && !isPlaying) {
             const speedMs = parseInt(elSpeed?.value, 10) || 750;
-            sound.speakStep(frames[idx], idx, frames.length, speedMs);
+            setSpeakingState(true);
+            renderFrame(false, 'step', true);
+            sound.speakStepAsync(frames[idx], idx, frames.length, speedMs).then(() => {
+              if (!isPlaying) {
+                setSpeakingState(false);
+                renderFrame(false, 'step', false);
+              }
+            });
+          } else if (!sound.isVoiceOn()) {
+            setSpeakingState(false);
+            renderFrame(false, 'step', false);
           }
         });
 
         lc.on(elPrev, 'click', () => {
           stopPlay();
+          sound.stopSpeech();
           if (idx > 0) {
             idx--;
             renderFrame(true, 'prev');
@@ -950,11 +1474,11 @@ window.Simulators = (() => {
 
         lc.on(elNext, 'click', () => {
           stopPlay();
+          sound.stopSpeech();
           if (idx < frames.length - 1) {
             idx++;
             renderFrame(true, 'step');
           } else {
-            // Rewind to 0 and step if clicked at end
             idx = 0;
             renderFrame(true, 'step');
           }
@@ -969,32 +1493,69 @@ window.Simulators = (() => {
           renderFrame(false);
         });
 
-        function startPlayLoop() {
-          if (idx >= frames.length - 1) {
-            idx = 0;
-            renderFrame(true, 'step');
-          } else {
-            idx++;
-            renderFrame(true, 'step');
-          }
-          if (elPlay) elPlay.textContent = '⏸ Pause';
-          const baseDelay = parseInt(elSpeed?.value, 10) || 750;
-          // Give voice narration enough breathing room when Voice is active at normal speeds
-          const effectiveDelay = (sound.isVoiceOn() && baseDelay >= 700) ? Math.max(baseDelay, 1350) : baseDelay;
-          timer = lc.every(effectiveDelay, () => {
-            if (idx < frames.length - 1) {
-              idx++;
-              renderFrame(true, 'step');
-            } else {
-              stopPlay();
-            }
+        function waitMs(ms) {
+          return new Promise(resolve => {
+            timer = lc.after(ms, () => {
+              timer = null;
+              resolve();
+            });
           });
         }
 
+        async function startPlayLoop() {
+          stopPlay();
+          sound.stopSpeech();
+          isPlaying = true;
+          const mySession = ++playSessionId;
+          if (elPlay) elPlay.textContent = '⏸ Pause';
+
+          // If starting from the last step, rewind to Step 0 so user sees the full visual + audio run
+          if (idx >= frames.length - 1) {
+            idx = 0;
+          } else {
+            idx++;
+          }
+
+          while (isPlaying && mySession === playSessionId && idx < frames.length) {
+            const f = frames[idx] || frames[0];
+            const speedMs = parseInt(elSpeed?.value, 10) || 750;
+            const voiceActive = sound.isVoiceOn();
+
+            setSpeakingState(voiceActive);
+            renderFrame(false, 'step', voiceActive);
+            sound.playStep(f, idx, frames.length, 'step');
+
+            if (voiceActive) {
+              // 1:1 Speech-Locked Synchronization: wait for Step narration to finish before advancing!
+              await sound.speakStepAsync(f, idx, frames.length, speedMs);
+              if (!isPlaying || mySession !== playSessionId) break;
+              setSpeakingState(false);
+              renderFrame(false, 'step', false);
+              // Short natural breathing gap between steps
+              await waitMs(Math.min(260, Math.max(120, Math.round(speedMs * 0.25))));
+            } else {
+              await waitMs(speedMs);
+            }
+
+            if (!isPlaying || mySession !== playSessionId) break;
+            if (idx < frames.length - 1) {
+              idx++;
+            } else {
+              break;
+            }
+          }
+
+          if (mySession === playSessionId) {
+            stopPlay();
+            renderFrame(false, 'step', false);
+          }
+        }
+
         lc.on(elPlay, 'click', () => {
-          if (timer) {
+          if (isPlaying) {
             stopPlay();
             sound.stopSpeech();
+            renderFrame(false, 'step', false);
             return;
           }
           startPlayLoop();
@@ -1002,8 +1563,7 @@ window.Simulators = (() => {
         });
 
         lc.on(elSpeed, 'change', () => {
-          if (timer) {
-            stopPlay();
+          if (isPlaying) {
             startPlayLoop();
           }
         });

@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -1040,6 +1040,92 @@
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Stack heights strictly non-decreasing: [2]</div>
             </div>
             <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🔗 Live Pointer &amp; State Transition Graph — Monotonic Stack (Histogram) &amp; Monotonic Queue (Sliding Window Max)</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Matched/Optimal</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 175" style="width:100%;max-height:185px;display:block;overflow:visible;">
+          
+          
+        <g>
+          <line x1="58" y1="96" x2="133" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="135,96 128,92 128,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="179" y1="96" x2="254" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="256,96 249,92 249,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="300" y1="96" x2="375" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="377,96 370,92 370,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="421" y1="96" x2="496" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="498,96 491,92 491,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="542" y1="96" x2="617" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="619,96 612,92 612,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+          
+        <g>
+          <g transform="translate(36, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#8b5cf6" opacity="0.16" stroke="#8b5cf6" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#8b5cf6" font-family="var(--font-mono, monospace)">curr</text>
+           </g>
+          <rect x="14" y="76" width="44" height="40" rx="8" fill="rgba(139, 92, 246, 0.26)" stroke="#8b5cf6" stroke-width="2.4" />
+          <text x="36" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6" font-family="var(--font-mono, monospace)">2</text>
+          <text x="36" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="135" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="157" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">1</text>
+          <text x="157" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="256" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="278" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">5</text>
+          <text x="278" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="377" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="399" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">6</text>
+          <text x="399" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="498" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="520" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">2</text>
+          <text x="520" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="619" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="641" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">3</text>
+          <text x="641" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        </svg>
+      </div>
+    
             <div class="dsa-sim__array"><div class="dsa-sim__cell is-active is-pivot"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">2</span><span class="dsa-sim__cell-tag">curr</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">1</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">5</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">6</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">2</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">3</span></div></div>
             <div style="font-size:12px;font-family:var(--font-mono,monospace);color:var(--fg-muted);text-align:center;">
               Monotonic Increasing Stack: [0(h=2)]
@@ -1492,7 +1578,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

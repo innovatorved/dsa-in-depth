@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -948,7 +948,127 @@
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Initial Sorted Monotonic Domain: [0, 8) | Threshold P(x): x ≥ 47 (Boundary index = 5)</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">10</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">18</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">24</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">31</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">39</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">47</span><span class="dsa-sim__cell-tag">P=True</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">55</span><span class="dsa-sim__cell-tag">P=True</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">68</span><span class="dsa-sim__cell-tag">P=True</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>📊 Live Magnitude &amp; Pointer Stage — Half-Open [lo, hi) Monotonic Predicate Decision Boundary Search</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Match/Sorted</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 190" style="width:100%;max-height:205px;display:block;overflow:visible;">
+          <line x1="28" y1="156" x2="664" y2="156"
+                stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="4 3" />
+          
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(74, 118)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">P=False</text>
+           </g>
+          <rect x="48" y="136" width="52.7" height="20" rx="5"
+                fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.2" />
+          <text x="74" y="131" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">10</text>
+          <text x="74" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(152, 106)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">P=False</text>
+           </g>
+          <rect x="126" y="124" width="52.7" height="32" rx="5"
+                fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.2" />
+          <text x="152" y="119" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">18</text>
+          <text x="152" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(229, 95)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">P=False</text>
+           </g>
+          <rect x="203" y="113" width="52.7" height="43" rx="5"
+                fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.2" />
+          <text x="229" y="108" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">24</text>
+          <text x="229" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(307, 82)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">P=False</text>
+           </g>
+          <rect x="281" y="100" width="52.7" height="56" rx="5"
+                fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.2" />
+          <text x="307" y="95" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">31</text>
+          <text x="307" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(384, 68)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">P=False</text>
+           </g>
+          <rect x="358" y="86" width="52.7" height="70" rx="5"
+                fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.2" />
+          <text x="384" y="81" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">39</text>
+          <text x="384" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(462, 54)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">P=True</text>
+           </g>
+          <rect x="436" y="72" width="52.7" height="84" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="462" y="67" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">47</text>
+          <text x="462" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(539, 39)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">P=True</text>
+           </g>
+          <rect x="513" y="57" width="52.7" height="99" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="539" y="52" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">55</text>
+          <text x="539" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[6]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(617, 16)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">P=True</text>
+           </g>
+          <rect x="591" y="34" width="52.7" height="122" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="617" y="29" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">68</text>
+          <text x="617" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[7]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">10</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">18</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">24</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">31</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">39</span><span class="dsa-sim__cell-tag">P=False</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">47</span><span class="dsa-sim__cell-tag">P=True</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">55</span><span class="dsa-sim__cell-tag">P=True</span></div><div class="dsa-sim__cell is-active is-match"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">68</span><span class="dsa-sim__cell-tag">P=True</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1472,7 +1592,7 @@ std::int64_t max_subset_sum_at_most(const std::vector&lt;std::int64_t&gt;&amp; n
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

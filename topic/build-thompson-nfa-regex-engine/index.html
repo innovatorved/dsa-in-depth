@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -1040,7 +1040,93 @@ flowchart LR
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">BWT(banana$) = L = "annb$aa" (runs of "nn" and "aa" compress via RLE/MTF!). Backward search starts at P[2]='a': C['a']=1, range [sp, ep] = [1, 3].</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">0: $banan [a]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">1: a$bana [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">2: ana$ba [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3: anana$ [b]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">4: banana [$]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">5: na$ban [a]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">6: nana$b [a]</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>📊 Live Magnitude &amp; Pointer Stage — Burrows-Wheeler Transform (BWT) Rotation Matrix, FM-Index LF-Mapping &amp; Thompson NFA</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Match/Sorted</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 190" style="width:100%;max-height:205px;display:block;overflow:visible;">
+          <line x1="28" y1="156" x2="664" y2="156"
+                stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="4 3" />
+          
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="53" y="136" width="54" height="20" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="80" y="131" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">0: $ba…</text>
+          <text x="80" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="142" y="136" width="54" height="20" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="169" y="131" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">1: a$b…</text>
+          <text x="169" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="230" y="115" width="54" height="41" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="257" y="110" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">2: ana…</text>
+          <text x="257" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="319" y="95" width="54" height="61" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="346" y="90" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">3: ana…</text>
+          <text x="346" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="408" y="75" width="54" height="81" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="435" y="70" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">4: ban…</text>
+          <text x="435" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="496" y="54" width="54" height="102" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="523" y="49" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">5: na$…</text>
+          <text x="523" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          
+          <rect x="585" y="34" width="54" height="122" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="612" y="29" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">6: nan…</text>
+          <text x="612" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[6]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">0: $banan [a]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">1: a$bana [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">2: ana$ba [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3: anana$ [b]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">4: banana [$]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">5: na$ban [a]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">6: nana$b [a]</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1593,7 +1679,7 @@ private:
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -1052,6 +1052,230 @@ flowchart TD
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Access index [0] (Cache Line #0): Cold Cache Line Miss (+DRAM stall)</div>
             </div>
             <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>📊 Live Magnitude &amp; Pointer Stage — CPU 64-Byte Cache Line &amp; Stride Locality Simulator</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Match/Sorted</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 190" style="width:100%;max-height:205px;display:block;overflow:visible;">
+          <line x1="28" y1="156" x2="664" y2="156"
+                stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="4 3" />
+          
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(55, 118)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#f59e0b" opacity="0.16" stroke="#f59e0b" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">MISS (D</text>
+           </g>
+          <rect x="42" y="136" width="26.35" height="20" rx="5"
+                fill="rgba(245, 158, 11, 0.26)" stroke="#f59e0b" stroke-width="2.2" />
+          <text x="55" y="131" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">12</text>
+          <text x="55" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1000]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(94, 78)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="81" y="96" width="26.35" height="60" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="94" y="91" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">45</text>
+          <text x="94" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1008]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(133, 33)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="120" y="51" width="26.35" height="105" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="133" y="46" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">78</text>
+          <text x="133" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1010]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(171, 107)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="158" y="125" width="26.35" height="31" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="171" y="120" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">23</text>
+          <text x="171" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1018]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(210, 63)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="197" y="81" width="26.35" height="75" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="210" y="76" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">56</text>
+          <text x="210" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1020]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(249, 19)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="236" y="37" width="26.35" height="119" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="249" y="32" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">89</text>
+          <text x="249" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1028]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(288, 92)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="275" y="110" width="26.35" height="46" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="288" y="105" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">34</text>
+          <text x="288" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1030]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(326, 48)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">In L1</text>
+           </g>
+          <rect x="313" y="66" width="26.35" height="90" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="326" y="61" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">67</text>
+          <text x="326" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1038]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(365, 16)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="352" y="34" width="26.35" height="122" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="365" y="29" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">91</text>
+          <text x="365" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1040]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(404, 118)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="391" y="136" width="26.35" height="20" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="404" y="131" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">14</text>
+          <text x="404" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1048]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(443, 99)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="430" y="117" width="26.35" height="39" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="443" y="112" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">29</text>
+          <text x="443" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1050]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(481, 54)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="468" y="72" width="26.35" height="84" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="481" y="67" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">63</text>
+          <text x="481" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1058]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(520, 28)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="507" y="46" width="26.35" height="110" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="520" y="41" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">82</text>
+          <text x="520" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1060]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(559, 88)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="546" y="106" width="26.35" height="50" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="559" y="101" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">37</text>
+          <text x="559" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1068]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(598, 71)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="585" y="89" width="26.35" height="67" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="598" y="84" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">50</text>
+          <text x="598" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1070]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(636, 39)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">Cold</text>
+           </g>
+          <rect x="623" y="57" width="26.35" height="99" rx="5"
+                fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.3" />
+          <text x="636" y="52" text-anchor="middle"
+                font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">74</text>
+          <text x="636" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0x1078]</text>
+        </g>
+      
+        </svg>
+      </div>
+    
             <div style="border:1px dashed #10b981;border-radius:8px;padding:8px;margin-bottom:6px;background:rgba(16,185,129,0.05);">
               <div style="font-size:11px;font-family:var(--font-mono,monospace);color:#34d399;margin-bottom:6px;">
                 Cache Line #0 (64 Bytes = 8 × int64) — RESIDENT IN L1 CACHE
@@ -1569,7 +1793,7 @@ size_t eytzingerLowerBound(const int32_t* a, size_t n, int32_t target) noexcept 
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

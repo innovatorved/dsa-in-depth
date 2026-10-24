@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -1038,7 +1038,75 @@ collected offsets buffer in L1"]
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">On uniform random data around threshold 128, P(branch taken) = 0.5: the 2-bit saturating BTB counter mispredicts 50% of iterations, flushing ~15–20 ROB stages.</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">x=190 (T)</span><span class="dsa-sim__cell-tag">BTB Hit (1 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">x=42 (NT - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">x=215 (T - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">x=88 (NT - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>📊 Live Magnitude &amp; Pointer Stage — CPU Branch Predictor Pipeline Flush vs Branchless cmov &amp; AVX2 SIMD</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Match/Sorted</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 190" style="width:100%;max-height:205px;display:block;overflow:visible;">
+          <line x1="28" y1="156" x2="664" y2="156"
+                stroke="var(--border-color, #cbd5e1)" stroke-width="1.5" stroke-dasharray="4 3" />
+          
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(114, 30)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">BTB Hit</text>
+           </g>
+          <rect x="87" y="48" width="54" height="108" rx="5"
+                fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.2" />
+          <text x="114" y="43" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">x=190 …</text>
+          <text x="114" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(269, 114)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#f59e0b" opacity="0.16" stroke="#f59e0b" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">Mispred</text>
+           </g>
+          <rect x="242" y="132" width="54" height="24" rx="5"
+                fill="rgba(245, 158, 11, 0.26)" stroke="#f59e0b" stroke-width="2.2" />
+          <text x="269" y="127" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">x=42 (…</text>
+          <text x="269" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(424, 16)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#f59e0b" opacity="0.16" stroke="#f59e0b" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">Mispred</text>
+           </g>
+          <rect x="397" y="34" width="54" height="122" rx="5"
+                fill="rgba(245, 158, 11, 0.26)" stroke="#f59e0b" stroke-width="2.2" />
+          <text x="424" y="29" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">x=215 …</text>
+          <text x="424" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g class="dsa-sim__svg-bar-group">
+          <g transform="translate(579, 88)">
+             <rect x="-24" y="-10" width="48" height="14" rx="4" fill="#f59e0b" opacity="0.16" stroke="#f59e0b" stroke-width="1"/>
+             <text x="0" y="0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">Mispred</text>
+           </g>
+          <rect x="552" y="106" width="54" height="50" rx="5"
+                fill="rgba(245, 158, 11, 0.26)" stroke="#f59e0b" stroke-width="2.2" />
+          <text x="579" y="101" text-anchor="middle"
+                font-size="11" font-weight="700" fill="#f59e0b" font-family="var(--font-mono, monospace)">x=88 (…</text>
+          <text x="579" y="178" text-anchor="middle"
+                font-size="10" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">x=190 (T)</span><span class="dsa-sim__cell-tag">BTB Hit (1 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">x=42 (NT - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">x=215 (T - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">x=88 (NT - FLUSH!)</span><span class="dsa-sim__cell-tag">Mispredict (15 cy)</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1425,7 +1493,7 @@ size_t collectLeftOffsets(const int64_t* block, int64_t pivot, uint8_t* offsetsO
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -977,7 +977,78 @@ flowchart LR
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">SOS DP Invariant: After outer loop dimension i, F[mask] aggregates all submasks that may differ from mask only in bits 0..i (zero duplicate paths!).</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">F[00]=a₀</span><span class="dsa-sim__cell-tag">00₂</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">F[01]=a₀+a₁ (bit 0)</span><span class="dsa-sim__cell-tag">Dim i=0 merged</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">F[10]=a₂</span><span class="dsa-sim__cell-tag">10₂</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">F[11]=a₂+a₃ (bit 0) → +F[01] (bit 1)</span><span class="dsa-sim__cell-tag">Dim i=1 → ∑ all 4</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🔗 Live Pointer &amp; State Transition Graph — SOS DP (Sum Over Subsets) Hypercube, Digit DP &amp; Broken Profile Tiling</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Matched/Optimal</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 175" style="width:100%;max-height:185px;display:block;overflow:visible;">
+          <path d="M 36 74 Q 339 28 642 74" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 3" />
+          
+        <g>
+          <line x1="58" y1="96" x2="214" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="216,96 209,92 209,100" fill="#3b82f6" />
+        </g>
+      
+        <g>
+          <line x1="260" y1="96" x2="416" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="418,96 411,92 411,100" fill="#3b82f6" />
+        </g>
+      
+        <g>
+          <line x1="462" y1="96" x2="618" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="620,96 613,92 613,100" fill="#3b82f6" />
+        </g>
+      
+          
+        <g>
+          <g transform="translate(36, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">00₂</text>
+           </g>
+          <rect x="14" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="36" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">F[00]…</text>
+          <text x="36" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g>
+          <g transform="translate(238, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">Dim i=0</text>
+           </g>
+          <rect x="216" y="76" width="44" height="40" rx="8" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.4" />
+          <text x="238" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">F[01]…</text>
+          <text x="238" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g>
+          <g transform="translate(440, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">10₂</text>
+           </g>
+          <rect x="418" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="440" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">F[10]…</text>
+          <text x="440" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g>
+          <g transform="translate(642, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#10b981" opacity="0.16" stroke="#10b981" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">Dim i=1</text>
+           </g>
+          <rect x="620" y="76" width="44" height="40" rx="8" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.4" />
+          <text x="642" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#10b981" font-family="var(--font-mono, monospace)">F[11]…</text>
+          <text x="642" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">F[00]=a₀</span><span class="dsa-sim__cell-tag">00₂</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">F[01]=a₀+a₁ (bit 0)</span><span class="dsa-sim__cell-tag">Dim i=0 merged</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">F[10]=a₂</span><span class="dsa-sim__cell-tag">10₂</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">F[11]=a₂+a₃ (bit 0) → +F[01] (bit 1)</span><span class="dsa-sim__cell-tag">Dim i=1 → ∑ all 4</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1418,7 +1489,7 @@ long long count_domino_tilings_broken_profile(int n, int m) {
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

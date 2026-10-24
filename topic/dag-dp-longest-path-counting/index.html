@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
+  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
@@ -976,7 +976,123 @@ flowchart LR
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Item 1 (wt=3, val=4): Sweep w = 7 downTo 3 so dp[w - 3] always reads the previous item layer.</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">0</span><span class="dsa-sim__cell-tag">w=0</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">0</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">0</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">4</span><span class="dsa-sim__cell-tag">wt=3, val=4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">4</span><span class="dsa-sim__cell-tag">dp[7]=4</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage">
+      <div class="dsa-sim__visual-canvas">
+        <div class="dsa-sim__visual-label">
+          <span>🔗 Live Pointer &amp; State Transition Graph — DP State DAG, 0/1 Knapsack Reverse Sweep &amp; Myers Diff</span>
+          <span class="dsa-sim__legend">
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
+            <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#10b981"></span>Matched/Optimal</span>
+          </span>
+        </div>
+        <svg viewBox="0 0 680 175" style="width:100%;max-height:185px;display:block;overflow:visible;">
+          <path d="M 294 74 Q 466 28 638 74" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 3" />
+          
+        <g>
+          <line x1="58" y1="96" x2="98" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="100,96 93,92 93,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="144" y1="96" x2="184" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="186,96 179,92 179,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="230" y1="96" x2="270" y2="96" stroke="var(--border-color, #94a3b8)" stroke-width="1.6" />
+          <polygon points="272,96 265,92 265,100" fill="var(--border-color, #94a3b8)" />
+        </g>
+      
+        <g>
+          <line x1="316" y1="96" x2="356" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="358,96 351,92 351,100" fill="#3b82f6" />
+        </g>
+      
+        <g>
+          <line x1="402" y1="96" x2="442" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="444,96 437,92 437,100" fill="#3b82f6" />
+        </g>
+      
+        <g>
+          <line x1="488" y1="96" x2="528" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="530,96 523,92 523,100" fill="#3b82f6" />
+        </g>
+      
+        <g>
+          <line x1="574" y1="96" x2="614" y2="96" stroke="#3b82f6" stroke-width="2.4" />
+          <polygon points="616,96 609,92 609,100" fill="#3b82f6" />
+        </g>
+      
+          
+        <g>
+          <g transform="translate(36, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="var(--border-color, #94a3b8)" opacity="0.16" stroke="var(--border-color, #94a3b8)" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">w=0</text>
+           </g>
+          <rect x="14" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="36" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">0</text>
+          <text x="36" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[0]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="100" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="122" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">0</text>
+          <text x="122" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[1]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="186" y="76" width="44" height="40" rx="8" fill="var(--bg-secondary, #f1f5f9)" stroke="var(--border-color, #94a3b8)" stroke-width="1.5" />
+          <text x="208" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg-primary, #1e293b)" font-family="var(--font-mono, monospace)">0</text>
+          <text x="208" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[2]</text>
+        </g>
+      
+        <g>
+          <g transform="translate(294, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">wt=3, v</text>
+           </g>
+          <rect x="272" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="294" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">4</text>
+          <text x="294" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[3]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="358" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="380" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">4</text>
+          <text x="380" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[4]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="444" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="466" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">4</text>
+          <text x="466" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[5]</text>
+        </g>
+      
+        <g>
+          
+          <rect x="530" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="552" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">4</text>
+          <text x="552" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[6]</text>
+        </g>
+      
+        <g>
+          <g transform="translate(638, 62)">
+             <rect x="-24" y="-10" width="48" height="15" rx="4" fill="#3b82f6" opacity="0.16" stroke="#3b82f6" stroke-width="1"/>
+             <text x="0" y="1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">dp[7]=4</text>
+           </g>
+          <rect x="616" y="76" width="44" height="40" rx="8" fill="rgba(59, 130, 246, 0.26)" stroke="#3b82f6" stroke-width="2.4" />
+          <text x="638" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#3b82f6" font-family="var(--font-mono, monospace)">4</text>
+          <text x="638" y="130" text-anchor="middle" font-size="9.5" fill="var(--fg-muted, #64748b)" font-family="var(--font-mono, monospace)">[7]</text>
+        </g>
+      
+        </svg>
+      </div>
+    <div class="dsa-sim__array"><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">0</span><span class="dsa-sim__cell-tag">w=0</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">0</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">0</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">4</span><span class="dsa-sim__cell-tag">wt=3, val=4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">4</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">4</span><span class="dsa-sim__cell-tag">dp[7]=4</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -1432,7 +1548,7 @@ DagPathMetrics solve_dag_s_to_t(
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>

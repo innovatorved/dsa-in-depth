@@ -1,0 +1,1082 @@
+{
+  "ram-model-vs-modern-cpu": {
+    "hash": "08490c274ac09c7115d47259265d1528d121c03de89dfab51fd5f01490703e27",
+    "voice": "en-US-GuyNeural",
+    "size": 1248768,
+    "chars": 3032
+  },
+  "akra-bazzi-uneven-divides": {
+    "hash": "f8dac12c1972ec9095f2a63d8edd3311ded76cc1acc4306d2d5a162d849a2dd6",
+    "voice": "en-US-GuyNeural",
+    "size": 1318464,
+    "chars": 3195
+  },
+  "amortized-analysis-potential": {
+    "hash": "314db95245864920abc3f1ce56bc03c442599de54420d673b7cc85bd113360ea",
+    "voice": "en-US-GuyNeural",
+    "size": 1195920,
+    "chars": 3195
+  },
+  "asymptotic-notations-rigor": {
+    "hash": "e9f5a7ab17b47397da36c75d8f6ab80cdf9cc8ef91392d94be1bead5df0f816f",
+    "voice": "en-US-GuyNeural",
+    "size": 1132992,
+    "chars": 2766
+  },
+  "case-v8-elements-kinds": {
+    "hash": "3603c0e4d9575b6221c832ed5e93f36a4b7338912ffe194afc7dd52714ca8cba",
+    "voice": "en-US-GuyNeural",
+    "size": 1103184,
+    "chars": 2902
+  },
+  "complexity-tradeoff-framework": {
+    "hash": "eac7ad54c0900c5e73375af7e21c7449fcdebde057dbc008036f290f8f4df741",
+    "voice": "en-US-GuyNeural",
+    "size": 1274976,
+    "chars": 3197
+  },
+  "recurrence-relations-master-theorem": {
+    "hash": "ce931ac2ee7c913b53b68f1da95733eee75092f5b1bcb4159f0ec6e40fb78a0a",
+    "voice": "en-US-GuyNeural",
+    "size": 1099008,
+    "chars": 2939
+  },
+  "cache-oblivious-algorithms": {
+    "hash": "bfa667be62ebeec27f0e2c11257108f8b87be3d26beb5a424c09fc374fa77ba1",
+    "voice": "en-US-GuyNeural",
+    "size": 1191888,
+    "chars": 3144
+  },
+  "branch-prediction-simd-cost": {
+    "hash": "68a01a36d2f4c523ecede20e7d0076da66dc6c751da0b02c81a1be8e1484e1ba",
+    "voice": "en-US-GuyNeural",
+    "size": 941904,
+    "chars": 2567
+  },
+  "dynamic-arrays-geometric-resizing": {
+    "hash": "a972e8a39e5edaca36db7e536148e5a17fec5cdee883d503c0dac0974c606bc7",
+    "voice": "en-US-GuyNeural",
+    "size": 1168848,
+    "chars": 3084
+  },
+  "prefix-sums-difference-arrays": {
+    "hash": "326e73a7a3de10f2bb5975bbe68a3780a6b7f975d9eab0011086e2ab30183c33",
+    "voice": "en-US-GuyNeural",
+    "size": 1375200,
+    "chars": 3148
+  },
+  "sliding-window-monotonicity": {
+    "hash": "49887fc412afab67d8126ccd7efddff648a33b52750a6ea2733402d2775f10b6",
+    "voice": "en-US-GuyNeural",
+    "size": 1209888,
+    "chars": 3130
+  },
+  "two-pointers-invariant-proofs": {
+    "hash": "00c9bc7e05d4bf3aad6b27007a8091374ad5d4b78722930fed74bbe8ddbe0d10",
+    "voice": "en-US-GuyNeural",
+    "size": 1173744,
+    "chars": 2995
+  },
+  "kadane-subarray-invariants": {
+    "hash": "ce1cffd1073506d1f851fef601e1a2a039329cc948bc37f006714e8769db19d7",
+    "voice": "en-US-GuyNeural",
+    "size": 1078992,
+    "chars": 2786
+  },
+  "bit-manipulation-twos-complement": {
+    "hash": "58372005a00e70b884f947bfbd29bbf84c4fdf4320a5681b1b34ab45635d0d62",
+    "voice": "en-US-GuyNeural",
+    "size": 1303920,
+    "chars": 3000
+  },
+  "boyer-moore-majority-misra-gries": {
+    "hash": "1911bb031f344a45b79a4511aaccdcf86dc757a602a3b00f29ba0b29bfa2ff5d",
+    "voice": "en-US-GuyNeural",
+    "size": 1002672,
+    "chars": 2715
+  },
+  "space-complexity-stack-frames": {
+    "hash": "713f81e0b2bcad6f947a4155acd6bc1c02434f4c40a2f06d99dcaa999694c885",
+    "voice": "en-US-GuyNeural",
+    "size": 1080288,
+    "chars": 2881
+  },
+  "build-dynamic-circular-deque": {
+    "hash": "e23c0973885145e54feeb8c8cd4de82ce001806da8def72e7987631800072fc9",
+    "voice": "en-US-GuyNeural",
+    "size": 1223568,
+    "chars": 3116
+  },
+  "bitsets-word-level-parallelism": {
+    "hash": "9f507ef578b9cd6e9de0df123dae1c9c361344ec464ce16e1a03879a21be9a44",
+    "voice": "en-US-GuyNeural",
+    "size": 1409328,
+    "chars": 3038
+  },
+  "singly-doubly-intrusive-lists": {
+    "hash": "a3d479d0ebbfe5d7150cc16372a9bcd54518b76dde2c90b6ce7702cc82db1ad8",
+    "voice": "en-US-GuyNeural",
+    "size": 1136592,
+    "chars": 3196
+  },
+  "unrolled-linked-lists-ropes": {
+    "hash": "8023010b3083644e6da5b21aa135b9b779c6614c7096a8b7473de951e5ce8f32",
+    "voice": "en-US-GuyNeural",
+    "size": 1165392,
+    "chars": 3049
+  },
+  "floyd-brent-cycle-detection": {
+    "hash": "a0c0623b0a68029ed9a488038ce8e7129e1f8e6dd10494c25e7c87b81b03ee7d",
+    "voice": "en-US-GuyNeural",
+    "size": 1113408,
+    "chars": 3026
+  },
+  "monotonic-stack-next-greater": {
+    "hash": "6d3eb3e3e171c8da185230a4684ad66fb0d96fa4679e4300def11018a445cfef",
+    "voice": "en-US-GuyNeural",
+    "size": 1023264,
+    "chars": 2766
+  },
+  "in-place-matrix-cyclic-shifts": {
+    "hash": "d0087121e3ce3dd60985e18389dab3b8fe2a40da6495b6139d7bba524270ed64",
+    "voice": "en-US-GuyNeural",
+    "size": 1174320,
+    "chars": 2914
+  },
+  "stacks-expression-evaluation": {
+    "hash": "161f87a1032109618282a48a00dbff369d9afbee1c0c5c68328e5dbe935021e1",
+    "voice": "en-US-GuyNeural",
+    "size": 1078704,
+    "chars": 2834
+  },
+  "case-redis-skiplist-ziplist": {
+    "hash": "74cf77353938d753e14db19a162adaa129a073fe6f437cf9af5f5823d75f2034",
+    "voice": "en-US-GuyNeural",
+    "size": 1075248,
+    "chars": 2774
+  },
+  "monotonic-deque-sliding-extrema": {
+    "hash": "5979171c5e446ffe416d9f7b3210d5ede65a61cb3ac6bd2130f03f3922149ad1",
+    "voice": "en-US-GuyNeural",
+    "size": 1191312,
+    "chars": 3160
+  },
+  "skip-lists-probabilistic-indexing": {
+    "hash": "58710b81cf0ab4cb27701505ed45eab5401815fa1750960653bcd11671b81246",
+    "voice": "en-US-GuyNeural",
+    "size": 1236384,
+    "chars": 3199
+  },
+  "universal-k-independent-hashing": {
+    "hash": "ebc5cdc1c9ba850755ce62a491927b1baf4feeefc9efc78030d13947ce7d213c",
+    "voice": "en-US-GuyNeural",
+    "size": 1134864,
+    "chars": 2783
+  },
+  "separate-chaining-vs-open-addressing": {
+    "hash": "843bb6f1723f101bc31bab74dd632a61101b8097e1627973a89d79bae76fa4a8",
+    "voice": "en-US-GuyNeural",
+    "size": 1223424,
+    "chars": 3131
+  },
+  "robin-hood-cuckoo-hashing": {
+    "hash": "0f48a5a3a03c3bb3295a89859f2baa6435de12fbfe8665097b082cdec9e38d88",
+    "voice": "en-US-GuyNeural",
+    "size": 1233072,
+    "chars": 3145
+  },
+  "lru-lfu-eviction-structures": {
+    "hash": "e627c680d3094cf8956e2087eac0f3e3b4bddf9b5b1714011b6cf9afe07e6eb6",
+    "voice": "en-US-GuyNeural",
+    "size": 1218384,
+    "chars": 3043
+  },
+  "consistent-hashing-rendezvous": {
+    "hash": "efbd6937fb96497aba084424c2a503328909db847bccf87bcf530cb73f32e1bf",
+    "voice": "en-US-GuyNeural",
+    "size": 1305936,
+    "chars": 3193
+  },
+  "build-lfu-lru-cache": {
+    "hash": "219f68c0e7f336884daff01225280eeefa46e9da844e838968636b57f69cba2a",
+    "voice": "en-US-GuyNeural",
+    "size": 1154448,
+    "chars": 2705
+  },
+  "quadratic-sorts-inversions": {
+    "hash": "1754e86be02c51c26e93a74d678a671b4272c2b3f87c24347cf2016e363cac95",
+    "voice": "en-US-GuyNeural",
+    "size": 1282896,
+    "chars": 3185
+  },
+  "hyperloglog-cardinality": {
+    "hash": "d78e85f8ed9a7f67016cca7b3a5f613a71e97b915d271f70e5fe91a8b8edf46d",
+    "voice": "en-US-GuyNeural",
+    "size": 1285776,
+    "chars": 2949
+  },
+  "count-min-sketch-heavy-hitters": {
+    "hash": "87963c0ab11f14624c045ca33636deffb897801e9168e0142a4885bd9a3448bd",
+    "voice": "en-US-GuyNeural",
+    "size": 1303776,
+    "chars": 3196
+  },
+  "build-robin-hood-hash-map": {
+    "hash": "ff02dfe5bce5986fd239e3331e381ca6899359bc77e1ef4c2b915cd78ab9ae08",
+    "voice": "en-US-GuyNeural",
+    "size": 1211904,
+    "chars": 3190
+  },
+  "hashdos-siphash-random-seeds": {
+    "hash": "d089f2bb89ecb26ebc205ea44e95c0f7d3ce3ebd01f1b1b7458d5437c375b36a",
+    "voice": "en-US-GuyNeural",
+    "size": 1341360,
+    "chars": 3194
+  },
+  "bloom-filters-counting-xor": {
+    "hash": "33fabefe5f2c26bdd6ae1020a1e8e3ab3362a2396c32a3d228f3560ee978720c",
+    "voice": "en-US-GuyNeural",
+    "size": 1171296,
+    "chars": 2873
+  },
+  "case-rust-hashbrown-swisstable": {
+    "hash": "e9597ba7c9dde466114a9de6d6c3b9b3bd734c1998fa8954029f095de4b72f8c",
+    "voice": "en-US-GuyNeural",
+    "size": 1396512,
+    "chars": 3069
+  },
+  "mergesort-bottom-up-inversions": {
+    "hash": "ee4b937af66a45d6d3e2553f2fd459b3104df1a3d66b920ccb82c76befd5e237",
+    "voice": "en-US-GuyNeural",
+    "size": 1130112,
+    "chars": 2980
+  },
+  "quickselect-bfprt-median": {
+    "hash": "b9efb5f2f167027368746ae8311bc5815e52c289efc8a75e650a2f76ce7b5e1d",
+    "voice": "en-US-GuyNeural",
+    "size": 1255968,
+    "chars": 3162
+  },
+  "randomized-quicksort-expectation": {
+    "hash": "43b4bbd4fe6f4ce35993f07e8fa89cc12a66621662047de2490c99276e62a7b8",
+    "voice": "en-US-GuyNeural",
+    "size": 1267776,
+    "chars": 2939
+  },
+  "case-timsort-pdqsort": {
+    "hash": "0925153cac026e46d6047d563a8f47fafa0637bca02d24efee08a83b3c1bcd08",
+    "voice": "en-US-GuyNeural",
+    "size": 1197936,
+    "chars": 3188
+  },
+  "decision-tree-lower-bound": {
+    "hash": "2f1ed50766e55b960a22148c8557e7b339c8ffefabb9dd45fe42fa7b83402fff",
+    "voice": "en-US-GuyNeural",
+    "size": 1172592,
+    "chars": 3052
+  },
+  "build-hybrid-introsort-timsort": {
+    "hash": "14768efd2a8936018e0b069a13f063614b5dfd7503945d4aeb928773347ad94f",
+    "voice": "en-US-GuyNeural",
+    "size": 983088,
+    "chars": 2659
+  },
+  "external-merge-sort-replacement": {
+    "hash": "6beedec6809e4800859227cc1ef2a15d36f8b9f4cbdf4f0fd6687599f684fa78",
+    "voice": "en-US-GuyNeural",
+    "size": 1218816,
+    "chars": 3129
+  },
+  "quicksort-partition-schemes": {
+    "hash": "d2e2c906b989ca9b82fdceb54ec496afce19f44d1af1532aa09ea8bbbb88d199",
+    "voice": "en-US-GuyNeural",
+    "size": 1028880,
+    "chars": 2748
+  },
+  "divide-and-conquer-closest-pair": {
+    "hash": "8ae619e2b8ca50ad338a1aeeb6522002da75581a6aeb68de4af97005643505c0",
+    "voice": "en-US-GuyNeural",
+    "size": 1173456,
+    "chars": 3076
+  },
+  "karatsuba-strassen-algebraic-dc": {
+    "hash": "5f2cefe2d7b8c50dea8cd839103d38176c646e005e9837bd9f4e75bb34c4d9b3",
+    "voice": "en-US-GuyNeural",
+    "size": 1165824,
+    "chars": 2695
+  },
+  "rotated-bitonic-unbounded-search": {
+    "hash": "1a7ee2b4a13785088fecb13cc3149b2bfc36f648bc9856c6402e1cd07fa36c95",
+    "voice": "en-US-GuyNeural",
+    "size": 1206144,
+    "chars": 3155
+  },
+  "counting-radix-bucket-sorts": {
+    "hash": "f61f54faf8a74a02b6437e69a9b31abaaebd12d16c50a549dbf47f37514834fe",
+    "voice": "en-US-GuyNeural",
+    "size": 1288512,
+    "chars": 3181
+  },
+  "fractional-cascading": {
+    "hash": "0de59f4a3e892a033c324e99cec74e30d687c41a86c53c838f1ed0736ebc2033",
+    "voice": "en-US-GuyNeural",
+    "size": 1250208,
+    "chars": 3156
+  },
+  "meet-in-the-middle-search": {
+    "hash": "29795942156772716ef1b35545123d58bd9f5bf428fcf1c7a4429cd7b92fe039",
+    "voice": "en-US-GuyNeural",
+    "size": 1133424,
+    "chars": 2681
+  },
+  "parametric-search-answer-space": {
+    "hash": "953d9a34a137cc0a26873cf8f4b51af862ae9bdf2a2d133399e6c3cd8a65922d",
+    "voice": "en-US-GuyNeural",
+    "size": 976752,
+    "chars": 2544
+  },
+  "binary-search-boundary-invariants": {
+    "hash": "35e5d5edff3daadede7fbb968792e8ac98e8f0d57545f7d81ef37802d88859df",
+    "voice": "en-US-GuyNeural",
+    "size": 1255104,
+    "chars": 3108
+  },
+  "cdq-divide-and-conquer": {
+    "hash": "b3c46b176b0c129f6f275eed8df9dc94bce20ce8d054be6970475aa0b7fe213d",
+    "voice": "en-US-GuyNeural",
+    "size": 1195344,
+    "chars": 3150
+  },
+  "tree-representations-traversals": {
+    "hash": "5aaa0f44f286671e35d31515fa331d6e1962d8ec933f663753d0740c32d1d301",
+    "voice": "en-US-GuyNeural",
+    "size": 1186560,
+    "chars": 3157
+  },
+  "morris-threaded-traversal": {
+    "hash": "38762197e2ec6bcbc1cf2db7e4e89708c746734f0fe22faae16d03ec40f2a04a",
+    "voice": "en-US-GuyNeural",
+    "size": 1149552,
+    "chars": 3147
+  },
+  "fast-fourier-transform-polynomials": {
+    "hash": "7bca776dc23cfd9f548df960c934a5102b2b8020f1f9db6942aed38f3a13477d",
+    "voice": "en-US-GuyNeural",
+    "size": 1242288,
+    "chars": 2968
+  },
+  "case-git-bisect-eytzinger": {
+    "hash": "1f0b8fceb59036cbec3902b4f5cbd439ea0982d19f3b50694f7e948e3d510853",
+    "voice": "en-US-GuyNeural",
+    "size": 1008144,
+    "chars": 2543
+  },
+  "tree-serialization-reconstruction": {
+    "hash": "e6053ebcd8c7f89c51e3c38582e73fd20311db3c2dededecb3205faea9c1ffa2",
+    "voice": "en-US-GuyNeural",
+    "size": 1140048,
+    "chars": 3151
+  },
+  "bst-operations-hibbard-deletion": {
+    "hash": "763b479fc65b6a2cc27ee917580e1f668a92b8b160c277c4bec8a5e45426de24",
+    "voice": "en-US-GuyNeural",
+    "size": 1198224,
+    "chars": 3143
+  },
+  "randomly-built-bst-height": {
+    "hash": "62bc1c43d1bd062bcf3b64e30c065f41ca1af020a766a9581818d43a241cdbff",
+    "voice": "en-US-GuyNeural",
+    "size": 1264464,
+    "chars": 3058
+  },
+  "two-heaps-k-way-merge-patterns": {
+    "hash": "b0245e91b94736f7cb90a24b4a9576a3390e0d8244232865a0ceb90c85a8f56e",
+    "voice": "en-US-GuyNeural",
+    "size": 1145088,
+    "chars": 3147
+  },
+  "build-indexed-d-ary-priority-queue": {
+    "hash": "b47a340bb296f0087bf3336cef41cee962f36aee9153539dcb6ea9ad571b677f",
+    "voice": "en-US-GuyNeural",
+    "size": 1161936,
+    "chars": 3120
+  },
+  "binary-d-ary-heaps": {
+    "hash": "085100bf6fc1843c307319d39529c361a076a461ec45c4d894f8cea3b2b7c816",
+    "voice": "en-US-GuyNeural",
+    "size": 1234944,
+    "chars": 3103
+  },
+  "treaps-split-merge-paradigm": {
+    "hash": "194cf9b368eb2fa0e5da853889ab9f2225894e9fe1eae09d55dcdf68296704a9",
+    "voice": "en-US-GuyNeural",
+    "size": 1219392,
+    "chars": 3157
+  },
+  "case-timer-wheels-vs-heaps": {
+    "hash": "d6bf40d86cdb949917085ce6f5a569168e6ca840caed67dd276e00a40496d8b1",
+    "voice": "en-US-GuyNeural",
+    "size": 1222416,
+    "chars": 3075
+  },
+  "mergeable-heaps-binomial-fibonacci": {
+    "hash": "f6c3ebaca2a72feaeaf0341e259de32daf43f51afb2c3c3d15261c062039d8e6",
+    "voice": "en-US-GuyNeural",
+    "size": 1091808,
+    "chars": 2918
+  },
+  "red-black-llrb-isomorphism": {
+    "hash": "d3c2bdeacc30fd05c79a6d8a5040e979aa23dc70afefefb39ab1ccd3c55b369d",
+    "voice": "en-US-GuyNeural",
+    "size": 1118304,
+    "chars": 2990
+  },
+  "b-trees-bplus-trees-disk-pages": {
+    "hash": "bba959f1e3420321601b1e7adcd8cdfa032f31a0d7ccad38d3e5b148ef398de5",
+    "voice": "en-US-GuyNeural",
+    "size": 1047168,
+    "chars": 2780
+  },
+  "tree-rotations-avl-invariants": {
+    "hash": "dd194a45c2f0c1fe473956f9d506bf1291b5912466e27d441ac8e7f71cf88809",
+    "voice": "en-US-GuyNeural",
+    "size": 1343952,
+    "chars": 3139
+  },
+  "lsm-trees-write-amplification": {
+    "hash": "85349ab62685c224b43eeda2cc144cec89bb2e15439c42d998213c90267f59f6",
+    "voice": "en-US-GuyNeural",
+    "size": 1175904,
+    "chars": 3086
+  },
+  "case-linux-rbtree-cfs": {
+    "hash": "655a5af110a3d8c25a280f4c43ab0462ba342589be2c7ca7c929e93787ace1fa",
+    "voice": "en-US-GuyNeural",
+    "size": 1181664,
+    "chars": 3148
+  },
+  "persistent-trees-path-copying": {
+    "hash": "9ace615508140555a1c60eca38a0213943eff61661ed25b07542fd3f8eeb804b",
+    "voice": "en-US-GuyNeural",
+    "size": 1107072,
+    "chars": 3084
+  },
+  "build-llrb-order-statistic-tree": {
+    "hash": "da37af4711751921a721a1df5477a971a6f5028e85918102e21727b2de3357b1",
+    "voice": "en-US-GuyNeural",
+    "size": 1222416,
+    "chars": 2970
+  },
+  "augmented-trees-order-intervals": {
+    "hash": "9f18443973dd5e92a184845821a9e6014a10b842e2ba383275e6ba648b5f5e61",
+    "voice": "en-US-GuyNeural",
+    "size": 1268784,
+    "chars": 3198
+  },
+  "fenwick-tree-binary-indexed": {
+    "hash": "caf51bcc24a56048145a4d76ec9529d833ec3ef27ee03fc187eec8c3d0d9fd71",
+    "voice": "en-US-GuyNeural",
+    "size": 1037664,
+    "chars": 2569
+  },
+  "static-range-queries-sparse-table": {
+    "hash": "383023c933ec5e3dd4d5201beff0e27856a80e2c7c9061aa3ca62d9c4d9acf3f",
+    "voice": "en-US-GuyNeural",
+    "size": 1200816,
+    "chars": 2990
+  },
+  "splay-trees-dynamic-optimality": {
+    "hash": "5a5b6d85d571bb2dd431515470f330e643f828eb3ba10b5ee1b29ddab4e6e216",
+    "voice": "en-US-GuyNeural",
+    "size": 1247472,
+    "chars": 3162
+  },
+  "segment-trees-bottom-up-monoids": {
+    "hash": "a5361c1dec748a067914ee816e109177374d49a16777c1a5fa48cced84cf40e5",
+    "voice": "en-US-GuyNeural",
+    "size": 984384,
+    "chars": 2539
+  },
+  "sqrt-decomposition-mos-algorithm": {
+    "hash": "f341f4e0e45bbf088f8428bd640f7f9019d15a90637655f340c990541eac2e02",
+    "voice": "en-US-GuyNeural",
+    "size": 1039536,
+    "chars": 2589
+  },
+  "dynamic-persistent-segment-trees": {
+    "hash": "dc8c6cbdea4e517c86a50f7c6210a881cf44e7d702208e740509214d61fcc086",
+    "voice": "en-US-GuyNeural",
+    "size": 1265040,
+    "chars": 3157
+  },
+  "lowest-common-ancestor-rmq": {
+    "hash": "f236e6be814d7bd36789d4c8706c82a0b82b9e8ff3d4a88464e8637493da9d9d",
+    "voice": "en-US-GuyNeural",
+    "size": 1277568,
+    "chars": 3135
+  },
+  "lazy-propagation-segment-tree-beats": {
+    "hash": "a2793789a87d1067a5f15e11196910ca2e4fe36d6262a212a2a7a0d688457391",
+    "voice": "en-US-GuyNeural",
+    "size": 1231920,
+    "chars": 3030
+  },
+  "cartesian-trees-treap-duality": {
+    "hash": "9c86cf2a908cd44205c47ead694d8c87639f63f97d2541a0c5bb6124b3550cbb",
+    "voice": "en-US-GuyNeural",
+    "size": 1172448,
+    "chars": 3022
+  },
+  "heavy-light-decomposition": {
+    "hash": "3f9ace076aa4dab92b520b2fb3ab32a269288ac440f76472bf916e104c3f1ab7",
+    "voice": "en-US-GuyNeural",
+    "size": 1132704,
+    "chars": 2925
+  },
+  "bitwise-tries-max-xor": {
+    "hash": "48a51dd89d6e6911020dbe3db5860ba7f48adbd2b51fa7ac8f81b7d718daf1d9",
+    "voice": "en-US-GuyNeural",
+    "size": 1219680,
+    "chars": 2855
+  },
+  "build-lazy-segment-tree": {
+    "hash": "414c44db48a12ea36a9241f50a2f59c757d950e87054a1b6c637162678e7e2d1",
+    "voice": "en-US-GuyNeural",
+    "size": 1255536,
+    "chars": 2966
+  },
+  "tries-radix-trees-patricia": {
+    "hash": "4c9392d8c21b8ad3b4b7e5c0cb07d8757edb1f83928d75bc01db7e7a42a468ec",
+    "voice": "en-US-GuyNeural",
+    "size": 1106928,
+    "chars": 3012
+  },
+  "kmp-prefix-function-automaton": {
+    "hash": "2e2c9beb38ed8824499a06c775b4f840e3587b28f1560f17879f45f935f4e239",
+    "voice": "en-US-GuyNeural",
+    "size": 1263168,
+    "chars": 3049
+  },
+  "z-algorithm-linear-box": {
+    "hash": "c6fc17431a135f1b4b8e70b5fcab3b7b393517ae82087e65fe71d8f66e67968e",
+    "voice": "en-US-GuyNeural",
+    "size": 1208304,
+    "chars": 2890
+  },
+  "aho-corasick-trie-automaton": {
+    "hash": "212bd075b7c21f2e0ea0e73d24c1af4b9e7e5cac3142d8f4b9c0bf71d585ed38",
+    "voice": "en-US-GuyNeural",
+    "size": 1241280,
+    "chars": 3154
+  },
+  "case-ripgrep-teddy-simd": {
+    "hash": "4ae64b34a8faf9904869857682bf0580ee3bfe85e9fe7781d39c7e5889ca94f0",
+    "voice": "en-US-GuyNeural",
+    "size": 1202544,
+    "chars": 3063
+  },
+  "suffix-arrays-prefix-doubling-sais": {
+    "hash": "ce3209f9bcefaba0480481ad0f6b65cf7fd5b4984161959045936c0304edca53",
+    "voice": "en-US-GuyNeural",
+    "size": 1098144,
+    "chars": 2849
+  },
+  "build-aho-corasick-scanner": {
+    "hash": "7b91e35dd5c1236bb81e9e53515101bb3348ee6ab6aad176f12c436024351980",
+    "voice": "en-US-GuyNeural",
+    "size": 1149120,
+    "chars": 3156
+  },
+  "thompson-nfa-vs-backtracking-regex": {
+    "hash": "002e60cff1cdc265d8434c502a4b084b0d1664f771cb6e873c0161ae3133fe12",
+    "voice": "en-US-GuyNeural",
+    "size": 1162656,
+    "chars": 3089
+  },
+  "burrows-wheeler-transform-fm-index": {
+    "hash": "d8a3f5282899062d13c93dce65787364163321420077c522e4ef28fafcf12497",
+    "voice": "en-US-GuyNeural",
+    "size": 1271952,
+    "chars": 3149
+  },
+  "suffix-automaton-sam-endpos": {
+    "hash": "f722d9fc8a8b0e808ffc570a5ecdf1aafcd17a4a23c0e511210963a40a87416f",
+    "voice": "en-US-GuyNeural",
+    "size": 1194624,
+    "chars": 2945
+  },
+  "manacher-palindromic-tree": {
+    "hash": "4b9a950c6682138e7633e7a0ceec4a3e73c6583ba6ec60c73f90aa9d32a346af",
+    "voice": "en-US-GuyNeural",
+    "size": 1278720,
+    "chars": 3170
+  },
+  "suffix-trees-ukkonen-intuition": {
+    "hash": "ed15f2f42e9de5ef96fe66344488efb6f55bfc4a0a6ccb994483d3061f24a84b",
+    "voice": "en-US-GuyNeural",
+    "size": 1127520,
+    "chars": 2924
+  },
+  "kasai-lcp-array-rmq": {
+    "hash": "cbc4e27bc290cf6c69c91a72d6997acb8d8b9d1fb75491b00e85532adf5f6fb7",
+    "voice": "en-US-GuyNeural",
+    "size": 1317744,
+    "chars": 3076
+  },
+  "rabin-karp-polynomial-rolling-hash": {
+    "hash": "0836d64d54496c4d992177957d5b05b3a15cb0304fa775c6c89441da1e56f27e",
+    "voice": "en-US-GuyNeural",
+    "size": 1176624,
+    "chars": 2778
+  },
+  "case-git-myers-histogram-diff": {
+    "hash": "49034735740524091b6ef4c96cfc2bf89ac4f571ff0dcd1e4eead2bed3192ae9",
+    "voice": "en-US-GuyNeural",
+    "size": 926784,
+    "chars": 2713
+  },
+  "boyer-moore-horspool-simd": {
+    "hash": "8b83215d6b922eefd5ea98d874c00ab6c8647267096224b8cb443e4fbecab3da",
+    "voice": "en-US-GuyNeural",
+    "size": 1188288,
+    "chars": 3105
+  },
+  "graph-representations-csr-cache": {
+    "hash": "7539084462bb9e380140084bccf52d60a3e7403f320e5ed3441cc5d973254558",
+    "voice": "en-US-GuyNeural",
+    "size": 1226880,
+    "chars": 3151
+  },
+  "topological-sort-kahn-dfs": {
+    "hash": "235fb29c1c78046b7c014b89e586942196c441c42735c4199dfe9edaf9059232",
+    "voice": "en-US-GuyNeural",
+    "size": 1195200,
+    "chars": 3117
+  },
+  "build-thompson-nfa-regex-engine": {
+    "hash": "20d9bc086afd7c581951f1b10151f9cc446a088abf99d03a91adcdc1e150df3a",
+    "voice": "en-US-GuyNeural",
+    "size": 1115424,
+    "chars": 3061
+  },
+  "myers-diff-hirschberg-lcs": {
+    "hash": "ba074d59b5d3fdf37bee5ce30cdf04bcd9584bdbea19fde9ff46d2a3c7a7d12a",
+    "voice": "en-US-GuyNeural",
+    "size": 1328256,
+    "chars": 3043
+  },
+  "huffman-lz77-deflate": {
+    "hash": "a294962b712ac11e14a116565230c9318ff851083869b65eee0c1b9e5eca14ef",
+    "voice": "en-US-GuyNeural",
+    "size": 1106640,
+    "chars": 2954
+  },
+  "dfs-edge-classification-timestamps": {
+    "hash": "094a4021ecc6e9bee889177d6c3a2582c4f94ff5b70fc6d5b4ce86e3c6d07c5b",
+    "voice": "en-US-GuyNeural",
+    "size": 1175904,
+    "chars": 3078
+  },
+  "bfs-01-bfs-multi-source": {
+    "hash": "8947c79d843aa6b3f91f869a4837d498676d2aba494bc6c30ec65a467af7472d",
+    "voice": "en-US-GuyNeural",
+    "size": 1279008,
+    "chars": 3107
+  },
+  "bipartite-graphs-2-coloring": {
+    "hash": "dab5aaf8937ebb3c43e2d1897558c00d86d59bc81f1726eb3035219391385c0d",
+    "voice": "en-US-GuyNeural",
+    "size": 1094112,
+    "chars": 2683
+  },
+  "scc-tarjan-kosaraju-2sat": {
+    "hash": "4e6b199cfca46e96e64cc5d9e1f432fdc2d477241170d769b100631c3634771f",
+    "voice": "en-US-GuyNeural",
+    "size": 1135584,
+    "chars": 2923
+  },
+  "bridges-articulation-biconnected": {
+    "hash": "822aa26c7c01c708f0a3a8006ef1a5bbadbe157c95225032dde4a26ca5c7704b",
+    "voice": "en-US-GuyNeural",
+    "size": 1102752,
+    "chars": 2951
+  },
+  "case-bundler-build-graph-cycles": {
+    "hash": "92734743f7d3371f04d6f46e5628f48a9531196f2ad9eb0cf7414c58d2839d18",
+    "voice": "en-US-GuyNeural",
+    "size": 1173744,
+    "chars": 3153
+  },
+  "disjoint-set-union-ackermann": {
+    "hash": "de65d0cc5c9a7c8f90d1e349f49a489fbbbb2ada7113a0e52b3b53de41deff1a",
+    "voice": "en-US-GuyNeural",
+    "size": 1229184,
+    "chars": 3194
+  },
+  "mst-cut-cycle-properties": {
+    "hash": "7a5ebd3ed2131c7024c43985309dc22bcb46a07da4f00f8a286ae043930b0ab8",
+    "voice": "en-US-GuyNeural",
+    "size": 1249200,
+    "chars": 3131
+  },
+  "dsu-rollback-weighted-offline": {
+    "hash": "d2db31775a432c34bd5813e83827c0b48fba93ba76bc713a4b8a23d60b7a9a3a",
+    "voice": "en-US-GuyNeural",
+    "size": 1262160,
+    "chars": 3135
+  },
+  "build-tarjan-scc-2sat-solver": {
+    "hash": "eaa2d4aa4c36027955be75d5d25ae0a5d754b13d8c35547714c02da1c372dcf9",
+    "voice": "en-US-GuyNeural",
+    "size": 1275840,
+    "chars": 3110
+  },
+  "bellman-ford-spfa-difference-constraints": {
+    "hash": "bdc8697181b13ea431b49a93b00fe7de286d73dba430eb725c3ba7a1af55b0f5",
+    "voice": "en-US-GuyNeural",
+    "size": 1187136,
+    "chars": 3197
+  },
+  "eulerian-paths-hierholzer": {
+    "hash": "1219a289a6b2cf28dac819d6543ad81313af681760abc5ae02c7f732bac63a21",
+    "voice": "en-US-GuyNeural",
+    "size": 1208304,
+    "chars": 3166
+  },
+  "case-osrm-contraction-hierarchies": {
+    "hash": "340d5f939495802276f70d3316eb5002b9b8d8599cef848e0f58ef322681586e",
+    "voice": "en-US-GuyNeural",
+    "size": 1195488,
+    "chars": 3078
+  },
+  "floyd-warshall-johnson-apsp": {
+    "hash": "fd6a0b3ab7723834288df67b9ac96d323861ff0793211af4a9b59574d5605eb5",
+    "voice": "en-US-GuyNeural",
+    "size": 1333152,
+    "chars": 3200
+  },
+  "flow-networks-residual-graphs": {
+    "hash": "86c5244a8cb1b529d51b3e2c68a541d3166bca2d67c47bdec260786929997af1",
+    "voice": "en-US-GuyNeural",
+    "size": 1052928,
+    "chars": 2598
+  },
+  "build-astar-bidirectional-router": {
+    "hash": "72b97d9fed23ba15511668eb13488fd0f345d6c89b7d3f78a70cb38a9b02d240",
+    "voice": "en-US-GuyNeural",
+    "size": 1196352,
+    "chars": 2952
+  },
+  "dijkstra-relaxation-invariants": {
+    "hash": "01a076f73112ef9f68fc9cac0f6a71dd2fb582dce82826d06abea9e76868f3ca",
+    "voice": "en-US-GuyNeural",
+    "size": 1248624,
+    "chars": 3179
+  },
+  "state-space-dijkstra-layered-graphs": {
+    "hash": "f1c9c4851af1239a7edbcaf2b0ddb0dfd642c1b3c9b936e11d4967fd78dd7c98",
+    "voice": "en-US-GuyNeural",
+    "size": 1223856,
+    "chars": 3076
+  },
+  "edmonds-karp-shortest-augmenting": {
+    "hash": "72604fb1c37b25298c40feb8067f8088b019860403fab44a2586023de6908449",
+    "voice": "en-US-GuyNeural",
+    "size": 1082016,
+    "chars": 2656
+  },
+  "astar-heuristic-admissibility": {
+    "hash": "7cc3f8d16fe50d1d4479f248b0c3cc0c77302064cc64cfcb69deb41c6fef472f",
+    "voice": "en-US-GuyNeural",
+    "size": 1298304,
+    "chars": 3093
+  },
+  "push-relabel-preflow": {
+    "hash": "b509c1131726cc0d96ce2262086ade9ece8b852c3a84d43a403865d06076e18d",
+    "voice": "en-US-GuyNeural",
+    "size": 1262592,
+    "chars": 3138
+  },
+  "bipartite-matching-hopcroft-karp": {
+    "hash": "2f57a22aba441102d7be476890cf7104b566d51e4e194132a86e4ed1847c7cae",
+    "voice": "en-US-GuyNeural",
+    "size": 1193904,
+    "chars": 3193
+  },
+  "flow-reductions-project-selection": {
+    "hash": "f3a0d02e0138e40472a85c185c2bff8eacb6b954db34b1199b606831582eff94",
+    "voice": "en-US-GuyNeural",
+    "size": 1280736,
+    "chars": 3112
+  },
+  "max-flow-min-cut-theorem": {
+    "hash": "5ca24a807d26289d69d7cd92afe9354b35ffe1f91d685d0c597f94a6403bd21c",
+    "voice": "en-US-GuyNeural",
+    "size": 1316304,
+    "chars": 3121
+  },
+  "weighted-matching-hungarian": {
+    "hash": "c588c6ca778ecf92ffa9f78e9e16958bc36f7e946cca94dc2426297a32c86c51",
+    "voice": "en-US-GuyNeural",
+    "size": 1092096,
+    "chars": 2609
+  },
+  "backtracking-state-space-trees": {
+    "hash": "f3c62a9911ddea286433f811bac967daced14bea65264a23aecdb606a69c0b52",
+    "voice": "en-US-GuyNeural",
+    "size": 1225296,
+    "chars": 3171
+  },
+  "dinic-level-graph-blocking-flow": {
+    "hash": "9e6c91bf64641736f24c08c32e13ae3a04693146da2be1c7f4f95f02709fc3f8",
+    "voice": "en-US-GuyNeural",
+    "size": 1158192,
+    "chars": 2896
+  },
+  "branch-and-bound-admissible-bounds": {
+    "hash": "7f2e1add148ead614759adf6d0abb6144036979356eba9be5fe554f5fd418180",
+    "voice": "en-US-GuyNeural",
+    "size": 1314864,
+    "chars": 3197
+  },
+  "build-dinic-max-flow-engine": {
+    "hash": "901f51ba7f7316dc80348e5cd866635b7a72560e78a22f2902cd4ae1dfb8db18",
+    "voice": "en-US-GuyNeural",
+    "size": 1239120,
+    "chars": 3168
+  },
+  "minimax-alpha-beta-pruning": {
+    "hash": "68bbbc9c9a5e61d4eddcc5bb5115a447e02a4436e8d05283840d4f8ae67ef53a",
+    "voice": "en-US-GuyNeural",
+    "size": 1129824,
+    "chars": 3186
+  },
+  "matroids-greedy-foundations": {
+    "hash": "7da5d576ce79a8110a9535e66e58e4f2324533287f5ab45004bd91534a140b57",
+    "voice": "en-US-GuyNeural",
+    "size": 1158192,
+    "chars": 3000
+  },
+  "regret-greedy-heap-rollback": {
+    "hash": "791b414e1aba42c00214dc57758d06a1e1d4003940f87b0001c57a5fa6a173dc",
+    "voice": "en-US-GuyNeural",
+    "size": 1258272,
+    "chars": 3194
+  },
+  "greedy-choice-exchange-arguments": {
+    "hash": "b660b8d251febc2d71ba0f03c1f9499f3d042dfb0cb2123cf3c4009334e10b9b",
+    "voice": "en-US-GuyNeural",
+    "size": 1202112,
+    "chars": 3200
+  },
+  "case-sat-solvers-cdcl-dpll": {
+    "hash": "5edeb9eee0853d97aee658cd67ed2598a60d7db7da53e9dcc8bfbdb9cafa1db2",
+    "voice": "en-US-GuyNeural",
+    "size": 1099008,
+    "chars": 2850
+  },
+  "combinatorial-generation-permutations": {
+    "hash": "df726028273a6c13ad3cf375395fc47ece299ed1fa5dc60e12f11f54e30b5912",
+    "voice": "en-US-GuyNeural",
+    "size": 1283472,
+    "chars": 2797
+  },
+  "exact-cover-knuth-algorithm-x": {
+    "hash": "7774877bb7fe3e03d2bec190d034c5ec6e40ba7842d4bb4e57be4dd2ff0f96f6",
+    "voice": "en-US-GuyNeural",
+    "size": 1197216,
+    "chars": 2890
+  },
+  "min-cost-max-flow-mcmf": {
+    "hash": "71fc094804e483ede567a6f7f9020228e168e5d367107e8c2701fa340323c6c8",
+    "voice": "en-US-GuyNeural",
+    "size": 1391040,
+    "chars": 3197
+  },
+  "dp-optimal-substructure-dag": {
+    "hash": "c57096ba089c336172aae2976bc19b75950b63d92aefde604ca71a0a61e70b8a",
+    "voice": "en-US-GuyNeural",
+    "size": 1143216,
+    "chars": 2889
+  },
+  "build-dancing-links-exact-cover": {
+    "hash": "9ae3e17cd3de6bf9f8ae348f2dd20be2f57e86fba19f87e35d5d40d7006e7f7d",
+    "voice": "en-US-GuyNeural",
+    "size": 1335024,
+    "chars": 3046
+  },
+  "knapsack-family-01-unbounded-bounded": {
+    "hash": "9a603f9ee072aaa4e432ffebddb812f334c4b53aba70b25fbc5cea49b0c2902d",
+    "voice": "en-US-GuyNeural",
+    "size": 1354896,
+    "chars": 3027
+  },
+  "sequence-dp-lcs-levenshtein": {
+    "hash": "886f61b8ec25aacd1fafd13276495928789a157631bc8dd194558beb5e5466bd",
+    "voice": "en-US-GuyNeural",
+    "size": 1148112,
+    "chars": 2819
+  },
+  "lis-patience-sorting": {
+    "hash": "c16c36b866ccfac7b26f60d95fc96f3f820874c718a2e688bc4ffa3139651562",
+    "voice": "en-US-GuyNeural",
+    "size": 1009440,
+    "chars": 2727
+  },
+  "case-pretty-printing-knuth-plass": {
+    "hash": "ac4a86bc87c0cdfad7c79835ee2ffd66e496634fdcf3236dacaf3e8eba60c744",
+    "voice": "en-US-GuyNeural",
+    "size": 1264752,
+    "chars": 3189
+  },
+  "tree-dp-rerooting-technique": {
+    "hash": "e5ed316f454783731f18a74e9c7d7c83e4596a8b0d1b0756c604fe303ccbf317",
+    "voice": "en-US-GuyNeural",
+    "size": 1149264,
+    "chars": 2961
+  },
+  "interval-dp-matrix-chain-triangulation": {
+    "hash": "78a2e2417d1e964154973aa4ae66e4b7ff9483b3d77069ee2a8f2087a50554c5",
+    "voice": "en-US-GuyNeural",
+    "size": 1328544,
+    "chars": 3197
+  },
+  "dag-dp-longest-path-counting": {
+    "hash": "da6b576b167a9db93f79df775326a455499ebe092777561d869ce3edb6f66bf4",
+    "voice": "en-US-GuyNeural",
+    "size": 1302336,
+    "chars": 3145
+  },
+  "sos-dp-fast-zeta-mobius": {
+    "hash": "b024bfa59a56c62581e113818d8d2afefe4c0b6e9e676b2795147340f8d74a0b",
+    "voice": "en-US-GuyNeural",
+    "size": 1340496,
+    "chars": 3200
+  },
+  "memoization-tabulation-space-rolling": {
+    "hash": "097e03814ab53cacfad10aa436873d5ac477a1700d3f6534d024e93861d05b7e",
+    "voice": "en-US-GuyNeural",
+    "size": 1271232,
+    "chars": 3121
+  },
+  "bitmask-dp-tsp-hamiltonian": {
+    "hash": "bbff9d02da11ec7d60611810b30a0afb7ea1cf9579ed42c737980af6ffecdfa6",
+    "voice": "en-US-GuyNeural",
+    "size": 1277712,
+    "chars": 2992
+  },
+  "digit-dp-lexicographic-automata": {
+    "hash": "ffb47fea83df73585a9f789baef80c2b4fb79b06b4fa19f5030eb7feed2b69fe",
+    "voice": "en-US-GuyNeural",
+    "size": 1312128,
+    "chars": 3175
+  },
+  "divide-and-conquer-dp-quadrangle": {
+    "hash": "b4f3a248eaecea2724739cd3fa715fe1ac0aa7a0f16249c8a720478dccd31a82",
+    "voice": "en-US-GuyNeural",
+    "size": 1248768,
+    "chars": 3095
+  },
+  "build-hirschberg-linear-space-diff": {
+    "hash": "4289a62024334e99696cc5934df84d1e0d3d2e7e4d9fd0bf07bee7060522cd38",
+    "voice": "en-US-GuyNeural",
+    "size": 1369584,
+    "chars": 3142
+  },
+  "broken-profile-dp-grid-tiling": {
+    "hash": "fb2038c40c9aa5398b45313715182938a65e3cdee6b5714defa0c33f55774314",
+    "voice": "en-US-GuyNeural",
+    "size": 1280880,
+    "chars": 3164
+  },
+  "matrix-exponentiation-linear-recurrences": {
+    "hash": "98a762264c3122d64c895b4f4cabe63de2fc94d586442912dc353cb3dc2a8c90",
+    "voice": "en-US-GuyNeural",
+    "size": 1154016,
+    "chars": 2877
+  },
+  "convex-hull-graham-andrew": {
+    "hash": "ea73c5e1e62a2f7caa9ac477e91d520c860825f4591b856f35304079da155f9a",
+    "voice": "en-US-GuyNeural",
+    "size": 1054656,
+    "chars": 2845
+  },
+  "convex-hull-trick-li-chao-tree": {
+    "hash": "7e370fb2994dc394cbc48e4e9b37d49f6f4b8b30908cd5b3a317d055fd5098a7",
+    "voice": "en-US-GuyNeural",
+    "size": 1260000,
+    "chars": 3192
+  },
+  "geometry-primitives-orientation-ccw": {
+    "hash": "3a96495281be6f8e55c2e9629f89e69d7e6115ba5fccdc12b14b767404b8a339",
+    "voice": "en-US-GuyNeural",
+    "size": 1113120,
+    "chars": 2627
+  },
+  "spatial-indexing-kd-quad-rtrees": {
+    "hash": "e0af325ea48559897f851425f6dfb857f26a90482f14fb5c0ded01d262db7ef9",
+    "voice": "en-US-GuyNeural",
+    "size": 1252368,
+    "chars": 3166
+  },
+  "sweep-line-bentley-ottmann": {
+    "hash": "ed1b9e57b9d88e39204c030ea06d5ebc2861b09dd34708a8a9f7bb20ebd5ca7a",
+    "voice": "en-US-GuyNeural",
+    "size": 1125792,
+    "chars": 2824
+  },
+  "build-li-chao-convex-hull-dp": {
+    "hash": "613abd499cd7f5ea502b5a80ad1419cbf5c8d8e4ff5b0aa68d6f331acd4894ca",
+    "voice": "en-US-GuyNeural",
+    "size": 1218240,
+    "chars": 3182
+  },
+  "knuth-optimization-optimal-bst": {
+    "hash": "106f02f58e662f43f432e6dbf16e23af5c95149656771db084e689cddb607635",
+    "voice": "en-US-GuyNeural",
+    "size": 1282752,
+    "chars": 3020
+  },
+  "las-vegas-monte-carlo-karger": {
+    "hash": "1a4ef45a3c303d3f7d14edd67aeec1e332e98b845c90dd202bfcb72162884dfe",
+    "voice": "en-US-GuyNeural",
+    "size": 1221696,
+    "chars": 3056
+  },
+  "approximation-algorithms-fptas": {
+    "hash": "50cb58d6f71c2c69ce3e2739cc19664ff38df66364d468bfe211ebfb1317ae0f",
+    "voice": "en-US-GuyNeural",
+    "size": 1251072,
+    "chars": 3150
+  },
+  "modular-arithmetic-gcd-crt": {
+    "hash": "0c2a2e03d65f8ff131a78301241187422de0fc73f16d9761a8e4580443186d75",
+    "voice": "en-US-GuyNeural",
+    "size": 1232496,
+    "chars": 2904
+  },
+  "np-completeness-reductions": {
+    "hash": "e8950a5f35a3dbeec405c1a9932081fe1dfe70e8c1033d3edc3668b45c4404d5",
+    "voice": "en-US-GuyNeural",
+    "size": 1185408,
+    "chars": 3104
+  },
+  "aliens-trick-wqs-binary-search": {
+    "hash": "e62576941dd11535b6c0d45f24c422135514ca74d7450dee36373263d8169621",
+    "voice": "en-US-GuyNeural",
+    "size": 1300176,
+    "chars": 3174
+  },
+  "build-kd-tree-nearest-neighbor": {
+    "hash": "cc5227dad3e9c5b29a6f761b66922ef1ee734f671672b870a609f228e11218a8",
+    "voice": "en-US-GuyNeural",
+    "size": 1207008,
+    "chars": 3138
+  },
+  "primality-miller-rabin-pollard-rho": {
+    "hash": "4f650c717727b547c2d00cbe66563a6071c75ca2ddaf5a2562d03e364a5dfd83",
+    "voice": "en-US-GuyNeural",
+    "size": 1318896,
+    "chars": 3160
+  }
+}
