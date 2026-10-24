@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="no-shell">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Maximum Subarray (Kadane&#39;s Algorithm) &amp; Circular Array Extensions — DSA In Depth</title>
+  <meta name="description" content="Jay Kadane solved the Maximum Subarray Problem in $ON$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A0 \dots i$.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Maximum Subarray (Kadane&#39;s Algorithm) &amp; Circular Array Extensions — DSA In Depth">
+  <meta property="og:description" content="Jay Kadane solved the Maximum Subarray Problem in $ON$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A0 \dots i$.">
+  <meta property="og:url" content="https://dsa-in-depth.vedgupta.in/topic/kadane-subarray-invariants/">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Maximum Subarray (Kadane&#39;s Algorithm) &amp; Circular Array Extensions — DSA In Depth">
+  <meta name="twitter:description" content="Jay Kadane solved the Maximum Subarray Problem in $ON$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A0 \dots i$.">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://dsa-in-depth.vedgupta.in/topic/kadane-subarray-invariants/">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css?v=693f5cccb9">
+  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
+  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
+  <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
+  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+
+  <!-- Core scripts: head initializer & asset manifest -->
+  <script src="js/init.js?v=17af84f241"></script>
+  <script src="js/manifest.js?v=d23bd2f831"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Maximum Subarray (Kadane's Algorithm) & Circular Array Extensions",
+  "description": "Jay Kadane solved the Maximum Subarray Problem in $ON$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A0 \\dots i$.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/kadane-subarray-invariants/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
+<body>
+  <!-- Skip to content -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <button class="topbar__hamburger" aria-label="Toggle sidebar" id="hamburger-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+
+    <a href="/" class="topbar__brand" data-nav="home">
+      <span class="topbar__brand-icon">DSA</span>
+      <span class="topbar__brand-text">DSA</span>
+      <span class="topbar__track-badge">In Depth</span>
+    </a>
+
+    <div class="topbar__search">
+      <button class="topbar__search-trigger" id="search-trigger" aria-label="Search topics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search 180 topics &amp; labs…</span>
+        <span class="topbar__search-kbd">⌘K</span>
+      </button>
+    </div>
+
+    <div class="topbar__actions">
+      <nav class="topbar__nav" aria-label="Primary navigation">
+        <a href="/roadmap" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
+        <a href="/challenges" class="topbar__nav-link" data-nav="challenges">Challenges</a>
+        <a href="/dashboard" class="topbar__nav-link" data-nav="dashboard">Dashboard</a>
+        <a href="/sandbox" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
+        <a href="/glossary/" class="topbar__nav-link" data-nav="glossary">Glossary</a>
+      </nav>
+
+      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+        <svg class="topbar__progress-ring" viewBox="0 0 20 20">
+          <circle class="track" cx="10" cy="10" r="8"/>
+          <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
+        </svg>
+        <span id="progress-text">0%</span>
+      </div>
+
+      <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+
+      <button class="topbar__btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sun"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-moon" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <nav class="sidebar__tabs" role="tablist">
+      <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+    </nav>
+    <div class="sidebar__content" id="sidebar-content">
+<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.1</span>
+          <span class="module-group__title">Asymptotic Analysis, Recurrences &amp; Memory Hierarchy</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="ram-model-vs-modern-cpu" href="/topic/ram-model-vs-modern-cpu/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The RAM Model vs Modern CPU Cache Hierarchy</span>
+        </a><a class="unit-item" data-slug="asymptotic-notations-rigor" href="/topic/asymptotic-notations-rigor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Asymptotic Notation Rigor: O, Ω, Θ, o, ω &amp; Limit Laws</span>
+        </a><a class="unit-item" data-slug="recurrence-relations-master-theorem" href="/topic/recurrence-relations-master-theorem/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Solving Recurrences: Recursion Trees, Substitution &amp; Master Theorem</span>
+        </a><a class="unit-item" data-slug="akra-bazzi-uneven-divides" href="/topic/akra-bazzi-uneven-divides/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Beyond Master Theorem: Akra-Bazzi for Uneven Subproblems</span>
+        </a><a class="unit-item" data-slug="amortized-analysis-potential" href="/topic/amortized-analysis-potential/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Amortized Analysis: Aggregate, Banker&#39;s &amp; Physicist&#39;s Potential (Φ)</span>
+        </a><a class="unit-item" data-slug="space-complexity-stack-frames" href="/topic/space-complexity-stack-frames/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Space Complexity: Call Stacks, Tail Recursion &amp; Auxiliary Heap</span>
+        </a><a class="unit-item" data-slug="cache-oblivious-algorithms" href="/topic/cache-oblivious-algorithms/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Cache-Aware vs Cache-Oblivious Layouts (van Emde Boas Layout)</span>
+        </a><a class="unit-item" data-slug="branch-prediction-simd-cost" href="/topic/branch-prediction-simd-cost/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Branch Misprediction Penalties &amp; Branchless Algorithmic Design</span>
+        </a><a class="unit-item" data-slug="complexity-tradeoff-framework" href="/topic/complexity-tradeoff-framework/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Time-Space-Precomputation Tradeoff Design Framework</span>
+        </a><a class="unit-item" data-slug="case-v8-elements-kinds" href="/topic/case-v8-elements-kinds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: How V8 Optimizes JS Arrays (SMI, Double &amp; Holey Elements)</span>
+        </a></div></div><div class="module-group" data-module="m02">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.2</span>
+          <span class="module-group__title">Contiguous Arrays, Bit Manipulation &amp; Pointer Idioms</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="dynamic-arrays-geometric-resizing" href="/topic/dynamic-arrays-geometric-resizing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic Arrays: Geometric Growth Factors (2× vs 1.5×) &amp; Memory Reuse</span>
+        </a><a class="unit-item" data-slug="prefix-sums-difference-arrays" href="/topic/prefix-sums-difference-arrays/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">1D/2D Prefix Sums &amp; Difference Arrays for O(1) Range Updates</span>
+        </a><a class="unit-item" data-slug="two-pointers-invariant-proofs" href="/topic/two-pointers-invariant-proofs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Two-Pointer Invariants: Converging, Fast-Slow &amp; Dutch National Flag</span>
+        </a><a class="unit-item" data-slug="sliding-window-monotonicity" href="/topic/sliding-window-monotonicity/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fixed &amp; Variable Sliding Windows: Monotonicity &amp; Two-Pointer Validity</span>
+        </a><a class="unit-item active" data-slug="kadane-subarray-invariants" href="/topic/kadane-subarray-invariants/">
+          <span class="unit-item__status unit-item__status--active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg></span>
+          <span class="unit-item__title">Maximum Subarray (Kadane&#39;s Algorithm) &amp; Circular Array Extensions</span>
+        </a><a class="unit-item" data-slug="bit-manipulation-twos-complement" href="/topic/bit-manipulation-twos-complement/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Twos-Complement Arithmetic, Bitmasks, Brian Kernighan&#39;s Trick &amp; XOR</span>
+        </a><a class="unit-item" data-slug="bitsets-word-level-parallelism" href="/topic/bitsets-word-level-parallelism/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitsets, Popcount (__builtin_popcount) &amp; O(N/64) Word-Level Parallelism</span>
+        </a><a class="unit-item" data-slug="in-place-matrix-cyclic-shifts" href="/topic/in-place-matrix-cyclic-shifts/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">In-Place Array Rotations (Juggling/Reversal) &amp; Matrix Transposition</span>
+        </a><a class="unit-item" data-slug="boyer-moore-majority-misra-gries" href="/topic/boyer-moore-majority-misra-gries/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Boyer-Moore Majority Vote &amp; Misra-Gries Heavy Hitters</span>
+        </a><a class="unit-item" data-slug="build-dynamic-circular-deque" href="/topic/build-dynamic-circular-deque/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector</span>
+        </a></div></div><div class="module-group" data-module="m03">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.3</span>
+          <span class="module-group__title">Linked Structures, Monotonic Stacks/Queues &amp; Cache-Conscious Lists</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="singly-doubly-intrusive-lists" href="/topic/singly-doubly-intrusive-lists/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Singly, Doubly &amp; Intrusive Linked Lists (Linux Kernel list_head)</span>
+        </a><a class="unit-item" data-slug="floyd-brent-cycle-detection" href="/topic/floyd-brent-cycle-detection/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Pointer Chasing: Floyd&#39;s Tortoise-and-Hare vs Brent&#39;s Cycle Detection</span>
+        </a><a class="unit-item" data-slug="unrolled-linked-lists-ropes" href="/topic/unrolled-linked-lists-ropes/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Unrolled Linked Lists &amp; Gap Buffers: Defeating Pointer Chasing</span>
+        </a><a class="unit-item" data-slug="skip-lists-probabilistic-indexing" href="/topic/skip-lists-probabilistic-indexing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Skip Lists: Probabilistic Multi-Level Indexing &amp; O(log N) Search Proof</span>
+        </a><a class="unit-item" data-slug="stacks-expression-evaluation" href="/topic/stacks-expression-evaluation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Call Stacks, Dijkstra&#39;s Shunting-Yard Algorithm &amp; AST Evaluation</span>
+        </a><a class="unit-item" data-slug="monotonic-stack-next-greater" href="/topic/monotonic-stack-next-greater/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Monotonic Stacks: Next Greater Element, Histogram &amp; Subarray Mins</span>
+        </a><a class="unit-item" data-slug="monotonic-deque-sliding-extrema" href="/topic/monotonic-deque-sliding-extrema/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Monotonic Deques: O(N) Sliding Window Minimum/Maximum</span>
+        </a><a class="unit-item" data-slug="lru-lfu-eviction-structures" href="/topic/lru-lfu-eviction-structures/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Composing Hash Maps + Doubly Linked Lists: O(1) LRU &amp; LFU Caches</span>
+        </a><a class="unit-item" data-slug="case-redis-skiplist-ziplist" href="/topic/case-redis-skiplist-ziplist/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing)</span>
+        </a><a class="unit-item" data-slug="build-lfu-lru-cache" href="/topic/build-lfu-lru-cache/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group" data-module="m04">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.1</span>
+          <span class="module-group__title">Hash Tables, Modern Probing &amp; Probabilistic Sketches</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="universal-k-independent-hashing" href="/topic/universal-k-independent-hashing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Hash Functions: Division, Multiplicative, Universal &amp; k-Independent Families</span>
+        </a><a class="unit-item" data-slug="separate-chaining-vs-open-addressing" href="/topic/separate-chaining-vs-open-addressing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Collision Resolution: Separate Chaining vs Linear/Quadratic/Double Probing</span>
+        </a><a class="unit-item" data-slug="robin-hood-cuckoo-hashing" href="/topic/robin-hood-cuckoo-hashing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Variance Reduction: Robin Hood Hashing (PSL) &amp; Cuckoo Hashing</span>
+        </a><a class="unit-item" data-slug="hashdos-siphash-random-seeds" href="/topic/hashdos-siphash-random-seeds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algorithmic Complexity Attacks (HashDoS) &amp; SipHash Defense</span>
+        </a><a class="unit-item" data-slug="consistent-hashing-rendezvous" href="/topic/consistent-hashing-rendezvous/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Consistent Hashing with Bounded Loads &amp; Rendezvous (HRW) Hashing</span>
+        </a><a class="unit-item" data-slug="bloom-filters-counting-xor" href="/topic/bloom-filters-counting-xor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bloom Filters, Counting Bloom Filters, Cuckoo Filters &amp; Xor Filters</span>
+        </a><a class="unit-item" data-slug="count-min-sketch-heavy-hitters" href="/topic/count-min-sketch-heavy-hitters/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Count-Min Sketch &amp; Streaming Frequency Estimation Error Bounds</span>
+        </a><a class="unit-item" data-slug="hyperloglog-cardinality" href="/topic/hyperloglog-cardinality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">HyperLogLog: Harmonic Mean &amp; Stochastic Averaging in 1.5 KB</span>
+        </a><a class="unit-item" data-slug="case-rust-hashbrown-swisstable" href="/topic/case-rust-hashbrown-swisstable/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Google Abseil SwissTable &amp; Rust hashbrown SIMD Probing</span>
+        </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
+        </a></div></div><div class="module-group" data-module="m05">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.2</span>
+          <span class="module-group__title">Sorting Mechanics, Hybrid Sorts &amp; Linear-Time Order Statistics</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="quadratic-sorts-inversions" href="/topic/quadratic-sorts-inversions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Insertion, Selection &amp; Shellsort: Inversions &amp; Diminishing Increments</span>
+        </a><a class="unit-item" data-slug="mergesort-bottom-up-inversions" href="/topic/mergesort-bottom-up-inversions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Top-Down vs Bottom-Up Merge Sort &amp; Counting Inversions in O(N log N)</span>
+        </a><a class="unit-item" data-slug="quicksort-partition-schemes" href="/topic/quicksort-partition-schemes/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Quicksort: Lomuto vs Hoare vs Bentley-McIlroy 3-Way Partitioning</span>
+        </a><a class="unit-item" data-slug="randomized-quicksort-expectation" href="/topic/randomized-quicksort-expectation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Quicksort: Indicator Random Variables &amp; 1.386 N ln N Proof</span>
+        </a><a class="unit-item" data-slug="decision-tree-lower-bound" href="/topic/decision-tree-lower-bound/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Ω(N log N) Comparison Lower Bound via Stirling&#39;s Approximation</span>
+        </a><a class="unit-item" data-slug="counting-radix-bucket-sorts" href="/topic/counting-radix-bucket-sorts/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Non-Comparison Sorts: Counting Sort, LSD/MSD Radix Sort &amp; Bucket Sort</span>
+        </a><a class="unit-item" data-slug="quickselect-bfprt-median" href="/topic/quickselect-bfprt-median/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Order Statistics: Randomized Quickselect vs Deterministic BFPRT Median-of-Medians</span>
+        </a><a class="unit-item" data-slug="external-merge-sort-replacement" href="/topic/external-merge-sort-replacement/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">External Memory Sorting: K-Way Merge &amp; Replacement Selection</span>
+        </a><a class="unit-item" data-slug="case-timsort-pdqsort" href="/topic/case-timsort-pdqsort/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Python/V8 TimSort (Galloping &amp; Run Invariants) vs Rust pdqsort</span>
+        </a><a class="unit-item" data-slug="build-hybrid-introsort-timsort" href="/topic/build-hybrid-introsort-timsort/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)</span>
+        </a></div></div><div class="module-group" data-module="m06">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.3</span>
+          <span class="module-group__title">Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="binary-search-boundary-invariants" href="/topic/binary-search-boundary-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Closed vs Half-Open Binary Search: Eliminating Off-by-One Infinite Loops</span>
+        </a><a class="unit-item" data-slug="parametric-search-answer-space" href="/topic/parametric-search-answer-space/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Parametric Search: Binary Searching the Answer Space &amp; Feasibility Predicates</span>
+        </a><a class="unit-item" data-slug="rotated-bitonic-unbounded-search" href="/topic/rotated-bitonic-unbounded-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Exponential (Galloping) Search, Rotated Arrays &amp; Ternary Search on Unimodal Functions</span>
+        </a><a class="unit-item" data-slug="fractional-cascading" href="/topic/fractional-cascading/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fractional Cascading: Searching K Sorted Lists in O(log N + K)</span>
+        </a><a class="unit-item" data-slug="divide-and-conquer-closest-pair" href="/topic/divide-and-conquer-closest-pair/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Geometric Divide-and-Conquer: Planar Closest Pair of Points in O(N log N)</span>
+        </a><a class="unit-item" data-slug="karatsuba-strassen-algebraic-dc" href="/topic/karatsuba-strassen-algebraic-dc/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#39;s Matrix Product</span>
+        </a><a class="unit-item" data-slug="fast-fourier-transform-polynomials" href="/topic/fast-fourier-transform-polynomials/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fast Fourier Transform (Cooley-Tukey FFT) &amp; O(N log N) Polynomial Convolution</span>
+        </a><a class="unit-item" data-slug="meet-in-the-middle-search" href="/topic/meet-in-the-middle-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Meet-in-the-Middle: Halving the Exponent from O(2^N) to O(2^(N/2) log(2^(N/2)))</span>
+        </a><a class="unit-item" data-slug="cdq-divide-and-conquer" href="/topic/cdq-divide-and-conquer/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Offline Divide-and-Conquer over Time (CDQ Divide-and-Conquer for 3D Partial Orders)</span>
+        </a><a class="unit-item" data-slug="case-git-bisect-eytzinger" href="/topic/case-git-bisect-eytzinger/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Cache-Friendly Eytzinger Binary Search Layout vs Standard Binary Search</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group" data-module="m07">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.1</span>
+          <span class="module-group__title">Binary Trees, Traversals, BSTs &amp; Priority Heaps</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tree-representations-traversals" href="/topic/tree-representations-traversals/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Tree Representations &amp; Recursive vs Iterative Pre/In/Post/Level-Order Traversals</span>
+        </a><a class="unit-item" data-slug="morris-threaded-traversal" href="/topic/morris-threaded-traversal/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Morris In-Order Traversal: O(1) Auxiliary Space via Temporary Threading</span>
+        </a><a class="unit-item" data-slug="tree-serialization-reconstruction" href="/topic/tree-serialization-reconstruction/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Unique Tree Reconstruction (Preorder + Inorder) &amp; Succinct Bit-String Serialization</span>
+        </a><a class="unit-item" data-slug="bst-operations-hibbard-deletion" href="/topic/bst-operations-hibbard-deletion/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Binary Search Trees: Search, Insertion, Successor &amp; Hibbard Deletion Asymmetry</span>
+        </a><a class="unit-item" data-slug="randomly-built-bst-height" href="/topic/randomly-built-bst-height/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomly Built BSTs: Expected Height O(log N) via Quicksort Dual Proof</span>
+        </a><a class="unit-item" data-slug="binary-d-ary-heaps" href="/topic/binary-d-ary-heaps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Binary &amp; d-ary Heaps: Floyd&#39;s O(N) Bottom-Up Build-Heap Proof</span>
+        </a><a class="unit-item" data-slug="mergeable-heaps-binomial-fibonacci" href="/topic/mergeable-heaps-binomial-fibonacci/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Mergeable Priority Queues: Leftist, Skew, Binomial &amp; Fibonacci Heaps (O(1) Decrease-Key)</span>
+        </a><a class="unit-item" data-slug="two-heaps-k-way-merge-patterns" href="/topic/two-heaps-k-way-merge-patterns/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Priority Queue Patterns: Running Median (Two Heaps), K-Way Merge &amp; Top-K</span>
+        </a><a class="unit-item" data-slug="case-timer-wheels-vs-heaps" href="/topic/case-timer-wheels-vs-heaps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Hierarchical Hashed Timer Wheels vs Four-Heap Timers (Go runtime, Kafka, Linux)</span>
+        </a><a class="unit-item" data-slug="build-indexed-d-ary-priority-queue" href="/topic/build-indexed-d-ary-priority-queue/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Indexed 4-Ary Min/Max Priority Queue with O(log_d N) decreaseKey</span>
+        </a></div></div><div class="module-group" data-module="m08">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.2</span>
+          <span class="module-group__title">Self-Balancing, Augmented, Disk-Backed &amp; Persistent Trees</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tree-rotations-avl-invariants" href="/topic/tree-rotations-avl-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Tree Rotations &amp; AVL Trees: Balance Factors, LL/RR/LR/RL Rebalancing &amp; Fibonacci Height Bound</span>
+        </a><a class="unit-item" data-slug="red-black-llrb-isomorphism" href="/topic/red-black-llrb-isomorphism/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">2-3-4 Trees, Red-Black Trees &amp; Sedgewick&#39;s Left-Leaning Red-Black (LLRB) Isomorphism</span>
+        </a><a class="unit-item" data-slug="treaps-split-merge-paradigm" href="/topic/treaps-split-merge-paradigm/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Treaps &amp; Implicit Treaps: Rebalancing Without Rotations via split and merge</span>
+        </a><a class="unit-item" data-slug="splay-trees-dynamic-optimality" href="/topic/splay-trees-dynamic-optimality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Splay Trees: Zig-Zig / Zig-Zag Rotations, Amortized O(log N) Potential Proof &amp; Static Optimality</span>
+        </a><a class="unit-item" data-slug="augmented-trees-order-intervals" href="/topic/augmented-trees-order-intervals/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Augmenting BSTs: Order-Statistic Trees (select/rank) &amp; Interval Trees</span>
+        </a><a class="unit-item" data-slug="b-trees-bplus-trees-disk-pages" href="/topic/b-trees-bplus-trees-disk-pages/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">B-Trees &amp; B+ Trees: Page Fanout, Proactive Splitting &amp; Leaf Sibling Chains</span>
+        </a><a class="unit-item" data-slug="lsm-trees-write-amplification" href="/topic/lsm-trees-write-amplification/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">LSM-Trees vs B+ Trees: MemTables, SSTables, Compaction &amp; RUM Conjecture</span>
+        </a><a class="unit-item" data-slug="persistent-trees-path-copying" href="/topic/persistent-trees-path-copying/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Persistent Data Structures: Path Copying, Fat Nodes &amp; Fractional Cascading Time Travel</span>
+        </a><a class="unit-item" data-slug="case-linux-rbtree-cfs" href="/topic/case-linux-rbtree-cfs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Intrusive Augmented Red-Black Trees in the Linux Kernel CFS &amp; VMA Manager</span>
+        </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
+        </a></div></div><div class="module-group" data-module="m09">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.3</span>
+          <span class="module-group__title">Range Query &amp; Sublinear Decomposition Structures</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="static-range-queries-sparse-table" href="/topic/static-range-queries-sparse-table/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Disjoint &amp; Standard Sparse Tables: O(1) Idempotent Range Minimum Query (RMQ)</span>
+        </a><a class="unit-item" data-slug="fenwick-tree-binary-indexed" href="/topic/fenwick-tree-binary-indexed/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fenwick Trees (Binary Indexed Trees): lowbit Geometry, Point Updates &amp; Range Updates</span>
+        </a><a class="unit-item" data-slug="segment-trees-bottom-up-monoids" href="/topic/segment-trees-bottom-up-monoids/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Segment Trees over Monoids: Recursive vs Iterative (ZKW) Bottom-Up Implementation</span>
+        </a><a class="unit-item" data-slug="lazy-propagation-segment-tree-beats" href="/topic/lazy-propagation-segment-tree-beats/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lazy Propagation &amp; Segment Tree Beats (Ji Driver Segment Tree for Range Chmin/Chmax)</span>
+        </a><a class="unit-item" data-slug="dynamic-persistent-segment-trees" href="/topic/dynamic-persistent-segment-trees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic (Sparse) &amp; Persistent Segment Trees: K-th Smallest in Subarray in O(log N)</span>
+        </a><a class="unit-item" data-slug="sqrt-decomposition-mos-algorithm" href="/topic/sqrt-decomposition-mos-algorithm/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">√N Block Decomposition &amp; Mo&#39;s Offline Query Ordering (O((N+Q)√N))</span>
+        </a><a class="unit-item" data-slug="lowest-common-ancestor-rmq" href="/topic/lowest-common-ancestor-rmq/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lowest Common Ancestor (LCA): Binary Lifting vs Euler Tour + ±1 RMQ Reduction</span>
+        </a><a class="unit-item" data-slug="heavy-light-decomposition" href="/topic/heavy-light-decomposition/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Heavy-Light Decomposition (HLD): Decomposing Trees into O(log N) Heavy Paths</span>
+        </a><a class="unit-item" data-slug="cartesian-trees-treap-duality" href="/topic/cartesian-trees-treap-duality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Cartesian Trees: Linear-Time Monotonic Stack Construction &amp; RMQ-LCA Duality</span>
+        </a><a class="unit-item" data-slug="build-lazy-segment-tree" href="/topic/build-lazy-segment-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates &amp; Queries</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group" data-module="m10">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">4.1</span>
+          <span class="module-group__title">Tries, Exact String Matching &amp; Multi-Pattern Automata</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tries-radix-trees-patricia" href="/topic/tries-radix-trees-patricia/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Prefix Tries, Compressed Radix Trees &amp; PATRICIA Trees</span>
+        </a><a class="unit-item" data-slug="bitwise-tries-max-xor" href="/topic/bitwise-tries-max-xor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitwise (0-1) Tries: Maximum XOR Subarray &amp; Subtree Queries</span>
+        </a><a class="unit-item" data-slug="rabin-karp-polynomial-rolling-hash" href="/topic/rabin-karp-polynomial-rolling-hash/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Rabin-Karp Rolling Hash: Mersenne Prime Moduli (2^61 - 1) &amp; Birthday Collision Avoidance</span>
+        </a><a class="unit-item" data-slug="kmp-prefix-function-automaton" href="/topic/kmp-prefix-function-automaton/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Knuth-Morris-Pratt (KMP): Prefix Function π[i] Amortized Linearity &amp; DFA View</span>
+        </a><a class="unit-item" data-slug="z-algorithm-linear-box" href="/topic/z-algorithm-linear-box/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Z-Algorithm: Linear-Time [L, R] Z-Box Maintenance &amp; Pattern Matching</span>
+        </a><a class="unit-item" data-slug="boyer-moore-horspool-simd" href="/topic/boyer-moore-horspool-simd/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sublinear Average-Case Matching: Boyer-Moore Bad-Character/Good-Suffix &amp; Horspool</span>
+        </a><a class="unit-item" data-slug="aho-corasick-trie-automaton" href="/topic/aho-corasick-trie-automaton/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Aho-Corasick Automaton: Trie + BFS Failure Links + Dictionary Suffix Links</span>
+        </a><a class="unit-item" data-slug="manacher-palindromic-tree" href="/topic/manacher-palindromic-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Palindromes in O(N): Manacher&#39;s Algorithm &amp; Eertree (Palindromic Automaton)</span>
+        </a><a class="unit-item" data-slug="case-ripgrep-teddy-simd" href="/topic/case-ripgrep-teddy-simd/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Why ripgrep Is So Fast (Aho-Corasick, Boyer-Moore &amp; SIMD Teddy)</span>
+        </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
+        </a></div></div><div class="module-group" data-module="m11">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">4.2</span>
+          <span class="module-group__title">Suffix Structures, Sequence Alignment &amp; Data Compression</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="suffix-trees-ukkonen-intuition" href="/topic/suffix-trees-ukkonen-intuition/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Trees &amp; Ukkonen&#39;s Online O(N) Construction: Active Point &amp; Suffix Links</span>
+        </a><a class="unit-item" data-slug="suffix-arrays-prefix-doubling-sais" href="/topic/suffix-arrays-prefix-doubling-sais/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Arrays: Manber-Myers O(N log N) Prefix Doubling &amp; SA-IS O(N) Overview</span>
+        </a><a class="unit-item" data-slug="kasai-lcp-array-rmq" href="/topic/kasai-lcp-array-rmq/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Kasai&#39;s O(N) LCP Array Algorithm &amp; Counting Distinct Substrings via SA + LCP</span>
+        </a><a class="unit-item" data-slug="suffix-automaton-sam-endpos" href="/topic/suffix-automaton-sam-endpos/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Automaton (SAM / DAWG): endpos Equivalence Classes &amp; State Transitions</span>
+        </a><a class="unit-item" data-slug="burrows-wheeler-transform-fm-index" href="/topic/burrows-wheeler-transform-fm-index/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search</span>
+        </a><a class="unit-item" data-slug="thompson-nfa-vs-backtracking-regex" href="/topic/thompson-nfa-vs-backtracking-regex/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Regular Expression Engines: Thompson&#39;s O(NM) NFA Simulation vs Catastrophic ReDoS Backtracking</span>
+        </a><a class="unit-item" data-slug="myers-diff-hirschberg-lcs" href="/topic/myers-diff-hirschberg-lcs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Myers O(ND) Shortest Edit Script &amp; Hirschberg&#39;s Linear-Space Alignment</span>
+        </a><a class="unit-item" data-slug="huffman-lz77-deflate" href="/topic/huffman-lz77-deflate/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE</span>
+        </a><a class="unit-item" data-slug="case-git-myers-histogram-diff" href="/topic/case-git-myers-histogram-diff/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Inside git diff (Myers vs Patience vs Histogram Diff)</span>
+        </a><a class="unit-item" data-slug="build-thompson-nfa-regex-engine" href="/topic/build-thompson-nfa-regex-engine/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: ReDoS-Proof Regular Expression Engine via Thompson&#39;s Construction &amp; NFA Step Simulation</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group" data-module="m12">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.1</span>
+          <span class="module-group__title">Graph Representations, Traversals, Connectivity &amp; Topological Order</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="graph-representations-csr-cache" href="/topic/graph-representations-csr-cache/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Graph Representations: Adjacency Lists, Bit Matrices &amp; Compressed Sparse Row (CSR)</span>
+        </a><a class="unit-item" data-slug="bfs-01-bfs-multi-source" href="/topic/bfs-01-bfs-multi-source/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Breadth-First Search: Multi-Source BFS, 0-1 BFS (Deque) &amp; Bidirectional Search</span>
+        </a><a class="unit-item" data-slug="dfs-edge-classification-timestamps" href="/topic/dfs-edge-classification-timestamps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Depth-First Search: Parenthesis Theorem, White-Path Theorem &amp; Tree/Back/Forward/Cross Edges</span>
+        </a><a class="unit-item" data-slug="topological-sort-kahn-dfs" href="/topic/topological-sort-kahn-dfs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Directed Acyclic Graphs (DAGs): Kahn&#39;s Indegree Queue vs DFS Post-Order Reversal</span>
+        </a><a class="unit-item" data-slug="bipartite-graphs-2-coloring" href="/topic/bipartite-graphs-2-coloring/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bipartite Graphs: Odd-Cycle Characterization &amp; 2-Coloring Verification</span>
+        </a><a class="unit-item" data-slug="bridges-articulation-biconnected" href="/topic/bridges-articulation-biconnected/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Undirected Connectivity: Tarjan&#39;s tin/low Algorithm for Bridges, Cut Vertices &amp; BCCs</span>
+        </a><a class="unit-item" data-slug="scc-tarjan-kosaraju-2sat" href="/topic/scc-tarjan-kosaraju-2sat/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Strongly Connected Components: Kosaraju&#39;s Two-Pass vs Tarjan&#39;s Single-Pass Stack &amp; 2-SAT</span>
+        </a><a class="unit-item" data-slug="eulerian-paths-hierholzer" href="/topic/eulerian-paths-hierholzer/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Eulerian Trails &amp; Circuits: Degree Conditions &amp; Hierholzer&#39;s O(E) Algorithm</span>
+        </a><a class="unit-item" data-slug="case-bundler-build-graph-cycles" href="/topic/case-bundler-build-graph-cycles/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Topological Scheduling &amp; SCC Cycle Reporting in Build Systems (bazel, turborepo, cargo)</span>
+        </a><a class="unit-item" data-slug="build-tarjan-scc-2sat-solver" href="/topic/build-tarjan-scc-2sat-solver/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Tarjan&#39;s SCC Condensation DAG &amp; Linear-Time 2-SAT Constraint Solver</span>
+        </a></div></div><div class="module-group" data-module="m13">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.2</span>
+          <span class="module-group__title">Disjoint Sets, Minimum Spanning Trees &amp; Shortest Paths</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="disjoint-set-union-ackermann" href="/topic/disjoint-set-union-ackermann/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Disjoint Set Union (Union-Find): Union by Rank + Path Compression &amp; O(α(N)) Proof Intuition</span>
+        </a><a class="unit-item" data-slug="dsu-rollback-weighted-offline" href="/topic/dsu-rollback-weighted-offline/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Weighted DSU (Potentials/Parity) &amp; Rollback DSU for Dynamic Connectivity Over Time</span>
+        </a><a class="unit-item" data-slug="mst-cut-cycle-properties" href="/topic/mst-cut-cycle-properties/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum Spanning Trees: Cut &amp; Cycle Optimality Properties, Kruskal&#39;s, Prim&#39;s &amp; Borůvka&#39;s</span>
+        </a><a class="unit-item" data-slug="dijkstra-relaxation-invariants" href="/topic/dijkstra-relaxation-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dijkstra&#39;s Algorithm: Non-Negative Edge Invariant, Priority Queue Tradeoffs &amp; Dial&#39;s Bucket Queue</span>
+        </a><a class="unit-item" data-slug="astar-heuristic-admissibility" href="/topic/astar-heuristic-admissibility/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">A* Search &amp; Bidirectional A*: Admissibility, Consistency (Triangle Inequality) &amp; Optimality Proof</span>
+        </a><a class="unit-item" data-slug="bellman-ford-spfa-difference-constraints" href="/topic/bellman-ford-spfa-difference-constraints/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Negative Weights: Bellman-Ford, Negative Cycle Reconstruction &amp; Systems of Difference Constraints</span>
+        </a><a class="unit-item" data-slug="floyd-warshall-johnson-apsp" href="/topic/floyd-warshall-johnson-apsp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">All-Pairs Shortest Paths: Floyd-Warshall DP Transitive Closure &amp; Johnson&#39;s Potential Reweighting</span>
+        </a><a class="unit-item" data-slug="state-space-dijkstra-layered-graphs" href="/topic/state-space-dijkstra-layered-graphs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Modeling Problems as State-Space Graphs: Layered Graphs ((u, k) States) &amp; Bitmask Dijkstra</span>
+        </a><a class="unit-item" data-slug="case-osrm-contraction-hierarchies" href="/topic/case-osrm-contraction-hierarchies/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: How Continental Road Routing Works in 1 Millisecond (Contraction Hierarchies &amp; Hub Labeling)</span>
+        </a><a class="unit-item" data-slug="build-astar-bidirectional-router" href="/topic/build-astar-bidirectional-router/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: A* and Bidirectional Dijkstra Pathfinding Engine with Consistent Potentials</span>
+        </a></div></div><div class="module-group" data-module="m14">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.3</span>
+          <span class="module-group__title">Network Flow, Min-Cut &amp; Bipartite Matching</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="flow-networks-residual-graphs" href="/topic/flow-networks-residual-graphs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Flow Networks, Residual Capacities, Augmenting Paths &amp; Ford-Fulkerson Method</span>
+        </a><a class="unit-item" data-slug="max-flow-min-cut-theorem" href="/topic/max-flow-min-cut-theorem/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Max-Flow Min-Cut Theorem: Three-Way Equivalence Proof &amp; Integrality Theorem</span>
+        </a><a class="unit-item" data-slug="edmonds-karp-shortest-augmenting" href="/topic/edmonds-karp-shortest-augmenting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Edmonds-Karp Algorithm: BFS Shortest Augmenting Paths &amp; O(V E^2) Monotonic Distance Proof</span>
+        </a><a class="unit-item" data-slug="dinic-level-graph-blocking-flow" href="/topic/dinic-level-graph-blocking-flow/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dinic&#39;s Algorithm: BFS Level Graphs, DFS Blocking Flows with Current-Arc Pointer &amp; O(E√V) Unit Networks</span>
+        </a><a class="unit-item" data-slug="push-relabel-preflow" href="/topic/push-relabel-preflow/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Push-Relabel (Goldberg-Tarjan): Preflows, Height Functions &amp; Highest-Label Selection</span>
+        </a><a class="unit-item" data-slug="bipartite-matching-hopcroft-karp" href="/topic/bipartite-matching-hopcroft-karp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Maximum Bipartite Matching: König&#39;s Theorem, Hall&#39;s Marriage Theorem &amp; Hopcroft-Karp O(E√V)</span>
+        </a><a class="unit-item" data-slug="weighted-matching-hungarian" href="/topic/weighted-matching-hungarian/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum-Weight Bipartite Matching: Kuhn-Munkres (Hungarian Algorithm) &amp; Primal-Dual Potentials</span>
+        </a><a class="unit-item" data-slug="min-cost-max-flow-mcmf" href="/topic/min-cost-max-flow-mcmf/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum-Cost Maximum Flow (MCMF): Successive Shortest Paths with Johnson Potentials</span>
+        </a><a class="unit-item" data-slug="flow-reductions-project-selection" href="/topic/flow-reductions-project-selection/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Network Flow Modeling Patterns: Closure Problem (Project Selection), Circulation with Demands &amp; Image Segmentation</span>
+        </a><a class="unit-item" data-slug="build-dinic-max-flow-engine" href="/topic/build-dinic-max-flow-engine/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dinic&#39;s Maximum Flow, Min-Cut Partitioning &amp; Bipartite Matching Engine</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group" data-module="m15">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.1</span>
+          <span class="module-group__title">Recursion, Backtracking, Pruning &amp; Greedy Exchange Arguments</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="combinatorial-generation-permutations" href="/topic/combinatorial-generation-permutations/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Combinatorial Generation: Subsets, Lexicographic Permutations (Narayana) &amp; Gray Codes</span>
+        </a><a class="unit-item" data-slug="backtracking-state-space-trees" href="/topic/backtracking-state-space-trees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Backtracking Architecture: Choice, Constraint, Undo &amp; Symmetry-Breaking Pruning</span>
+        </a><a class="unit-item" data-slug="exact-cover-knuth-algorithm-x" href="/topic/exact-cover-knuth-algorithm-x/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Exact Cover &amp; Knuth&#39;s Algorithm X with Dancing Links (DLX)</span>
+        </a><a class="unit-item" data-slug="branch-and-bound-admissible-bounds" href="/topic/branch-and-bound-admissible-bounds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Branch and Bound: Best-First / DFS Relaxation Bounds for Combinatorial Optimization</span>
+        </a><a class="unit-item" data-slug="minimax-alpha-beta-pruning" href="/topic/minimax-alpha-beta-pruning/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Game Trees: Minimax, Alpha-Beta Pruning, Move Ordering &amp; Zobrist Transposition Tables</span>
+        </a><a class="unit-item" data-slug="greedy-choice-exchange-arguments" href="/topic/greedy-choice-exchange-arguments/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Proving Greedy Correctness: Greedy Stays Ahead &amp; Exchange Arguments (Interval Scheduling, Minimizing Lateness)</span>
+        </a><a class="unit-item" data-slug="matroids-greedy-foundations" href="/topic/matroids-greedy-foundations/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Matroid Theory: Graphic &amp; Linear Matroids and When the Greedy Algorithm Is Guaranteed Optimal</span>
+        </a><a class="unit-item" data-slug="regret-greedy-heap-rollback" href="/topic/regret-greedy-heap-rollback/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Regret Greedy (Undoable Greedy with Priority Queues): Scheduling with Deadlines &amp; Stock Trading</span>
+        </a><a class="unit-item" data-slug="case-sat-solvers-cdcl-dpll" href="/topic/case-sat-solvers-cdcl-dpll/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Modern SAT Solvers &amp; Package Dependency Resolution (DPLL, Unit Propagation &amp; Two-Watched Literals)</span>
+        </a><a class="unit-item" data-slug="build-dancing-links-exact-cover" href="/topic/build-dancing-links-exact-cover/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Knuth&#39;s Dancing Links (DLX) Exact Cover &amp; Constraint Satisfaction Solver</span>
+        </a></div></div><div class="module-group" data-module="m16">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.2</span>
+          <span class="module-group__title">Dynamic Programming Foundations &amp; Classical Archetypes</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="dp-optimal-substructure-dag" href="/topic/dp-optimal-substructure-dag/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic Programming as Shortest Paths on an Implicit DAG: Optimal Substructure &amp; SRTBOT Framework</span>
+        </a><a class="unit-item" data-slug="memoization-tabulation-space-rolling" href="/topic/memoization-tabulation-space-rolling/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Top-Down Memoization vs Bottom-Up Tabulation &amp; Rolling-Array Space Compression</span>
+        </a><a class="unit-item" data-slug="knapsack-family-01-unbounded-bounded" href="/topic/knapsack-family-01-unbounded-bounded/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Knapsack Family: 0/1, Unbounded, Subset Sum Bitset &amp; Bounded Knapsack (Binary Splitting / Monotonic Queue)</span>
+        </a><a class="unit-item" data-slug="lis-patience-sorting" href="/topic/lis-patience-sorting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Longest Increasing Subsequence (LIS): O(N^2) DP vs O(N log N) Patience Sorting &amp; Dilworth&#39;s Theorem</span>
+        </a><a class="unit-item" data-slug="sequence-dp-lcs-levenshtein" href="/topic/sequence-dp-lcs-levenshtein/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sequence Alignment DP: Longest Common Subsequence (LCS) &amp; Wagner-Fischer Edit Distance</span>
+        </a><a class="unit-item" data-slug="interval-dp-matrix-chain-triangulation" href="/topic/interval-dp-matrix-chain-triangulation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation</span>
+        </a><a class="unit-item" data-slug="tree-dp-rerooting-technique" href="/topic/tree-dp-rerooting-technique/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">DP on Trees: Maximum Independent Set, Subtree Knapsack (O(N^2) Amortized Proof) &amp; All-Roots Rerooting</span>
+        </a><a class="unit-item" data-slug="dag-dp-longest-path-counting" href="/topic/dag-dp-longest-path-counting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">DP on DAGs: Longest Path, Path Counting &amp; Topological State Propagation</span>
+        </a><a class="unit-item" data-slug="case-pretty-printing-knuth-plass" href="/topic/case-pretty-printing-knuth-plass/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Knuth-Plass Line Breaking in TeX &amp; Code Formatters (prettier, rustfmt)</span>
+        </a><a class="unit-item" data-slug="build-hirschberg-linear-space-diff" href="/topic/build-hirschberg-linear-space-diff/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Hirschberg&#39;s O(NM)-Time O(min(N,M))-Space Sequence Alignment &amp; Diff Reconstructor</span>
+        </a></div></div><div class="module-group" data-module="m17">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.3</span>
+          <span class="module-group__title">Advanced DP State Spaces &amp; Algebraic Optimizations</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="bitmask-dp-tsp-hamiltonian" href="/topic/bitmask-dp-tsp-hamiltonian/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)</span>
+        </a><a class="unit-item" data-slug="sos-dp-fast-zeta-mobius" href="/topic/sos-dp-fast-zeta-mobius/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sum Over Subsets (SOS) DP &amp; Fast Walsh-Hadamard Transform (FWHT) for Bitwise Convolutions</span>
+        </a><a class="unit-item" data-slug="digit-dp-lexicographic-automata" href="/topic/digit-dp-lexicographic-automata/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Digit DP: Counting Constrained Integers in [L, R] via Tight/Leading-Zero State Automata</span>
+        </a><a class="unit-item" data-slug="broken-profile-dp-grid-tiling" href="/topic/broken-profile-dp-grid-tiling/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Broken Profile (Plug) DP: Domino Tilings &amp; Grid Connectivity in O(N M 2^M)</span>
+        </a><a class="unit-item" data-slug="divide-and-conquer-dp-quadrangle" href="/topic/divide-and-conquer-dp-quadrangle/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Divide-and-Conquer DP Optimization &amp; Quadrangle Inequality (Monge Matrices)</span>
+        </a><a class="unit-item" data-slug="knuth-optimization-optimal-bst" href="/topic/knuth-optimization-optimal-bst/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)</span>
+        </a><a class="unit-item" data-slug="convex-hull-trick-li-chao-tree" href="/topic/convex-hull-trick-li-chao-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Convex Hull Trick (CHT) &amp; Li Chao Segment Tree: Optimizing dp[i] = min_j (m_j x_i + b_j)</span>
+        </a><a class="unit-item" data-slug="aliens-trick-wqs-binary-search" href="/topic/aliens-trick-wqs-binary-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Aliens Trick (WQS Binary Search / Lagrangian Relaxation): Removing Cardinality Constraints</span>
+        </a><a class="unit-item" data-slug="matrix-exponentiation-linear-recurrences" href="/topic/matrix-exponentiation-linear-recurrences/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Matrix Exponentiation &amp; Min-Plus (Tropical) Semiring Matrix Multiplication for Fixed-Length Paths</span>
+        </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
+        </a></div></div><div class="module-group" data-module="m18">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.4</span>
+          <span class="module-group__title">Computational Geometry, Number Theory, Randomized &amp; Approximation Algorithms</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="geometry-primitives-orientation-ccw" href="/topic/geometry-primitives-orientation-ccw/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Robust Computational Geometry Primitives: 2D Cross/Dot Products, CCW Orientation &amp; Segment Intersection</span>
+        </a><a class="unit-item" data-slug="convex-hull-graham-andrew" href="/topic/convex-hull-graham-andrew/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">2D Convex Hull: Graham Scan vs Andrew&#39;s Monotone Chain &amp; Rotating Calipers</span>
+        </a><a class="unit-item" data-slug="sweep-line-bentley-ottmann" href="/topic/sweep-line-bentley-ottmann/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sweep-Line Paradigm: Bentley-Ottmann Segment Intersection &amp; Area of Union of Rectangles</span>
+        </a><a class="unit-item" data-slug="spatial-indexing-kd-quad-rtrees" href="/topic/spatial-indexing-kd-quad-rtrees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Multidimensional Spatial Indexing: k-d Trees, Quadtrees, R-Trees &amp; Z-Order (Morton) Curves</span>
+        </a><a class="unit-item" data-slug="modular-arithmetic-gcd-crt" href="/topic/modular-arithmetic-gcd-crt/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algorithmic Number Theory: Extended Euclidean Algorithm, Modular Inverse, CRT &amp; Sieve of Eratosthenes</span>
+        </a><a class="unit-item" data-slug="primality-miller-rabin-pollard-rho" href="/topic/primality-miller-rabin-pollard-rho/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#39;s ρ Integer Factorization</span>
+        </a><a class="unit-item" data-slug="las-vegas-monte-carlo-karger" href="/topic/las-vegas-monte-carlo-karger/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Las Vegas vs Monte Carlo Algorithms: Karger&#39;s Randomized Min-Cut &amp; Freivalds&#39; Matrix Verification</span>
+        </a><a class="unit-item" data-slug="np-completeness-reductions" href="/topic/np-completeness-reductions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">P, NP, NP-Hardness &amp; Polynomial-Time Reductions (3-SAT ≤p Independent Set ≤p Vertex Cover ≤p Subset Sum)</span>
+        </a><a class="unit-item" data-slug="approximation-algorithms-fptas" href="/topic/approximation-algorithms-fptas/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Approximation Algorithms: 2-Approx Vertex Cover, Greedy ln N Set Cover, Metric TSP &amp; Knapsack FPTAS</span>
+        </a><a class="unit-item" data-slug="build-kd-tree-nearest-neighbor" href="/topic/build-kd-tree-nearest-neighbor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: 2D/3D k-d Tree with Bounding-Box Pruning for K-Nearest Neighbor &amp; Range Search</span>
+        </a></div></div>
+    </div>
+  </aside>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main" id="main-content">
+    <div class="main__content" id="reader" data-prerendered="kadane-subarray-invariants">
+
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/" data-nav="home">Home</a>
+        <span class="breadcrumbs__sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        <a href="#" data-nav="module" data-module="m02">Contiguous Arrays, Bit Manipulation & Pointer Idioms</a>
+        <span class="breadcrumbs__sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        <span class="breadcrumbs__current">Maximum Subarray (Kadane's Algorithm) & Circular Array Extensions</span>
+      </nav>
+
+      <div class="lesson-header">
+        <div class="lesson-header__badge">
+          <span class="lesson-header__kind lesson-header__kind--lesson">lesson</span>
+          <span class="tag">kadane</span><span class="tag">subarray</span><span class="tag">invariants</span>
+        </div>
+        <h1 class="lesson-header__title">Maximum Subarray (Kadane's Algorithm) & Circular Array Extensions</h1>
+        <div class="lesson-header__meta">
+          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min read</span>
+          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Module 1.2: Contiguous Arrays, Bit Manipulation & Pointer Idioms</span>
+          <span class="lesson-header__meta-item" title="Content curriculum review date"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Updated Oct 23, 2026</span>
+        </div>
+        <div class="lesson-header__actions" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+          <button class="completion-toggle" data-action="toggle-complete" data-slug="kadane-subarray-invariants">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg> Mark Complete
+          </button>
+          <a href="#cheatsheet/m02" class="btn btn--sm btn--outline" title="View printable cheat sheet for this module">
+            📄 Cheat Sheet
+          </a>
+        </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;86CQq3pKSUw&quot;,&quot;id&quot;:&quot;86CQq3pKSUw&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/86CQq3pKSUw&quot;,&quot;title&quot;:&quot;Maximum Subarray Problem &amp; Kadane&#039;s Dynamic Programming Invariant&quot;,&quot;channel&quot;:&quot;CS Dojo / MIT 6.006&quot;,&quot;duration&quot;:&quot;16 min&quot;}">
+      <div class="video-embed" id="video-86CQq3pKSUw"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="86CQq3pKSUw">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/86CQq3pKSUw/hqdefault.jpg"
+               alt="Maximum Subarray Problem &amp; Kadane&#039;s Dynamic Programming Invariant"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">CS Dojo / MIT 6.006</span>
+        <span class="video-embed__title">Maximum Subarray Problem &amp; Kadane&#039;s Dynamic Programming Invariant</span>
+        <a href="https://www.youtube.com/watch?v=86CQq3pKSUw" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
+      </div>
+      </div>
+        <aside class="intuition">
+          <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
+          <div class="intuition__body">Jay Kadane solved the Maximum Subarray Problem in $O(N)$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A[0 \dots i]$, track $E[i]$—the maximum subarray <em>constrained to end at index $i$</em>. Because any contiguous subarray ending at $i$ either extends the optimal subarray ending at $i-1$ or starts fresh at $i$, $E[i]$ satisfies the local recurrence $E[i] = \max(A[i], E[i-1] + A[i])$, which collapses to two scalar registers.</div>
+        </aside>
+      <div class="audio-player" id="audio-player-kadane-subarray-invariants">
+        <button class="audio-player__play-btn" id="audio-btn-kadane-subarray-invariants" data-action="toggle-audio" data-slug="kadane-subarray-invariants" aria-label="Play audio" title="Play audio">
+          <svg id="audio-play-icon-kadane-subarray-invariants" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg id="audio-pause-icon-kadane-subarray-invariants" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <span class="audio-player__time" id="audio-time-kadane-subarray-invariants">0:00 / --:--</span>
+        <div class="audio-player__track" data-action="seek-audio" data-slug="kadane-subarray-invariants" id="audio-track-kadane-subarray-invariants">
+          <div class="audio-player__progress" id="audio-bar-kadane-subarray-invariants" style="width: 0%;"></div>
+        </div>
+        <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="kadane-subarray-invariants" id="audio-speed-kadane-subarray-invariants" title="Playback speed">1x</button>
+        <audio id="audio-kadane-subarray-invariants" src="audio/kadane-subarray-invariants.mp3" preload="metadata"></audio>
+      </div><article class="prose">
+      <h3>From 2D Image Estimation to $O(N)$ 1D Dynamic Programming</h3>
+      <p>Originally posed by Ulf Grenander in 1977 for maximum-likelihood pattern detection in 2D digitized images, the Maximum Contiguous Subarray problem originally took $O(N^3)$ brute force, $O(N^2)$ via prefix sums, and $O(N \log N)$ via divide-and-conquer before Jay Kadane (CMU) discovered the $O(N)$ invariant in 1984. Notice the structural connection to prefix sums:</p>
+      <p>$$\max_{0 \le L \le R &lt; N} \sum_{k=L}^{R} A[k] = \max_{0 \le R &lt; N} \left( P[R+1] - \min_{0 \le L \le R} P[L] \right)$$</p>
+      <p>Maintaining the running minimum prefix sum $\min_{0 \le L \le R} P[L]$ as $R$ scans left-to-right is mathematically identical to Kadane's DP recurrence: let $E[i]$ be the maximum sum of a non-empty contiguous subarray ending at index $i$. Whenever $E[i-1] &lt; 0$, prepending the best suffix of $A[0 \dots i-1]$ to $A[i]$ strictly reduces $A[i]$'s value, so we discard the negative prefix and start a fresh subarray at $i$:</p>
+      <p>$$E[i] = \max(A[i],\; E[i-1] + A[i]), \qquad G[i] = \max(G[i-1],\; E[i])$$</p>
+
+      <div class="invariant-box">
+        <div class="invariant-title">Duality Theorem: Maximum Circular Subarray = $\max(\text{Kadane}_{\max},\; \text{TotalSum} - \text{Kadane}_{\min})$</div>
+        <p>In a circular array (ring buffer) where index $N-1$ wraps around to index $0$, any valid non-empty contiguous circular subarray falls into one of two mutually exclusive topological cases:</p>
+        <ol>
+          <li><strong>Non-Wrapping Interval $A[L \dots R]$:</strong> The optimal subarray does not cross the $N-1 \to 0$ boundary. Its sum is found by standard $\text{Kadane}_{\max}(A)$.</li>
+          <li><strong>Wrapping Interval $A[0 \dots R] \cup A[L \dots N-1]$ (with $R + 1 &lt; L$):</strong> The chosen elements wrap around the boundary, which means the <em>excluded</em> middle elements $A[R+1 \dots L-1]$ form a contiguous non-wrapping subarray! Maximizing the wrapping sum is equivalent to minimizing the excluded middle subarray via $\text{Kadane}_{\min}(A)$:
+          $$\text{MaxWrapSum} = \sum_{i=0}^{N-1} A[i] - \min_{0 \le L \le R &lt; N} \sum_{k=L}^{R} A[k]$$</li>
+        </ol>
+        <p><strong>Critical Edge Case:</strong> If <em>all</em> elements in $A$ are negative ($A[i] &lt; 0$), then $\text{Kadane}_{\min}(A) = \text{TotalSum}$, so $\text{TotalSum} - \text{Kadane}_{\min}(A) = 0$, corresponding to an <em>empty</em> wrapping subarray. Therefore, if $\text{Kadane}_{\max}(A) &lt; 0$ (or equivalently $\text{TotalSum} == \text{Kadane}_{\min}$), return $\text{Kadane}_{\max}(A)$ directly!</p>
+      </div>
+
+      <h3>Comparative Algorithmic Approaches to Maximum Subarray</h3>
+      <table class="complexity-matrix">
+        <thead>
+          <tr>
+            <th>Algorithm / Formulation</th>
+            <th>Time Complexity</th>
+            <th>Auxiliary Space</th>
+            <th>Parallelizable / Associative?</th>
+            <th>Primary Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kadane's Local DP ($E[i], G[i]$)</td>
+            <td>$O(N)$</td>
+            <td>$O(1)$</td>
+            <td>Serial loop-carried dependency</td>
+            <td>Sequential 1D &amp; Circular arrays</td>
+          </tr>
+          <tr>
+            <td>Prefix Sum Running Min ($P[R+1] - \min P[L]$)</td>
+            <td>$O(N)$</td>
+            <td>$O(1)$</td>
+            <td>Reducible via parallel prefix scan</td>
+            <td>Length-constrained subarrays (with Deque)</td>
+          </tr>
+          <tr>
+            <td>Divide &amp; Conquer / Segment Tree Node</td>
+            <td>$O(N)$ build, $O(\log N)$ update</td>
+            <td>$O(N)$ tree</td>
+            <td><strong>Yes!</strong> Monoid tuple $(sum, pref, suff, best)$</td>
+            <td>Dynamic point updates + range max-subarray queries</td>
+          </tr>
+          <tr>
+            <td>2D Kadane (Row-Pair Compression)</td>
+            <td>$O(R^2 \cdot C)$</td>
+            <td>$O(C)$</td>
+            <td>Outer row pairs embarrassingly parallel</td>
+            <td>Maximum sum submatrix in 2D grids</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Visualizing Circular Subarray Complement Duality</h3>
+      <svg viewBox="0 0 760 185" width="100%" height="auto" role="img" aria-label="Circular subarray wrap-around complement duality">
+        <style>
+          .kd-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
+          .kd-title { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; fill: currentColor; }
+          .kd-max { fill: rgba(16, 185, 129, 0.25); stroke: #10b981; stroke-width: 2; }
+          .kd-min { fill: rgba(239, 68, 68, 0.22); stroke: #ef4444; stroke-width: 1.5; stroke-dasharray: 4 2; }
+          .kd-neutral { fill: rgba(148, 163, 184, 0.14); stroke: currentColor; stroke-opacity: 0.3; stroke-width: 1; }
+        </style>
+        <text x="15" y="24" class="kd-title">Case 1: Non-Wrapping Max Subarray (Standard Kadane_max)</text>
+        <rect x="15" y="36" width="130" height="36" rx="3" class="kd-neutral"/>
+        <text x="80" y="58" text-anchor="middle" class="kd-txt">Prefix</text>
+        <rect x="149" y="36" width="380" height="36" rx="3" class="kd-max"/>
+        <text x="339" y="58" text-anchor="middle" class="kd-txt">Max Contiguous Subarray (Kadane_max)</text>
+        <rect x="533" y="36" width="210" height="36" rx="3" class="kd-neutral"/>
+        <text x="638" y="58" text-anchor="middle" class="kd-txt">Suffix</text>
+
+        <text x="15" y="106" class="kd-title">Case 2: Wrapping Max Subarray = TotalSum - Minimum Contiguous Middle Subarray (Kadane_min)</text>
+        <rect x="15" y="118" width="215" height="36" rx="3" class="kd-max"/>
+        <text x="122" y="140" text-anchor="middle" class="kd-txt">Wrapped Head [0 .. R]</text>
+        <rect x="234" y="118" width="290" height="36" rx="3" class="kd-min"/>
+        <text x="379" y="140" text-anchor="middle" class="kd-txt">Excluded Min Subarray (Kadane_min)</text>
+        <rect x="528" y="118" width="215" height="36" rx="3" class="kd-max"/>
+        <text x="635" y="140" text-anchor="middle" class="kd-txt">Wrapped Tail [L .. N-1]</text>
+        <text x="15" y="174" class="kd-txt">Guard: If all A[i] &lt; 0, TotalSum == Kadane_min (empty wrap); return Kadane_max directly!</text>
+      </svg>
+
+      <h3>Associative Monoid Promotion for Parallel / Segment-Tree Kadane</h3>
+      <div class="mermaid">
+      flowchart LR
+        L["Left Half Tuple<br/>(sum_L, pref_L, suff_L, best_L)"] --> M["Combine Operator (O(1))<br/>sum = sum_L + sum_R<br/>pref = max(pref_L, sum_L + pref_R)<br/>suff = max(suff_R, suff_L + sum_R)<br/>best = max({best_L, best_R, suff_L + pref_R})"]
+        R["Right Half Tuple<br/>(sum_R, pref_R, suff_R, best_R)"] --> M
+      </div>
+
+      <div class="hardware-box">
+        <div class="hardware-title">Hardware Reality: Branchless <code>cmov</code> Execution &amp; Parallel Monoid Reduction</div>
+        <p>Inside Kadane's inner loop, <code>cur_max = std::max(x, cur_max + x)</code> and <code>global_max = std::max(global_max, cur_max)</code> compile on x86-64 to two additions and two conditional move (<code>cmovg</code>) instructions with <strong>zero branch instructions</strong>—avoiding branch predictor pollution regardless of sign oscillations. However, because <code>cur_max</code> depends on the previous iteration's <code>cur_max</code>, a single scalar Kadane loop is latency-bound by the 2-cycle integer add+cmov dependency chain. To saturate 8-wide AVX2 SIMD lanes or multi-core threads, divide the array into $P$ chunks and compute the 4-tuple monoid $(\text{sum}, \text{max\_prefix}, \text{max\_suffix}, \text{max\_subarray})$ on each chunk independently in parallel!</p>
+      </div>
+
+      <div class="simulator-mount" data-sim="sim-prefix-diff-kadane">
+          <div class="dsa-sim simulator-card" id="sim-prefix-diff-kadane" data-sim-id="sim-prefix-diff-kadane">
+            <div class="dsa-sim__header simulator-card__header">
+              <div class="dsa-sim__title simulator-card__title">
+                <span>2D Prefix Inclusion-Exclusion, Difference Array &amp; Kadane Subarray</span>
+              </div>
+              <span class="badge-o1">O(1) Range Query / O(N) Kadane</span>
+            </div>
+            <p class="dsa-sim__subtitle simulator-card__description">Trace 2D prefix-sum inclusion-exclusion P[r2][c2] - P[r1-1][c2] - P[r2][c1-1] + P[r1-1][c1-1], O(1) difference-array range updates, and Kadane circular max subarray.</p>
+            <div class="dsa-sim__controls simulator-card__controls">
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
+                Preset
+                <select class="simulator-card__input sim-select" data-role="preset" style="padding:4px 8px;font-size:12px;">
+                  <option value="0">Kadane&#039;s Max Subarray &amp; Circular Total - MinSubarray Duality</option><option value="1">1D/2D Difference Array O(1) Range Add (D[L]+=v, D[R+1]-=v)</option><option value="2">2D Prefix Sum Submatrix Inclusion-Exclusion</option>
+                </select>
+              </label>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="prev" title="Step Back">◀ Prev</button>
+              <button type="button" class="btn btn--primary btn--sm" data-role="next" title="Step Forward">Step ▶</button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="play" title="Play / Pause">⏵ Play</button>
+              <button type="button" class="btn btn--sm" data-role="reset" title="Reset">↺ Reset</button>
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
+                Speed
+                <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
+                  <option value="1100">0.5×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="320">2×</option>
+                  <option value="150">4×</option>
+                </select>
+              </label>
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
+                Step 1 / 1
+              </span>
+            </div>
+            <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
+              <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
+              <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Kadane Circular Duality: A wrapping subarray equals the complement of a contiguous middle subarray, so max_wrap = TotalSum - minSubarray.</div>
+            </div>
+            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">5</span><span class="dsa-sim__cell-tag">Prefix</span></div><div class="dsa-sim__cell is-warn"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">-3</span><span class="dsa-sim__cell-tag">Min Subarray = -3</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">5</span><span class="dsa-sim__cell-tag">Suffix</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">Circular Wrap: [5] + [5] = 10</span><span class="dsa-sim__cell-tag">Total(7) - Min(-3) = 10</span></div></div></div>
+            <div class="dsa-sim__metrics" data-role="metrics">
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Standard Kadane Max</div>
+                  <div class="dsa-sim__metric-value">7 ([5, -3, 5])</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Minimum Subarray</div>
+                  <div class="dsa-sim__metric-value">-3 ([-3])</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Circular Max (Total - Min)</div>
+                  <div class="dsa-sim__metric-value">7 - (-3) = 10</div>
+                </div>
+              
+            </div>
+            <div class="dsa-sim__log" data-role="log">Computed both maxSubarray=7 and minSubarray=-3; circular wrap achieves Total - Min = 10.</div>
+          </div>
+        </div>
+
+      <h3>Production Implementation: Circular Kadane &amp; Index-Tracking Non-Wrapping Kadane</h3>
+      <pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+
+struct SubarrayResult {
+  std::int64_t max_sum;
+  std::size_t best_left;
+  std::size_t best_right;
+};
+
+// Returns maximum non-empty subarray sum along with exact [best_left, best_right] indices
+SubarrayResult kadane_with_indices(const std::vector&lt;int&gt;&amp; nums) noexcept {
+  std::int64_t cur_sum = nums[0];
+  std::int64_t max_sum = nums[0];
+  std::size_t cur_left = 0, best_left = 0, best_right = 0;
+
+  for (std::size_t i = 1; i &lt; nums.size(); ++i) {
+    if (cur_sum &lt; 0) {
+      cur_sum = nums[i];
+      cur_left = i;
+    } else {
+      cur_sum += nums[i];
+    }
+    if (cur_sum &gt; max_sum) {
+      max_sum = cur_sum;
+      best_left = cur_left;
+      best_right = i;
+    }
+  }
+  return {max_sum, best_left, best_right};
+}
+
+// Single-pass O(N) Time, O(1) Space Maximum Circular Subarray
+std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexcept {
+  std::int64_t total_sum = nums[0];
+  std::int64_t cur_max = nums[0], global_max = nums[0];
+  std::int64_t cur_min = nums[0], global_min = nums[0];
+
+  for (std::size_t i = 1; i &lt; nums.size(); ++i) {
+    const std::int64_t x = nums[i];
+    total_sum += x;
+    cur_max = std::max(x, cur_max + x);
+    global_max = std::max(global_max, cur_max);
+    cur_min = std::min(x, cur_min + x);
+    global_min = std::min(global_min, cur_min);
+  }
+
+  // If all numbers are negative, global_max &lt; 0 and total_sum == global_min.
+  // Returning total_sum - global_min would erroneously return 0 (the empty subarray).
+  if (global_max &lt; 0) {
+    return global_max;
+  }
+  return std::max(global_max, total_sum - global_min);
+}</code></pre>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">Production Pitfall: Initializing <code>global_max = 0</code> &amp; Maximum Product Subarray Sign Flips</div>
+        <p>Two classic bugs arise in Kadane variants:</p>
+        <ol>
+          <li><strong>Initializing <code>global_max = 0</code>:</strong> When the problem requires a <em>non-empty</em> subarray and all elements are negative (e.g., <code>[-8, -3, -5]</code>), initializing <code>global_max = 0</code> returns <code>0</code> instead of <code>-3</code>. Always initialize <code>cur_max = global_max = A[0]</code> and loop from index <code>i = 1</code>.</li>
+          <li><strong>Maximum Product Subarray:</strong> Multiplication is not monotonic under sign flips—multiplying a very negative running product by a negative number $A[i] &lt; 0$ turns it into the <em>largest positive</em> product! For Maximum Product Subarray, you must simultaneously track both <code>cur_max</code> and <code>cur_min</code> at every step: when $A[i] &lt; 0$, <code>std::swap(cur_max, cur_min)</code> before multiplying.</li>
+        </ol>
+      </div>
+    </article>
+      <section class="check-slider" data-slug="kadane-subarray-invariants" data-total="4" aria-label="Check yourself">
+        <div class="check-slider__head">
+          <span class="check-slider__label">Check yourself</span>
+          <span class="check-slider__count">Question <b>1</b> of 4</span>
+          
+          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: All-Negative Edge Case in Maximum Circular Subarray" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="1" title="2. Concept: Promoting Kadane&#039;s DP to an Associative Monoid for Parallelism &amp; Segment Trees" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Maximum Product Subarray Sign-Flip Invariant" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Prefix Sum Interpretation of Length-Bounded Maximum Subarray" aria-label="Go to question 4"></button></span>
+        </div>
+        <div class="check-slider__track">
+      <div class="quiz-card check-slider__slide" id="quiz-q-ksi-1" data-type="mcq" data-slug="kadane-subarray-invariants" data-index="0">
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">All-Negative Edge Case in Maximum Circular Subarray</span>
+          <span class="check-slider__level">recall</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">To find the maximum non-empty subarray sum in a circular array $A$, you compute `total_sum`, `global_max` (standard Kadane max), and `global_min` (standard Kadane min), and return `max(global_max, total_sum - global_min)`.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q-ksi-1">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-1" value="0" />
+            <span>When all elements are negative, `global_min == total_sum`, so `total_sum - global_min == 0` (representing an invalid empty subarray); the algorithm must check `if (global_max &lt; 0) return global_max;` (returning `-2`).</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-1" value="1" />
+            <span>When all elements are negative, `global_min` equals the single largest element `-2`, so `total_sum - global_min` returns `-13`.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-1" value="2" />
+            <span>The formula `max(global_max, total_sum - global_min)` already returns `-2` without any special check.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-1" value="3" />
+            <span>When all elements are negative, a circular array has no well-defined maximum subarray.</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q-ksi-1">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="1">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q-ksi-1" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">If every element is negative, the minimum-sum contiguous subarray is the entire array (`global_min = -15 = total_sum`). Subtracting it leaves the empty set (`0`), which beats `global_max = -2` unless guarded by `if (global_max &lt; 0) return global_max;`.</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q-ksi-2" data-type="mcq" data-slug="kadane-subarray-invariants" data-index="1" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Promoting Kadane&#039;s DP to an Associative Monoid for Parallelism &amp; Segment Trees</span>
+          <span class="check-slider__level">apply</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">Standard Kadane&#039;s algorithm (`cur = max(x, cur + x)`) has a serial loop-carried dependency. To parallelize Maximum Subarray across $P$ threads or maintain it dynamically in a Segment Tree, we summarize each contiguous segment $S$ by a tuple of values.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q-ksi-2">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-2" value="0" />
+            <span>The 4-tuple `(total_sum, max_prefix_sum, max_suffix_sum, max_subarray_sum)`, where `best(L + R) = max({best_L, best_R, max_suffix_L + max_prefix_R})`.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-2" value="1" />
+            <span>The 2-tuple `(total_sum, max_subarray_sum)`, where `best(L + R) = max(best_L, best_R, sum_L + sum_R)`.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-2" value="2" />
+            <span>The 3-tuple `(min_element, max_element, max_subarray_sum)`.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-2" value="3" />
+            <span>Kadane&#039;s recurrence cannot be made associative without $O(N)$ work per merge.</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="0">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q-ksi-2">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="2">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q-ksi-2" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">A maximum subarray across $L \cdot R$ lies either entirely in $L$ (`best_L`), entirely in $R$ (`best_R`), or crosses the boundary—in which case it is the sum of the maximum suffix of $L$ (`suff_L`) and the maximum prefix of $R$ (`pref_R`). Updating `pref` and `suff` in turn requires `sum_L` and `sum_R`.</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q-ksi-3" data-type="mcq" data-slug="kadane-subarray-invariants" data-index="2" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Maximum Product Subarray Sign-Flip Invariant</span>
+          <span class="check-slider__level">apply</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">You are adapting Kadane&#039;s algorithm to find the Maximum Product Subarray of an integer array $A$ that contains positive numbers, negative numbers, and zeros.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q-ksi-3">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-3" value="0" />
+            <span>Multiplying by a negative number $x &lt; 0$ reverses the ordering of products (turning a large negative product into a large positive product); you must maintain both `cur_max` and `cur_min`, swapping them when $x &lt; 0$ before setting `cur_max = max(x, cur_max * x)` and `cur_min = min(x, cur_min * x)`.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-3" value="1" />
+            <span>You only need to take `std::abs(A[i])` before running standard additive Kadane&#039;s algorithm.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-3" value="2" />
+            <span>You must replace `A[i]` with $\log |A[i]|$ and run standard Kadane&#039;s algorithm.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-3" value="3" />
+            <span>Tracking `cur_max` and resetting to `1` whenever `A[i] &lt; 0` suffices.</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="1">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q-ksi-3">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="3">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q-ksi-3" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">In `[-2, 3, -4]`, the minimum product ending at index 1 is `-6`. When multiplied by `A[2] = -4`, that minimum product `-6` becomes the maximum product `+24`! Tracking `(cur_max, cur_min)` captures both extremes across sign inversions.</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q-ksi-4" data-type="mcq" data-slug="kadane-subarray-invariants" data-index="3" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Prefix Sum Interpretation of Length-Bounded Maximum Subarray</span>
+          <span class="check-slider__level">staff</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">You need to find the maximum sum of a contiguous subarray whose length is &lt;strong&gt;at most $K$&lt;/strong&gt; ($1 \le R - L + 1 \le K$) in $O(N)$ time.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q-ksi-4">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-4" value="0" />
+            <span>When `cur` exceeds length $K$, simply dropping `A[R - K]` does not yield the optimal shorter suffix; instead, rewrite the sum as $P[R+1] - P[L]$ for $R + 1 - K \le L \le R$ and maintain the minimum prefix sum $P[L]$ in that sliding window using a Monotonic Increasing Deque.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-4" value="1" />
+            <span>Standard Kadane works if we reset `cur = 0` every $K$ elements.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-4" value="2" />
+            <span>Subtracting `A[R - K]` from `cur` whenever length reaches $K$ always yields the exact maximum subarray of length $\le K$.</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q-ksi-4" value="3" />
+            <span>Length-bounded maximum subarray requires $O(N \log K)$ time using a balanced BST.</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="2">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q-ksi-4">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>See score</button>
+          
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q-ksi-4" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">Maximizing $\sum_{i=L}^R A[i] = P[R+1] - P[L]$ subject to $1 \le R - L + 1 \le K$ means minimizing $P[L]$ over the sliding index window $L \in [\max(0, R + 1 - K),\; R]$. A monotonic increasing deque maintains the minimum $P[L]$ in $O(1)$ amortized time per step.</div>
+        </div>
+      </div></div>
+        <div class="check-slider__done" hidden>
+          <p class="check-slider__score"></p>
+          <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
+        </div>
+      </section>
+      <div class="exercise-card" id="exercise-kadane-subarray-invariants">
+        <div class="exercise-card__header">
+          <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
+          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
+        </div>
+        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
+        <p class="exercise-card__prompt">Why does standard scalar Kadane (`cur = max(x, cur + x)`) fail when a maximum length $K$ is imposed, and how is $O(N)$ time achieved?</p>
+        <div class="exercise-card__options" id="exercise-options-kadane-subarray-invariants">
+          
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="kadane-subarray-invariants" data-idx="0" data-ans="0">
+        <span class="exercise-option__letter">A</span>
+        <span class="exercise-option__text">When `cur` exceeds length $K$, simply dropping `A[R - K]` does not yield the optimal shorter suffix; instead, rewrite the sum as $P[R+1] - P[L]$ for $R + 1 - K \le L \le R$ and maintain the minimum prefix sum $P[L]$ in that sliding window using a Monotonic Increasing Deque.</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="kadane-subarray-invariants" data-idx="1" data-ans="0">
+        <span class="exercise-option__letter">B</span>
+        <span class="exercise-option__text">Standard Kadane works if we reset `cur = 0` every $K$ elements.</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="kadane-subarray-invariants" data-idx="2" data-ans="0">
+        <span class="exercise-option__letter">C</span>
+        <span class="exercise-option__text">Subtracting `A[R - K]` from `cur` whenever length reaches $K$ always yields the exact maximum subarray of length $\le K$.</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="kadane-subarray-invariants" data-idx="3" data-ans="0">
+        <span class="exercise-option__letter">D</span>
+        <span class="exercise-option__text">Length-bounded maximum subarray requires $O(N \log K)$ time using a balanced BST.</span>
+      </button>
+    
+        </div>
+        <div class="exercise-card__feedback" id="exercise-feedback-kadane-subarray-invariants" style="display:none;">
+          <div class="exercise-card__explanation">Maximizing $\sum_{i=L}^R A[i] = P[R+1] - P[L]$ subject to $1 \le R - L + 1 \le K$ means minimizing $P[L]$ over the sliding index window $L \in [\max(0, R + 1 - K),\; R]$. A monotonic increasing deque maintains the minimum $P[L]$ in $O(1)$ amortized time per step.</div>
+        </div>
+      </div>
+    
+        <div class="takeaways">
+          <h3 class="takeaways__title">Key Takeaways</h3>
+          <div class="takeaways__list">
+            <div class="takeaways__item">Kadane's algorithm reduces the O(N^2) subarray search to O(N) by maintaining E[i] = max(A[i], E[i-1] + A[i]), the best subarray constrained to end at index i.</div><div class="takeaways__item">In a circular array, the maximum subarray is max(Kadane_max, TotalSum - Kadane_min), guarded by returning Kadane_max when all elements are negative.</div><div class="takeaways__item">Although standard Kadane has a serial dependency, promoting each segment to the 4-tuple (sum, max_pref, max_suff, max_sub) makes the operator associative for Segment Trees and SIMD/multi-core parallelism.</div><div class="takeaways__item">Always initialize Kadane's accumulators to A[0] (not 0) when non-empty subarrays are required, and track both min and max states for Maximum Product Subarray.</div>
+          </div>
+        </div>
+      <div class="lesson-builds lesson-blueprints">
+        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> Interactive Architecture Blueprint — Capacity Sandbox</h3>
+        
+          <a class="lesson-builds__item" href="/sandbox/?blueprint=array-subarray-window-selector" data-nav="sandbox" data-blueprint="array-subarray-window-selector">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <span class="lesson-builds__name">Contiguous Subarray &amp; Sliding Window Selector (N ≤ 10⁷)</span>
+              <span class="badge">50000 QPS</span>
+            </div>
+            <span class="lesson-builds__summary">Interactive decision blueprint for choosing between 1D/2D Prefix Sums, Two Pointers, Monotonic Deque, and Prefix-Sum + Ordered Map when negativity breaks window monotonicity.</span>
+            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Open Topology &amp; Stress-Test in Architecture Sandbox →</span>
+          </a>
+      </div>
+        <div class="further-reading">
+          <h3 class="further-reading__title">Further Reading</h3>
+          <div class="further-reading__list">
+            <a class="further-reading__link" href="https://dl.acm.org/doi/10.1145/358234.381162" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Jon Bentley — Programming Pearls, Column 8: Algorithm Design Techniques (History of Grenander's & Kadane's Algorithm)</a><a class="further-reading__link" href="https://cp-algorithms.com/data_structures/segment_tree.html" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> CP-Algorithms: Segment Tree — Finding Subsegments with the Maximal Sum (4-Tuple Monoid)</a>
+          </div>
+        </div>
+      <div class="lesson-feedback" id="lesson-feedback-kadane-subarray-invariants">
+        <div class="lesson-feedback__content">
+          <div class="lesson-feedback__meta">
+            <span class="lesson-feedback__title">Was this lesson helpful?</span>
+            <span class="lesson-feedback__sub">Spot an issue or have a suggestion? Let us know on GitHub.</span>
+          </div>
+          <div class="lesson-feedback__actions">
+            <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="kadane-subarray-invariants" data-vote="yes">
+              👍 Helpful
+            </button>
+            <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="kadane-subarray-invariants" data-vote="no">
+              👎 Needs work
+            </button>
+            <a href="https://github.com/innovatorved/dsa-in-depth/issues/new?title=%5BFeedback%5D%20Maximum%20Subarray%20(Kadane's%20Algorithm)%20%26%20Circular%20Array%20Extensions&labels=feedback,curriculum&body=%23%23%23%20Topic%3A%20Maximum%20Subarray%20(Kadane's%20Algorithm)%20%26%20Circular%20Array%20Extensions%0A**URL%3A**%20https%3A%2F%2Fdsa-in-depth.vedgupta.in%2Ftopic%2Fkadane-subarray-invariants%2F%0A%0A%23%23%23%20Feedback%20%2F%20Correction%3A%0A" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline lesson-feedback__btn" title="Open an issue on GitHub">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> Report an issue
+            </a>
+          </div>
+        </div>
+      </div><div class="lesson-nav"><a class="lesson-nav__link" href="/topic/sliding-window-monotonicity/" data-nav="topic" data-slug="sliding-window-monotonicity">
+        <span class="lesson-nav__label">← Previous</span>
+        <span class="lesson-nav__title">Fixed & Variable Sliding Windows: Monotonicity & Two-Pointer Validity</span>
+      </a><a class="lesson-nav__link lesson-nav__link--next" href="/topic/bit-manipulation-twos-complement/" data-nav="topic" data-slug="bit-manipulation-twos-complement">
+        <span class="lesson-nav__label">Next →</span>
+        <span class="lesson-nav__title">Twos-Complement Arithmetic, Bitmasks, Brian Kernighan's Trick & XOR</span>
+      </a></div>
+    </div>
+  </main>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search topics" aria-modal="true">
+    <div class="search-modal__backdrop" id="search-backdrop"></div>
+    <div class="search-modal__dialog">
+      <div class="search-modal__input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-modal__input" id="search-input" type="text" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="search-modal__results" id="search-results"></div>
+      <div class="search-modal__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span><kbd>↵</kbd> Open</span>
+        <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagram Lightbox Modal -->
+  <div class="diagram-lightbox" id="diagram-lightbox" role="dialog" aria-label="Architecture diagram viewer" aria-modal="true">
+    <div class="diagram-lightbox__backdrop" id="diagram-lightbox-backdrop"></div>
+    <div class="diagram-lightbox__dialog">
+      <div class="diagram-lightbox__header">
+        <div class="diagram-lightbox__title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+          <span>Algorithmic Diagram</span>
+        </div>
+        <div class="diagram-lightbox__actions">
+          <button class="diagram-lightbox__btn" id="diagram-zoom-out" title="Zoom Out" aria-label="Zoom out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="diagram-lightbox__btn diagram-lightbox__btn--text" id="diagram-zoom-reset" title="Reset Zoom" aria-label="Reset zoom">
+            <span id="diagram-zoom-level">100%</span>
+          </button>
+          <button class="diagram-lightbox__btn" id="diagram-zoom-in" title="Zoom In" aria-label="Zoom in">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="diagram-lightbox__divider"></div>
+          <button class="diagram-lightbox__btn diagram-lightbox__close" id="diagram-lightbox-close" title="Close (Esc)" aria-label="Close dialog">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="diagram-lightbox__body" id="diagram-lightbox-body">
+        <div class="diagram-lightbox__stage" id="diagram-lightbox-stage"></div>
+      </div>
+      <div class="diagram-lightbox__footer">
+        <span>Click and drag to pan • Scroll to zoom • Press <kbd>Esc</kbd> to close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Scripts -->
+  <script type="text/plain" data-defer src="data/curriculum.js?v=dac0a78ff4"></script>
+  <script type="text/plain" data-defer src="data/roadmap.js?v=56d9aeb812"></script>
+  <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
+  <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
+  <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=c2dd5a1dae"></script>
+  <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
+  <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
+
+  <!-- App Scripts -->
+  <script type="text/plain" data-defer src="js/lazy.js?v=7275ff46e4"></script>
+  <script type="text/plain" data-defer src="js/analytics.js?v=280d488e9a"></script>
+  <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
+  <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
+  <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=bee88cba91"></script>
+  
+  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/roadmap.js?v=a94cb50935"></script>
+  <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=3fc347d571"></script>
+  <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
+  
+  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+
+  <!-- App bootstrap & deferred script loader -->
+  <script src="js/bootstrap.js?v=df2bb60aeb"></script>
+</body>
+</html>

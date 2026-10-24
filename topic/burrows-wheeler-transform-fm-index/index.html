@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="no-shell">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search — DSA In Depth</title>
+  <meta name="description" content="How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search — DSA In Depth">
+  <meta property="og:description" content="How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners.">
+  <meta property="og:url" content="https://dsa-in-depth.vedgupta.in/topic/burrows-wheeler-transform-fm-index/">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search — DSA In Depth">
+  <meta name="twitter:description" content="How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners.">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://dsa-in-depth.vedgupta.in/topic/burrows-wheeler-transform-fm-index/">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css?v=693f5cccb9">
+  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
+  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
+  <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
+  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+
+  <!-- Core scripts: head initializer & asset manifest -->
+  <script src="js/init.js?v=17af84f241"></script>
+  <script src="js/manifest.js?v=d23bd2f831"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping & FM-Index Substring Search",
+  "description": "How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/burrows-wheeler-transform-fm-index/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
+<body>
+  <!-- Skip to content -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <button class="topbar__hamburger" aria-label="Toggle sidebar" id="hamburger-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+
+    <a href="/" class="topbar__brand" data-nav="home">
+      <span class="topbar__brand-icon">DSA</span>
+      <span class="topbar__brand-text">DSA</span>
+      <span class="topbar__track-badge">In Depth</span>
+    </a>
+
+    <div class="topbar__search">
+      <button class="topbar__search-trigger" id="search-trigger" aria-label="Search topics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search 180 topics &amp; labs…</span>
+        <span class="topbar__search-kbd">⌘K</span>
+      </button>
+    </div>
+
+    <div class="topbar__actions">
+      <nav class="topbar__nav" aria-label="Primary navigation">
+        <a href="/roadmap" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
+        <a href="/challenges" class="topbar__nav-link" data-nav="challenges">Challenges</a>
+        <a href="/dashboard" class="topbar__nav-link" data-nav="dashboard">Dashboard</a>
+        <a href="/sandbox" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
+        <a href="/glossary/" class="topbar__nav-link" data-nav="glossary">Glossary</a>
+      </nav>
+
+      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+        <svg class="topbar__progress-ring" viewBox="0 0 20 20">
+          <circle class="track" cx="10" cy="10" r="8"/>
+          <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
+        </svg>
+        <span id="progress-text">0%</span>
+      </div>
+
+      <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+
+      <button class="topbar__btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sun"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-moon" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <nav class="sidebar__tabs" role="tablist">
+      <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+    </nav>
+    <div class="sidebar__content" id="sidebar-content">
+<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.1</span>
+          <span class="module-group__title">Asymptotic Analysis, Recurrences &amp; Memory Hierarchy</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="ram-model-vs-modern-cpu" href="/topic/ram-model-vs-modern-cpu/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The RAM Model vs Modern CPU Cache Hierarchy</span>
+        </a><a class="unit-item" data-slug="asymptotic-notations-rigor" href="/topic/asymptotic-notations-rigor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Asymptotic Notation Rigor: O, Ω, Θ, o, ω &amp; Limit Laws</span>
+        </a><a class="unit-item" data-slug="recurrence-relations-master-theorem" href="/topic/recurrence-relations-master-theorem/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Solving Recurrences: Recursion Trees, Substitution &amp; Master Theorem</span>
+        </a><a class="unit-item" data-slug="akra-bazzi-uneven-divides" href="/topic/akra-bazzi-uneven-divides/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Beyond Master Theorem: Akra-Bazzi for Uneven Subproblems</span>
+        </a><a class="unit-item" data-slug="amortized-analysis-potential" href="/topic/amortized-analysis-potential/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Amortized Analysis: Aggregate, Banker&#39;s &amp; Physicist&#39;s Potential (Φ)</span>
+        </a><a class="unit-item" data-slug="space-complexity-stack-frames" href="/topic/space-complexity-stack-frames/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Space Complexity: Call Stacks, Tail Recursion &amp; Auxiliary Heap</span>
+        </a><a class="unit-item" data-slug="cache-oblivious-algorithms" href="/topic/cache-oblivious-algorithms/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Cache-Aware vs Cache-Oblivious Layouts (van Emde Boas Layout)</span>
+        </a><a class="unit-item" data-slug="branch-prediction-simd-cost" href="/topic/branch-prediction-simd-cost/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Branch Misprediction Penalties &amp; Branchless Algorithmic Design</span>
+        </a><a class="unit-item" data-slug="complexity-tradeoff-framework" href="/topic/complexity-tradeoff-framework/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Time-Space-Precomputation Tradeoff Design Framework</span>
+        </a><a class="unit-item" data-slug="case-v8-elements-kinds" href="/topic/case-v8-elements-kinds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: How V8 Optimizes JS Arrays (SMI, Double &amp; Holey Elements)</span>
+        </a></div></div><div class="module-group" data-module="m02">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.2</span>
+          <span class="module-group__title">Contiguous Arrays, Bit Manipulation &amp; Pointer Idioms</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="dynamic-arrays-geometric-resizing" href="/topic/dynamic-arrays-geometric-resizing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic Arrays: Geometric Growth Factors (2× vs 1.5×) &amp; Memory Reuse</span>
+        </a><a class="unit-item" data-slug="prefix-sums-difference-arrays" href="/topic/prefix-sums-difference-arrays/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">1D/2D Prefix Sums &amp; Difference Arrays for O(1) Range Updates</span>
+        </a><a class="unit-item" data-slug="two-pointers-invariant-proofs" href="/topic/two-pointers-invariant-proofs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Two-Pointer Invariants: Converging, Fast-Slow &amp; Dutch National Flag</span>
+        </a><a class="unit-item" data-slug="sliding-window-monotonicity" href="/topic/sliding-window-monotonicity/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fixed &amp; Variable Sliding Windows: Monotonicity &amp; Two-Pointer Validity</span>
+        </a><a class="unit-item" data-slug="kadane-subarray-invariants" href="/topic/kadane-subarray-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Maximum Subarray (Kadane&#39;s Algorithm) &amp; Circular Array Extensions</span>
+        </a><a class="unit-item" data-slug="bit-manipulation-twos-complement" href="/topic/bit-manipulation-twos-complement/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Twos-Complement Arithmetic, Bitmasks, Brian Kernighan&#39;s Trick &amp; XOR</span>
+        </a><a class="unit-item" data-slug="bitsets-word-level-parallelism" href="/topic/bitsets-word-level-parallelism/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitsets, Popcount (__builtin_popcount) &amp; O(N/64) Word-Level Parallelism</span>
+        </a><a class="unit-item" data-slug="in-place-matrix-cyclic-shifts" href="/topic/in-place-matrix-cyclic-shifts/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">In-Place Array Rotations (Juggling/Reversal) &amp; Matrix Transposition</span>
+        </a><a class="unit-item" data-slug="boyer-moore-majority-misra-gries" href="/topic/boyer-moore-majority-misra-gries/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Boyer-Moore Majority Vote &amp; Misra-Gries Heavy Hitters</span>
+        </a><a class="unit-item" data-slug="build-dynamic-circular-deque" href="/topic/build-dynamic-circular-deque/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector</span>
+        </a></div></div><div class="module-group" data-module="m03">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">1.3</span>
+          <span class="module-group__title">Linked Structures, Monotonic Stacks/Queues &amp; Cache-Conscious Lists</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="singly-doubly-intrusive-lists" href="/topic/singly-doubly-intrusive-lists/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Singly, Doubly &amp; Intrusive Linked Lists (Linux Kernel list_head)</span>
+        </a><a class="unit-item" data-slug="floyd-brent-cycle-detection" href="/topic/floyd-brent-cycle-detection/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Pointer Chasing: Floyd&#39;s Tortoise-and-Hare vs Brent&#39;s Cycle Detection</span>
+        </a><a class="unit-item" data-slug="unrolled-linked-lists-ropes" href="/topic/unrolled-linked-lists-ropes/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Unrolled Linked Lists &amp; Gap Buffers: Defeating Pointer Chasing</span>
+        </a><a class="unit-item" data-slug="skip-lists-probabilistic-indexing" href="/topic/skip-lists-probabilistic-indexing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Skip Lists: Probabilistic Multi-Level Indexing &amp; O(log N) Search Proof</span>
+        </a><a class="unit-item" data-slug="stacks-expression-evaluation" href="/topic/stacks-expression-evaluation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Call Stacks, Dijkstra&#39;s Shunting-Yard Algorithm &amp; AST Evaluation</span>
+        </a><a class="unit-item" data-slug="monotonic-stack-next-greater" href="/topic/monotonic-stack-next-greater/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Monotonic Stacks: Next Greater Element, Histogram &amp; Subarray Mins</span>
+        </a><a class="unit-item" data-slug="monotonic-deque-sliding-extrema" href="/topic/monotonic-deque-sliding-extrema/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Monotonic Deques: O(N) Sliding Window Minimum/Maximum</span>
+        </a><a class="unit-item" data-slug="lru-lfu-eviction-structures" href="/topic/lru-lfu-eviction-structures/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Composing Hash Maps + Doubly Linked Lists: O(1) LRU &amp; LFU Caches</span>
+        </a><a class="unit-item" data-slug="case-redis-skiplist-ziplist" href="/topic/case-redis-skiplist-ziplist/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Redis ZSET (Listpack vs SkipList + Dict Dual Indexing)</span>
+        </a><a class="unit-item" data-slug="build-lfu-lru-cache" href="/topic/build-lfu-lru-cache/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group" data-module="m04">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.1</span>
+          <span class="module-group__title">Hash Tables, Modern Probing &amp; Probabilistic Sketches</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="universal-k-independent-hashing" href="/topic/universal-k-independent-hashing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Hash Functions: Division, Multiplicative, Universal &amp; k-Independent Families</span>
+        </a><a class="unit-item" data-slug="separate-chaining-vs-open-addressing" href="/topic/separate-chaining-vs-open-addressing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Collision Resolution: Separate Chaining vs Linear/Quadratic/Double Probing</span>
+        </a><a class="unit-item" data-slug="robin-hood-cuckoo-hashing" href="/topic/robin-hood-cuckoo-hashing/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Variance Reduction: Robin Hood Hashing (PSL) &amp; Cuckoo Hashing</span>
+        </a><a class="unit-item" data-slug="hashdos-siphash-random-seeds" href="/topic/hashdos-siphash-random-seeds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algorithmic Complexity Attacks (HashDoS) &amp; SipHash Defense</span>
+        </a><a class="unit-item" data-slug="consistent-hashing-rendezvous" href="/topic/consistent-hashing-rendezvous/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Consistent Hashing with Bounded Loads &amp; Rendezvous (HRW) Hashing</span>
+        </a><a class="unit-item" data-slug="bloom-filters-counting-xor" href="/topic/bloom-filters-counting-xor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bloom Filters, Counting Bloom Filters, Cuckoo Filters &amp; Xor Filters</span>
+        </a><a class="unit-item" data-slug="count-min-sketch-heavy-hitters" href="/topic/count-min-sketch-heavy-hitters/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Count-Min Sketch &amp; Streaming Frequency Estimation Error Bounds</span>
+        </a><a class="unit-item" data-slug="hyperloglog-cardinality" href="/topic/hyperloglog-cardinality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">HyperLogLog: Harmonic Mean &amp; Stochastic Averaging in 1.5 KB</span>
+        </a><a class="unit-item" data-slug="case-rust-hashbrown-swisstable" href="/topic/case-rust-hashbrown-swisstable/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Google Abseil SwissTable &amp; Rust hashbrown SIMD Probing</span>
+        </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
+        </a></div></div><div class="module-group" data-module="m05">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.2</span>
+          <span class="module-group__title">Sorting Mechanics, Hybrid Sorts &amp; Linear-Time Order Statistics</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="quadratic-sorts-inversions" href="/topic/quadratic-sorts-inversions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Insertion, Selection &amp; Shellsort: Inversions &amp; Diminishing Increments</span>
+        </a><a class="unit-item" data-slug="mergesort-bottom-up-inversions" href="/topic/mergesort-bottom-up-inversions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Top-Down vs Bottom-Up Merge Sort &amp; Counting Inversions in O(N log N)</span>
+        </a><a class="unit-item" data-slug="quicksort-partition-schemes" href="/topic/quicksort-partition-schemes/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Quicksort: Lomuto vs Hoare vs Bentley-McIlroy 3-Way Partitioning</span>
+        </a><a class="unit-item" data-slug="randomized-quicksort-expectation" href="/topic/randomized-quicksort-expectation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Quicksort: Indicator Random Variables &amp; 1.386 N ln N Proof</span>
+        </a><a class="unit-item" data-slug="decision-tree-lower-bound" href="/topic/decision-tree-lower-bound/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Ω(N log N) Comparison Lower Bound via Stirling&#39;s Approximation</span>
+        </a><a class="unit-item" data-slug="counting-radix-bucket-sorts" href="/topic/counting-radix-bucket-sorts/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Non-Comparison Sorts: Counting Sort, LSD/MSD Radix Sort &amp; Bucket Sort</span>
+        </a><a class="unit-item" data-slug="quickselect-bfprt-median" href="/topic/quickselect-bfprt-median/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Order Statistics: Randomized Quickselect vs Deterministic BFPRT Median-of-Medians</span>
+        </a><a class="unit-item" data-slug="external-merge-sort-replacement" href="/topic/external-merge-sort-replacement/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">External Memory Sorting: K-Way Merge &amp; Replacement Selection</span>
+        </a><a class="unit-item" data-slug="case-timsort-pdqsort" href="/topic/case-timsort-pdqsort/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Python/V8 TimSort (Galloping &amp; Run Invariants) vs Rust pdqsort</span>
+        </a><a class="unit-item" data-slug="build-hybrid-introsort-timsort" href="/topic/build-hybrid-introsort-timsort/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)</span>
+        </a></div></div><div class="module-group" data-module="m06">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">2.3</span>
+          <span class="module-group__title">Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="binary-search-boundary-invariants" href="/topic/binary-search-boundary-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Closed vs Half-Open Binary Search: Eliminating Off-by-One Infinite Loops</span>
+        </a><a class="unit-item" data-slug="parametric-search-answer-space" href="/topic/parametric-search-answer-space/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Parametric Search: Binary Searching the Answer Space &amp; Feasibility Predicates</span>
+        </a><a class="unit-item" data-slug="rotated-bitonic-unbounded-search" href="/topic/rotated-bitonic-unbounded-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Exponential (Galloping) Search, Rotated Arrays &amp; Ternary Search on Unimodal Functions</span>
+        </a><a class="unit-item" data-slug="fractional-cascading" href="/topic/fractional-cascading/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fractional Cascading: Searching K Sorted Lists in O(log N + K)</span>
+        </a><a class="unit-item" data-slug="divide-and-conquer-closest-pair" href="/topic/divide-and-conquer-closest-pair/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Geometric Divide-and-Conquer: Planar Closest Pair of Points in O(N log N)</span>
+        </a><a class="unit-item" data-slug="karatsuba-strassen-algebraic-dc" href="/topic/karatsuba-strassen-algebraic-dc/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#39;s Matrix Product</span>
+        </a><a class="unit-item" data-slug="fast-fourier-transform-polynomials" href="/topic/fast-fourier-transform-polynomials/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fast Fourier Transform (Cooley-Tukey FFT) &amp; O(N log N) Polynomial Convolution</span>
+        </a><a class="unit-item" data-slug="meet-in-the-middle-search" href="/topic/meet-in-the-middle-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Meet-in-the-Middle: Halving the Exponent from O(2^N) to O(2^(N/2) log(2^(N/2)))</span>
+        </a><a class="unit-item" data-slug="cdq-divide-and-conquer" href="/topic/cdq-divide-and-conquer/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Offline Divide-and-Conquer over Time (CDQ Divide-and-Conquer for 3D Partial Orders)</span>
+        </a><a class="unit-item" data-slug="case-git-bisect-eytzinger" href="/topic/case-git-bisect-eytzinger/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Cache-Friendly Eytzinger Binary Search Layout vs Standard Binary Search</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group" data-module="m07">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.1</span>
+          <span class="module-group__title">Binary Trees, Traversals, BSTs &amp; Priority Heaps</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tree-representations-traversals" href="/topic/tree-representations-traversals/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Tree Representations &amp; Recursive vs Iterative Pre/In/Post/Level-Order Traversals</span>
+        </a><a class="unit-item" data-slug="morris-threaded-traversal" href="/topic/morris-threaded-traversal/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Morris In-Order Traversal: O(1) Auxiliary Space via Temporary Threading</span>
+        </a><a class="unit-item" data-slug="tree-serialization-reconstruction" href="/topic/tree-serialization-reconstruction/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Unique Tree Reconstruction (Preorder + Inorder) &amp; Succinct Bit-String Serialization</span>
+        </a><a class="unit-item" data-slug="bst-operations-hibbard-deletion" href="/topic/bst-operations-hibbard-deletion/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Binary Search Trees: Search, Insertion, Successor &amp; Hibbard Deletion Asymmetry</span>
+        </a><a class="unit-item" data-slug="randomly-built-bst-height" href="/topic/randomly-built-bst-height/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomly Built BSTs: Expected Height O(log N) via Quicksort Dual Proof</span>
+        </a><a class="unit-item" data-slug="binary-d-ary-heaps" href="/topic/binary-d-ary-heaps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Binary &amp; d-ary Heaps: Floyd&#39;s O(N) Bottom-Up Build-Heap Proof</span>
+        </a><a class="unit-item" data-slug="mergeable-heaps-binomial-fibonacci" href="/topic/mergeable-heaps-binomial-fibonacci/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Mergeable Priority Queues: Leftist, Skew, Binomial &amp; Fibonacci Heaps (O(1) Decrease-Key)</span>
+        </a><a class="unit-item" data-slug="two-heaps-k-way-merge-patterns" href="/topic/two-heaps-k-way-merge-patterns/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Priority Queue Patterns: Running Median (Two Heaps), K-Way Merge &amp; Top-K</span>
+        </a><a class="unit-item" data-slug="case-timer-wheels-vs-heaps" href="/topic/case-timer-wheels-vs-heaps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Hierarchical Hashed Timer Wheels vs Four-Heap Timers (Go runtime, Kafka, Linux)</span>
+        </a><a class="unit-item" data-slug="build-indexed-d-ary-priority-queue" href="/topic/build-indexed-d-ary-priority-queue/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Indexed 4-Ary Min/Max Priority Queue with O(log_d N) decreaseKey</span>
+        </a></div></div><div class="module-group" data-module="m08">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.2</span>
+          <span class="module-group__title">Self-Balancing, Augmented, Disk-Backed &amp; Persistent Trees</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tree-rotations-avl-invariants" href="/topic/tree-rotations-avl-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Tree Rotations &amp; AVL Trees: Balance Factors, LL/RR/LR/RL Rebalancing &amp; Fibonacci Height Bound</span>
+        </a><a class="unit-item" data-slug="red-black-llrb-isomorphism" href="/topic/red-black-llrb-isomorphism/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">2-3-4 Trees, Red-Black Trees &amp; Sedgewick&#39;s Left-Leaning Red-Black (LLRB) Isomorphism</span>
+        </a><a class="unit-item" data-slug="treaps-split-merge-paradigm" href="/topic/treaps-split-merge-paradigm/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Treaps &amp; Implicit Treaps: Rebalancing Without Rotations via split and merge</span>
+        </a><a class="unit-item" data-slug="splay-trees-dynamic-optimality" href="/topic/splay-trees-dynamic-optimality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Splay Trees: Zig-Zig / Zig-Zag Rotations, Amortized O(log N) Potential Proof &amp; Static Optimality</span>
+        </a><a class="unit-item" data-slug="augmented-trees-order-intervals" href="/topic/augmented-trees-order-intervals/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Augmenting BSTs: Order-Statistic Trees (select/rank) &amp; Interval Trees</span>
+        </a><a class="unit-item" data-slug="b-trees-bplus-trees-disk-pages" href="/topic/b-trees-bplus-trees-disk-pages/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">B-Trees &amp; B+ Trees: Page Fanout, Proactive Splitting &amp; Leaf Sibling Chains</span>
+        </a><a class="unit-item" data-slug="lsm-trees-write-amplification" href="/topic/lsm-trees-write-amplification/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">LSM-Trees vs B+ Trees: MemTables, SSTables, Compaction &amp; RUM Conjecture</span>
+        </a><a class="unit-item" data-slug="persistent-trees-path-copying" href="/topic/persistent-trees-path-copying/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Persistent Data Structures: Path Copying, Fat Nodes &amp; Fractional Cascading Time Travel</span>
+        </a><a class="unit-item" data-slug="case-linux-rbtree-cfs" href="/topic/case-linux-rbtree-cfs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Intrusive Augmented Red-Black Trees in the Linux Kernel CFS &amp; VMA Manager</span>
+        </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
+        </a></div></div><div class="module-group" data-module="m09">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">3.3</span>
+          <span class="module-group__title">Range Query &amp; Sublinear Decomposition Structures</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="static-range-queries-sparse-table" href="/topic/static-range-queries-sparse-table/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Disjoint &amp; Standard Sparse Tables: O(1) Idempotent Range Minimum Query (RMQ)</span>
+        </a><a class="unit-item" data-slug="fenwick-tree-binary-indexed" href="/topic/fenwick-tree-binary-indexed/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Fenwick Trees (Binary Indexed Trees): lowbit Geometry, Point Updates &amp; Range Updates</span>
+        </a><a class="unit-item" data-slug="segment-trees-bottom-up-monoids" href="/topic/segment-trees-bottom-up-monoids/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Segment Trees over Monoids: Recursive vs Iterative (ZKW) Bottom-Up Implementation</span>
+        </a><a class="unit-item" data-slug="lazy-propagation-segment-tree-beats" href="/topic/lazy-propagation-segment-tree-beats/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lazy Propagation &amp; Segment Tree Beats (Ji Driver Segment Tree for Range Chmin/Chmax)</span>
+        </a><a class="unit-item" data-slug="dynamic-persistent-segment-trees" href="/topic/dynamic-persistent-segment-trees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic (Sparse) &amp; Persistent Segment Trees: K-th Smallest in Subarray in O(log N)</span>
+        </a><a class="unit-item" data-slug="sqrt-decomposition-mos-algorithm" href="/topic/sqrt-decomposition-mos-algorithm/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">√N Block Decomposition &amp; Mo&#39;s Offline Query Ordering (O((N+Q)√N))</span>
+        </a><a class="unit-item" data-slug="lowest-common-ancestor-rmq" href="/topic/lowest-common-ancestor-rmq/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lowest Common Ancestor (LCA): Binary Lifting vs Euler Tour + ±1 RMQ Reduction</span>
+        </a><a class="unit-item" data-slug="heavy-light-decomposition" href="/topic/heavy-light-decomposition/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Heavy-Light Decomposition (HLD): Decomposing Trees into O(log N) Heavy Paths</span>
+        </a><a class="unit-item" data-slug="cartesian-trees-treap-duality" href="/topic/cartesian-trees-treap-duality/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Cartesian Trees: Linear-Time Monotonic Stack Construction &amp; RMQ-LCA Duality</span>
+        </a><a class="unit-item" data-slug="build-lazy-segment-tree" href="/topic/build-lazy-segment-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates &amp; Queries</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group" data-module="m10">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">4.1</span>
+          <span class="module-group__title">Tries, Exact String Matching &amp; Multi-Pattern Automata</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="tries-radix-trees-patricia" href="/topic/tries-radix-trees-patricia/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Prefix Tries, Compressed Radix Trees &amp; PATRICIA Trees</span>
+        </a><a class="unit-item" data-slug="bitwise-tries-max-xor" href="/topic/bitwise-tries-max-xor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitwise (0-1) Tries: Maximum XOR Subarray &amp; Subtree Queries</span>
+        </a><a class="unit-item" data-slug="rabin-karp-polynomial-rolling-hash" href="/topic/rabin-karp-polynomial-rolling-hash/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Rabin-Karp Rolling Hash: Mersenne Prime Moduli (2^61 - 1) &amp; Birthday Collision Avoidance</span>
+        </a><a class="unit-item" data-slug="kmp-prefix-function-automaton" href="/topic/kmp-prefix-function-automaton/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Knuth-Morris-Pratt (KMP): Prefix Function π[i] Amortized Linearity &amp; DFA View</span>
+        </a><a class="unit-item" data-slug="z-algorithm-linear-box" href="/topic/z-algorithm-linear-box/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Z-Algorithm: Linear-Time [L, R] Z-Box Maintenance &amp; Pattern Matching</span>
+        </a><a class="unit-item" data-slug="boyer-moore-horspool-simd" href="/topic/boyer-moore-horspool-simd/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sublinear Average-Case Matching: Boyer-Moore Bad-Character/Good-Suffix &amp; Horspool</span>
+        </a><a class="unit-item" data-slug="aho-corasick-trie-automaton" href="/topic/aho-corasick-trie-automaton/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Aho-Corasick Automaton: Trie + BFS Failure Links + Dictionary Suffix Links</span>
+        </a><a class="unit-item" data-slug="manacher-palindromic-tree" href="/topic/manacher-palindromic-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Palindromes in O(N): Manacher&#39;s Algorithm &amp; Eertree (Palindromic Automaton)</span>
+        </a><a class="unit-item" data-slug="case-ripgrep-teddy-simd" href="/topic/case-ripgrep-teddy-simd/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Why ripgrep Is So Fast (Aho-Corasick, Boyer-Moore &amp; SIMD Teddy)</span>
+        </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
+        </a></div></div><div class="module-group" data-module="m11">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">4.2</span>
+          <span class="module-group__title">Suffix Structures, Sequence Alignment &amp; Data Compression</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="suffix-trees-ukkonen-intuition" href="/topic/suffix-trees-ukkonen-intuition/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Trees &amp; Ukkonen&#39;s Online O(N) Construction: Active Point &amp; Suffix Links</span>
+        </a><a class="unit-item" data-slug="suffix-arrays-prefix-doubling-sais" href="/topic/suffix-arrays-prefix-doubling-sais/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Arrays: Manber-Myers O(N log N) Prefix Doubling &amp; SA-IS O(N) Overview</span>
+        </a><a class="unit-item" data-slug="kasai-lcp-array-rmq" href="/topic/kasai-lcp-array-rmq/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Kasai&#39;s O(N) LCP Array Algorithm &amp; Counting Distinct Substrings via SA + LCP</span>
+        </a><a class="unit-item" data-slug="suffix-automaton-sam-endpos" href="/topic/suffix-automaton-sam-endpos/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Suffix Automaton (SAM / DAWG): endpos Equivalence Classes &amp; State Transitions</span>
+        </a><a class="unit-item active" data-slug="burrows-wheeler-transform-fm-index" href="/topic/burrows-wheeler-transform-fm-index/">
+          <span class="unit-item__status unit-item__status--active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg></span>
+          <span class="unit-item__title">Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search</span>
+        </a><a class="unit-item" data-slug="thompson-nfa-vs-backtracking-regex" href="/topic/thompson-nfa-vs-backtracking-regex/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Regular Expression Engines: Thompson&#39;s O(NM) NFA Simulation vs Catastrophic ReDoS Backtracking</span>
+        </a><a class="unit-item" data-slug="myers-diff-hirschberg-lcs" href="/topic/myers-diff-hirschberg-lcs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Myers O(ND) Shortest Edit Script &amp; Hirschberg&#39;s Linear-Space Alignment</span>
+        </a><a class="unit-item" data-slug="huffman-lz77-deflate" href="/topic/huffman-lz77-deflate/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE</span>
+        </a><a class="unit-item" data-slug="case-git-myers-histogram-diff" href="/topic/case-git-myers-histogram-diff/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Inside git diff (Myers vs Patience vs Histogram Diff)</span>
+        </a><a class="unit-item" data-slug="build-thompson-nfa-regex-engine" href="/topic/build-thompson-nfa-regex-engine/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: ReDoS-Proof Regular Expression Engine via Thompson&#39;s Construction &amp; NFA Step Simulation</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group" data-module="m12">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.1</span>
+          <span class="module-group__title">Graph Representations, Traversals, Connectivity &amp; Topological Order</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="graph-representations-csr-cache" href="/topic/graph-representations-csr-cache/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Graph Representations: Adjacency Lists, Bit Matrices &amp; Compressed Sparse Row (CSR)</span>
+        </a><a class="unit-item" data-slug="bfs-01-bfs-multi-source" href="/topic/bfs-01-bfs-multi-source/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Breadth-First Search: Multi-Source BFS, 0-1 BFS (Deque) &amp; Bidirectional Search</span>
+        </a><a class="unit-item" data-slug="dfs-edge-classification-timestamps" href="/topic/dfs-edge-classification-timestamps/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Depth-First Search: Parenthesis Theorem, White-Path Theorem &amp; Tree/Back/Forward/Cross Edges</span>
+        </a><a class="unit-item" data-slug="topological-sort-kahn-dfs" href="/topic/topological-sort-kahn-dfs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Directed Acyclic Graphs (DAGs): Kahn&#39;s Indegree Queue vs DFS Post-Order Reversal</span>
+        </a><a class="unit-item" data-slug="bipartite-graphs-2-coloring" href="/topic/bipartite-graphs-2-coloring/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bipartite Graphs: Odd-Cycle Characterization &amp; 2-Coloring Verification</span>
+        </a><a class="unit-item" data-slug="bridges-articulation-biconnected" href="/topic/bridges-articulation-biconnected/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Undirected Connectivity: Tarjan&#39;s tin/low Algorithm for Bridges, Cut Vertices &amp; BCCs</span>
+        </a><a class="unit-item" data-slug="scc-tarjan-kosaraju-2sat" href="/topic/scc-tarjan-kosaraju-2sat/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Strongly Connected Components: Kosaraju&#39;s Two-Pass vs Tarjan&#39;s Single-Pass Stack &amp; 2-SAT</span>
+        </a><a class="unit-item" data-slug="eulerian-paths-hierholzer" href="/topic/eulerian-paths-hierholzer/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Eulerian Trails &amp; Circuits: Degree Conditions &amp; Hierholzer&#39;s O(E) Algorithm</span>
+        </a><a class="unit-item" data-slug="case-bundler-build-graph-cycles" href="/topic/case-bundler-build-graph-cycles/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Topological Scheduling &amp; SCC Cycle Reporting in Build Systems (bazel, turborepo, cargo)</span>
+        </a><a class="unit-item" data-slug="build-tarjan-scc-2sat-solver" href="/topic/build-tarjan-scc-2sat-solver/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Tarjan&#39;s SCC Condensation DAG &amp; Linear-Time 2-SAT Constraint Solver</span>
+        </a></div></div><div class="module-group" data-module="m13">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.2</span>
+          <span class="module-group__title">Disjoint Sets, Minimum Spanning Trees &amp; Shortest Paths</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="disjoint-set-union-ackermann" href="/topic/disjoint-set-union-ackermann/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Disjoint Set Union (Union-Find): Union by Rank + Path Compression &amp; O(α(N)) Proof Intuition</span>
+        </a><a class="unit-item" data-slug="dsu-rollback-weighted-offline" href="/topic/dsu-rollback-weighted-offline/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Weighted DSU (Potentials/Parity) &amp; Rollback DSU for Dynamic Connectivity Over Time</span>
+        </a><a class="unit-item" data-slug="mst-cut-cycle-properties" href="/topic/mst-cut-cycle-properties/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum Spanning Trees: Cut &amp; Cycle Optimality Properties, Kruskal&#39;s, Prim&#39;s &amp; Borůvka&#39;s</span>
+        </a><a class="unit-item" data-slug="dijkstra-relaxation-invariants" href="/topic/dijkstra-relaxation-invariants/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dijkstra&#39;s Algorithm: Non-Negative Edge Invariant, Priority Queue Tradeoffs &amp; Dial&#39;s Bucket Queue</span>
+        </a><a class="unit-item" data-slug="astar-heuristic-admissibility" href="/topic/astar-heuristic-admissibility/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">A* Search &amp; Bidirectional A*: Admissibility, Consistency (Triangle Inequality) &amp; Optimality Proof</span>
+        </a><a class="unit-item" data-slug="bellman-ford-spfa-difference-constraints" href="/topic/bellman-ford-spfa-difference-constraints/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Negative Weights: Bellman-Ford, Negative Cycle Reconstruction &amp; Systems of Difference Constraints</span>
+        </a><a class="unit-item" data-slug="floyd-warshall-johnson-apsp" href="/topic/floyd-warshall-johnson-apsp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">All-Pairs Shortest Paths: Floyd-Warshall DP Transitive Closure &amp; Johnson&#39;s Potential Reweighting</span>
+        </a><a class="unit-item" data-slug="state-space-dijkstra-layered-graphs" href="/topic/state-space-dijkstra-layered-graphs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Modeling Problems as State-Space Graphs: Layered Graphs ((u, k) States) &amp; Bitmask Dijkstra</span>
+        </a><a class="unit-item" data-slug="case-osrm-contraction-hierarchies" href="/topic/case-osrm-contraction-hierarchies/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: How Continental Road Routing Works in 1 Millisecond (Contraction Hierarchies &amp; Hub Labeling)</span>
+        </a><a class="unit-item" data-slug="build-astar-bidirectional-router" href="/topic/build-astar-bidirectional-router/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: A* and Bidirectional Dijkstra Pathfinding Engine with Consistent Potentials</span>
+        </a></div></div><div class="module-group" data-module="m14">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">5.3</span>
+          <span class="module-group__title">Network Flow, Min-Cut &amp; Bipartite Matching</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="flow-networks-residual-graphs" href="/topic/flow-networks-residual-graphs/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Flow Networks, Residual Capacities, Augmenting Paths &amp; Ford-Fulkerson Method</span>
+        </a><a class="unit-item" data-slug="max-flow-min-cut-theorem" href="/topic/max-flow-min-cut-theorem/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Max-Flow Min-Cut Theorem: Three-Way Equivalence Proof &amp; Integrality Theorem</span>
+        </a><a class="unit-item" data-slug="edmonds-karp-shortest-augmenting" href="/topic/edmonds-karp-shortest-augmenting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Edmonds-Karp Algorithm: BFS Shortest Augmenting Paths &amp; O(V E^2) Monotonic Distance Proof</span>
+        </a><a class="unit-item" data-slug="dinic-level-graph-blocking-flow" href="/topic/dinic-level-graph-blocking-flow/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dinic&#39;s Algorithm: BFS Level Graphs, DFS Blocking Flows with Current-Arc Pointer &amp; O(E√V) Unit Networks</span>
+        </a><a class="unit-item" data-slug="push-relabel-preflow" href="/topic/push-relabel-preflow/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Push-Relabel (Goldberg-Tarjan): Preflows, Height Functions &amp; Highest-Label Selection</span>
+        </a><a class="unit-item" data-slug="bipartite-matching-hopcroft-karp" href="/topic/bipartite-matching-hopcroft-karp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Maximum Bipartite Matching: König&#39;s Theorem, Hall&#39;s Marriage Theorem &amp; Hopcroft-Karp O(E√V)</span>
+        </a><a class="unit-item" data-slug="weighted-matching-hungarian" href="/topic/weighted-matching-hungarian/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum-Weight Bipartite Matching: Kuhn-Munkres (Hungarian Algorithm) &amp; Primal-Dual Potentials</span>
+        </a><a class="unit-item" data-slug="min-cost-max-flow-mcmf" href="/topic/min-cost-max-flow-mcmf/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Minimum-Cost Maximum Flow (MCMF): Successive Shortest Paths with Johnson Potentials</span>
+        </a><a class="unit-item" data-slug="flow-reductions-project-selection" href="/topic/flow-reductions-project-selection/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Network Flow Modeling Patterns: Closure Problem (Project Selection), Circulation with Demands &amp; Image Segmentation</span>
+        </a><a class="unit-item" data-slug="build-dinic-max-flow-engine" href="/topic/build-dinic-max-flow-engine/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dinic&#39;s Maximum Flow, Min-Cut Partitioning &amp; Bipartite Matching Engine</span>
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group" data-module="m15">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.1</span>
+          <span class="module-group__title">Recursion, Backtracking, Pruning &amp; Greedy Exchange Arguments</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="combinatorial-generation-permutations" href="/topic/combinatorial-generation-permutations/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Combinatorial Generation: Subsets, Lexicographic Permutations (Narayana) &amp; Gray Codes</span>
+        </a><a class="unit-item" data-slug="backtracking-state-space-trees" href="/topic/backtracking-state-space-trees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Backtracking Architecture: Choice, Constraint, Undo &amp; Symmetry-Breaking Pruning</span>
+        </a><a class="unit-item" data-slug="exact-cover-knuth-algorithm-x" href="/topic/exact-cover-knuth-algorithm-x/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Exact Cover &amp; Knuth&#39;s Algorithm X with Dancing Links (DLX)</span>
+        </a><a class="unit-item" data-slug="branch-and-bound-admissible-bounds" href="/topic/branch-and-bound-admissible-bounds/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Branch and Bound: Best-First / DFS Relaxation Bounds for Combinatorial Optimization</span>
+        </a><a class="unit-item" data-slug="minimax-alpha-beta-pruning" href="/topic/minimax-alpha-beta-pruning/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Game Trees: Minimax, Alpha-Beta Pruning, Move Ordering &amp; Zobrist Transposition Tables</span>
+        </a><a class="unit-item" data-slug="greedy-choice-exchange-arguments" href="/topic/greedy-choice-exchange-arguments/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Proving Greedy Correctness: Greedy Stays Ahead &amp; Exchange Arguments (Interval Scheduling, Minimizing Lateness)</span>
+        </a><a class="unit-item" data-slug="matroids-greedy-foundations" href="/topic/matroids-greedy-foundations/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Matroid Theory: Graphic &amp; Linear Matroids and When the Greedy Algorithm Is Guaranteed Optimal</span>
+        </a><a class="unit-item" data-slug="regret-greedy-heap-rollback" href="/topic/regret-greedy-heap-rollback/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Regret Greedy (Undoable Greedy with Priority Queues): Scheduling with Deadlines &amp; Stock Trading</span>
+        </a><a class="unit-item" data-slug="case-sat-solvers-cdcl-dpll" href="/topic/case-sat-solvers-cdcl-dpll/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Modern SAT Solvers &amp; Package Dependency Resolution (DPLL, Unit Propagation &amp; Two-Watched Literals)</span>
+        </a><a class="unit-item" data-slug="build-dancing-links-exact-cover" href="/topic/build-dancing-links-exact-cover/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Knuth&#39;s Dancing Links (DLX) Exact Cover &amp; Constraint Satisfaction Solver</span>
+        </a></div></div><div class="module-group" data-module="m16">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.2</span>
+          <span class="module-group__title">Dynamic Programming Foundations &amp; Classical Archetypes</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="dp-optimal-substructure-dag" href="/topic/dp-optimal-substructure-dag/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Dynamic Programming as Shortest Paths on an Implicit DAG: Optimal Substructure &amp; SRTBOT Framework</span>
+        </a><a class="unit-item" data-slug="memoization-tabulation-space-rolling" href="/topic/memoization-tabulation-space-rolling/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Top-Down Memoization vs Bottom-Up Tabulation &amp; Rolling-Array Space Compression</span>
+        </a><a class="unit-item" data-slug="knapsack-family-01-unbounded-bounded" href="/topic/knapsack-family-01-unbounded-bounded/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">The Knapsack Family: 0/1, Unbounded, Subset Sum Bitset &amp; Bounded Knapsack (Binary Splitting / Monotonic Queue)</span>
+        </a><a class="unit-item" data-slug="lis-patience-sorting" href="/topic/lis-patience-sorting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Longest Increasing Subsequence (LIS): O(N^2) DP vs O(N log N) Patience Sorting &amp; Dilworth&#39;s Theorem</span>
+        </a><a class="unit-item" data-slug="sequence-dp-lcs-levenshtein" href="/topic/sequence-dp-lcs-levenshtein/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sequence Alignment DP: Longest Common Subsequence (LCS) &amp; Wagner-Fischer Edit Distance</span>
+        </a><a class="unit-item" data-slug="interval-dp-matrix-chain-triangulation" href="/topic/interval-dp-matrix-chain-triangulation/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation</span>
+        </a><a class="unit-item" data-slug="tree-dp-rerooting-technique" href="/topic/tree-dp-rerooting-technique/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">DP on Trees: Maximum Independent Set, Subtree Knapsack (O(N^2) Amortized Proof) &amp; All-Roots Rerooting</span>
+        </a><a class="unit-item" data-slug="dag-dp-longest-path-counting" href="/topic/dag-dp-longest-path-counting/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">DP on DAGs: Longest Path, Path Counting &amp; Topological State Propagation</span>
+        </a><a class="unit-item" data-slug="case-pretty-printing-knuth-plass" href="/topic/case-pretty-printing-knuth-plass/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Production Case Study: Knuth-Plass Line Breaking in TeX &amp; Code Formatters (prettier, rustfmt)</span>
+        </a><a class="unit-item" data-slug="build-hirschberg-linear-space-diff" href="/topic/build-hirschberg-linear-space-diff/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Hirschberg&#39;s O(NM)-Time O(min(N,M))-Space Sequence Alignment &amp; Diff Reconstructor</span>
+        </a></div></div><div class="module-group" data-module="m17">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.3</span>
+          <span class="module-group__title">Advanced DP State Spaces &amp; Algebraic Optimizations</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="bitmask-dp-tsp-hamiltonian" href="/topic/bitmask-dp-tsp-hamiltonian/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)</span>
+        </a><a class="unit-item" data-slug="sos-dp-fast-zeta-mobius" href="/topic/sos-dp-fast-zeta-mobius/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sum Over Subsets (SOS) DP &amp; Fast Walsh-Hadamard Transform (FWHT) for Bitwise Convolutions</span>
+        </a><a class="unit-item" data-slug="digit-dp-lexicographic-automata" href="/topic/digit-dp-lexicographic-automata/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Digit DP: Counting Constrained Integers in [L, R] via Tight/Leading-Zero State Automata</span>
+        </a><a class="unit-item" data-slug="broken-profile-dp-grid-tiling" href="/topic/broken-profile-dp-grid-tiling/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Broken Profile (Plug) DP: Domino Tilings &amp; Grid Connectivity in O(N M 2^M)</span>
+        </a><a class="unit-item" data-slug="divide-and-conquer-dp-quadrangle" href="/topic/divide-and-conquer-dp-quadrangle/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Divide-and-Conquer DP Optimization &amp; Quadrangle Inequality (Monge Matrices)</span>
+        </a><a class="unit-item" data-slug="knuth-optimization-optimal-bst" href="/topic/knuth-optimization-optimal-bst/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)</span>
+        </a><a class="unit-item" data-slug="convex-hull-trick-li-chao-tree" href="/topic/convex-hull-trick-li-chao-tree/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Convex Hull Trick (CHT) &amp; Li Chao Segment Tree: Optimizing dp[i] = min_j (m_j x_i + b_j)</span>
+        </a><a class="unit-item" data-slug="aliens-trick-wqs-binary-search" href="/topic/aliens-trick-wqs-binary-search/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Aliens Trick (WQS Binary Search / Lagrangian Relaxation): Removing Cardinality Constraints</span>
+        </a><a class="unit-item" data-slug="matrix-exponentiation-linear-recurrences" href="/topic/matrix-exponentiation-linear-recurrences/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Matrix Exponentiation &amp; Min-Plus (Tropical) Semiring Matrix Multiplication for Fixed-Length Paths</span>
+        </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
+        </a></div></div><div class="module-group" data-module="m18">
+        <div class="module-group__header">
+          <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="module-group__number">6.4</span>
+          <span class="module-group__title">Computational Geometry, Number Theory, Randomized &amp; Approximation Algorithms</span>
+          <div class="module-group__progress"><div class="module-group__progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="module-group__units"><a class="unit-item" data-slug="geometry-primitives-orientation-ccw" href="/topic/geometry-primitives-orientation-ccw/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Robust Computational Geometry Primitives: 2D Cross/Dot Products, CCW Orientation &amp; Segment Intersection</span>
+        </a><a class="unit-item" data-slug="convex-hull-graham-andrew" href="/topic/convex-hull-graham-andrew/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">2D Convex Hull: Graham Scan vs Andrew&#39;s Monotone Chain &amp; Rotating Calipers</span>
+        </a><a class="unit-item" data-slug="sweep-line-bentley-ottmann" href="/topic/sweep-line-bentley-ottmann/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Sweep-Line Paradigm: Bentley-Ottmann Segment Intersection &amp; Area of Union of Rectangles</span>
+        </a><a class="unit-item" data-slug="spatial-indexing-kd-quad-rtrees" href="/topic/spatial-indexing-kd-quad-rtrees/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Multidimensional Spatial Indexing: k-d Trees, Quadtrees, R-Trees &amp; Z-Order (Morton) Curves</span>
+        </a><a class="unit-item" data-slug="modular-arithmetic-gcd-crt" href="/topic/modular-arithmetic-gcd-crt/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Algorithmic Number Theory: Extended Euclidean Algorithm, Modular Inverse, CRT &amp; Sieve of Eratosthenes</span>
+        </a><a class="unit-item" data-slug="primality-miller-rabin-pollard-rho" href="/topic/primality-miller-rabin-pollard-rho/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#39;s ρ Integer Factorization</span>
+        </a><a class="unit-item" data-slug="las-vegas-monte-carlo-karger" href="/topic/las-vegas-monte-carlo-karger/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Las Vegas vs Monte Carlo Algorithms: Karger&#39;s Randomized Min-Cut &amp; Freivalds&#39; Matrix Verification</span>
+        </a><a class="unit-item" data-slug="np-completeness-reductions" href="/topic/np-completeness-reductions/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">P, NP, NP-Hardness &amp; Polynomial-Time Reductions (3-SAT ≤p Independent Set ≤p Vertex Cover ≤p Subset Sum)</span>
+        </a><a class="unit-item" data-slug="approximation-algorithms-fptas" href="/topic/approximation-algorithms-fptas/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Approximation Algorithms: 2-Approx Vertex Cover, Greedy ln N Set Cover, Metric TSP &amp; Knapsack FPTAS</span>
+        </a><a class="unit-item" data-slug="build-kd-tree-nearest-neighbor" href="/topic/build-kd-tree-nearest-neighbor/">
+          <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
+          <span class="unit-item__title">Build Lab: 2D/3D k-d Tree with Bounding-Box Pruning for K-Nearest Neighbor &amp; Range Search</span>
+        </a></div></div>
+    </div>
+  </aside>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main" id="main-content">
+    <div class="main__content" id="reader" data-prerendered="burrows-wheeler-transform-fm-index">
+
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/" data-nav="home">Home</a>
+        <span class="breadcrumbs__sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        <a href="#" data-nav="module" data-module="m11">Suffix Structures, Sequence Alignment & Data Compression</a>
+        <span class="breadcrumbs__sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        <span class="breadcrumbs__current">Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping & FM-Index Substring Search</span>
+      </nav>
+
+      <div class="lesson-header">
+        <div class="lesson-header__badge">
+          <span class="lesson-header__kind lesson-header__kind--lesson">lesson</span>
+          <span class="tag">bwt</span><span class="tag">fm-index</span><span class="tag">compression</span>
+        </div>
+        <h1 class="lesson-header__title">Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping & FM-Index Substring Search</h1>
+        <div class="lesson-header__meta">
+          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min read</span>
+          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Module 4.2: Suffix Structures, Sequence Alignment & Data Compression</span>
+          <span class="lesson-header__meta-item" title="Content curriculum review date"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Updated Oct 23, 2026</span>
+        </div>
+        <div class="lesson-header__actions" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+          <button class="completion-toggle" data-action="toggle-complete" data-slug="burrows-wheeler-transform-fm-index">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg> Mark Complete
+          </button>
+          <a href="#cheatsheet/m11" class="btn btn--sm btn--outline" title="View printable cheat sheet for this module">
+            📄 Cheat Sheet
+          </a>
+        </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;4n7NPk5lwbI&quot;,&quot;title&quot;:&quot;Burrows-Wheeler Transform and FM-Index Backward Search&quot;,&quot;channel&quot;:&quot;Ben Langmead&quot;,&quot;duration&quot;:&quot;22:40&quot;,&quot;start&quot;:0,&quot;length&quot;:1360,&quot;why&quot;:&quot;Ben Langmead clearly illustrates the BWT matrix, why the k-th occurrence of c in L is the exact same text character as the k-th occurrence of c in F, and how FM-Index backward search works.&quot;}">
+      <div class="video-embed" id="video-4n7NPk5lwbI"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="4n7NPk5lwbI">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/4n7NPk5lwbI/hqdefault.jpg"
+               alt="Burrows-Wheeler Transform and FM-Index Backward Search"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Ben Langmead</span>
+        <span class="video-embed__title">Burrows-Wheeler Transform and FM-Index Backward Search</span>
+        <a href="https://www.youtube.com/watch?v=4n7NPk5lwbI" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
+      </div>
+      <p class="video-embed__why">Ben Langmead clearly illustrates the BWT matrix, why the k-th occurrence of c in L is the exact same text character as the k-th occurrence of c in F, and how FM-Index backward search works.</p></div>
+        <aside class="intuition">
+          <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
+          <div class="intuition__body"><p>How does <code>bzip2</code> permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners (<code>Bowtie2</code>, <code>BWA</code>) index the 3-billion-base-pair human genome in under 2 GB of RAM while still counting exact occurrences of a length-$M$ DNA read in $O(M)$ time? Both feats rely on the <strong>Burrows-Wheeler Transform (BWT, 1994)</strong> and Paolo Ferragina and Giovanni Manzini's <strong>FM-Index (2000)</strong>.</p><p>If we write down all $N$ cyclic rotations of $S\texttt{\$}$ sorted lexicographically into an $N \times N$ matrix $\mathcal{M}$, the first column $F$ is just the sorted characters of $S\texttt{\$}$, while the last column $L$ is the <strong>Burrows-Wheeler Transform</strong>: $L[r] = S[(\text{SA}[r] - 1 + N) \bmod N]$, the character immediately preceding suffix $\text{SA}[r]$! Because rotation shifts the last column into the first column while preserving the relative order of suffixes following identical characters, the $k$-th occurrence of character $c$ in $L$ corresponds to the <strong>exact same text position</strong> as the $k$-th occurrence of $c$ in $F$—the celebrated <strong>Last-to-First (LF) Mapping</strong>.</p></div>
+        </aside>
+      <div class="audio-player" id="audio-player-burrows-wheeler-transform-fm-index">
+        <button class="audio-player__play-btn" id="audio-btn-burrows-wheeler-transform-fm-index" data-action="toggle-audio" data-slug="burrows-wheeler-transform-fm-index" aria-label="Play audio" title="Play audio">
+          <svg id="audio-play-icon-burrows-wheeler-transform-fm-index" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg id="audio-pause-icon-burrows-wheeler-transform-fm-index" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <span class="audio-player__time" id="audio-time-burrows-wheeler-transform-fm-index">0:00 / --:--</span>
+        <div class="audio-player__track" data-action="seek-audio" data-slug="burrows-wheeler-transform-fm-index" id="audio-track-burrows-wheeler-transform-fm-index">
+          <div class="audio-player__progress" id="audio-bar-burrows-wheeler-transform-fm-index" style="width: 0%;"></div>
+        </div>
+        <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="burrows-wheeler-transform-fm-index" id="audio-speed-burrows-wheeler-transform-fm-index" title="Playback speed">1x</button>
+        <audio id="audio-burrows-wheeler-transform-fm-index" src="audio/burrows-wheeler-transform-fm-index.mp3" preload="metadata"></audio>
+      </div><article class="prose"><div class="lesson-content">
+<h3>1. Constructing the BWT from the Suffix Array &amp; Why It Compresses</h3>
+<p>Given $S[0..N-1]$ with unique smallest sentinel $S[N-1] = \texttt{'\$'}$ and its Suffix Array $\text{SA}[0..N-1]$, we never materialize the $N \times N$ rotation matrix $\mathcal{M}$. Row $r$ of $\mathcal{M}$ starts at $\text{SA}[r]$ and ends at $(\text{SA}[r] - 1 + N) \bmod N$, so the BWT string $L[0..N-1]$ is computed in one linear pass:</p>
+$$L[r] = \begin{cases} S[\text{SA}[r] - 1] & \text{if } \text{SA}[r] > 0 \\ S[N - 1] = \texttt{'\$'} & \text{if } \text{SA}[r] = 0 \end{cases}$$
+<p>Why does $L$ have long runs of identical characters? In English text, suffixes starting with $\texttt{"he "}$ are all grouped adjacently in $\text{SA}$; in almost every one of those suffixes, the character immediately preceding $\texttt{"he "}$ is $\texttt{'t'}$, producing a long contiguous run $\texttt{"tttt...t"}$ inside $L$! Applying Move-to-Front (MTF) coding, Run-Length Encoding (RLE), and Huffman/Arithmetic coding to $L$ is the entire pipeline of <code>bzip2</code>.</p>
+
+<h3>2. The Last-to-First (LF) Mapping &amp; $O(N)$ Inversion</h3>
+<p>Why is the BWT reversible? Consider all rows in $\mathcal{M}$ whose last column $L[r]$ equals a specific character $c$. In those rows, the rest of the row $F[r..] $ spells the suffix immediately following that $c$. Since the rows of $\mathcal{M}$ are sorted by those suffixes $F[r..]$, the relative top-to-bottom order of all $c$'s in $L$ is identical to the relative top-to-bottom order of all rows starting with $c$ in $F$ (where $c$ is followed by the exact same sorted suffixes)!</p>
+<p>Let $C[c]$ be the total number of characters in $S$ strictly smaller than $c$ (so the bucket for character $c$ in $F$ starts at row $C[c]$), and let $\text{Occ}(c, r)$ be the number of times character $c$ appears in the prefix $L[0..r-1]$ ($0$-indexed exclusive rank). Then row $r$ in $L$ maps to row $\text{LF}(r)$ in $F$:</p>
+$$\text{LF}(r) = C[L[r]] + \text{Occ}(L[r],\; r)$$
+<p>Starting from the row $r_0$ where $L[r_0] = \texttt{'\$'}$ (or the row corresponding to $\texttt{'\$'}$ in $F$, which is row $0$), repeatedly stepping $r \leftarrow \text{LF}(r)$ reconstructs $S$ backwards from right to left in $O(N)$ time!</p>
+
+<h3>3. FM-Index Backward Search in $O(M)$ Time</h3>
+<p>Even better, $C[c]$ and $\text{Occ}(c, r)$ allow us to count how many times a pattern $P[0..M-1]$ occurs in $S$ in $O(M)$ steps (faster than binary searching a Suffix Array, which takes $O(M \log N)$)! We process $P$ <strong>backwards</strong> from $j = M - 1$ down to $0$, maintaining the half-open Suffix Array interval $[sp, ep)$ of suffixes prefixed by $P[j..M-1]$:</p>
+$$sp_{\text{new}} = C[c] + \text{Occ}(c, sp), \qquad ep_{\text{new}} = C[c] + \text{Occ}(c, ep) \quad \text{where } c = P[j]$$
+<p>After $M$ steps, $ep - sp$ is the exact number of occurrences of $P$ in $S$!</p>
+
+<table class="complexity-matrix">
+  <thead>
+    <tr>
+      <th>Index Structure</th>
+      <th>Index Space</th>
+      <th>Count Occurrences of $P[0..M-1]$</th>
+      <th>Locate Each Match Offset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Suffix Tree</td>
+      <td>$20N\text{–}48N$ bytes</td>
+      <td>$O(M \log |\Sigma|)$</td>
+      <td>$O(1)$ per match</td>
+    </tr>
+    <tr>
+      <td>Suffix Array</td>
+      <td>$4N$ bytes</td>
+      <td>$O(M \log N)$ (or $O(M + \log N)$ w/ LCP)</td>
+      <td>$O(1)$ per match</td>
+    </tr>
+    <tr>
+      <td>FM-Index (Wavelet Tree + Sampled SA)</td>
+      <td>$0.5N\text{–}1.5N$ bytes</td>
+      <td>$O(M \log |\Sigma|)$ ($O(M)$ for DNA/ASCII bitvectors)</td>
+      <td>$O(\text{sample\_rate})$ via LF walks</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="invariant-box">
+  <div class="invariant-title">LF-Mapping Rank Preservation &amp; Backward-Search Invariant</div>
+  <p><strong>LF Rank Preservation:</strong> For every character $c \in \Sigma$ and $k \ge 1$, the $k$-th occurrence of $c$ in the last column $L$ and the $k$-th occurrence of $c$ in the first column $F$ refer to the exact same index in the original text $S$.<br/><strong>FM-Index Interval:</strong> If $[sp, ep)$ is the exact contiguous range of rows in $\text{SA}$ prefixed by suffix $Q$, then $[C[c] + \text{Occ}(c, sp),\; C[c] + \text{Occ}(c, ep))$ is the exact range of rows prefixed by $cQ$.</p>
+</div>
+
+<div class="hardware-box">
+  <div class="hardware-title">Popcount Rank Bitvectors in Production FM-Indexes</div>
+  <p>Storing a full 2D table $\text{Occ}[|\Sigma|][N]$ would take $|\Sigma| \cdot 4N$ bytes. Instead, production genomics aligners (<code>Bowtie2</code>, <code>BWA</code>) store 64-bit bitmasks for each nucleotide ($\{\texttt{A}, \texttt{C}, \texttt{G}, \texttt{T}\}$) inside 64-byte cache-line blocks alongside a single checkpoint counter per block. Computing $\text{Occ}(c, r)$ then reduces to 1 memory load + 1 hardware <code>__builtin_popcountll</code> instruction!</p>
+</div>
+
+<h3>4. Visual Trace: BWT Matrix &amp; LF Mapping on $S = \texttt{"banana\$"}$</h3>
+<svg viewBox="0 0 760 220" width="100%" height="220" role="img" aria-label="BWT rotation matrix, F and L columns, and LF mapping for banana$">
+  <style>
+    .bwt-hdr { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold; fill: #93c5fd; }
+    .bwt-row { font-family: 'JetBrains Mono', monospace; font-size: 13px; fill: #e2e8f0; }
+    .bwt-f { fill: #34d399; font-weight: bold; }
+    .bwt-l { fill: #fbbf24; font-weight: bold; }
+    .bwt-dim { fill: #64748b; }
+  </style>
+  <rect width="760" height="220" fill="#0f172a" rx="8"/>
+
+  <text x="25" y="28" class="bwt-hdr">Row r   SA[r]   F   Middle Rotated Chars   L (BWT)   LF(r) = C[L[r]] + Occ(L[r], r)</text>
+
+  <g transform="translate(25, 52)">
+    <text x="0" y="0" class="bwt-row">  0       6     <tspan class="bwt-f">$</tspan>   <tspan class="bwt-dim">b  a  n  a  n</tspan>          <tspan class="bwt-l">a_1</tspan>       C['a'](1) + 0 = 1</text>
+    <text x="0" y="22" class="bwt-row">  1       5     <tspan class="bwt-f">a_1</tspan> <tspan class="bwt-dim">$  b  a  n  a</tspan>          <tspan class="bwt-l">n_1</tspan>       C['n'](5) + 0 = 5</text>
+    <text x="0" y="44" class="bwt-row">  2       3     <tspan class="bwt-f">a_2</tspan> <tspan class="bwt-dim">n  a  $  b  a</tspan>          <tspan class="bwt-l">n_2</tspan>       C['n'](5) + 1 = 6</text>
+    <text x="0" y="66" class="bwt-row">  3       1     <tspan class="bwt-f">a_3</tspan> <tspan class="bwt-dim">n  a  n  a  $</tspan>          <tspan class="bwt-l">b_1</tspan>       C['b'](4) + 0 = 4</text>
+    <text x="0" y="88" class="bwt-row">  4       0     <tspan class="bwt-f">b_1</tspan> <tspan class="bwt-dim">a  n  a  n  a</tspan>          <tspan class="bwt-l">$</tspan>         C['$'](0) + 0 = 0</text>
+    <text x="0" y="110" class="bwt-row">  5       4     <tspan class="bwt-f">n_1</tspan> <tspan class="bwt-dim">a  $  b  a  n</tspan>          <tspan class="bwt-l">a_2</tspan>       C['a'](1) + 1 = 2</text>
+    <text x="0" y="132" class="bwt-row">  6       2     <tspan class="bwt-f">n_2</tspan> <tspan class="bwt-dim">a  n  a  $  b</tspan>          <tspan class="bwt-l">a_3</tspan>       C['a'](1) + 2 = 3</text>
+    <text x="0" y="158" class="bwt-hdr" fill="#34d399">BWT = "annb$aa" (Notice how the two 'n's and two 'a's cluster together!)</text>
+  </g>
+</svg>
+
+<div class="mermaid">
+flowchart LR
+  A["Init [sp, ep) = [0, N) and j = M - 1"] --> B{"j &gt;= 0 and sp &lt; ep?"}
+  B -- "Yes: let c = P[j]" --> C["sp = C[c] + Occ(c, sp)"]
+  C --> D["ep = C[c] + Occ(c, ep); j--"]
+  D --> B
+  B -- "No" --> E["Return max(0, ep - sp) matches in SA[sp..ep)"]
+</div>
+
+<div class="simulator-mount" data-sim="sim-bwt-fm-index">
+          <div class="dsa-sim simulator-card" id="sim-bwt-fm-index" data-sim-id="sim-bwt-fm-index">
+            <div class="dsa-sim__header simulator-card__header">
+              <div class="dsa-sim__title simulator-card__title">
+                <span>Burrows-Wheeler Transform (BWT) Rotation Matrix, FM-Index LF-Mapping &amp; Thompson NFA</span>
+              </div>
+              <span class="badge-on">O(|P|) FM-Index Backward Search · O(NM) Thompson NFA</span>
+            </div>
+            <p class="dsa-sim__subtitle simulator-card__description">Trace the sorted cyclic rotation matrix of &quot;banana$&quot;, LF-mapping rank queries shrinking [sp, ep] backward for P = &quot;ana&quot;, and Ken Thompson’s lockstep NFA state-set simulation O(NM) vs O(2^N) backtracking ReDoS.</p>
+            <div class="dsa-sim__controls simulator-card__controls">
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
+                Preset
+                <select class="simulator-card__input sim-select" data-role="preset" style="padding:4px 8px;font-size:12px;">
+                  <option value="0">BWT Sorted Cyclic Rotations &amp; FM-Index Backward Search [sp, ep] on &quot;banana$&quot;</option><option value="1">Thompson NFA Lockstep State-Set Simulation O(NM) vs Backtracking O(2^N) on &quot;a?a?a?aaa&quot;</option>
+                </select>
+              </label>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="prev" title="Step Back">◀ Prev</button>
+              <button type="button" class="btn btn--primary btn--sm" data-role="next" title="Step Forward">Step ▶</button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="play" title="Play / Pause">⏵ Play</button>
+              <button type="button" class="btn btn--sm" data-role="reset" title="Reset">↺ Reset</button>
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
+                Speed
+                <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
+                  <option value="1100">0.5×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="320">2×</option>
+                  <option value="150">4×</option>
+                </select>
+              </label>
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
+                Step 1 / 3
+              </span>
+            </div>
+            <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
+              <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
+              <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">BWT(banana$) = L = "annb$aa" (runs of "nn" and "aa" compress via RLE/MTF!). Backward search starts at P[2]='a': C['a']=1, range [sp, ep] = [1, 3].</div>
+            </div>
+            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">0: $banan [a]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">1: a$bana [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">2: ana$ba [n]</span></div><div class="dsa-sim__cell is-match"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3: anana$ [b]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">4: banana [$]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">5: na$ban [a]</span></div><div class="dsa-sim__cell"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">6: nana$b [a]</span></div></div></div>
+            <div class="dsa-sim__metrics" data-role="metrics">
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">BWT Last Column L</div>
+                  <div class="dsa-sim__metric-value">&quot;annb$aa&quot;</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Matched Suffix of P</div>
+                  <div class="dsa-sim__metric-value">&quot;a&quot; (P[2])</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">SA Interval [sp, ep]</div>
+                  <div class="dsa-sim__metric-value">[0, 6] (7 rows)</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Query Time</div>
+                  <div class="dsa-sim__metric-value">O(|P|) Backward Steps</div>
+                </div>
+              
+            </div>
+            <div class="dsa-sim__log" data-role="log">Step 1 (char &#039;a&#039;): C[&#039;a&#039;] = 1, Occ(&#039;a&#039;, 7) = 3 -&gt; all suffixes starting with &quot;a&quot; sit in SA range [1..3].</div>
+          </div>
+        </div>
+
+<h3>5. Production Implementation: BWT Inversion &amp; FM-Index Backward Search</h3>
+<pre><code class="language-cpp">#include &lt;array&gt;
+#include &lt;cstdint&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+
+class FMIndex {
+public:
+    // Builds BWT and FM-Index from string <code>s</code> (terminated by ' ' at s.back()) and its SA
+    FMIndex(std::string_view s_with_null, const std::vector&lt;int&gt;&amp; sa)
+        : n_(static_cast&lt;int&gt;(s_with_null.size())), bwt_(n_, ' '), occ_(n_ + 1) {
+        c_.fill(0);
+        occ_[0].fill(0);
+        for (int r = 0; r &lt; n_; ++r) {
+            int prev_idx = (sa[r] == 0) ? (n_ - 1) : (sa[r] - 1);
+            uint8_t ch = static_cast&lt;uint8_t&gt;(s_with_null[prev_idx]);
+            bwt_[r] = static_cast&lt;char&gt;(ch);
+            c_[ch]++;
+            occ_[r + 1] = occ_[r];
+            occ_[r + 1][ch]++;
+        }
+        // Convert c_ into exclusive prefix sums (bucket start offsets in F)
+        int sum = 0;
+        for (int ch = 0; ch &lt; 256; ++ch) {
+            int cnt = c_[ch];
+            c_[ch] = sum;
+            sum += cnt;
+        }
+    }
+
+    // Reconstructs the original string (excluding trailing ' ') in O(N) via LF-mapping
+    std::string invert_bwt() const {
+        std::string out(n_ - 1, ' ');
+        int r = 0; // Row 0 in F starts with ' ', so L[0] is the last char of S
+        for (int i = n_ - 2; i &gt;= 0; --i) {
+            uint8_t ch = static_cast&lt;uint8_t&gt;(bwt_[r]);
+            out[i] = static_cast&lt;char&gt;(ch);
+            r = c_[ch] + occ_[r][ch];
+        }
+        return out;
+    }
+
+    // Counts exact occurrences of <code>pat</code> in O(|pat|) time via FM-Index Backward Search
+    int count_matches(std::string_view pat) const {
+        int sp = 0, ep = n_;
+        for (int j = static_cast&lt;int&gt;(pat.size()) - 1; j &gt;= 0 &amp;&amp; sp &lt; ep; --j) {
+            uint8_t ch = static_cast&lt;uint8_t&gt;(pat[j]);
+            sp = c_[ch] + occ_[sp][ch];
+            ep = c_[ch] + occ_[ep][ch];
+        }
+        return std::max(0, ep - sp);
+    }
+
+private:
+    int n_;
+    std::string bwt_;
+    std::array&lt;int, 256&gt; c_{};
+    std::vector&lt;std::array&lt;int, 256&gt;&gt; occ_;
+};</code></pre>
+
+<div class="callout callout-warning">
+  <div class="callout-title">Inclusive vs. Exclusive <code>Occ(c, r)</code> Indexing in FM-Index</div>
+  <p>The single most common bug when implementing FM-Index backward search is mixing up inclusive vs. exclusive rank queries $\text{Occ}(c, r)$. When maintaining a <strong>half-open</strong> Suffix Array interval $[sp, ep)$, $\text{Occ}(c, r)$ MUST count occurrences of $c$ in the <strong>prefix of length $r$</strong> ($L[0..r-1]$, exclusive of index $r$), so that BOTH boundary updates use the exact same formula: $sp' = C[c] + \text{Occ}(c, sp)$ and $ep' = C[c] + \text{Occ}(c, ep)$!</p>
+</div>
+</div></article>
+      <section class="check-slider" data-slug="burrows-wheeler-transform-fm-index" data-total="4" aria-label="Check yourself">
+        <div class="check-slider__head">
+          <span class="check-slider__label">Check yourself</span>
+          <span class="check-slider__count">Question <b>1</b> of 4</span>
+          
+          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Relationship Between BWT and the Suffix Array" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="1" title="2. Concept: Why the Last-to-First (LF) Property Holds" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Tracing FM-Index Backward Search" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Locating Text Offsets in a Compressed FM-Index via Sampled Suffix Array" aria-label="Go to question 4"></button></span>
+        </div>
+        <div class="check-slider__track">
+      <div class="quiz-card check-slider__slide" id="quiz-q11-bwt-1" data-type="mcq" data-slug="burrows-wheeler-transform-fm-index" data-index="0">
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Relationship Between BWT and the Suffix Array</span>
+          <span class="check-slider__level">recall</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">Let $S[0..N-1]$ be a string terminated by a unique smallest sentinel $S[N-1] = \texttt{&#039;\$&#039;}$, and let $\text{SA}[0..N-1]$ be its Suffix Array.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q11-bwt-1">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-1" value="0" />
+            <span>$L[r] = S[(\text{SA}[r] - 1 + N) \bmod N]$, i.e., $S[\text{SA}[r] - 1]$ when $\text{SA}[r] &gt; 0$ and $S[N - 1] = \texttt{&#039;\$&#039;}$ when $\text{SA}[r] == 0$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-1" value="1" />
+            <span>$L[r] = S[\text{SA}[r]]$, the first character of suffix $\text{SA}[r]$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-1" value="2" />
+            <span>$L[r] = S[N - 1 - \text{SA}[r]]$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-1" value="3" />
+            <span>$L[r] = S[(\text{SA}[r] + 1) \bmod N]$</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q11-bwt-1">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="1">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q11-bwt-1" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">Row $r$ of the sorted cyclic rotation matrix starts with suffix $S[\text{SA}[r]..N-1]$ followed by the wrapped-around prefix $S[0..\text{SA}[r]-1]$. Therefore, the last character of row $r$ is the character immediately preceding index $\text{SA}[r]$ in cyclic order: $S[(\text{SA}[r] - 1 + N) \bmod N]$.</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q11-bwt-2" data-type="mcq" data-slug="burrows-wheeler-transform-fm-index" data-index="1" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Why the Last-to-First (LF) Property Holds</span>
+          <span class="check-slider__level">apply</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">The LF-Mapping theorem states that the $k$-th occurrence of character $c$ in the last column $L$ corresponds to the exact same text character as the $k$-th occurrence of $c$ in the first column $F$.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q11-bwt-2">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-2" value="0" />
+            <span>Every row in $L$ ending with $c$ is sorted by its prefix (the suffix following $c$), and every row in $F$ starting with $c$ is ALSO sorted by the exact same suffix following $c$; prepending the identical character $c$ to two suffixes preserves their lexicographical order</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-2" value="1" />
+            <span>Because all occurrences of $c$ in $L$ are always contiguous</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-2" value="2" />
+            <span>Because `std::stable_sort` is used to sort the BWT</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-2" value="3" />
+            <span>Because the sentinel `&#039;$&#039;` sits at row $0$</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="0">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q11-bwt-2">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="2">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q11-bwt-2" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">Consider two rows ending with $c$ in $L$, representing cyclic shifts $X c$ and $Y c$ ($X &lt; Y$). When rotated right by 1 character, they become rows $c X$ and $c Y$ in $F$. Since $X &lt; Y \iff c X &lt; c Y$, their top-to-bottom order in $L$ is identical to their top-to-bottom order in $F$!</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q11-bwt-3" data-type="mcq" data-slug="burrows-wheeler-transform-fm-index" data-index="2" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Tracing FM-Index Backward Search</span>
+          <span class="check-slider__level">apply</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">On $S = \texttt{&quot;banana\$&quot;}$ ($N = 7$), the first column $F$ has bucket starts $C[\texttt{&#039;\$&#039;}] = 0$, $C[\texttt{&#039;a&#039;}] = 1$, $C[\texttt{&#039;b&#039;}] = 4$, $C[\texttt{&#039;n&#039;}] = 5$, and the BWT is $L = \texttt{&quot;annb\$aa&quot;}$. Suppose we search for $P = \texttt{&quot;na&quot;}$. After processing the last character $\texttt{&#039;a&#039;}$, the active half-open interval of $\texttt{&#039;a&#039;}$-suffixes is $[sp, ep) = [1, 4)$.</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q11-bwt-3">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-3" value="0" />
+            <span>$\text{Occ}(\texttt{&#039;n&#039;}, 1) = 0$ and $\text{Occ}(\texttt{&#039;n&#039;}, 4) = 2$, giving $[sp_{\text{new}}, ep_{\text{new}}) = [5 + 0,\; 5 + 2) = [5, 7)$ ($7 - 5 = 2$ occurrences of `&quot;na&quot;`)</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-3" value="1" />
+            <span>$\text{Occ}(\texttt{&#039;n&#039;}, 1) = 1$ and $\text{Occ}(\texttt{&#039;n&#039;}, 4) = 2$, giving $[6, 7)$ ($1$ occurrence)</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-3" value="2" />
+            <span>$\text{Occ}(\texttt{&#039;n&#039;}, 1) = 0$ and $\text{Occ}(\texttt{&#039;n&#039;}, 4) = 3$, giving $[5, 8)$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-3" value="3" />
+            <span>$[1, 3)$</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="1">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q11-bwt-3">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>Next question →</button>
+          <button type="button" class="btn btn--sm btn--ghost check-slider__skip" data-target-index="3">Skip →</button>
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q11-bwt-3" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">In $L = \texttt{&quot;annb\$aa&quot;}$, the prefix of length $1$ is $L[0..0] = \texttt{&quot;a&quot;}$ ($0$ `&#039;n&#039;`s), and the prefix of length $4$ is $L[0..3] = \texttt{&quot;annb&quot;}$ ($2$ `&#039;n&#039;`s at indices 1 and 2). Adding $C[\texttt{&#039;n&#039;}] = 5$ gives $[5 + 0, 5 + 2) = [5, 7)$, corresponding to rows 5 (`&quot;na$&quot;`) and 6 (`&quot;nana$&quot;`).</div>
+        </div>
+      </div>
+      <div class="quiz-card check-slider__slide" id="quiz-q11-bwt-4" data-type="mcq" data-slug="burrows-wheeler-transform-fm-index" data-index="3" hidden>
+        <div class="check-slider__meta">
+          <span class="check-slider__type-badge is-mcq">Concept Check</span>
+          <span class="check-slider__title">Locating Text Offsets in a Compressed FM-Index via Sampled Suffix Array</span>
+          <span class="check-slider__level">staff</span>
+        </div>
+        
+        
+        <p class="check-slider__prompt">To keep an FM-Index of the human genome under 2 GB, we do NOT store the full $12\text{ GB}$ Suffix Array $\text{SA}[0..N-1]$. Instead, we only store $\text{SA}[r]$ at rows where $\text{SA}[r]$ is a multiple of $K = 32$ (consuming $1/32$ of the space).</p>
+        <div class="quiz-options check-slider__options" id="quiz-options-q11-bwt-4">
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-4" value="0" />
+            <span>Repeatedly step $r \leftarrow \text{LF}(r)$ (counting the number of steps $t = 0, 1, 2, \dots$) until landing on a row $r&#039;$ that has a sampled Suffix Array value $\text{SA}[r&#039;]$ (or reaches `&#039;$&#039;`); then the original text position is $\text{SA}[r] = \text{SA}[r&#039;] + t$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-4" value="1" />
+            <span>Interpolate linearly between the two nearest sampled rows in $[sp, ep)$</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-4" value="2" />
+            <span>Run binary search on the original text</span>
+          </label>
+        
+          <label class="exercise-option quiz-option-label">
+            <input type="radio" name="quiz-q11-bwt-4" value="3" />
+            <span>Multiply $r$ by $32$</span>
+          </label>
+        </div>
+        <div class="check-slider__actions">
+          <button type="button" class="btn btn--sm btn--ghost check-slider__prev" data-target-index="2">← Prev</button>
+          <button type="button" class="btn btn--sm btn--primary quiz-submit-btn" data-qid="q11-bwt-4">Check answer</button>
+          <button type="button" class="btn btn--sm btn--primary check-slider__next" hidden>See score</button>
+          
+        </div>
+        <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q11-bwt-4" style="display: none;">
+          <div class="feedback-msg"></div>
+          <div class="feedback-exp">Each application of $r \leftarrow \text{LF}(r)$ moves backward by exactly $1$ character in the original text $S$: $\text{SA}[\text{LF}(r)] = \text{SA}[r] - 1$. Because every $K$-th text position ($0, K, 2K, \dots$) is sampled in $\text{SA}$, at most $K$ LF-steps are needed before hitting a sampled position $\text{SA}[r&#039;]$, from which $\text{SA}[r] = \text{SA}[r&#039;] + t$!</div>
+        </div>
+      </div></div>
+        <div class="check-slider__done" hidden>
+          <p class="check-slider__score"></p>
+          <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
+        </div>
+      </section>
+      <div class="exercise-card" id="exercise-burrows-wheeler-transform-fm-index">
+        <div class="exercise-card__header">
+          <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
+          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
+        </div>
+        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
+        <p class="exercise-card__prompt">Given a match row $r$ in $[sp, ep)$ whose $\text{SA}[r]$ was NOT sampled, how does the FM-Index recover the exact text index $\text{SA}[r]$?</p>
+        <div class="exercise-card__options" id="exercise-options-burrows-wheeler-transform-fm-index">
+          
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="burrows-wheeler-transform-fm-index" data-idx="0" data-ans="0">
+        <span class="exercise-option__letter">A</span>
+        <span class="exercise-option__text">Repeatedly step $r \leftarrow \text{LF}(r)$ (counting the number of steps $t = 0, 1, 2, \dots$) until landing on a row $r'$ that has a sampled Suffix Array value $\text{SA}[r']$ (or reaches `'$'`); then the original text position is $\text{SA}[r] = \text{SA}[r'] + t$</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="burrows-wheeler-transform-fm-index" data-idx="1" data-ans="0">
+        <span class="exercise-option__letter">B</span>
+        <span class="exercise-option__text">Interpolate linearly between the two nearest sampled rows in $[sp, ep)$</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="burrows-wheeler-transform-fm-index" data-idx="2" data-ans="0">
+        <span class="exercise-option__letter">C</span>
+        <span class="exercise-option__text">Run binary search on the original text</span>
+      </button>
+    
+      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="burrows-wheeler-transform-fm-index" data-idx="3" data-ans="0">
+        <span class="exercise-option__letter">D</span>
+        <span class="exercise-option__text">Multiply $r$ by $32$</span>
+      </button>
+    
+        </div>
+        <div class="exercise-card__feedback" id="exercise-feedback-burrows-wheeler-transform-fm-index" style="display:none;">
+          <div class="exercise-card__explanation">Each application of $r \leftarrow \text{LF}(r)$ moves backward by exactly $1$ character in the original text $S$: $\text{SA}[\text{LF}(r)] = \text{SA}[r] - 1$. Because every $K$-th text position ($0, K, 2K, \dots$) is sampled in $\text{SA}$, at most $K$ LF-steps are needed before hitting a sampled position $\text{SA}[r']$, from which $\text{SA}[r] = \text{SA}[r'] + t$!</div>
+        </div>
+      </div>
+    
+        <div class="takeaways">
+          <h3 class="takeaways__title">Key Takeaways</h3>
+          <div class="takeaways__list">
+            <div class="takeaways__item">The Burrows-Wheeler Transform L[r] = S[(SA[r] - 1 + N) mod N] groups characters that precede identical contexts into long homogeneous runs ideal for Move-to-Front and Run-Length compression.</div><div class="takeaways__item">The Last-to-First (LF) property guarantees that the k-th occurrence of character c in L is the exact same text character as the k-th occurrence of c in F, enabling O(N) inversion via LF(r) = C[L[r]] + Occ(L[r], r).</div><div class="takeaways__item">FM-Index backward search processes pattern P from right to left (j = M - 1 down to 0) updating [sp, ep) = [C[c] + Occ(c, sp), C[c] + Occ(c, ep)) to count occurrences in O(M) time.</div>
+          </div>
+        </div>
+        <div class="further-reading">
+          <h3 class="further-reading__title">Further Reading</h3>
+          <div class="further-reading__list">
+            <a class="further-reading__link" href="https://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-124.pdf" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Burrows & Wheeler (1994) — A Block-Sorting Lossless Data Compression Algorithm (SRC Research Report 124)</a><a class="further-reading__link" href="https://doi.org/10.1109/SFCS.2000.892127" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ferragina & Manzini (2000) — Opportunistic Data Structures with Applications (FOCS — The FM-Index Paper)</a>
+          </div>
+        </div>
+      <div class="lesson-feedback" id="lesson-feedback-burrows-wheeler-transform-fm-index">
+        <div class="lesson-feedback__content">
+          <div class="lesson-feedback__meta">
+            <span class="lesson-feedback__title">Was this lesson helpful?</span>
+            <span class="lesson-feedback__sub">Spot an issue or have a suggestion? Let us know on GitHub.</span>
+          </div>
+          <div class="lesson-feedback__actions">
+            <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="burrows-wheeler-transform-fm-index" data-vote="yes">
+              👍 Helpful
+            </button>
+            <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="burrows-wheeler-transform-fm-index" data-vote="no">
+              👎 Needs work
+            </button>
+            <a href="https://github.com/innovatorved/dsa-in-depth/issues/new?title=%5BFeedback%5D%20Burrows-Wheeler%20Transform%20(BWT)%2C%20Last-to-First%20(LF)%20Mapping%20%26%20FM-Index%20Substring%20Search&labels=feedback,curriculum&body=%23%23%23%20Topic%3A%20Burrows-Wheeler%20Transform%20(BWT)%2C%20Last-to-First%20(LF)%20Mapping%20%26%20FM-Index%20Substring%20Search%0A**URL%3A**%20https%3A%2F%2Fdsa-in-depth.vedgupta.in%2Ftopic%2Fburrows-wheeler-transform-fm-index%2F%0A%0A%23%23%23%20Feedback%20%2F%20Correction%3A%0A" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline lesson-feedback__btn" title="Open an issue on GitHub">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> Report an issue
+            </a>
+          </div>
+        </div>
+      </div><div class="lesson-nav"><a class="lesson-nav__link" href="/topic/suffix-automaton-sam-endpos/" data-nav="topic" data-slug="suffix-automaton-sam-endpos">
+        <span class="lesson-nav__label">← Previous</span>
+        <span class="lesson-nav__title">Suffix Automaton (SAM / DAWG): endpos Equivalence Classes & State Transitions</span>
+      </a><a class="lesson-nav__link lesson-nav__link--next" href="/topic/thompson-nfa-vs-backtracking-regex/" data-nav="topic" data-slug="thompson-nfa-vs-backtracking-regex">
+        <span class="lesson-nav__label">Next →</span>
+        <span class="lesson-nav__title">Regular Expression Engines: Thompson's O(NM) NFA Simulation vs Catastrophic ReDoS Backtracking</span>
+      </a></div>
+    </div>
+  </main>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search topics" aria-modal="true">
+    <div class="search-modal__backdrop" id="search-backdrop"></div>
+    <div class="search-modal__dialog">
+      <div class="search-modal__input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-modal__input" id="search-input" type="text" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="search-modal__results" id="search-results"></div>
+      <div class="search-modal__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span><kbd>↵</kbd> Open</span>
+        <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagram Lightbox Modal -->
+  <div class="diagram-lightbox" id="diagram-lightbox" role="dialog" aria-label="Architecture diagram viewer" aria-modal="true">
+    <div class="diagram-lightbox__backdrop" id="diagram-lightbox-backdrop"></div>
+    <div class="diagram-lightbox__dialog">
+      <div class="diagram-lightbox__header">
+        <div class="diagram-lightbox__title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+          <span>Algorithmic Diagram</span>
+        </div>
+        <div class="diagram-lightbox__actions">
+          <button class="diagram-lightbox__btn" id="diagram-zoom-out" title="Zoom Out" aria-label="Zoom out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="diagram-lightbox__btn diagram-lightbox__btn--text" id="diagram-zoom-reset" title="Reset Zoom" aria-label="Reset zoom">
+            <span id="diagram-zoom-level">100%</span>
+          </button>
+          <button class="diagram-lightbox__btn" id="diagram-zoom-in" title="Zoom In" aria-label="Zoom in">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="diagram-lightbox__divider"></div>
+          <button class="diagram-lightbox__btn diagram-lightbox__close" id="diagram-lightbox-close" title="Close (Esc)" aria-label="Close dialog">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="diagram-lightbox__body" id="diagram-lightbox-body">
+        <div class="diagram-lightbox__stage" id="diagram-lightbox-stage"></div>
+      </div>
+      <div class="diagram-lightbox__footer">
+        <span>Click and drag to pan • Scroll to zoom • Press <kbd>Esc</kbd> to close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Scripts -->
+  <script type="text/plain" data-defer src="data/curriculum.js?v=dac0a78ff4"></script>
+  <script type="text/plain" data-defer src="data/roadmap.js?v=56d9aeb812"></script>
+  <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
+  <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
+  <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=c2dd5a1dae"></script>
+  <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
+  <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
+
+  <!-- App Scripts -->
+  <script type="text/plain" data-defer src="js/lazy.js?v=7275ff46e4"></script>
+  <script type="text/plain" data-defer src="js/analytics.js?v=280d488e9a"></script>
+  <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
+  <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
+  <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=bee88cba91"></script>
+  
+  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/roadmap.js?v=a94cb50935"></script>
+  <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=3fc347d571"></script>
+  <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
+  
+  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+
+  <!-- App bootstrap & deferred script loader -->
+  <script src="js/bootstrap.js?v=df2bb60aeb"></script>
+</body>
+</html>

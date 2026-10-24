@@ -1,0 +1,27 @@
+{
+  "name": "dsa-in-depth",
+  "version": "1.0.0",
+  "description": "Data Structures & Algorithms In Depth — An interactive, hardware-grounded, primary-source textbook, visual simulator suite, and zero-dependency coding lab platform.",
+  "private": true,
+  "scripts": {
+    "build": "node tools/build.js",
+    "validate": "node tools/validate.js",
+    "stamp": "node tools/stamp-assets.js",
+    "stamp:check": "node tools/stamp-assets.js --check",
+    "prerender": "node tools/generate-static.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innovatorved/dsa-in-depth.git"
+  },
+  "keywords": [
+    "algorithms",
+    "data-structures",
+    "computer-science",
+    "interactive-simulators",
+    "code-lab"
+  ],
+  "author": "Ved Gupta",
+  "license": "MIT"
+}

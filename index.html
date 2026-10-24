@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DSA In Depth — Data Structures &amp; Algorithms In Depth</title>
+  <meta name="description" content="A free, interactive, first-principles curriculum for Data Structures &amp; Algorithms — 6 tracks, 180 topics, 69 interactive visual simulators, 22 from-scratch browser coding labs, and strict primary-source citations.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DSA In Depth — Data Structures &amp; Algorithms In Depth">
+  <meta property="og:description" content="A free, interactive, first-principles curriculum for Data Structures &amp; Algorithms — 6 tracks, 180 topics, 69 interactive visual simulators, 22 from-scratch browser coding labs, and strict primary-source citations.">
+  <meta property="og:url" content="https://dsa-in-depth.vedgupta.in/">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DSA In Depth — Data Structures &amp; Algorithms In Depth">
+  <meta name="twitter:description" content="A free, interactive, first-principles curriculum for Data Structures &amp; Algorithms — 6 tracks, 180 topics, 69 interactive visual simulators, 22 from-scratch browser coding labs, and strict primary-source citations.">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://dsa-in-depth.vedgupta.in/">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css?v=693f5cccb9">
+  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
+  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
+  <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
+  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+
+  <!-- Core scripts: head initializer & asset manifest -->
+  <script src="js/init.js?v=17af84f241"></script>
+  <script src="js/manifest.js?v=d23bd2f831"></script>
+</head>
+<body>
+  <!-- Skip to content -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <button class="topbar__hamburger" aria-label="Toggle sidebar" id="hamburger-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+
+    <a href="/" class="topbar__brand" data-nav="home">
+      <span class="topbar__brand-icon">DSA</span>
+      <span class="topbar__brand-text">DSA</span>
+      <span class="topbar__track-badge">In Depth</span>
+    </a>
+
+    <div class="topbar__search">
+      <button class="topbar__search-trigger" id="search-trigger" aria-label="Search topics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search 180 topics &amp; labs…</span>
+        <span class="topbar__search-kbd">⌘K</span>
+      </button>
+    </div>
+
+    <div class="topbar__actions">
+      <nav class="topbar__nav" aria-label="Primary navigation">
+        <a href="/roadmap" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
+        <a href="/challenges" class="topbar__nav-link" data-nav="challenges">Challenges</a>
+        <a href="/dashboard" class="topbar__nav-link" data-nav="dashboard">Dashboard</a>
+        <a href="/sandbox" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
+        <a href="/glossary/" class="topbar__nav-link" data-nav="glossary">Glossary</a>
+      </nav>
+
+      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+        <svg class="topbar__progress-ring" viewBox="0 0 20 20">
+          <circle class="track" cx="10" cy="10" r="8"/>
+          <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
+        </svg>
+        <span id="progress-text">0%</span>
+      </div>
+
+      <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+
+      <button class="topbar__btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sun"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-moon" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <nav class="sidebar__tabs" role="tablist">
+      <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+    </nav>
+    <div class="sidebar__content" id="sidebar-content"></div>
+  </aside>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main" id="main-content">
+    <div class="main__content" id="reader">
+      <!-- landing:start (generated by tools/stamp-assets.js from js/landing.js) -->
+<div class="landing landing-shell">
+      <section class="landing-hero">
+        <div class="landing-hero__eyebrow"><span class="landing-dot"></span>Free &amp; open source</div>
+        <h1 class="landing-hero__title">Data structures &amp;<br>algorithms, in depth.</h1>
+        <p class="landing-hero__subtitle">Read it, watch it, run it, build it.</p>
+        <div class="landing-hero__actions">
+          <a class="btn btn--primary landing-btn" href="#topic/ram-model-vs-modern-cpu">Start learning →</a>
+          <button class="btn btn--outline landing-btn" type="button" data-landing-scroll="landing-curriculum">Browse curriculum</button>
+          <button class="landing-search" type="button" data-landing-search>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Search <kbd>⌘K</kbd>
+          </button>
+        </div>
+        <dl class="landing-stats">
+          <div><dt>180</dt><dd>Topics</dd></div>
+          <div><dt>75</dt><dd>Simulators</dd></div>
+          <div><dt>22</dt><dd>Builds</dd></div>
+          <div><dt>158</dt><dd>Videos</dd></div>
+          <div><dt>720</dt><dd>Questions</dd></div>
+        </dl>
+      </section>
+      <section class="landing-section" id="landing-demos">
+        <h2 class="landing-section__title">Try it live</h2>
+        <div class="landing-tabs" role="tablist">
+          <button class="landing-tab is-active" role="tab" aria-selected="true" data-demo="0">Cache lines</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="1">SwissTable SIMD</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="2">Red-Black Tree</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="3">Dijkstra &amp; A*</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="4">Dinic Max-Flow</button>
+        </div>
+        <div class="landing-demo" id="landing-demo-stage"></div>
+        <a class="landing-link" id="landing-demo-lesson" href="#topic/ram-model-vs-modern-cpu">Open lesson →</a>
+      </section>
+      <section class="landing-section">
+        <h2 class="landing-section__title">In every lesson</h2>
+        <div class="landing-features">
+          <div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span><span class="landing-feature__title">Intuition first</span></div><div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg></span><span class="landing-feature__title">Hand-picked videos</span></div><div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M10 6.5h4a2 2 0 0 1 2 2V14"/></svg></span><span class="landing-feature__title">Diagrams &amp; notes</span></div><div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></span><span class="landing-feature__title">Audio narration</span></div><div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="landing-feature__title">Check yourself</span></div><div class="landing-feature"><span class="landing-feature__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span><span class="landing-feature__title">Code you can run</span></div>
+        </div>
+      </section>
+      <section class="landing-section" id="landing-builds">
+        <h2 class="landing-section__title">22 from-scratch builds</h2>
+        <div class="landing-builds">
+          <a class="landing-build" href="/build/build-dynamic-circular-deque/" data-action="navigate-build" data-build-id="build-dynamic-circular-deque">Dynamic Circular Buffer &amp; Amortized O(1) Vector<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-lfu-lru-cache/" data-action="navigate-build" data-build-id="build-lfu-lru-cache">O(1) LRU and Frequency-Bucketed LFU Cache Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-robin-hood-hash-map/" data-action="navigate-build" data-build-id="build-robin-hood-hash-map">Open-Addressing Robin Hood Hash Map with Backward-Shift Deletion<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-bloom-cuckoo-filter/" data-action="navigate-build" data-build-id="build-bloom-cuckoo-filter">Space-Efficient Bloom Filter &amp; Fingerprint Cuckoo Filter<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-hybrid-introsort-timsort/" data-action="navigate-build" data-build-id="build-hybrid-introsort-timsort">Hybrid IntroSort &amp; Quickselect Order-Statistic Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-indexed-d-ary-priority-queue/" data-action="navigate-build" data-build-id="build-indexed-d-ary-priority-queue">Indexed d-ary Priority Queue with O(log_d N) Decrease-Key<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-llrb-order-statistic-tree/" data-action="navigate-build" data-build-id="build-llrb-order-statistic-tree">Left-Leaning Red-Black Order-Statistic Tree<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-implicit-treap-rope/" data-action="navigate-build" data-build-id="build-implicit-treap-rope">Implicit Treap Rope with O(log n) Split, Merge &amp; Lazy Reverse<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-fenwick-range-tree/" data-action="navigate-build" data-build-id="build-fenwick-range-tree">Fenwick Range-Update Range-Query Tree &amp; O(log n) Binary Lifting<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-lazy-segment-tree/" data-action="navigate-build" data-build-id="build-lazy-segment-tree">Segment Tree with Affine Lazy Propagation &amp; Monoid Beats<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-persistent-segment-tree/" data-action="navigate-build" data-build-id="build-persistent-segment-tree">Persistent Segment Tree<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-aho-corasick-scanner/" data-action="navigate-build" data-build-id="build-aho-corasick-scanner">Aho-Corasick Multi-Pattern Automaton Scanner<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-suffix-array-lcp/" data-action="navigate-build" data-build-id="build-suffix-array-lcp">Suffix Array (Prefix-Doubling), Kasai LCP &amp; RMQ Substring Index<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-thompson-nfa-regex-engine/" data-action="navigate-build" data-build-id="build-thompson-nfa-regex-engine">Thompson Lockstep NFA Regular Expression Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-tarjan-scc-2sat-solver/" data-action="navigate-build" data-build-id="build-tarjan-scc-2sat-solver">Tarjan Strongly Connected Components &amp; Linear-Time 2-SAT Solver<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-astar-bidirectional-router/" data-action="navigate-build" data-build-id="build-astar-bidirectional-router">A* &amp; Bidirectional Shortest-Path Router with Consistent Potentials<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-dsu-rollback-connectivity/" data-action="navigate-build" data-build-id="build-dsu-rollback-connectivity">Rollback Disjoint-Set Union &amp; Offline Dynamic Connectivity Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-dinic-max-flow-engine/" data-action="navigate-build" data-build-id="build-dinic-max-flow-engine">Dinic Blocking-Flow Max-Flow, Min-Cut &amp; Bipartite Matching Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-dancing-links-exact-cover/" data-action="navigate-build" data-build-id="build-dancing-links-exact-cover">Knuth Algorithm X &amp; Dancing Links (DLX) Exact Cover Solver<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-hirschberg-linear-space-diff/" data-action="navigate-build" data-build-id="build-hirschberg-linear-space-diff">Hirschberg O(n)-Space Divide-and-Conquer Sequence Alignment &amp; Diff<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-li-chao-convex-hull-dp/" data-action="navigate-build" data-build-id="build-li-chao-convex-hull-dp">Li Chao Segment Tree &amp; Monotonic Convex Hull Trick DP Engine<span aria-hidden="true">→</span></a><a class="landing-build" href="/build/build-kd-tree-nearest-neighbor/" data-action="navigate-build" data-build-id="build-kd-tree-nearest-neighbor">Multi-Dimensional k-d Tree with Branch-and-Bound k-NN &amp; Range Search<span aria-hidden="true">→</span></a>
+        </div>
+      </section><section class="landing-section" id="landing-curriculum"><h2 class="landing-section__title">Curriculum</h2><h3 class="landing-part">Foundations, Memory Hierarchy &amp; Linear Structures</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m01" data-units="ram-model-vs-modern-cpu asymptotic-notations-rigor recurrence-relations-master-theorem akra-bazzi-uneven-divides amortized-analysis-potential space-complexity-stack-frames cache-oblivious-algorithms branch-prediction-simd-cost complexity-tradeoff-framework case-v8-elements-kinds">
+            <span class="landing-module__num">1.1</span>
+            <span class="landing-module__title">Asymptotic Analysis, Recurrences &amp; Memory Hierarchy</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m02" data-units="dynamic-arrays-geometric-resizing prefix-sums-difference-arrays two-pointers-invariant-proofs sliding-window-monotonicity kadane-subarray-invariants bit-manipulation-twos-complement bitsets-word-level-parallelism in-place-matrix-cyclic-shifts boyer-moore-majority-misra-gries build-dynamic-circular-deque">
+            <span class="landing-module__num">1.2</span>
+            <span class="landing-module__title">Contiguous Arrays, Bit Manipulation &amp; Pointer Idioms</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m03" data-units="singly-doubly-intrusive-lists floyd-brent-cycle-detection unrolled-linked-lists-ropes skip-lists-probabilistic-indexing stacks-expression-evaluation monotonic-stack-next-greater monotonic-deque-sliding-extrema lru-lfu-eviction-structures case-redis-skiplist-ziplist build-lfu-lru-cache">
+            <span class="landing-module__num">1.3</span>
+            <span class="landing-module__title">Linked Structures, Monotonic Stacks/Queues &amp; Cache-Conscious Lists</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div><h3 class="landing-part">Hashing, Sorting &amp; Divide-and-Conquer</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m04" data-units="universal-k-independent-hashing separate-chaining-vs-open-addressing robin-hood-cuckoo-hashing hashdos-siphash-random-seeds consistent-hashing-rendezvous bloom-filters-counting-xor count-min-sketch-heavy-hitters hyperloglog-cardinality case-rust-hashbrown-swisstable build-robin-hood-hash-map">
+            <span class="landing-module__num">2.1</span>
+            <span class="landing-module__title">Hash Tables, Modern Probing &amp; Probabilistic Sketches</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m05" data-units="quadratic-sorts-inversions mergesort-bottom-up-inversions quicksort-partition-schemes randomized-quicksort-expectation decision-tree-lower-bound counting-radix-bucket-sorts quickselect-bfprt-median external-merge-sort-replacement case-timsort-pdqsort build-hybrid-introsort-timsort">
+            <span class="landing-module__num">2.2</span>
+            <span class="landing-module__title">Sorting Mechanics, Hybrid Sorts &amp; Linear-Time Order Statistics</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m06" data-units="binary-search-boundary-invariants parametric-search-answer-space rotated-bitonic-unbounded-search fractional-cascading divide-and-conquer-closest-pair karatsuba-strassen-algebraic-dc fast-fourier-transform-polynomials meet-in-the-middle-search cdq-divide-and-conquer case-git-bisect-eytzinger">
+            <span class="landing-module__num">2.3</span>
+            <span class="landing-module__title">Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div><h3 class="landing-part">Trees, Balanced Hierarchies &amp; Range Queries</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m07" data-units="tree-representations-traversals morris-threaded-traversal tree-serialization-reconstruction bst-operations-hibbard-deletion randomly-built-bst-height binary-d-ary-heaps mergeable-heaps-binomial-fibonacci two-heaps-k-way-merge-patterns case-timer-wheels-vs-heaps build-indexed-d-ary-priority-queue">
+            <span class="landing-module__num">3.1</span>
+            <span class="landing-module__title">Binary Trees, Traversals, BSTs &amp; Priority Heaps</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m08" data-units="tree-rotations-avl-invariants red-black-llrb-isomorphism treaps-split-merge-paradigm splay-trees-dynamic-optimality augmented-trees-order-intervals b-trees-bplus-trees-disk-pages lsm-trees-write-amplification persistent-trees-path-copying case-linux-rbtree-cfs build-llrb-order-statistic-tree">
+            <span class="landing-module__num">3.2</span>
+            <span class="landing-module__title">Self-Balancing, Augmented, Disk-Backed &amp; Persistent Trees</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m09" data-units="static-range-queries-sparse-table fenwick-tree-binary-indexed segment-trees-bottom-up-monoids lazy-propagation-segment-tree-beats dynamic-persistent-segment-trees sqrt-decomposition-mos-algorithm lowest-common-ancestor-rmq heavy-light-decomposition cartesian-trees-treap-duality build-lazy-segment-tree">
+            <span class="landing-module__num">3.3</span>
+            <span class="landing-module__title">Range Query &amp; Sublinear Decomposition Structures</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div><h3 class="landing-part">Strings, Automata &amp; Information Retrieval</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m10" data-units="tries-radix-trees-patricia bitwise-tries-max-xor rabin-karp-polynomial-rolling-hash kmp-prefix-function-automaton z-algorithm-linear-box boyer-moore-horspool-simd aho-corasick-trie-automaton manacher-palindromic-tree case-ripgrep-teddy-simd build-aho-corasick-scanner">
+            <span class="landing-module__num">4.1</span>
+            <span class="landing-module__title">Tries, Exact String Matching &amp; Multi-Pattern Automata</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m11" data-units="suffix-trees-ukkonen-intuition suffix-arrays-prefix-doubling-sais kasai-lcp-array-rmq suffix-automaton-sam-endpos burrows-wheeler-transform-fm-index thompson-nfa-vs-backtracking-regex myers-diff-hirschberg-lcs huffman-lz77-deflate case-git-myers-histogram-diff build-thompson-nfa-regex-engine">
+            <span class="landing-module__num">4.2</span>
+            <span class="landing-module__title">Suffix Structures, Sequence Alignment &amp; Data Compression</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div><h3 class="landing-part">Graph Theory, Shortest Paths &amp; Network Flow</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m12" data-units="graph-representations-csr-cache bfs-01-bfs-multi-source dfs-edge-classification-timestamps topological-sort-kahn-dfs bipartite-graphs-2-coloring bridges-articulation-biconnected scc-tarjan-kosaraju-2sat eulerian-paths-hierholzer case-bundler-build-graph-cycles build-tarjan-scc-2sat-solver">
+            <span class="landing-module__num">5.1</span>
+            <span class="landing-module__title">Graph Representations, Traversals, Connectivity &amp; Topological Order</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m13" data-units="disjoint-set-union-ackermann dsu-rollback-weighted-offline mst-cut-cycle-properties dijkstra-relaxation-invariants astar-heuristic-admissibility bellman-ford-spfa-difference-constraints floyd-warshall-johnson-apsp state-space-dijkstra-layered-graphs case-osrm-contraction-hierarchies build-astar-bidirectional-router">
+            <span class="landing-module__num">5.2</span>
+            <span class="landing-module__title">Disjoint Sets, Minimum Spanning Trees &amp; Shortest Paths</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m14" data-units="flow-networks-residual-graphs max-flow-min-cut-theorem edmonds-karp-shortest-augmenting dinic-level-graph-blocking-flow push-relabel-preflow bipartite-matching-hopcroft-karp weighted-matching-hungarian min-cost-max-flow-mcmf flow-reductions-project-selection build-dinic-max-flow-engine">
+            <span class="landing-module__num">5.3</span>
+            <span class="landing-module__title">Network Flow, Min-Cut &amp; Bipartite Matching</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div><h3 class="landing-part">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</h3><div class="landing-modules">
+          <a class="landing-module" href="#" data-module="m15" data-units="combinatorial-generation-permutations backtracking-state-space-trees exact-cover-knuth-algorithm-x branch-and-bound-admissible-bounds minimax-alpha-beta-pruning greedy-choice-exchange-arguments matroids-greedy-foundations regret-greedy-heap-rollback case-sat-solvers-cdcl-dpll build-dancing-links-exact-cover">
+            <span class="landing-module__num">6.1</span>
+            <span class="landing-module__title">Recursion, Backtracking, Pruning &amp; Greedy Exchange Arguments</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m16" data-units="dp-optimal-substructure-dag memoization-tabulation-space-rolling knapsack-family-01-unbounded-bounded lis-patience-sorting sequence-dp-lcs-levenshtein interval-dp-matrix-chain-triangulation tree-dp-rerooting-technique dag-dp-longest-path-counting case-pretty-printing-knuth-plass build-hirschberg-linear-space-diff">
+            <span class="landing-module__num">6.2</span>
+            <span class="landing-module__title">Dynamic Programming Foundations &amp; Classical Archetypes</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m17" data-units="bitmask-dp-tsp-hamiltonian sos-dp-fast-zeta-mobius digit-dp-lexicographic-automata broken-profile-dp-grid-tiling divide-and-conquer-dp-quadrangle knuth-optimization-optimal-bst convex-hull-trick-li-chao-tree aliens-trick-wqs-binary-search matrix-exponentiation-linear-recurrences build-li-chao-convex-hull-dp">
+            <span class="landing-module__num">6.3</span>
+            <span class="landing-module__title">Advanced DP State Spaces &amp; Algebraic Optimizations</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a>
+          <a class="landing-module" href="#" data-module="m18" data-units="geometry-primitives-orientation-ccw convex-hull-graham-andrew sweep-line-bentley-ottmann spatial-indexing-kd-quad-rtrees modular-arithmetic-gcd-crt primality-miller-rabin-pollard-rho las-vegas-monte-carlo-karger np-completeness-reductions approximation-algorithms-fptas build-kd-tree-nearest-neighbor">
+            <span class="landing-module__num">6.4</span>
+            <span class="landing-module__title">Computational Geometry, Number Theory, Randomized &amp; Approximation Algorithms</span>
+            <span class="landing-module__meta">10 topics</span>
+            <span class="landing-module__bar"><span style="width:0%"></span></span>
+          </a></div></section>
+      <section class="landing-closing">
+        <h2 class="landing-closing__title">Start with the first lesson.</h2>
+        <a class="btn btn--primary landing-btn" href="#topic/ram-model-vs-modern-cpu">Start learning →</a>
+      </section></div>      <!-- landing:end -->
+    </div>
+  </main>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search topics" aria-modal="true">
+    <div class="search-modal__backdrop" id="search-backdrop"></div>
+    <div class="search-modal__dialog">
+      <div class="search-modal__input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-modal__input" id="search-input" type="text" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="search-modal__results" id="search-results"></div>
+      <div class="search-modal__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span><kbd>↵</kbd> Open</span>
+        <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagram Lightbox Modal -->
+  <div class="diagram-lightbox" id="diagram-lightbox" role="dialog" aria-label="Architecture diagram viewer" aria-modal="true">
+    <div class="diagram-lightbox__backdrop" id="diagram-lightbox-backdrop"></div>
+    <div class="diagram-lightbox__dialog">
+      <div class="diagram-lightbox__header">
+        <div class="diagram-lightbox__title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+          <span>Algorithmic Diagram</span>
+        </div>
+        <div class="diagram-lightbox__actions">
+          <button class="diagram-lightbox__btn" id="diagram-zoom-out" title="Zoom Out" aria-label="Zoom out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="diagram-lightbox__btn diagram-lightbox__btn--text" id="diagram-zoom-reset" title="Reset Zoom" aria-label="Reset zoom">
+            <span id="diagram-zoom-level">100%</span>
+          </button>
+          <button class="diagram-lightbox__btn" id="diagram-zoom-in" title="Zoom In" aria-label="Zoom in">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="diagram-lightbox__divider"></div>
+          <button class="diagram-lightbox__btn diagram-lightbox__close" id="diagram-lightbox-close" title="Close (Esc)" aria-label="Close dialog">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="diagram-lightbox__body" id="diagram-lightbox-body">
+        <div class="diagram-lightbox__stage" id="diagram-lightbox-stage"></div>
+      </div>
+      <div class="diagram-lightbox__footer">
+        <span>Click and drag to pan • Scroll to zoom • Press <kbd>Esc</kbd> to close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Scripts -->
+  <script type="text/plain" data-defer src="data/curriculum.js?v=dac0a78ff4"></script>
+  <script type="text/plain" data-defer src="data/roadmap.js?v=56d9aeb812"></script>
+  <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
+  <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
+  <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=c2dd5a1dae"></script>
+  <script type="text/plain" data-defer src="data/implementations_code.js?v=491243dd0d"></script>
+  <script type="text/plain" data-defer src="data/guided_labs.js?v=32aa34f316"></script>
+  <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
+  <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
+
+  <!-- App Scripts -->
+  <script type="text/plain" data-defer src="js/lazy.js?v=7275ff46e4"></script>
+  <script type="text/plain" data-defer src="js/analytics.js?v=280d488e9a"></script>
+  <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
+  <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
+  <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=beb4163f3b"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=bee88cba91"></script>
+  
+  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/roadmap.js?v=a94cb50935"></script>
+  <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=3fc347d571"></script>
+  <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
+  
+  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+
+  <!-- App bootstrap & deferred script loader -->
+  <script src="js/bootstrap.js?v=df2bb60aeb"></script>
+</body>
+</html>

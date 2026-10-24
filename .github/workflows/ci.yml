@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Validate curriculum and asset stamps
+        run: node tools/validate.js
+
+      - name: Verify static pages, sitemap, and dist build are in sync
+        run: |
+          node tools/generate-static.js
+          git diff --exit-code topic/ build/ sitemap.xml
+          node tools/build.js
