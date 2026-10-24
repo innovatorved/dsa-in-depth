@@ -1,11 +1,11 @@
 /**
- * System Design In Depth — Synchronous Head Initializer
+ * DSA In Depth — Synchronous Head Initializer
  * Runs in <head> before paint to eliminate FOUC, enforce canonical host,
  * configure Google Consent Mode v2, and set up analytics foundations.
  */
 (() => {
   // 1. Canonical domain enforcement
-  const targetHost = 'system-design-in-depth.vedgupta.in';
+  const targetHost = 'dsa-in-depth.vedgupta.in';
   const host = window.location.hostname;
   const isLocal = host === 'localhost' ||
     host === '127.0.0.1' ||

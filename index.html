@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
 
   <!-- Core scripts: head initializer & asset manifest -->
-  <script src="js/init.js?v=17af84f241"></script>
-  <script src="js/manifest.js?v=d23bd2f831"></script>
+  <script src="js/init.js?v=185938c8df"></script>
+  <script src="js/manifest.js?v=19951d0523"></script>
 </head>
 <body>
   <!-- Skip to content -->
@@ -124,7 +124,7 @@
         </div>
         <dl class="landing-stats">
           <div><dt>180</dt><dd>Topics</dd></div>
-          <div><dt>75</dt><dd>Simulators</dd></div>
+          <div><dt>69</dt><dd>Simulators</dd></div>
           <div><dt>22</dt><dd>Builds</dd></div>
           <div><dt>158</dt><dd>Videos</dd></div>
           <div><dt>720</dt><dd>Questions</dd></div>
@@ -135,7 +135,180 @@
         <div class="landing-tabs" role="tablist">
           <button class="landing-tab is-active" role="tab" aria-selected="true" data-demo="0">Cache lines</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="1">SwissTable SIMD</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="2">Red-Black Tree</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="3">Dijkstra &amp; A*</button><button class="landing-tab" role="tab" aria-selected="false" data-demo="4">Dinic Max-Flow</button>
         </div>
-        <div class="landing-demo" id="landing-demo-stage"></div>
+        <div class="landing-demo" id="landing-demo-stage">
+          <div class="dsa-sim simulator-card" id="sim-memory-cache-stride" data-sim-id="sim-memory-cache-stride">
+            <div class="dsa-sim__header simulator-card__header">
+              <div class="dsa-sim__title simulator-card__title">
+                <span>CPU 64-Byte Cache Line &amp; Stride Locality Simulator</span>
+              </div>
+              <span class="badge-o1">64B Cache Line (8 × 8B)</span>
+            </div>
+            <p class="dsa-sim__subtitle simulator-card__description">Compare contiguous stride-1 traversal (1 cache miss per 8 elements, ~4 cycles L1 hit) against stride-8 and heap pointer-chasing (100% cache misses, ~200 cycles RAM stall).</p>
+            <div class="dsa-sim__controls simulator-card__controls">
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
+                Preset
+                <select class="simulator-card__input sim-select" data-role="preset" style="padding:4px 8px;font-size:12px;">
+                  <option value="0">Contiguous Array (Stride = 1)</option><option value="1">Strided Access (Stride = 4)</option><option value="2">Linked List Pointer Chasing (Random Heap)</option>
+                </select>
+              </label>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="prev" title="Step Back">◀ Prev</button>
+              <button type="button" class="btn btn--primary btn--sm" data-role="next" title="Step Forward">Step ▶</button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="play" title="Play / Pause">⏵ Play</button>
+              <button type="button" class="btn btn--sm" data-role="reset" title="Reset">↺ Reset</button>
+              <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
+                Speed
+                <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
+                  <option value="1100">0.5×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="320">2×</option>
+                  <option value="150">4×</option>
+                </select>
+              </label>
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
+                Step 1 / 12
+              </span>
+            </div>
+            <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
+              <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
+              <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Access index [0] (Cache Line #0): Cold Cache Line Miss (+DRAM stall)</div>
+            </div>
+            <div class="dsa-sim__stage" data-role="stage">
+            <div style="border:1px dashed #10b981;border-radius:8px;padding:8px;margin-bottom:6px;background:rgba(16,185,129,0.05);">
+              <div style="font-size:11px;font-family:var(--font-mono,monospace);color:#34d399;margin-bottom:6px;">
+                Cache Line #0 (64 Bytes = 8 × int64) — RESIDENT IN L1 CACHE
+              </div>
+              <div class="dsa-sim__array" style="min-height:auto;padding:2px;">
+              <div class="dsa-sim__cell is-warn">
+                <span class="dsa-sim__cell-idx">0x1000</span>
+                <span class="dsa-sim__cell-val">12</span>
+                <span class="dsa-sim__cell-tag">MISS (DRAM)</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1008</span>
+                <span class="dsa-sim__cell-val">45</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1010</span>
+                <span class="dsa-sim__cell-val">78</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1018</span>
+                <span class="dsa-sim__cell-val">23</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1020</span>
+                <span class="dsa-sim__cell-val">56</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1028</span>
+                <span class="dsa-sim__cell-val">89</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1030</span>
+                <span class="dsa-sim__cell-val">34</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1038</span>
+                <span class="dsa-sim__cell-val">67</span>
+                <span class="dsa-sim__cell-tag">In L1</span>
+              </div>
+            </div>
+            </div>
+          
+            <div style="border:1px dashed #3f3f46;border-radius:8px;padding:8px;margin-bottom:6px;background:transparent;">
+              <div style="font-size:11px;font-family:var(--font-mono,monospace);color:#71717a;margin-bottom:6px;">
+                Cache Line #1 (64 Bytes = 8 × int64) — NOT IN L1
+              </div>
+              <div class="dsa-sim__array" style="min-height:auto;padding:2px;">
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1040</span>
+                <span class="dsa-sim__cell-val">91</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1048</span>
+                <span class="dsa-sim__cell-val">14</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1050</span>
+                <span class="dsa-sim__cell-val">29</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1058</span>
+                <span class="dsa-sim__cell-val">63</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1060</span>
+                <span class="dsa-sim__cell-val">82</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1068</span>
+                <span class="dsa-sim__cell-val">37</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1070</span>
+                <span class="dsa-sim__cell-val">50</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            
+              <div class="dsa-sim__cell">
+                <span class="dsa-sim__cell-idx">0x1078</span>
+                <span class="dsa-sim__cell-val">74</span>
+                <span class="dsa-sim__cell-tag">Cold</span>
+              </div>
+            </div>
+            </div>
+          </div>
+            <div class="dsa-sim__metrics" data-role="metrics">
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Accesses</div>
+                  <div class="dsa-sim__metric-value">1 / 12</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">L1 Cache Hits</div>
+                  <div class="dsa-sim__metric-value">0</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Cache Misses</div>
+                  <div class="dsa-sim__metric-value">1</div>
+                </div>
+              
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Cumulative Cycles</div>
+                  <div class="dsa-sim__metric-value">60 cy (~60.0 cy/op)</div>
+                </div>
+              
+            </div>
+            <div class="dsa-sim__log" data-role="log">Read A[0] = 12 at 0x1000 -&gt; CACHE LINE FILL (fetched 64B block)</div>
+          </div>
+        </div>
         <a class="landing-link" id="landing-demo-lesson" href="#topic/ram-model-vs-modern-cpu">Open lesson →</a>
       </section>
       <section class="landing-section">
@@ -332,7 +505,7 @@
 
   <!-- App Scripts -->
   <script type="text/plain" data-defer src="js/lazy.js?v=7275ff46e4"></script>
-  <script type="text/plain" data-defer src="js/analytics.js?v=280d488e9a"></script>
+  <script type="text/plain" data-defer src="js/analytics.js?v=f34c423809"></script>
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
@@ -344,12 +517,12 @@
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
-  <script type="text/plain" data-defer src="js/landing.js?v=bee88cba91"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
-  <script type="text/plain" data-defer src="js/roadmap.js?v=a94cb50935"></script>
+  <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=3fc347d571"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
   <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>

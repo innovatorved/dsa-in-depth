@@ -340,7 +340,7 @@
 
           '<div class="srs-flashcard ' + (this._cardFlipped ? 'is-flipped' : '') + '" id="srs-active-card" data-card-id="' + escapeHtml(card.id) + '">' +
             '<div class="srs-flashcard__meta">' +
-              '<span class="eco-pill">' + escapeHtml(card.category || 'System Design') + '</span>' +
+              '<span class="eco-pill">' + escapeHtml(card.category || 'Algorithms & Data Structures') + '</span>' +
               '<span class="eco-pill">' + escapeHtml(card.unitTitle || card.topicSlug || '') + '</span>' +
               '<span class="eco-pill">' + escapeHtml((card.type || 'concept').toUpperCase()) + '</span>' +
             '</div>' +

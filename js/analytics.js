@@ -792,8 +792,8 @@ window.Analytics = (() => {
 
   function trackRepoClick(placement) {
     trackEvent('click_github_repo', {
-      repo_name: 'system-design-in-depth',
-      repo_url: 'https://github.com/innovatorved/system-design-in-depth',
+      repo_name: 'dsa-in-depth',
+      repo_url: 'https://github.com/innovatorved/dsa-in-depth',
       placement: placement || 'unknown',
       current_slug: activeTopicSlug
     });
@@ -935,7 +935,7 @@ window.Analytics = (() => {
       }
 
       // Check if it's the repository link
-      if (href.includes('system-design-in-depth')) {
+      if (href.includes('dsa-in-depth')) {
         const placement = anchor.dataset.repoPlacement ||
                           (anchor.closest('.topbar') ? 'topbar' :
                            anchor.closest('.hero') ? 'hero' : 'body');

@@ -118,7 +118,7 @@
                   '<span class="eco-pill">' + (data.paths || []).length + ' Career Paths</span>' +
                   '<span class="eco-pill">' + doneCount + '/' + nodes.length + ' Completed (' + pct + '%)</span>' +
                 '</div>' +
-                '<h1 class="view-title">System Design Roadmap &amp; Career Paths</h1>' +
+                '<h1 class="view-title">DSA Roadmap &amp; Study Tracks</h1>' +
                 '<p class="view-subtitle">Interactive visual dependency graph, curated role-based learning paths, and modular curriculum explorer.</p>' +
               '</div>' +
               '<div class="view-tabs" role="tablist">' +

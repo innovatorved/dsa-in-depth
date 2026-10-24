@@ -13,7 +13,7 @@
 4. **Deterministic Asset Stamping**:
    - `node tools/stamp-assets.js` computes 10-character SHA-1 hashes for every CSS/JS/data file and updates query strings (`?v=xxxxxxxxxx`) across `index.html`, `404.html`, and `js/manifest.js`, while syncing quantitative curriculum counts across `README.md`, `index.html`, and `js/landing.js`.
 5. **Strict Validation Gate (`node tools/validate.js`)**:
-   - Verifies curriculum schema, 180 unit slugs, 32 interactive simulators, 20+ build labs (and executes their test suites), primary-source URL compliance against `SOURCES.md`, Mermaid diagram syntax, and pre-rendered HTML word counts (`>= 300` words per page).
+   - Verifies curriculum schema, 180 unit slugs, 69 interactive simulators across 100% of units, 22 build labs (and executes their test suites), primary-source URL compliance against `SOURCES.md`, Mermaid diagram syntax, and pre-rendered HTML word counts (`>= 300` words per page).
 
 ## Directory Structure
 
@@ -51,12 +51,12 @@ dsa-in-depth/
 │   ├── sandbox.js                 # Interactive Algorithm Selection Decision Tree & Complexity Analyzer
 │   ├── roadmap.js                 # Prerequisite DAG & 4 curated study tracks
 │   ├── simulators.js              # Simulator registry & common step-control dispatcher
-│   ├── simulators-linear.js       # Simulators 1–6 (Cache lines, Dynamic Array, Pointers, Deque, Stack, SkipList)
-│   ├── simulators-hashing.js      # Simulators 7–10 (Robin Hood, SwissTable SIMD, Bloom/Cuckoo, Consistent Ring)
-│   ├── simulators-trees.js        # Simulators 11–17 (Heap Floyd, AVL/LLRB, Treap, Splay, B+ Tree, Fenwick, SegTree)
-│   ├── simulators-strings.js      # Simulators 18–21 (KMP/Z, Aho-Corasick, Suffix Array/LCP, Thompson NFA)
-│   ├── simulators-graphs.js       # Simulators 22–27 (Tarjan SCC, DSU, Dijkstra/A*, Bellman-Ford, MST, Dinic)
-│   └── simulators-dp-adv.js       # Simulators 28–32 (Knapsack, Myers Diff, Bitmask TSP, Li Chao CHT, Convex Hull)
+│   ├── simulators-linear.js       # Track I Simulators (12 simulators across m01–m03)
+│   ├── simulators-hashing.js      # Track II Hashing & Sketch Simulators (7 simulators across m04)
+│   ├── simulators-trees.js        # Track II & III Sorting, Search, Tree & Range Simulators (19 simulators across m05–m09)
+│   ├── simulators-strings.js      # Track IV String, Automaton & Suffix Simulators (8 simulators across m10–m11)
+│   ├── simulators-graphs.js       # Track V Graph, Shortest-Path, MST & Flow Simulators (11 simulators across m12–m14)
+│   └── simulators-dp-adv.js       # Track VI Backtracking, DP, Geometry & Randomized Simulators (12 simulators across m15–m18)
 ├── data/
 │   ├── curriculum.js              # Master 6-Track, 18-Module, 180-Unit manifest
 │   ├── projects.js                # Build labs metadata catalog

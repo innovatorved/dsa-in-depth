@@ -79,10 +79,11 @@ function generateManifest() {
     (u.videos || []).forEach(v => videos.add(v.youtubeId));
   }
   const questions = Object.values(win.QUESTION_BANK).reduce((n, qs) => n + qs.length, 0);
-  const sims = new Set();
-  for (const f of fs.readdirSync(path.join(root, 'js')).filter(f => /^simulators.*\.js$/.test(f))) {
-    for (const m of fs.readFileSync(path.join(root, 'js', f), 'utf8').matchAll(/window\.SIMULATORS(?:\[['"]([^'"]+)['"]\]|\.(\w+))\s*=/g)) sims.add(m[1] || m[2]);
+  const simWin = { SIMULATORS: {} };
+  for (const f of ['js/simulators.js', ...fs.readdirSync(path.join(root, 'js')).filter(f => /^simulators-.*\.js$/.test(f)).sort().map(f => `js/${f}`)]) {
+    if (fs.existsSync(path.join(root, f))) vm.runInNewContext(fs.readFileSync(path.join(root, f), 'utf8'), { window: simWin });
   }
+  const sims = new Set(Object.keys(simWin.SIMULATORS));
   const site = { CURRICULUM_DATA: null, IMPLEMENTATIONS_DATA: {} };
   for (const f of ['data/curriculum.js', 'data/implementations_code.js']) {
     if (fs.existsSync(path.join(root, f))) vm.runInNewContext(fs.readFileSync(path.join(root, f), 'utf8'), { window: site });
@@ -105,7 +106,7 @@ window.SITE_COUNTS = ${JSON.stringify(counts)};
   const page = {
     ...site,
     SITE_COUNTS: counts,
-    SIMULATORS: Object.fromEntries([...sims].map(id => [id, {}])),
+    SIMULATORS: simWin.SIMULATORS,
     Progress: { getLastVisited: () => null, getModuleProgress: () => ({ completed: 0, total: 0 }) },
   };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'js/landing.js'), 'utf8'), { window: page });

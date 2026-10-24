@@ -90,7 +90,7 @@ window.Landing = (() => {
         <div class="landing-tabs" role="tablist">
           ${demos.map((d, i) => `<button class="landing-tab${i ? '' : ' is-active'}" role="tab" aria-selected="${i ? 'false' : 'true'}" data-demo="${i}">${esc(d.label)}</button>`).join('')}
         </div>
-        <div class="landing-demo" id="landing-demo-stage"></div>
+        <div class="landing-demo" id="landing-demo-stage">${typeof window.SIMULATORS?.[demos[0].sim]?.render === 'function' ? window.SIMULATORS[demos[0].sim].render() : ''}</div>
         <a class="landing-link" id="landing-demo-lesson" href="#topic/${esc(demos[0].lesson)}">Open lesson →</a>
       </section>`;
   }
