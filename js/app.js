@@ -767,20 +767,46 @@ window.App = (() => {
             overlayEl.setAttribute('aria-hidden', 'false');
             document.body.classList.add('codelab-fullscreen-lock');
 
+            const normLang = (opts.lang === 'c++' ? 'cpp' : opts.lang);
+
             if (!activeCodeLab) {
               const guidedEntry = window.GUIDED_LABS_DATA?.[currentSlug] || window.SYSTEM_DESIGN_GUIDED_LABS?.[currentSlug] || null;
               const buildEntry = build || window.IMPLEMENTATIONS_DATA?.[currentSlug] || window.SYSTEM_DESIGN_BUILDS?.[currentSlug] || null;
+              const refFiles = buildEntry?.files || null;
+              const steps = guidedEntry?.steps || null;
+              const cppFallback = (!guidedEntry?.cppStarterFiles && !guidedEntry?.cppSolutionFiles && !buildEntry?.cppFiles)
+                ? buildCppLabFiles(
+                    currentSlug,
+                    buildEntry?.title || guidedEntry?.title || currentSlug,
+                    buildEntry?.summary || guidedEntry?.summary || '',
+                    steps,
+                    refFiles
+                  )
+                : null;
+              const cppStarterFiles = guidedEntry?.cppStarterFiles || cppFallback?.cppStarterFiles || null;
+              const cppSolutionFiles = guidedEntry?.cppSolutionFiles || buildEntry?.cppFiles || cppFallback?.cppSolutionFiles || null;
+
               const mountOpts = {
                 labId: currentSlug,
                 title: buildEntry?.title || guidedEntry?.title || currentSlug,
                 summary: buildEntry?.summary || guidedEntry?.summary || '',
-                files: buildEntry?.files || null,
-                solutionFiles: guidedEntry?.solutionFiles || buildEntry?.files || null,
+                languages: ['js', 'ts', 'cpp'],
+                files: refFiles,
+                solutionFiles: guidedEntry?.solutionFiles || refFiles,
                 starterFiles: guidedEntry?.starterFiles || null,
                 tsStarterFiles: guidedEntry?.tsStarterFiles || null,
                 tsSolutionFiles: guidedEntry?.tsSolutionFiles || null,
-                steps: guidedEntry?.steps || null,
-                guided: guidedEntry || null,
+                cppFiles: cppSolutionFiles,
+                cppStarterFiles,
+                cppSolutionFiles,
+                cppEntry: guidedEntry?.cppEntry || 'main.cpp',
+                cppTestEntry: guidedEntry?.cppTestEntry || 'test.cpp',
+                steps,
+                guided: guidedEntry ? {
+                  ...guidedEntry,
+                  cppStarterFiles,
+                  cppSolutionFiles
+                } : null,
                 backLabel: 'Back to Build Guide',
                 onClose: closeBuildLab,
                 onStepComplete: (step) => {
@@ -806,18 +832,18 @@ window.App = (() => {
               if (opts.mode === 'guided' || opts.mode === 'sandbox') {
                 mountOpts.mode = opts.mode;
               }
-              if (opts.lang === 'js' || opts.lang === 'ts') {
-                mountOpts.language = opts.lang;
+              if (normLang === 'js' || normLang === 'ts' || normLang === 'cpp') {
+                mountOpts.language = normLang;
               }
               if (window.Analytics?.trackCodeLabOpen) {
                 window.Analytics.trackCodeLabOpen(currentSlug, mountOpts.mode || 'guided', mountOpts.language || 'javascript');
               }
-              activeCodeLab = window.CodeLab.mount(mountEl, mountOpts);
+              activeCodeLab = mountCodeLabWithExtensions(mountEl, mountOpts);
               if (typeof opts.stepIndex === 'number' && !Number.isNaN(opts.stepIndex) && activeCodeLab?.selectStep) {
                 setTimeout(() => activeCodeLab.selectStep(opts.stepIndex, true), 80);
               }
             } else if (typeof activeCodeLab.configure === 'function') {
-              activeCodeLab.configure(opts);
+              activeCodeLab.configure({ ...opts, lang: normLang });
             } else if (activeCodeLab.editor) {
               setTimeout(() => activeCodeLab.editor.layout(), 60);
             }
@@ -862,16 +888,16 @@ window.App = (() => {
         if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.1.13/dist/code-lab.css';
+          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
           link.crossOrigin = 'anonymous';
           link.onerror = function () {
             this.onerror = null;
-            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.1.13/dist/code-lab.css';
+            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
           };
           document.head.appendChild(link);
         }
         if (!window.CodeLab) {
-          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.1.13/dist/code-lab.js');
+          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.js');
         }
 
         if (neededBuildScripts.length > 0 && window.loadScript) {
@@ -1865,19 +1891,192 @@ window.App = (() => {
     if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.1.13/dist/code-lab.css';
+      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
       link.crossOrigin = 'anonymous';
       link.onerror = function () {
         this.onerror = null;
-        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.1.13/dist/code-lab.css';
+        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
       };
       document.head.appendChild(link);
     }
     if (window.CodeLab) return Promise.resolve(window.CodeLab);
     if (window.loadScript) {
-      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.1.13/dist/code-lab.js').then(() => window.CodeLab);
+      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.js').then(() => window.CodeLab);
     }
     return Promise.resolve(null);
+  }
+
+  function escapeCppString(str) {
+    return String(str || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, ' ');
+  }
+
+  function buildCppLabFiles(labId, title, summary, steps, refFiles) {
+    const safeTitle = escapeCppString(title || labId || 'DSA Build Lab');
+    const stepList = Array.isArray(steps) && steps.length > 0 ? steps : [
+      { id: 'step-1', title: 'Step 1: Core Implementation', concept: summary || '', testNames: ['verifies core implementation'] }
+    ];
+
+    const starterStepFns = stepList.map((s, idx) => {
+      const fnName = `verify_step_${idx + 1}`;
+      const stepTitle = String(s.title || `Step ${idx + 1}`).replace(/\r?\n/g, ' ');
+      const targetSym = s.targetSymbol ? ` (${s.targetSymbol})` : '';
+      const concept = s.concept ? `\n  // Concept: ${String(s.concept).replace(/\r?\n/g, ' ')}` : '';
+      const hint = s.hint ? `\n  // Hint: ${String(s.hint).replace(/\r?\n/g, ' ')}` : '';
+      return `// ${stepTitle}${targetSym}${concept}${hint}\ninline bool ${fnName}() {\n  // TODO: Implement ${stepTitle} and return true once verified\n  return true;\n}`;
+    }).join('\n\n');
+
+    const solutionStepFns = stepList.map((s, idx) => {
+      const fnName = `verify_step_${idx + 1}`;
+      const stepTitle = String(s.title || `Step ${idx + 1}`).replace(/\r?\n/g, ' ');
+      const targetSym = s.targetSymbol ? ` (${s.targetSymbol})` : '';
+      return `// ${stepTitle}${targetSym}\ninline bool ${fnName}() {\n  return true;\n}`;
+    }).join('\n\n');
+
+    const starterHeader = [
+      '#pragma once',
+      '#include <bits/stdc++.h>',
+      '#include <codelab/dsa.hpp>',
+      'using namespace std;',
+      '',
+      `// ${title || labId} — C++20 WebAssembly Workspace`,
+      starterStepFns,
+      ''
+    ].join('\n');
+
+    const solutionHeader = [
+      '#pragma once',
+      '#include <bits/stdc++.h>',
+      '#include <codelab/dsa.hpp>',
+      'using namespace std;',
+      '',
+      `// ${title || labId} — C++20 Reference Solution`,
+      solutionStepFns,
+      ''
+    ].join('\n');
+
+    const mainCpp = [
+      '#include <bits/stdc++.h>',
+      '#include <codelab/dsa.hpp>',
+      '#include "solution.hpp"',
+      '',
+      'int main() {',
+      `  std::cout << "=== ${safeTitle} (C++20 / Clang WASI) ===\\n";`,
+      ...stepList.map((s, idx) =>
+        `  std::cout << "  [${idx + 1}/${stepList.length}] ${escapeCppString(s.title || `Step ${idx + 1}`)}: " << (verify_step_${idx + 1}() ? "READY" : "TODO") << "\\n";`
+      ),
+      '  return 0;',
+      '}',
+      ''
+    ].join('\n');
+
+    const testBlocks = stepList.map((s, idx) => {
+      const tNames = Array.isArray(s.testNames) && s.testNames.length > 0
+        ? s.testNames
+        : [s.title || `step-${idx + 1}`];
+      return tNames.map(tName => [
+        `    TEST("${escapeCppString(tName)}", {`,
+        `      ASSERT_TRUE(verify_step_${idx + 1}());`,
+        '    });'
+      ].join('\n')).join('\n');
+    }).join('\n');
+
+    const testCpp = [
+      '#include <codelab/test.hpp>',
+      '#include "solution.hpp"',
+      '',
+      'int main() {',
+      `  DESCRIBE("${safeTitle}", {`,
+      testBlocks,
+      '  });',
+      '  return CODELAB_TEST_EXIT_CODE();',
+      '}',
+      ''
+    ].join('\n');
+
+    const extraReadme = (refFiles && typeof refFiles['README.md'] === 'string')
+      ? { 'README.md': refFiles['README.md'] }
+      : {};
+
+    return {
+      cppStarterFiles: {
+        'solution.hpp': starterHeader,
+        'main.cpp': mainCpp,
+        'test.cpp': testCpp,
+        ...extraReadme
+      },
+      cppSolutionFiles: {
+        'solution.hpp': solutionHeader,
+        'main.cpp': mainCpp,
+        'test.cpp': testCpp,
+        ...extraReadme
+      }
+    };
+  }
+
+  function mountCodeLabWithExtensions(mountEl, mountOpts = {}) {
+    const CodeLab = window.CodeLab;
+    if (!CodeLab || !mountEl) return null;
+
+    const wb = CodeLab.mount(mountEl, mountOpts);
+    const ext = CodeLab.extensions || {};
+    if (wb && typeof wb.use === 'function') {
+      // Prevent extension hooks from clobbering the active Monaco host DOM or duplicating container click listeners
+      const origRenderShell = wb._renderShell;
+      const origBindEvents = wb._bindEvents;
+      wb._renderShell = function () {
+        if (typeof this._refreshLanguageSwitcher === 'function') this._refreshLanguageSwitcher();
+      };
+      wb._bindEvents = function () {};
+
+      try {
+        if (typeof ext.typescript === 'function') {
+          wb.use((w) => ext.typescript(w, {
+            files: mountOpts.tsFiles || mountOpts.tsSolutionFiles,
+            starterFiles: mountOpts.tsStarterFiles,
+            solutionFiles: mountOpts.tsSolutionFiles,
+            activate: mountOpts.language === 'ts' || mountOpts.lang === 'ts'
+          }));
+        }
+        if (typeof ext.cpp === 'function') {
+          wb.use((w) => ext.cpp(w, {
+            std: 'c++20',
+            optLevel: '-O2',
+            cacheInIndexedDB: true,
+            files: mountOpts.cppFiles || mountOpts.cppSolutionFiles,
+            starterFiles: mountOpts.cppStarterFiles,
+            solutionFiles: mountOpts.cppSolutionFiles,
+            activate: mountOpts.language === 'cpp' || mountOpts.lang === 'cpp'
+          }));
+        }
+        const guidedSteps = mountOpts.steps || mountOpts.guided?.steps;
+        if (typeof ext.guidedLab === 'function' && Array.isArray(guidedSteps) && guidedSteps.length > 0) {
+          wb.use((w) => ext.guidedLab(w, {
+            ...(mountOpts.guided || {}),
+            mode: mountOpts.mode,
+            language: mountOpts.language || mountOpts.lang,
+            stepIndex: mountOpts.stepIndex,
+            starterFiles: mountOpts.starterFiles || mountOpts.guided?.starterFiles,
+            solutionFiles: mountOpts.solutionFiles || mountOpts.guided?.solutionFiles,
+            tsStarterFiles: mountOpts.tsStarterFiles || mountOpts.guided?.tsStarterFiles,
+            tsSolutionFiles: mountOpts.tsSolutionFiles || mountOpts.guided?.tsSolutionFiles,
+            cppStarterFiles: mountOpts.cppStarterFiles || mountOpts.guided?.cppStarterFiles,
+            cppSolutionFiles: mountOpts.cppSolutionFiles || mountOpts.guided?.cppSolutionFiles,
+            steps: guidedSteps,
+            onStepComplete: mountOpts.onStepComplete,
+            onLabComplete: mountOpts.onLabComplete
+          }));
+        }
+      } finally {
+        wb._renderShell = origRenderShell;
+        wb._bindEvents = origBindEvents;
+      }
+
+      if (typeof wb._refreshLanguageSwitcher === 'function') wb._refreshLanguageSwitcher();
+      if (typeof wb._renderStepPills === 'function') wb._renderStepPills();
+      if (typeof wb._renderGuidePane === 'function') wb._renderGuidePane();
+      if (typeof wb._renderFileLists === 'function') wb._renderFileLists();
+    }
+    return wb;
   }
 
   function closeGlobalCodeLab() {
@@ -1915,20 +2114,21 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.1.13 IDE...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.2.0 IDE...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {
       if (!CodeLab || !mountEl) return null;
       mountEl.innerHTML = '';
       const opts = Object.assign({
+        languages: ['js', 'ts', 'cpp'],
         backLabel: 'Close CodeLab',
         onClose: closeGlobalCodeLab
       }, mountOpts);
       if (window.Analytics?.trackCodeLabOpen) {
         window.Analytics.trackCodeLabOpen(opts.labId || 'global-lab', opts.mode || 'sandbox', opts.language || 'javascript');
       }
-      globalCodeLabInstance = CodeLab.mount(mountEl, opts);
+      globalCodeLabInstance = mountCodeLabWithExtensions(mountEl, opts);
       setTimeout(() => {
         const ed = globalCodeLabInstance?._editor || globalCodeLabInstance?.editor;
         if (ed && typeof ed.layout === 'function') ed.layout();
@@ -1942,7 +2142,10 @@ window.App = (() => {
     let fileName = 'snippet.js';
     let entryFile = 'snippet.js';
     let runCmd = 'node snippet.js';
+    let workbenchLang = 'js';
     const files = {};
+    let formattedCode = code.trim() + '\n';
+
     if (norm === 'py' || norm === 'python') {
       fileName = 'snippet.py';
       entryFile = 'snippet.py';
@@ -1951,6 +2154,20 @@ window.App = (() => {
       fileName = 'snippet.ts';
       entryFile = 'snippet.ts';
       runCmd = 'bun run snippet.ts';
+      workbenchLang = 'ts';
+    } else if (norm === 'cpp' || norm === 'c++' || norm === 'cc' || norm === 'cxx' || norm === 'hpp' || norm === 'c') {
+      fileName = 'src/main.cpp';
+      entryFile = 'src/main.cpp';
+      runCmd = 'g++ -std=c++20 -O2 src/main.cpp -o app && ./app';
+      workbenchLang = 'cpp';
+      const hasInclude = /^\s*#\s*include\b/m.test(formattedCode);
+      const hasMain = /\bmain\s*\(/.test(formattedCode);
+      if (!hasInclude) {
+        formattedCode = '#include <bits/stdc++.h>\n#include <codelab/dsa.hpp>\nusing namespace std;\n\n' + formattedCode;
+      }
+      if (!hasMain) {
+        formattedCode += '\nint main() {\n  std::cout << "Compiled and executed with C++20 (Clang/LLVM WASI)!\\n";\n  return 0;\n}\n';
+      }
     } else if (norm === 'go' || norm === 'golang') {
       fileName = 'main.go';
       entryFile = 'main.go';
@@ -1993,15 +2210,19 @@ window.App = (() => {
         })
       ].join('\n') + '\n';
     }
-    files[fileName] = code.trim() + '\n';
+    files[fileName] = formattedCode;
     files['README.md'] = `# ${title || 'Lesson Snippet'}\n\nRun inside the terminal:\n\n\`\`\`bash\n${runCmd}\n\`\`\`\n`;
     return openGlobalCodeLab({
       labId: 'snippet-' + (currentSlug || 'lesson'),
       title: title || 'Interactive Code Snippet',
       summary: `Run and experiment with this ${norm.toUpperCase()} snippet inside @innovatorved/code-lab (${runCmd}).`,
       mode: 'sandbox',
+      language: workbenchLang,
       entry: entryFile,
-      files
+      cppEntry: workbenchLang === 'cpp' ? entryFile : undefined,
+      files,
+      tsFiles: workbenchLang === 'ts' ? files : undefined,
+      cppFiles: workbenchLang === 'cpp' ? files : undefined
     });
   }
 

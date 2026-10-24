@@ -23,5 +23,8 @@
     "code-lab"
   ],
   "author": "Ved Gupta",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@innovatorved/code-lab": "^0.2.0"
+  }
 }

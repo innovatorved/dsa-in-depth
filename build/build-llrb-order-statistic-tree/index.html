@@ -225,7 +225,7 @@
             </div>
             <h2 class="build-lab-card__title">Code &amp; Verify in the Browser Workbench</h2>
             <p class="build-lab-card__desc">
-              Complete 4 progressive engineering steps in <strong>JavaScript</strong> or <strong>TypeScript</strong> against an in-browser Node.js v22 runtime (virtual filesystem, loopback TCP/HTTP, and automated unit tests) — zero local setup required.
+              Complete 4 progressive engineering steps in <strong>JavaScript</strong>, <strong>TypeScript</strong>, or <strong>C++20 (WebAssembly)</strong> against an in-browser Node.js v22, Bun v1.1 &amp; Clang/LLVM WASI runtime (virtual filesystem, loopback TCP/HTTP, and automated unit tests) — zero local setup required.
             </p>
             <div class="build-lab-progress-track" aria-hidden="true">
               <div class="build-lab-progress-track__fill" style="width:0%"></div>
@@ -310,7 +310,7 @@
 <li><strong>Perfect black balance</strong>: every path from the root to a <code>null</code> link traverses the exact same number of black links.</li>
 </ol>
 <p>Because of this invariant, bottom-up insertion cleanup collapses into just three conditional statements in <code>_fixUp(h)</code>:</p>
-<div class="code-block"><div class="code-block__header"><span class="code-block__lang">js</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="js" title="Execute this snippet in the in-browser Node.js v22 CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-js">if (this._isRed(h.right) &amp;&amp; !this._isRed(h.left)) h = this._rotateLeft(h);
+<div class="code-block"><div class="code-block__header"><span class="code-block__lang">js</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="js" title="Execute this snippet in the in-browser CodeLab IDE (Node.js v22, TypeScript &amp; C++20 WASI)">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-js">if (this._isRed(h.right) &amp;&amp; !this._isRed(h.left)) h = this._rotateLeft(h);
 if (this._isRed(h.left) &amp;&amp; this._isRed(h.left.left)) h = this._rotateRight(h);
 if (this._isRed(h.left) &amp;&amp; this._isRed(h.right)) this._flipColors(h);</code></pre></div>
 <h2>Subtree Size Augmentation for Order Statistics</h2>
@@ -452,7 +452,7 @@ if (this._isRed(h.left) &amp;&amp; this._isRed(h.right)) this._flipColors(h);</c
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=3bb705e7e1"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -461,7 +461,7 @@ if (this._isRed(h.left) &amp;&amp; this._isRed(h.right)) this._flipColors(h);</c
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=d38c6e4ef7"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=6a924bd1e7"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

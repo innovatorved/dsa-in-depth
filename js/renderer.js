@@ -517,7 +517,7 @@ window.Renderer = (() => {
               ${badgeHtml}
             </div>
             ${b.summary ? `<span class="lesson-builds__summary">${escapeHtml(b.summary)}</span>` : ''}
-            <span class="lesson-builds__cta">${icons.terminal} Open Build Guide &amp; Interactive Lab (JS &amp; TS) →</span>
+            <span class="lesson-builds__cta">${icons.terminal} Open Build Guide &amp; Interactive Lab (JS, TS &amp; C++20) →</span>
           </a>`;
         }).join('')}
       </div>`;
@@ -632,7 +632,7 @@ window.Renderer = (() => {
             </div>
             <h2 class="build-lab-card__title">Code &amp; Verify in the Browser Workbench</h2>
             <p class="build-lab-card__desc">
-              Complete ${totalSteps} progressive engineering steps in <strong>JavaScript</strong> or <strong>TypeScript</strong> against an in-browser Node.js v22 runtime (virtual filesystem, loopback TCP/HTTP, and automated unit tests) — zero local setup required.
+              Complete ${totalSteps} progressive engineering steps in <strong>JavaScript</strong>, <strong>TypeScript</strong>, or <strong>C++20 (WebAssembly)</strong> against an in-browser Node.js v22, Bun v1.1 &amp; Clang/LLVM WASI runtime (virtual filesystem, loopback TCP/HTTP, and automated unit tests) — zero local setup required.
             </p>
             <div class="build-lab-progress-track" aria-hidden="true">
               <div class="build-lab-progress-track__fill" style="width:${progressPct}%"></div>
@@ -809,9 +809,9 @@ window.Renderer = (() => {
       .replace(/```(\S+)?[^\n]*\n([\s\S]*?)```/g, (_, lang, code) => {
         const idx = codeBlocks.length;
         const cleanLang = (lang || 'text').toLowerCase();
-        const isRunnable = ['js', 'javascript', 'ts', 'typescript', 'node', 'sh', 'bash'].includes(cleanLang);
+        const isRunnable = ['js', 'javascript', 'ts', 'typescript', 'cpp', 'c++', 'cc', 'cxx', 'c', 'hpp', 'node', 'sh', 'bash'].includes(cleanLang);
         const runBtn = isRunnable
-          ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser Node.js v22 CodeLab IDE">⚡ Run in CodeLab</button>`
+          ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE (Node.js v22, TypeScript &amp; C++20 WASI)">⚡ Run in CodeLab</button>`
           : '';
         codeBlocks.push(
           '<div class="code-block">' +
