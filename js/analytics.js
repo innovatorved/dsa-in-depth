@@ -5,7 +5,7 @@
 
 window.Analytics = (() => {
   // Config: Active GA4 Measurement ID
-  const DEFAULT_ID = 'G-SZ26BQZCQ7';
+  const DEFAULT_ID = 'G-GF7VK3LRPJ';
 
   // State
   let activeTopicSlug = null;
