@@ -25,6 +25,6 @@
   "author": "Ved Gupta",
   "license": "MIT",
   "dependencies": {
-    "@innovatorved/code-lab": "^0.2.0"
+    "@innovatorved/code-lab": "^0.3.0"
   }
 }

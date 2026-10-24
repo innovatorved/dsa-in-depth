@@ -767,7 +767,8 @@ window.App = (() => {
             overlayEl.setAttribute('aria-hidden', 'false');
             document.body.classList.add('codelab-fullscreen-lock');
 
-            const normLang = (opts.lang === 'c++' ? 'cpp' : opts.lang);
+            const rawLang = opts.lang || '';
+            const normLang = (rawLang === 'c++' ? 'cpp' : (rawLang === 'python' ? 'py' : rawLang));
 
             if (!activeCodeLab) {
               const guidedEntry = window.GUIDED_LABS_DATA?.[currentSlug] || window.SYSTEM_DESIGN_GUIDED_LABS?.[currentSlug] || null;
@@ -785,12 +786,14 @@ window.App = (() => {
                 : null;
               const cppStarterFiles = guidedEntry?.cppStarterFiles || cppFallback?.cppStarterFiles || null;
               const cppSolutionFiles = guidedEntry?.cppSolutionFiles || buildEntry?.cppFiles || cppFallback?.cppSolutionFiles || null;
+              const pyStarterFiles = guidedEntry?.pyStarterFiles || null;
+              const pySolutionFiles = guidedEntry?.pySolutionFiles || buildEntry?.pyFiles || null;
 
               const mountOpts = {
                 labId: currentSlug,
                 title: buildEntry?.title || guidedEntry?.title || currentSlug,
                 summary: buildEntry?.summary || guidedEntry?.summary || '',
-                languages: ['js', 'ts', 'cpp'],
+                languages: ['js', 'ts', 'cpp', 'py'],
                 files: refFiles,
                 solutionFiles: guidedEntry?.solutionFiles || refFiles,
                 starterFiles: guidedEntry?.starterFiles || null,
@@ -801,11 +804,17 @@ window.App = (() => {
                 cppSolutionFiles,
                 cppEntry: guidedEntry?.cppEntry || 'main.cpp',
                 cppTestEntry: guidedEntry?.cppTestEntry || 'test.cpp',
+                pyFiles: pySolutionFiles,
+                pyStarterFiles,
+                pySolutionFiles,
+                pyEntry: guidedEntry?.pyEntry || 'main.py',
                 steps,
                 guided: guidedEntry ? {
                   ...guidedEntry,
                   cppStarterFiles,
-                  cppSolutionFiles
+                  cppSolutionFiles,
+                  pyStarterFiles,
+                  pySolutionFiles
                 } : null,
                 backLabel: 'Back to Build Guide',
                 onClose: closeBuildLab,
@@ -832,7 +841,7 @@ window.App = (() => {
               if (opts.mode === 'guided' || opts.mode === 'sandbox') {
                 mountOpts.mode = opts.mode;
               }
-              if (normLang === 'js' || normLang === 'ts' || normLang === 'cpp') {
+              if (normLang === 'js' || normLang === 'ts' || normLang === 'cpp' || normLang === 'py') {
                 mountOpts.language = normLang;
               }
               if (window.Analytics?.trackCodeLabOpen) {
@@ -888,16 +897,16 @@ window.App = (() => {
         if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
+          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.0/dist/code-lab.css';
           link.crossOrigin = 'anonymous';
           link.onerror = function () {
             this.onerror = null;
-            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
+            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.0/dist/code-lab.css';
           };
           document.head.appendChild(link);
         }
         if (!window.CodeLab) {
-          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.js');
+          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.0/dist/code-lab.js');
         }
 
         if (neededBuildScripts.length > 0 && window.loadScript) {
@@ -1891,17 +1900,17 @@ window.App = (() => {
     if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
+      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.0/dist/code-lab.css';
       link.crossOrigin = 'anonymous';
       link.onerror = function () {
         this.onerror = null;
-        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.2.0/dist/code-lab.css';
+        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.0/dist/code-lab.css';
       };
       document.head.appendChild(link);
     }
     if (window.CodeLab) return Promise.resolve(window.CodeLab);
     if (window.loadScript) {
-      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.2.0/dist/code-lab.js').then(() => window.CodeLab);
+      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.0/dist/code-lab.js').then(() => window.CodeLab);
     }
     return Promise.resolve(null);
   }
@@ -2714,6 +2723,19 @@ window.App = (() => {
             activate: mountOpts.language === 'cpp' || mountOpts.lang === 'cpp'
           }));
         }
+        if (typeof ext.python === 'function') {
+          wb.use((w) => ext.python(w, {
+            preloadPackages: ['numpy', 'pytest'],
+            files: mountOpts.pyFiles || mountOpts.pySolutionFiles,
+            starterFiles: mountOpts.pyStarterFiles,
+            solutionFiles: mountOpts.pySolutionFiles,
+            activate: mountOpts.language === 'py' || mountOpts.language === 'python' || mountOpts.lang === 'py'
+          }));
+          const vfs = wb.vfs || wb.shell?.vfs;
+          if (vfs && typeof window.CodeLab.seedPythonModulesIntoVfs === 'function') {
+            window.CodeLab.seedPythonModulesIntoVfs(vfs);
+          }
+        }
         const guidedSteps = mountOpts.steps || mountOpts.guided?.steps;
         if (typeof ext.guidedLab === 'function' && Array.isArray(guidedSteps) && guidedSteps.length > 0) {
           wb.use((w) => ext.guidedLab(w, {
@@ -2727,6 +2749,8 @@ window.App = (() => {
             tsSolutionFiles: mountOpts.tsSolutionFiles || mountOpts.guided?.tsSolutionFiles,
             cppStarterFiles: mountOpts.cppStarterFiles || mountOpts.guided?.cppStarterFiles,
             cppSolutionFiles: mountOpts.cppSolutionFiles || mountOpts.guided?.cppSolutionFiles,
+            pyStarterFiles: mountOpts.pyStarterFiles || mountOpts.guided?.pyStarterFiles,
+            pySolutionFiles: mountOpts.pySolutionFiles || mountOpts.guided?.pySolutionFiles,
             steps: guidedSteps,
             onStepComplete: mountOpts.onStepComplete,
             onLabComplete: mountOpts.onLabComplete
@@ -2781,14 +2805,14 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.2.0 IDE...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.0 IDE...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {
       if (!CodeLab || !mountEl) return null;
       mountEl.innerHTML = '';
       const opts = Object.assign({
-        languages: ['js', 'ts', 'cpp'],
+        languages: ['js', 'ts', 'cpp', 'py'],
         backLabel: 'Close CodeLab',
         onClose: closeGlobalCodeLab
       }, mountOpts);
@@ -2817,6 +2841,7 @@ window.App = (() => {
       fileName = 'snippet.py';
       entryFile = 'snippet.py';
       runCmd = 'python3 snippet.py';
+      workbenchLang = 'py';
     } else if (norm === 'ts' || norm === 'typescript') {
       fileName = 'snippet.ts';
       entryFile = 'snippet.ts';
@@ -2887,9 +2912,11 @@ window.App = (() => {
       language: workbenchLang,
       entry: entryFile,
       cppEntry: workbenchLang === 'cpp' ? entryFile : undefined,
+      pyEntry: workbenchLang === 'py' ? entryFile : undefined,
       files,
       tsFiles: workbenchLang === 'ts' ? files : undefined,
-      cppFiles: workbenchLang === 'cpp' ? files : undefined
+      cppFiles: workbenchLang === 'cpp' ? files : undefined,
+      pyFiles: workbenchLang === 'py' ? files : undefined
     });
   }
 
