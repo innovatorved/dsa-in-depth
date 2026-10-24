@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;0rCFkuQS968&quot;,&quot;id&quot;:&quot;0rCFkuQS968&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/0rCFkuQS968&quot;,&quot;title&quot;:&quot;MIT 6.851 Lecture 15: Static Trees, RMQ-LCA Duality &amp; Cartesian Trees in O(N)&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare&quot;,&quot;duration&quot;:&quot;1:18:50&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;78m&quot;,&quot;why&quot;:&quot;Derives the O(N) right-spine monotonic stack construction of a Cartesian Tree and proves the bidirectional reduction between RMQ and LCA.&quot;}">
-      <div class="video-embed" id="video-0rCFkuQS968"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="0rCFkuQS968">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/0rCFkuQS968/hqdefault.jpg"
-               alt="MIT 6.851 Lecture 15: Static Trees, RMQ-LCA Duality &amp; Cartesian Trees in O(N)"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;2R1vV00SQ6g&quot;,&quot;title&quot;:&quot;Range Minima &amp; Cartesian Trees: RMQ-LCA Duality and O(N) Construction&quot;,&quot;channel&quot;:&quot;Sebastian Wild (Lectures)&quot;,&quot;duration&quot;:&quot;4:42&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;5m&quot;,&quot;why&quot;:&quot;Concise derivation of how a Cartesian Tree encodes array indices in-order and values in min-heap order, reducing Range Minimum Queries to Lowest Common Ancestor.&quot;}">
+      <div class="video-embed" id="video-2R1vV00SQ6g"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="2R1vV00SQ6g">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/2R1vV00SQ6g/hqdefault.jpg"
+               alt="Range Minima &amp; Cartesian Trees: RMQ-LCA Duality and O(N) Construction"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare</span>
-        <span class="video-embed__title">MIT 6.851 Lecture 15: Static Trees, RMQ-LCA Duality &amp; Cartesian Trees in O(N)</span>
-        <a href="https://www.youtube.com/watch?v=0rCFkuQS968" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Sebastian Wild (Lectures)</span>
+        <span class="video-embed__title">Range Minima &amp; Cartesian Trees: RMQ-LCA Duality and O(N) Construction</span>
+        <a href="https://www.youtube.com/watch?v=2R1vV00SQ6g" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      <p class="video-embed__why">Derives the O(N) right-spine monotonic stack construction of a Cartesian Tree and proves the bidirectional reduction between RMQ and LCA.</p></div>
+      <p class="video-embed__why">Concise derivation of how a Cartesian Tree encodes array indices in-order and values in min-heap order, reducing Range Minimum Queries to Lowest Common Ancestor.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body"><p>Given an array $A[0..N-1]$, its <strong>Min-Cartesian Tree</strong> (introduced by Jean Vuillemin in 1980) is the unique binary tree whose <strong>inorder traversal reproduces the array indices $0, 1, \dots, N-1$</strong> and whose nodes satisfy the <strong>min-heap property on values $A[i]$</strong> ($A[\text{parent}] \le A[\text{child}]$). Equivalently, the root of the Cartesian tree for $A[L..R]$ is the index $m = \arg\min_{i \in [L, R]} A[i]$, its left subtree is the Cartesian tree of $A[L..m-1]$, and its right subtree is the Cartesian tree of $A[m+1..R]$.</p>
@@ -937,9 +937,18 @@ flowchart LR
               <div class="dsa-sim__title simulator-card__title">
                 <span>Heavy-Light Decomposition, Cartesian Tree Stack &amp; Mo’s Snake-Order Sweep</span>
               </div>
-              <span class="badge-ologn">O((N+Q)√N) Mo · O(log² N) HLD · O(N) Cartesian</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-ologn">O((N+Q)√N) Mo · O(log² N) HLD · O(N) Cartesian</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Switch between three foundational range-query reductions: (1) Mo’s offline √N block-snake query ordering, (2) Heavy-Light path decomposition into ≤ 2 log₂ N contiguous Segment Tree intervals, and (3) O(N) Monotonic Stack Cartesian Tree construction.</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -954,16 +963,48 @@ flowchart LR
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
-                Step 1 / 2
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
+                Step 1 / 8
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="Q1:[1, 6] (blk 0, R↑), Q2:[0, 7] (blk 0, R↑), Q3:[3, 5] (blk 1, R↓), Q4:[4, 2] (blk 1, R↓)"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="7"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Step 1 (Even Block 0): Queries with L ∈ Block 0 are sorted by R ascending. curR sweeps right monotonically (6 → 7) in O(N) total steps for the block.</div>
@@ -987,7 +1028,7 @@ flowchart LR
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">In Even Block 0, curR moves right from 6 to 7 (+1 step) while curL jitters within Block 0 by at most B = √N steps.</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] In Even Block 0, curR moves right from 6 to 7 (+1 step) while curL jitters within Block 0 by at most B = √N steps.</div></div>
           </div>
         </div>
 
@@ -1417,7 +1458,13 @@ function sumOfSubarrayMinimums(arr) {
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1427,7 +1474,7 @@ function sumOfSubarrayMinimums(arr) {
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

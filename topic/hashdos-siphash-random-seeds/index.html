@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,7 +824,7 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;Vdrab3sB7MU&quot;,&quot;id&quot;:&quot;Vdrab3sB7MU&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/Vdrab3sB7MU&quot;,&quot;title&quot;:&quot;29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks &amp; SipHash Defense&quot;,&quot;channel&quot;:&quot;CCC (29C3)&quot;,&quot;duration&quot;:&quot;57:10&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;57m&quot;,&quot;why&quot;:&quot;Srini Devadas explains preimage resistance, second-preimage resistance, and collision resistance, establishing why unkeyed non-cryptographic hashes fail against adversarial inputs.&quot;}">
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;Vdrab3sB7MU&quot;,&quot;id&quot;:&quot;Vdrab3sB7MU&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/Vdrab3sB7MU&quot;,&quot;title&quot;:&quot;29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks &amp; SipHash Defense&quot;,&quot;channel&quot;:&quot;Christiaan008 (29C3)&quot;,&quot;duration&quot;:&quot;57:10&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;57m&quot;,&quot;why&quot;:&quot;Srini Devadas explains preimage resistance, second-preimage resistance, and collision resistance, establishing why unkeyed non-cryptographic hashes fail against adversarial inputs.&quot;}">
       <div class="video-embed" id="video-Vdrab3sB7MU"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="Vdrab3sB7MU">
           <img class="video-embed__thumb" src="https://img.youtube.com/vi/Vdrab3sB7MU/hqdefault.jpg"
                alt="29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks &amp; SipHash Defense"
@@ -832,7 +832,7 @@
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">CCC (29C3)</span>
+        <span class="video-embed__channel">Christiaan008 (29C3)</span>
         <span class="video-embed__title">29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks &amp; SipHash Defense</span>
         <a href="https://www.youtube.com/watch?v=Vdrab3sB7MU" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
@@ -962,9 +962,18 @@ Run d=4 SipRounds"]
               <div class="dsa-sim__title simulator-card__title">
                 <span>Universal Hashing, Birthday Collision Curve &amp; HashDoS vs Keyed SipHash</span>
               </div>
-              <span class="badge-o1">Pr[h(x)=h(y)] ≤ 1/M · SipHash-2-4</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-o1">Pr[h(x)=h(y)] ≤ 1/M · SipHash-2-4</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Witness how an unkeyed polynomial hash (h = 31·h + c) degenerates to O(N²) under an adversarial HashDoS collision payload, how keyed SipHash-2-4 ARX rounds &amp; Carter-Wegman universal families enforce Pr[collision] ≤ 1/M, and how the Birthday Paradox curve 1 − e^(−k(k−1)/2M) crosses 50% at k ≈ 1.177√M.</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -979,16 +988,48 @@ Run d=4 SipRounds"]
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
-                Step 1 / 4
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
+                Step 1 / 10
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="·, ·, ·, Chain(1), ·, ·, ·, ·"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="9"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Unkeyed Java/DJB2 Hash: h("Aa") = 31·65 + 97 = 2112 ≡ 3 (mod 8). Placed at Bucket[3].</div>
@@ -1027,7 +1068,7 @@ Run d=4 SipRounds"]
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">Insert #1 (&quot;Aa&quot;): unkeyed hash h(&quot;Aa&quot;) = 2112 maps to Bucket[3] (1 probe).</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Insert #1 (&quot;Aa&quot;): unkeyed hash h(&quot;Aa&quot;) = 2112 maps to Bucket[3] (1 probe).</div></div>
           </div>
         </div>
 
@@ -1443,7 +1484,13 @@ public:
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1453,7 +1500,7 @@ public:
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

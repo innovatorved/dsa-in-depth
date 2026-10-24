@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;O3hI9FdxFOM&quot;,&quot;id&quot;:&quot;O3hI9FdxFOM&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/O3hI9FdxFOM&quot;,&quot;title&quot;:&quot;MIT 6.046J Lecture 10: Red-Black Trees, Rotations &amp; Rebalancing Invariants&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare&quot;,&quot;duration&quot;:&quot;1:17:45&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;77m&quot;,&quot;why&quot;:&quot;Explains how the Linux kernel embeds struct rb_node intrusively inside task_struct and vm_area_struct with zero dynamic allocations and pointer-colored parent words.&quot;}">
-      <div class="video-embed" id="video-O3hI9FdxFOM"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="O3hI9FdxFOM">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/O3hI9FdxFOM/hqdefault.jpg"
-               alt="MIT 6.046J Lecture 10: Red-Black Trees, Rotations &amp; Rebalancing Invariants"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;MkJfuI5_hjc&quot;,&quot;title&quot;:&quot;Linux Completely Fair Scheduler (CFS) &amp; Red-Black Tree Runqueue Internals&quot;,&quot;channel&quot;:&quot;Introduction to Operating Systems&quot;,&quot;duration&quot;:&quot;14:37&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;15m&quot;,&quot;why&quot;:&quot;Explains how the Linux kernel Completely Fair Scheduler indexes runnable tasks by virtual runtime (vruntime) inside an augmented Red-Black Tree with an O(1) leftmost cache.&quot;}">
+      <div class="video-embed" id="video-MkJfuI5_hjc"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="MkJfuI5_hjc">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/MkJfuI5_hjc/hqdefault.jpg"
+               alt="Linux Completely Fair Scheduler (CFS) &amp; Red-Black Tree Runqueue Internals"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare</span>
-        <span class="video-embed__title">MIT 6.046J Lecture 10: Red-Black Trees, Rotations &amp; Rebalancing Invariants</span>
-        <a href="https://www.youtube.com/watch?v=O3hI9FdxFOM" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Introduction to Operating Systems</span>
+        <span class="video-embed__title">Linux Completely Fair Scheduler (CFS) &amp; Red-Black Tree Runqueue Internals</span>
+        <a href="https://www.youtube.com/watch?v=MkJfuI5_hjc" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      <p class="video-embed__why">Explains how the Linux kernel embeds struct rb_node intrusively inside task_struct and vm_area_struct with zero dynamic allocations and pointer-colored parent words.</p></div>
+      <p class="video-embed__why">Explains how the Linux kernel Completely Fair Scheduler indexes runnable tasks by virtual runtime (vruntime) inside an augmented Red-Black Tree with an O(1) leftmost cache.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body"><p>Inside an operating system kernel—specifically inside the CPU scheduler (<code>kernel/sched/fair.c</code>) and the virtual memory allocator (<code>mm/mmap.c</code>)—you <strong>cannot call <code>malloc()</code> or <code>kmalloc()</code> to allocate a tree node wrapper</strong> when scheduling a thread or handling a page fault! Allocating memory inside the scheduler or memory manager itself would trigger circular deadlocks, memory exhaustion panics, and double pointer-indirection cache misses.</p><p>The Linux kernel solves this with <strong>Intrusive Augmented Red-Black Trees (<code>include/linux/rbtree.h</code> and <code>rbtree_augmented.h</code>)</strong>. Instead of a tree node owning a pointer to your struct (<code>Node&lt;Task*&gt;</code>), your <code>struct task_struct</code> or <code>struct vm_area_struct</code> <strong>physically embeds <code>struct rb_node</code> as a member field</strong>, recovers the enclosing struct address at compile time via pointer offset subtraction (<code>container_of</code> / <code>rb_entry</code>), packs the Red/Black color bit into bit 0 of the 8-byte aligned parent pointer (<code>__rb_parent_color</code>), and caches the leftmost node pointer (<code>rb_root_cached</code>) for $O(1)$ minimum retrieval!</p></div>
@@ -916,9 +916,18 @@
               <div class="dsa-sim__title simulator-card__title">
                 <span>Augmented Order-Statistic (rank/select) &amp; Interval Overlap Tree</span>
               </div>
-              <span class="badge-ologn">O(log N) Augmented Descent · O(1) Rotation Fixup</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-ologn">O(log N) Augmented Descent · O(1) Rotation Fixup</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Explore the Augmentation Theorem: maintain subtree maxEnd = max(hi, L.maxEnd, R.maxEnd) for O(log N) interval overlap search and Linux VMA gap allocation, or subtree size sz for O(log N) select(k) / rank(x).</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -933,16 +942,48 @@
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
-                Step 1 / 2
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
+                Step 1 / 8
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="38, 27, 43, 3, 9, 82, 10"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="7"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Deterministic Single-Path Theorem: If u.left.maxEnd ≥ q.lo (23 ≥ 14), we are guaranteed to either find an overlap in u.left OR prove no overlap can exist in u.right!</div>
@@ -978,7 +1019,7 @@
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">Deterministic Single-Path Theorem: If u.left.maxEnd ≥ q.lo (23 ≥ 14), we are guaranteed to either find an overlap in u.left OR prove no overlap can exist in u.right!</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Deterministic Single-Path Theorem: If u.left.maxEnd ≥ q.lo (23 ≥ 14), we are guaranteed to either find an overlap in u.left OR prove no overlap can exist in u.right!</div></div>
           </div>
         </div>
 
@@ -1395,7 +1436,13 @@ inline TaskEntity* pickNextTaskO1(const rb_root_cached&amp; rq) noexcept {
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1405,7 +1452,7 @@ inline TaskEntity* pickNextTaskO1(const rb_root_cached&amp; rq) noexcept {
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

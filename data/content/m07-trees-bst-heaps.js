@@ -4,8 +4,8 @@ window.MODULE_CONTENT["m07"] = {
     title: "Tree Representations & Recursive vs Iterative Pre/In/Post/Level-Order Traversals",
     video: {
       youtubeId: "fAAZixBzIAI",
-      title: "MIT 6.006 Lecture 6: Binary Trees, Part 1",
-      channel: "MIT OpenCourseWare",
+      title: "Binary Tree Algorithms for Technical Interviews — Full Course",
+      channel: "freeCodeCamp.org (Alvin Zablan)",
       duration: "50:32",
       start: 0,
       length: "50m",
@@ -757,15 +757,13 @@ void treeDelete(BSTNode*&amp; root, BSTNode* z) {
   "randomly-built-bst-height": {
     title: "Randomly Built BSTs: Expected Height O(log N) via Quicksort Dual Proof",
     video: {
-      youtubeId: "9Jry5-82I68",
-      id: "9Jry5-82I68",
-      url: "https://www.youtube.com/embed/9Jry5-82I68",
-      title: "MIT 6.006 Lecture 5: Binary Search Trees, BST Sort & Random BST Expected Height",
-      channel: "MIT OpenCourseWare",
-      duration: "50:05",
+      youtubeId: "vgELyZ9LXX4",
+      title: "MIT 6.046J Lecture 9: Relation of BSTs to Quicksort & Analysis of Randomly Built BST Height",
+      channel: "MIT OpenCourseWare (Charles Leiserson)",
+      duration: "1:21:22",
       start: 0,
-      length: "50m",
-      why: "Proves the isomorphism between Randomized QuickSort pivot comparisons and Randomly Built BST ancestor-descendant depth using indicator random variables."
+      length: "81m",
+      why: "CLRS co-author Charles Leiserson proves the exact bijection between Randomized QuickSort pivot comparisons and Randomly Built BST node depth, then derives the O(log N) expected height bound via convex exponential height variables (2^X_n) and Jensen's Inequality."
     },
     intuition: "<p>Why does inserting $N$ distinct keys in a uniformly random permutation $\\pi \\in S_N$ into an ordinary, <strong>unbalanced</strong> BST produce a balanced tree with expected search depth $O(\\log N)$ and expected height $\\approx 4.311 \\ln N$, without performing a single tree rotation? Because a Randomly Built BST is the exact structural trace—the <strong>static execution tree</strong>—of Randomized QuickSort!</p><p>The first key $\\pi_1$ inserted into the BST becomes the root, partitioning all remaining $N - 1$ keys into $L = \\{x &lt; \\pi_1\\}$ (which route left) and $R = \\{x &gt; \\pi_1\\}$ (which route right). That is identical to QuickSort choosing $\\pi_1$ as the first pivot and comparing every other element against $\\pi_1$. Consequently, the total internal path length of a randomly built BST equals the exact number of key comparisons made by QuickSort.</p>",
     content: `<div class="lesson-content">
@@ -924,13 +922,13 @@ double expectedRandomBSTDepth(int n) {
   "binary-d-ary-heaps": {
     title: "Binary & d-ary Heaps: Floyd's O(N) Bottom-Up Build-Heap Proof",
     video: {
-      youtubeId: "B7hVxCmfPtM",
-      title: "MIT 6.006 Lecture 4: Heaps and Heap Sort",
-      channel: "MIT OpenCourseWare",
-      duration: "48:03",
+      youtubeId: "HqPJF2L5h9U",
+      title: "Binary Heaps, Heap Sort, Priority Queues & O(N) Build-Heap (Heapify)",
+      channel: "Abdul Bari",
+      duration: "51:08",
       start: 0,
-      length: "48m",
-      why: "Srini Devadas derives the implicit array representation, siftDown invariant, and the exact geometric series proof of Floyd's O(N) Build-Max-Heap."
+      length: "51m",
+      why: "Complete visual walkthrough of implicit array indexing, siftUp/siftDown invariants, and why bottom-up Floyd Heapify runs in O(N) linear time instead of O(N log N)."
     },
     intuition: "<p>A binary heap abandons total ordering—which costs $\\Omega(N \\log N)$ to construct—in favor of a <strong>local partial ordering</strong> ($A[\\text{parent}(i)] \\le A[i]$ for a Min-Heap) mapped onto a <strong>complete binary tree</strong> packed densely into a flat array with zero pointers. Because a complete binary tree has no structural gaps, parent and child navigation reduce to single-cycle bit shifts: $\\text{parent}(i) = \\lfloor(i-1)/2\\rfloor$ and $\\text{children}(i) = 2i+1, 2i+2$.</p><p>More remarkably, Robert W. Floyd proved in 1964 that building a heap from an arbitrary unsorted array of $N$ elements does <em>not</em> require $N$ insertions of cost $O(\\log N)$ ($O(N \\log N)$ total). By running <code>siftDown</code> bottom-up from the last internal node $\\lfloor N/2 \\rfloor - 1$ down to $0$, the exponentially larger bottom levels do almost zero work: $\\lceil N/2 \\rceil$ leaves do $0$ swaps, $\\lceil N/4 \\rceil$ height-1 nodes do at most $1$ swap, and the entire series converges to strictly less than $2N$ comparisons ($O(N)$ linear time)!</p>",
     content: `<div class="lesson-content">
@@ -1084,8 +1082,8 @@ void floydBuildMinHeap(std::vector&lt;T&gt;&amp; a) {
     title: "Mergeable Priority Queues: Leftist, Skew, Binomial & Fibonacci Heaps (O(1) Decrease-Key)",
     video: {
       youtubeId: "6JxvKfSV9Ns",
-      title: "Fibonacci Heaps & Amortized Analysis (MIT 6.046J / Advanced Data Structures)",
-      channel: "MIT OpenCourseWare",
+      title: "Fibonacci Heaps — How to Invent an Extremely Clever Data Structure",
+      channel: "SithDev",
       duration: "1:19:45",
       start: 0,
       length: "80m",

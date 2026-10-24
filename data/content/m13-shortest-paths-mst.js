@@ -770,8 +770,8 @@ Object.assign(window.MODULE_CONTENT["m13"], {
     title: "A* Search & Bidirectional A*: Admissibility, Consistency (Triangle Inequality) & Optimality Proof",
     video: {
       youtubeId: "ySN5Wnu88nE",
-      title: "A* (A Star) Search Algorithm — Computerphile",
-      channel: "Reducible",
+      title: "A* (A Star) Search Algorithm — Admissible Heuristics",
+      channel: "Computerphile",
       duration: "14:43",
       length: "14:43",
       start: 0,

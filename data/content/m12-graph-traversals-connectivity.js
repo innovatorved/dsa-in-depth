@@ -411,8 +411,8 @@ std::vector&lt;int&gt; zeroOneBFS(int n, const std::vector&lt;std::vector&lt;Edg
     title: "Depth-First Search: Parenthesis Theorem, White-Path Theorem & Tree/Back/Forward/Cross Edges",
     video: {
       youtubeId: "7fujbpJ0LB4",
-      title: "Depth First Search (DFS) & Edge Classification",
-      channel: "MIT OpenCourseWare",
+      title: "Depth First Search (DFS) Algorithm | Graph Theory",
+      channel: "WilliamFiset",
       duration: "51:10",
       length: "51:10",
       start: 0,
@@ -798,8 +798,8 @@ std::vector&lt;int&gt; topologicalSortKahn(int n, const std::vector&lt;std::vect
     title: "Bipartite Graphs: Odd-Cycle Characterization & 2-Coloring Verification",
     video: {
       youtubeId: "0ACfAqs8mm0",
-      title: "Bipartite Graph Verification & Two-Coloring",
-      channel: "Abdul Bari",
+      title: "Bipartite Graph Verification & Two-Coloring via BFS/DFS",
+      channel: "Techdose",
       duration: "14:20",
       length: "14:20",
       start: 0,
@@ -1762,8 +1762,8 @@ BuildScheduleResult scheduleBuildTargets(int n, const std::vector&lt;int&gt;&amp
     title: "Build Lab: Tarjan's SCC Condensation DAG & Linear-Time 2-SAT Constraint Solver",
     video: {
       youtubeId: "09_LlHjoEiY",
-      title: "2-SAT Problem & Strongly Connected Components Implementation",
-      channel: "William Fiset",
+      title: "Graph Theory Tutorial from a Google Engineer — SCCs & Graph Algorithms",
+      channel: "freeCodeCamp.org (WilliamFiset)",
       duration: "19:45",
       length: "19:45",
       start: 0,

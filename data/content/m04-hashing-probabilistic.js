@@ -3,13 +3,13 @@ window.MODULE_CONTENT["m04"] = {
   "universal-k-independent-hashing": {
     title: "Hash Functions: Division, Multiplicative, Universal & k-Independent Families",
     video: {
-      youtubeId: "BRO7mVIFt08",
-      title: "MIT 6.006 Lecture 8: Hashing with Chaining",
-      channel: "MIT OpenCourseWare",
-      duration: "50:48",
+      youtubeId: "0M_kIqhwbFo",
+      title: "MIT 6.006 Lecture 8: Hashing with Chaining — Division, Multiplication & Universal Hashing",
+      channel: "MIT OpenCourseWare (Erik Demaine)",
+      duration: "51:15",
       start: 0,
-      length: "50m",
-      why: "Erik Demaine derives the Simple Uniform Hashing Assumption (SUHA), exposes why deterministic hash functions fail against adversarial inputs, and proves Carter-Wegman universal hashing collision bounds."
+      length: "51m",
+      why: "Erik Demaine exposes why deterministic hash functions are vulnerable to adversarial O(N) collisions and proves why Carter-Wegman universal hash families [(ax + b) mod p] mod m guarantee O(1) expected lookups."
     },
     intuition: "<p>No single deterministic hash function $h: \\mathcal{U} \\to \\{0, 1, \\dots, m-1\\}$ can perform well on all inputs: by the <strong>Pigeonhole Principle</strong>, whenever the universe size $|\\mathcal{U}| \\ge N \\cdot m + 1$, there exists a subset of $N$ keys that all map to the exact same bucket, degrading lookup from $O(1)$ to $\\Theta(N)$. Moving randomness from the input distribution (which an adversary or structured workload controls) into the <strong>algorithm's runtime choice of hash function</strong> (via a random seed chosen at startup) restores provable $O(1)$ expected performance on <em>every</em> input sequence.</p><p>While Carter-Wegman prime-field universal hashing ($h_{a,b}(x) = ((ax + b) \\bmod p) \\bmod m$) guarantees pairwise collision probability $\\le 1/m$, modern 64-bit hardware avoids slow <code>DIV</code> instructions via <strong>multiply-shift hashing</strong> and <strong>Fibonacci multiplicative hashing</strong>, achieving 2-universal or near-universal bit dispersion in 3 CPU cycles.</p>",
     content: `<div class="lesson-content">
@@ -198,8 +198,8 @@ public:
     title: "Collision Resolution: Separate Chaining vs Linear/Quadratic/Double Probing",
     video: {
       youtubeId: "rvdJDijO2Ro",
-      title: "MIT 6.006 Lecture 10: Open Addressing, Cryptographic Hashing",
-      channel: "MIT OpenCourseWare",
+      title: "MIT 6.006 Lecture 10: Open Addressing, Linear/Double Probing & Tombstone Deletions",
+      channel: "MIT OpenCourseWare (Srini Devadas)",
       duration: "49:05",
       start: 0,
       length: "49m",
@@ -642,7 +642,7 @@ public:
       id: "Vdrab3sB7MU",
       url: "https://www.youtube.com/embed/Vdrab3sB7MU",
       title: "29C3: Hash-Flooding DoS Reloaded — Algorithmic Complexity Attacks & SipHash Defense",
-      channel: "CCC (29C3)",
+      channel: "Christiaan008 (29C3)",
       duration: "57:10",
       start: 0,
       length: "57m",
@@ -829,8 +829,8 @@ public:
     title: "Consistent Hashing with Bounded Loads & Rendezvous (HRW) Hashing",
     video: {
       youtubeId: "UF9Iqmg94tk",
-      title: "MIT 6.824 Distributed Systems: Consistent Hashing & Chord",
-      channel: "MIT OpenCourseWare",
+      title: "Consistent Hashing | Virtual Nodes & Hash Ring Partitioning",
+      channel: "ByteByteGo",
       duration: "1:18:10",
       start: 0,
       length: "1h 18m",
@@ -1053,8 +1053,8 @@ public:
     title: "Bloom Filters, Counting Bloom Filters, Cuckoo Filters & Xor Filters",
     video: {
       youtubeId: "kfFacplFY4Y",
-      title: "MIT 6.046J Design and Analysis of Algorithms: Bloom Filters & Universal Hashing",
-      channel: "MIT OpenCourseWare",
+      title: "What Are Bloom Filters? Probabilistic Membership & False Positive Math",
+      channel: "Spanning Tree",
       duration: "1:19:45",
       start: 0,
       length: "1h 19m",

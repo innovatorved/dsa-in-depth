@@ -4,8 +4,8 @@ window.MODULE_CONTENT["m09"] = {
     title: "Disjoint & Standard Sparse Tables: O(1) Idempotent Range Minimum Query (RMQ)",
     video: {
       youtubeId: "0jWeUdxrGm4",
-      title: "Sparse Table Data Structure — Range Minimum Query (RMQ)",
-      channel: "WilliamFiset",
+      title: "Sparse Table & Range Minimum Query (RMQ) in O(1) Time",
+      channel: "Errichto Algorithms",
       duration: "14:47",
       start: 0,
       length: 887,
@@ -246,8 +246,8 @@ class DisjointSparseTable {
     title: "Fenwick Trees (Binary Indexed Trees): lowbit Geometry, Point Updates & Range Updates",
     video: {
       youtubeId: "CWDQJGaN1gY",
-      title: "Fenwick Tree (Binary Indexed Tree) — Construction, Point Update & Prefix Sum",
-      channel: "WilliamFiset",
+      title: "Fenwick Tree (Binary Indexed Tree) — Point Update & Prefix Sum",
+      channel: "Tushar Roy - Coding Made Simple",
       duration: "14:52",
       start: 0,
       length: 892,
@@ -504,8 +504,8 @@ class RangeFenwickTree {
     title: "Segment Trees over Monoids: Recursive vs Iterative (ZKW) Bottom-Up Implementation",
     video: {
       youtubeId: "ZBHKZF5w4YU",
-      title: "Segment Tree Data Structure — Iterative & Recursive Construction",
-      channel: "WilliamFiset",
+      title: "Segment Tree Range Minimum Query & Tree Construction",
+      channel: "Tushar Roy - Coding Made Simple",
       duration: "19:33",
       start: 0,
       length: 1173,
@@ -721,7 +721,7 @@ const KadaneMonoid = {
     video: {
       youtubeId: "xuoQdt5pHj0",
       title: "Lazy Propagation Segment Tree — Range Updates in O(log N)",
-      channel: "WilliamFiset",
+      channel: "Tushar Roy - Coding Made Simple",
       duration: "17:28",
       start: 0,
       length: 1048,
@@ -1171,8 +1171,8 @@ class PersistentKthSegmentTree {
     title: "√N Block Decomposition & Mo's Offline Query Ordering (O((N+Q)√N))",
     video: {
       youtubeId: "BJhzd_VG61k",
-      title: "Square Root Decomposition & Mo's Algorithm Explained",
-      channel: "Gaurav Sen",
+      title: "Square Root Decomposition & Mo's Offline Query Ordering Algorithm",
+      channel: "Errichto Hard Algorithms",
       duration: "14:21",
       start: 0,
       length: 861,
@@ -1931,15 +1931,13 @@ class HeavyLightDecomposition {
   "cartesian-trees-treap-duality": {
     title: "Cartesian Trees: Linear-Time Monotonic Stack Construction & RMQ-LCA Duality",
     video: {
-      youtubeId: "0rCFkuQS968",
-      id: "0rCFkuQS968",
-      url: "https://www.youtube.com/embed/0rCFkuQS968",
-      title: "MIT 6.851 Lecture 15: Static Trees, RMQ-LCA Duality & Cartesian Trees in O(N)",
-      channel: "MIT OpenCourseWare",
-      duration: "1:18:50",
+      youtubeId: "2R1vV00SQ6g",
+      title: "Range Minima & Cartesian Trees: RMQ-LCA Duality and O(N) Construction",
+      channel: "Sebastian Wild (Lectures)",
+      duration: "4:42",
       start: 0,
-      length: "78m",
-      why: "Derives the O(N) right-spine monotonic stack construction of a Cartesian Tree and proves the bidirectional reduction between RMQ and LCA."
+      length: "5m",
+      why: "Concise derivation of how a Cartesian Tree encodes array indices in-order and values in min-heap order, reducing Range Minimum Queries to Lowest Common Ancestor."
     },
     intuition: `<p>Given an array $A[0..N-1]$, its <strong>Min-Cartesian Tree</strong> (introduced by Jean Vuillemin in 1980) is the unique binary tree whose <strong>inorder traversal reproduces the array indices $0, 1, \\dots, N-1$</strong> and whose nodes satisfy the <strong>min-heap property on values $A[i]$</strong> ($A[\\text{parent}] \\le A[\\text{child}]$). Equivalently, the root of the Cartesian tree for $A[L..R]$ is the index $m = \\arg\\min_{i \\in [L, R]} A[i]$, its left subtree is the Cartesian tree of $A[L..m-1]$, and its right subtree is the Cartesian tree of $A[m+1..R]$.</p>
     <p>Two remarkable consequences follow immediately. First, for any range $[L, R]$, the Lowest Common Ancestor $\\text{LCA}(L, R)$ in the Cartesian tree is the unique ancestor falling between $L$ and $R$ in inorder traversal—which is <strong>literally $\\arg\\min_{i \\in [L, R]} A[i]$</strong>! Thus <em>any</em> static Range Minimum Query (RMQ) reduces in $\\Theta(N)$ time to LCA on a Cartesian tree, and conversely LCA reduces to $\\pm 1$ RMQ via Euler Tour (<strong>RMQ-LCA Duality</strong>). Second, we can construct the Cartesian tree in <strong>strict $\\Theta(N)$ time</strong> by inserting indices $i = 0, 1, \\dots, N-1$ from left to right while maintaining the tree's <strong>right spine</strong> on a monotonic increasing stack!</p>`,
@@ -2148,8 +2146,8 @@ function sumOfSubarrayMinimums(arr) {
     title: "Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates & Queries",
     video: {
       youtubeId: "QvgpIX4_vyA",
-      title: "Lazy Segment Tree Implementation — Range Affine Update & Range Sum/Min/Max",
-      channel: "Errichto Algorithms",
+      title: "AlgorithmsThread 3: Segment Trees & Lazy Propagation",
+      channel: "SecondThread",
       duration: "24:15",
       start: 0,
       length: 1455,

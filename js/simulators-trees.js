@@ -46,48 +46,214 @@ window.SIMULATORS = window.SIMULATORS || {};
       { id: 'radix', label: 'Non-Comparison LSD RadixSort (Base 10)', mode: 'radix' }
     ],
     buildFrames(preset) {
+      preset._handledCustom = true;
       const frames = [];
+      const customArr = Array.isArray(preset.arr) && preset.arr.length >= 3
+        ? preset.arr.slice(0, 10).map(n => Math.abs(Math.round(n)))
+        : null;
+
       if (preset.mode === 'radix') {
-        const states = [
-          { arr: [170, 45, 75, 90, 802, 24, 2, 66], pass: 'Initial Unsorted Array', exp: '-' },
-          { arr: [170, 90, 802, 2, 24, 45, 75, 66], pass: 'Pass 1: Stable Bucket Sort by 1s Digit (d=1)', exp: '10^0' },
-          { arr: [802, 2, 24, 45, 66, 170, 75, 90], pass: 'Pass 2: Stable Bucket Sort by 10s Digit (d=10)', exp: '10^1' },
-          { arr: [2, 24, 45, 66, 75, 90, 170, 802], pass: 'Pass 3: Stable Bucket Sort by 100s Digit (d=100) — Sorted!', exp: '10^2' }
-        ];
-        states.forEach((st, i) => {
-          frames.push({
-            stageHtml: renderArrayCells(st.arr, { match: i === 3 ? [0, 1, 2, 3, 4, 5, 6, 7] : [], active: i > 0 && i < 3 ? [0, 1, 2, 3, 4, 5, 6, 7] : [] }),
-            invariant: `${st.pass} | Relative order of lower digits preserved by stability!`,
-            metrics: [
-              { label: 'Digit Place', value: st.exp },
-              { label: 'Key Comparisons', value: '0 (Non-Comparison!)' },
-              { label: 'Bucket Passes', value: `${i} / 3` },
-              { label: 'Time Bound', value: 'O(d · (N + B))' }
-            ],
-            log: st.pass
-          });
+        const initArr = customArr || [170, 45, 75, 90, 802, 24, 2, 66];
+        let a = initArr.slice();
+        const maxVal = Math.max(1, ...a);
+        frames.push({
+          stageHtml: renderArrayCells(a, { pivot: [0], tags: { 0: `max=${maxVal}` } }),
+          invariant: `Initial Array A[0..${a.length - 1}]: Non-comparison LSD RadixSort processes digits from 10⁰ up to 10^⌊log₁₀(${maxVal})⌋.`,
+          metrics: [
+            { label: 'Digit Place', value: 'Init' },
+            { label: 'Key Comparisons', value: '0 (Non-Comparison!)' },
+            { label: 'Array Size N', value: `${a.length}` },
+            { label: 'Time Bound', value: 'O(d · (N + B))' }
+          ],
+          log: `Loaded array [${a.join(', ')}] (max = ${maxVal}) for Base-10 LSD RadixSort.`
         });
+
+        let pass = 0;
+        for (let exp = 1; Math.floor(maxVal / exp) > 0 || pass < 3; exp *= 10) {
+          pass++;
+          const buckets = Array.from({ length: 10 }, () => []);
+          for (let i = 0; i < a.length; i++) {
+            const d = Math.floor(a[i] / exp) % 10;
+            buckets[d].push(a[i]);
+          }
+          const tags = {};
+          a.forEach((v, idx) => { tags[idx] = `d=${Math.floor(v / exp) % 10}`; });
+          frames.push({
+            stageHtml: renderArrayCells(a, { active: a.map((_, i) => i), tags }),
+            invariant: `Pass ${pass} (exp = ${exp}): Extract digit d = ⌊A[i] / ${exp}⌋ mod 10 and scatter into 10 FIFO buckets B[0..9].`,
+            metrics: [
+              { label: 'Digit Place', value: `10^${pass - 1} (${exp}s)` },
+              { label: 'Key Comparisons', value: '0' },
+              { label: 'Active Buckets', value: `${buckets.filter(b => b.length > 0).length} / 10` },
+              { label: 'Phase', value: `Scatter Pass ${pass}` }
+            ],
+            log: `Pass ${pass} Scatter: Partitioned ${a.length} keys into decimal buckets by ${exp}s digit.`
+          });
+
+          a = buckets.flat();
+          const newTags = {};
+          a.forEach((v, idx) => { newTags[idx] = `B[${Math.floor(v / exp) % 10}]`; });
+          const isFinal = Math.floor(maxVal / (exp * 10)) === 0 && pass >= 3;
+          frames.push({
+            stageHtml: renderArrayCells(a, {
+              match: isFinal ? a.map((_, i) => i) : [],
+              active: isFinal ? [] : a.map((_, i) => i),
+              tags: newTags
+            }),
+            invariant: `Pass ${pass} Gather: Stable concatenation of buckets B[0..9] preserves relative order of all lower digits < ${exp * 10}!`,
+            metrics: [
+              { label: 'Digit Place', value: `10^${pass - 1} (${exp}s)` },
+              { label: 'Key Comparisons', value: '0 (Non-Comparison!)' },
+              { label: 'Bucket Passes', value: `${pass}` },
+              { label: 'Ordered Suffix', value: `mod ${exp * 10} sorted` }
+            ],
+            log: `Pass ${pass} Gather: Collected buckets in-order -> [${a.join(', ')}].`
+          });
+          if (exp >= 100000) break;
+        }
         return frames;
       }
 
-      const init = [38, 27, 43, 3, 9, 82, 10, 27];
-      const steps = [
-        { arr: [38, 27, 43, 3, 9, 82, 10, 27], active: [0, 1, 2, 3, 4, 5, 6, 7], pivot: [1], cmp: 0, swp: 0, msg: 'Select pivot = 27. Partition into < 27, == 27, > 27.' },
-        { arr: [3, 9, 10, 27, 27, 38, 43, 82], match: [3, 4], active: [0, 1, 2], pivot: [5, 6, 7], cmp: 7, swp: 5, msg: '3-Way Partition complete! Equal band [3..4] (both 27s) locked in final position.' },
-        { arr: [3, 9, 10, 27, 27, 38, 43, 82], match: [0, 1, 2, 3, 4], pivot: [5, 6, 7], cmp: 10, swp: 5, msg: 'Left partition [3, 9, 10] sorted around pivot 9.' },
-        { arr: [3, 9, 10, 27, 27, 38, 43, 82], match: [0, 1, 2, 3, 4, 5, 6, 7], active: [], pivot: [], cmp: 13, swp: 6, msg: 'Right partition [38, 43, 82] sorted around pivot 43. Array fully sorted!' }
-      ];
-      steps.forEach((st) => {
+      if (preset.mode === 'merge') {
+        const a = (customArr || [38, 27, 43, 3, 9, 82, 10, 19]).slice();
+        let inversions = 0;
+        let merges = 0;
         frames.push({
-          stageHtml: renderArrayCells(st.arr, { active: st.active, match: st.match, pivot: st.pivot }),
-          invariant: `Partition Invariant: A[lo..lt-1] < pivot | A[lt..gt] == pivot | A[gt+1..hi] > pivot`,
+          stageHtml: renderArrayCells(a, { active: a.map((_, i) => i) }),
+          invariant: `Bottom-Up MergeSort starts with N=${a.length} sorted runs of width w=1 and doubles w = 1, 2, 4, ...`,
           metrics: [
-            { label: 'Comparisons', value: `${st.cmp}` },
-            { label: 'Swaps / Moves', value: `${st.swp}` },
-            { label: 'Equal Keys Locked', value: `${(st.match || []).length} / ${st.arr.length}` }
+            { label: 'Run Width w', value: 'w = 1' },
+            { label: 'Split Inversions', value: '0' },
+            { label: 'Merges Done', value: '0' },
+            { label: 'Aux Space', value: `O(N) = ${a.length}` }
           ],
-          log: st.msg
+          log: `Initialized Bottom-Up MergeSort on [${a.join(', ')}].`
         });
+
+        for (let width = 1; width < a.length; width *= 2) {
+          for (let lo = 0; lo < a.length; lo += 2 * width) {
+            const mid = Math.min(lo + width, a.length);
+            const hi = Math.min(lo + 2 * width, a.length);
+            if (mid >= hi) continue;
+            const left = a.slice(lo, mid);
+            const right = a.slice(mid, hi);
+            let i = 0, j = 0, k = lo, localInv = 0;
+            while (i < left.length && j < right.length) {
+              if (left[i] <= right[j]) {
+                a[k++] = left[i++];
+              } else {
+                a[k++] = right[j++];
+                localInv += (left.length - i);
+              }
+            }
+            while (i < left.length) a[k++] = left[i++];
+            while (j < right.length) a[k++] = right[j++];
+            inversions += localInv;
+            merges++;
+            const rangeIdx = [];
+            for (let idx = lo; idx < hi; idx++) rangeIdx.push(idx);
+            const tags = { [lo]: `lo=${lo}`, [hi - 1]: `hi=${hi - 1}` };
+            frames.push({
+              stageHtml: renderArrayCells(a, {
+                match: width * 2 >= a.length ? rangeIdx : [],
+                active: width * 2 >= a.length ? [] : rangeIdx,
+                tags
+              }),
+              invariant: `Merged runs A[${lo}..${mid - 1}] and A[${mid}..${hi - 1}] (width w=${width}) -> sorted subarray A[${lo}..${hi - 1}].`,
+              metrics: [
+                { label: 'Run Width w', value: `w = ${width} → ${width * 2}` },
+                { label: 'Subarray Merged', value: `A[${lo}..${hi - 1}]` },
+                { label: 'Split Inversions', value: `+${localInv} (Total: ${inversions})` },
+                { label: 'Merges Done', value: `${merges}` }
+              ],
+              log: `Merged [${left.join(',')}] + [${right.join(',')}]: counted ${localInv} split inversions -> [${a.slice(lo, hi).join(', ')}].`
+            });
+          }
+        }
+        return frames;
+      }
+
+      // Default: 3-Way QuickSort (Dutch National Flag Partitioning)
+      const a = (customArr || [38, 27, 43, 3, 9, 82, 10, 27]).slice();
+      const locked = new Set();
+      let cmp = 0, swp = 0;
+
+      frames.push({
+        stageHtml: renderArrayCells(a, { active: a.map((_, i) => i), pivot: [Math.floor(a.length / 2)] }),
+        invariant: `3-Way QuickSort (Dijkstra Dutch National Flag): partitions subarray into < pivot, == pivot, and > pivot.`,
+        metrics: [
+          { label: 'Comparisons', value: '0' },
+          { label: 'Swaps', value: '0' },
+          { label: 'Locked Keys', value: `0 / ${a.length}` },
+          { label: 'Array Size', value: `${a.length}` }
+        ],
+        log: `Starting 3-Way QuickSort on [${a.join(', ')}].`
+      });
+
+      function qs3(lo, hi) {
+        if (lo > hi) return;
+        if (lo === hi) {
+          locked.add(lo);
+          return;
+        }
+        const pivotVal = a[lo];
+        let lt = lo, i = lo + 1, gt = hi;
+        while (i <= gt) {
+          cmp++;
+          if (a[i] < pivotVal) {
+            [a[lt], a[i]] = [a[i], a[lt]];
+            swp++;
+            lt++;
+            i++;
+          } else if (a[i] > pivotVal) {
+            [a[i], a[gt]] = [a[gt], a[i]];
+            swp++;
+            gt--;
+          } else {
+            i++;
+          }
+        }
+        for (let k = lt; k <= gt; k++) locked.add(k);
+        const eqIdx = [];
+        for (let k = lt; k <= gt; k++) eqIdx.push(k);
+        const activeIdx = [];
+        for (let k = lo; k <= hi; k++) if (k < lt || k > gt) activeIdx.push(k);
+        const tags = { [lt]: `pivot=${pivotVal}` };
+        if (lo < lt) tags[lo] = '< pivot';
+        if (gt < hi) tags[hi] = '> pivot';
+
+        frames.push({
+          stageHtml: renderArrayCells(a.slice(), {
+            match: Array.from(locked),
+            pivot: eqIdx,
+            active: activeIdx,
+            tags
+          }),
+          invariant: `Partitioned [${lo}..${hi}] around pivot=${pivotVal}: A[${lo}..${lt - 1}] < ${pivotVal} | A[${lt}..${gt}] == ${pivotVal} | A[${gt + 1}..${hi}] > ${pivotVal}`,
+          metrics: [
+            { label: 'Pivot Value', value: `${pivotVal} (locked [${lt}..${gt}])` },
+            { label: 'Comparisons', value: `${cmp}` },
+            { label: 'Swaps', value: `${swp}` },
+            { label: 'Locked Keys', value: `${locked.size} / ${a.length}` }
+          ],
+          log: `3-Way Partition [${lo}..${hi}] around pivot ${pivotVal}: locked equal band [${lt}..${gt}] -> [${a.join(', ')}].`
+        });
+
+        qs3(lo, lt - 1);
+        qs3(gt + 1, hi);
+      }
+
+      qs3(0, a.length - 1);
+      frames.push({
+        stageHtml: renderArrayCells(a, { match: a.map((_, i) => i), tags: { 0: 'min', [a.length - 1]: 'max' } }),
+        invariant: `Sorted Invariant Verified: A[0] ≤ A[1] ≤ ... ≤ A[${a.length - 1}] ([${a.join(', ')}]).`,
+        metrics: [
+          { label: 'Comparisons', value: `${cmp}` },
+          { label: 'Swaps', value: `${swp}` },
+          { label: 'Locked Keys', value: `${a.length} / ${a.length}` },
+          { label: 'Status', value: 'Fully Sorted ✓' }
+        ],
+        log: `3-Way QuickSort finished in ${cmp} comparisons and ${swp} swaps: [${a.join(', ')}].`
       });
       return frames;
     }

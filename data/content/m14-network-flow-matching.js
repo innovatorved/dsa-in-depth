@@ -188,8 +188,8 @@ private:
     title: "The Max-Flow Min-Cut Theorem: Three-Way Equivalence Proof & Integrality Theorem",
     video: {
       youtubeId: "oHy3ddI9X3o",
-      title: "Max-Flow Min-Cut Theorem & Duality Proof",
-      channel: "MIT OpenCourseWare",
+      title: "Network Flows: Max-Flow Min-Cut Theorem & Ford-Fulkerson Algorithm",
+      channel: "Back To Back SWE",
       duration: "49:18",
       length: "49:18",
       start: 0,
@@ -625,8 +625,8 @@ private:
     title: "Push-Relabel (Goldberg-Tarjan): Preflows, Height Functions & Highest-Label Selection",
     video: {
       youtubeId: "0hI89H39USg",
-      title: "Push-Relabel Maximum Flow Algorithm — Preflows & Height Labels",
-      channel: "MIT OpenCourseWare",
+      title: "The Push-Relabel Algorithm for Maximum Flow — Preflows & Height Labels",
+      channel: "Tim Roughgarden Lectures",
       duration: "47:50",
       length: "47:50",
       start: 0,
@@ -985,8 +985,8 @@ private:
     title: "Minimum-Weight Bipartite Matching: Kuhn-Munkres (Hungarian Algorithm) & Primal-Dual Potentials",
     video: {
       youtubeId: "cQ5MsiGaDY8",
-      title: "The Hungarian Algorithm (Kuhn-Munkres) for the Assignment Problem",
-      channel: "Abdul Bari",
+      title: "The Munkres Assignment Algorithm (Hungarian Algorithm)",
+      channel: "CompSci",
       duration: "24:10",
       length: "24:10",
       start: 0,

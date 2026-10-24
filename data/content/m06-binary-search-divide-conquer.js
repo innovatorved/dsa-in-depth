@@ -1173,13 +1173,13 @@ ClosestPairResult solve_closest_pair(std::vector&lt;Point2D&gt;&amp; pts) {
   "karatsuba-strassen-algebraic-dc": {
     title: "Algebraic Divide-and-Conquer: Karatsuba Multiplication & Strassen's Matrix Product",
     video: {
-      youtubeId: "eCaXlAaN2uE",
-      title: "MIT 6.046J Lecture 1 — Divide & Conquer: Karatsuba & Strassen Sub-Cubic Multiplication",
-      channel: "MIT OpenCourseWare",
-      duration: "1:18:10",
-      start: 2100,
-      length: 1850,
-      why: "Srini Devadas derives both Karatsuba's 3-multiplication recurrence O(n^{1.585}) and Strassen's 7-matrix-multiplication recurrence O(n^{2.807}) via Master Theorem Case 1."
+      youtubeId: "JCbZayFr9RE",
+      title: "Karatsuba Sub-Quadratic Multiplication & Algebraic Divide-and-Conquer",
+      channel: "Stanford Algorithms (Tim Roughgarden)",
+      duration: "12:39",
+      start: 0,
+      length: "13m",
+      why: "Tim Roughgarden derives Gauss's 3-multiplication algebraic trick that reduces O(n²) grade-school multiplication to O(n^(log₂ 3)) ≈ O(n^1.585)."
     },
     intuition: "In Master Theorem Case 1, when recursive branching dominates combine work (a > b^d), reducing the number of recursive subproblems `a` directly shrinks the polynomial exponent log_b(a). By trading cheap linear additions for expensive recursive multiplications, Karatsuba drops 4 limb multiplications to 3 (O(n^2) -> O(n^1.585)), and Strassen drops 8 block matrix multiplications to 7 (O(n^3) -> O(n^2.807)).",
     content: `
@@ -1646,8 +1646,8 @@ std::vector&lt;std::int64_t&gt; multiply_polynomials_fft(const std::vector&lt;st
     title: "Meet-in-the-Middle: Halving the Exponent from O(2^N) to O(2^(N/2) log(2^(N/2)))",
     video: {
       youtubeId: "57SUNQL4JFA",
-      title: "Meet in the Middle Technique & Subset Sum in O(2^(N/2)) — Errichto Algorithms",
-      channel: "Errichto Algorithms",
+      title: "Meet in the Middle Algorithm — Bidirectional Exponential Search",
+      channel: "Gaurav Sen",
       duration: "19:42",
       start: 0,
       length: 1182,

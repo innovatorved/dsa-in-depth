@@ -347,8 +347,8 @@ void fwht_xor(std::vector&lt;long long&gt;&amp; a, int n, bool invert = false) {
     title: "Digit DP: Counting Constrained Integers in [L, R] via Tight/Leading-Zero State Automata",
     video: {
       youtubeId: "heUFId6Qd1A",
-      title: "Digit Dynamic Programming — Counting Constrained Numbers in [L, R]",
-      channel: "Errichto Algorithms",
+      title: "Introduction to Digit Dynamic Programming — Counting Constrained Numbers",
+      channel: "Kartik Arora",
       duration: "31:15",
       length: "31:15",
       start: 0,

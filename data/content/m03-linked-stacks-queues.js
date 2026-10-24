@@ -208,8 +208,8 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
       url: "https://www.youtube.com/embed/PvrxZaH_eZ4",
       id: "PvrxZaH_eZ4",
       url: "https://www.youtube.com/embed/PvrxZaH_eZ4",
-      title: "Floyd's Tortoise and Hare Cycle Detection & Mathematical Proof",
-      channel: "WilliamFiset / Algorithms",
+      title: "Floyd's Cycle Detection Algorithm (Tortoise and Hare) — Visual Proof",
+      channel: "Inside code",
       duration: "14 min"
     },
     intuition: "Any deterministic sequence $x_{k+1} = f(x_k)$ over a finite state space eventually enters a cycle (forming a Greek letter $\\rho$ with tail length $\\mu$ and cycle length $\\lambda$). Floyd's Tortoise-and-Hare detects the cycle and locates its exact entrance in $O(\\mu + \\lambda)$ time and $O(1)$ space via modular congruence, while Richard Brent's teleporting-turtle algorithm finds $\\lambda$ directly with $36\\%$ fewer step evaluations.",
@@ -643,13 +643,12 @@ public:
     title: "Skip Lists: Probabilistic Multi-Level Indexing & O(log N) Search Proof",
     video: {
       youtubeId: "kBwUoWpeH_Q",
-      id: "kBwUoWpeH_Q",
-      url: "https://www.youtube.com/embed/kBwUoWpeH_Q",
-      id: "kBwUoWpeH_Q",
-      url: "https://www.youtube.com/embed/kBwUoWpeH_Q",
-      title: "MIT 6.046J Lecture 12: Skip Lists (Erik Demaine)",
-      channel: "MIT OpenCourseWare",
-      duration: "1 hr 19 min"
+      title: "MIT 6.046J Lecture 12: Skip Lists — Probabilistic Indexing & High-Probability O(log N) Proof",
+      channel: "MIT OpenCourseWare (Erik Demaine)",
+      duration: "1:19:16",
+      start: 0,
+      length: "79m",
+      why: "Erik Demaine builds Skip Lists from linked lists of express lanes and proves with high probability (via backwards coin-flip analysis) that search takes O(log N) steps."
     },
     intuition: "William Pugh invented the Skip List in 1989 as a probabilistic alternative to complex self-balancing BST rotations. By promoting each inserted node to level $h+1$ with independent coin-flip probability $p$, a Skip List builds a hierarchy of express lanes where the reverse search path climbs $O(\\log N)$ levels in expectation with high probability—and supports lock-free <code>CAS</code> concurrency far more easily than Red-Black Trees.",
     content: `
@@ -896,8 +895,8 @@ public:
       url: "https://www.youtube.com/embed/Wz85Hiwi5MY",
       id: "Wz85Hiwi5MY",
       url: "https://www.youtube.com/embed/Wz85Hiwi5MY",
-      title: "Dijkstra's Shunting-Yard Algorithm & Stack Machines",
-      channel: "Computerphile / University of Nottingham",
+      title: "Dijkstra's Shunting-Yard Algorithm & Stack Expression Evaluation",
+      channel: "Comp Sci in 5",
       duration: "12 min"
     },
     intuition: "Every recursive grammar or nested expression is evaluated by a Last-In-First-Out (LIFO) stack. While compilers lower recursive functions into hardware stack frames (<code>RSP</code>/<code>RBP</code>), Edsger Dijkstra's 1961 Shunting-Yard algorithm parses arbitrary infix expressions with precedence, parenthesization, and left/right associativity into Reverse Polish Notation (RPN) or evaluates them on the fly in $O(N)$ time using a single operator stack.",

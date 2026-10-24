@@ -4,13 +4,13 @@ window.MODULE_CONTENT["m16"] = {
   "dp-optimal-substructure-dag": {
     title: "Dynamic Programming as Shortest Paths on an Implicit DAG: Optimal Substructure & SRTBOT Framework",
     video: {
-      youtubeId: "OQ5jsbhAv_M",
-      title: "MIT 6.006 Lecture 19: Dynamic Programming I: Fibonacci, Shortest Paths & SRTBOT",
-      channel: "MIT OpenCourseWare",
-      duration: "51:38",
-      length: "51:38",
+      youtubeId: "aPQY__2H3tE",
+      title: "5 Simple Steps for Solving Dynamic Programming Problems (Subproblem DAGs)",
+      channel: "Reducible",
+      duration: "21:27",
       start: 0,
-      why: "Erik Demaine introduces Dynamic Programming as memoized DAG relaxation and formalizes the 6-step SRTBOT design framework."
+      length: "21m",
+      why: "Visualizes Dynamic Programming problems as finding shortest/longest paths over an explicit Directed Acyclic Graph (DAG) of subproblem transitions."
     },
     intuition: "Dynamic Programming is not a bag of algebraic tricks—it is literally Shortest (or Longest) Path relaxation on an implicit Directed Acyclic Graph (DAG) whose vertices are subproblem states and whose directed edges are state transitions. If your state transitions contain a cycle, your DP is ill-defined; if they form a DAG, total runtime is simply (Number of Vertices) + (Number of Edges).",
     content: `
@@ -180,8 +180,8 @@ CoinChangeResult solve_coin_change_with_reconstruction(const std::vector&lt;int&
     title: "Top-Down Memoization vs Bottom-Up Tabulation & Rolling-Array Space Compression",
     video: {
       youtubeId: "YBSt1jYwVfU",
-      title: "MIT 6.006 Lecture 20: Dynamic Programming II: Memoization, Bottom-Up & Space Saving",
-      channel: "MIT OpenCourseWare",
+      title: "Dynamic Programming Lecture #1 — Iteration vs Recursion & State Space Saving",
+      channel: "Errichto Algorithms",
       duration: "50:48",
       length: "50:48",
       start: 0,
@@ -744,8 +744,8 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
     title: "Sequence Alignment DP: Longest Common Subsequence (LCS) & Wagner-Fischer Edit Distance",
     video: {
       youtubeId: "ASoaQq66foQ",
-      title: "MIT 6.006 Lecture 21: Dynamic Programming III: Parenthesization, Edit Distance & Knapsack",
-      channel: "MIT OpenCourseWare",
+      title: "Longest Common Subsequence — Dynamic Programming & Competing Subproblems",
+      channel: "Back To Back SWE",
       duration: "51:04",
       length: "51:04",
       start: 0,
@@ -943,8 +943,8 @@ int lcs_distinct_via_lis(const std::vector&lt;int&gt;&amp; a, const std::vector&
     title: "Interval DP: Matrix Chain Multiplication, Optimal BST & Polygon Triangulation",
     video: {
       youtubeId: "eKkXU3uu2zk",
-      title: "MIT 6.046J — Matrix Chain Multiplication, Parenthesization & Interval DP",
-      channel: "MIT OpenCourseWare",
+      title: "Matrix Chain Multiplication — Parenthesization & Interval Dynamic Programming",
+      channel: "Abdul Bari",
       duration: "48:25",
       length: "48:25",
       start: 0,
@@ -1124,8 +1124,8 @@ long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
     title: "DP on Trees: Maximum Independent Set, Subtree Knapsack (O(N^2) Amortized Proof) & All-Roots Rerooting",
     video: {
       youtubeId: "7_huTWwl5jM",
-      title: "Dynamic Programming on Trees — Subtree DP & Rerooting Technique",
-      channel: "Errichto Algorithms",
+      title: "Rerooting DP on Trees Tutorial — All-Roots Subtree Aggregation",
+      channel: "Prince Gupta",
       duration: "38:15",
       length: "38:15",
       start: 0,
@@ -1513,13 +1513,13 @@ DagPathMetrics solve_dag_s_to_t(
   "case-pretty-printing-knuth-plass": {
     title: "Production Case Study: Knuth-Plass Line Breaking in TeX & Code Formatters (prettier, rustfmt)",
     video: {
-      youtubeId: "ENyox7kNKeY",
-      title: "MIT 6.006 Lecture 20 — Text Justification & Knuth-Plass Line Breaking by Dynamic Programming",
-      channel: "MIT OpenCourseWare",
-      duration: "50:48",
-      length: "50:48",
+      youtubeId: "RORuwHiblPc",
+      title: "Text Justification & Word Wrap by Dynamic Programming (Knuth-Plass Formulation)",
+      channel: "Tushar Roy - Coding Made Simple",
+      duration: "15:31",
       start: 0,
-      why: "Erik Demaine explains why MS Word's greedy line breaking creates ugly rivers of whitespace and how Donald Knuth's DP in TeX optimizes paragraph-wide aesthetics."
+      length: "16m",
+      why: "Derives the badness cost matrix and O(N²) DP state transition table that minimizes cubic whitespace penalties across justified paragraph lines."
     },
     intuition: "Why do paragraphs typeset in LaTeX look like a master printer crafted them, while greedy word-wrappers create hideous 'rivers' of stretched whitespace? Because greedy wrapping packs each line to the brim until a long word overflows, leaving the previous line sparse. Knuth and Plass (1981) formulated paragraph justification as a Shortest Path DAG where vertices are word boundaries, edges are candidate lines, and edge weights are cubic/quadratic 'badness' penalties.",
     content: `
@@ -1687,13 +1687,13 @@ LineBreakPlan knuth_plass_line_break(const std::vector&lt;int&gt;&amp; word_widt
   "build-hirschberg-linear-space-diff": {
     title: "Build Lab: Hirschberg's O(NM)-Time O(min(N,M))-Space Sequence Alignment & Diff Reconstructor",
     video: {
-      youtubeId: "KLBCUx1is2c",
-      title: "Hirschberg's Algorithm: Linear-Space Sequence Alignment (Divide & Conquer + DP)",
-      channel: "Ben Langmead (Johns Hopkins Computational Genomics)",
-      duration: "18:34",
-      length: "18:34",
+      youtubeId: "3TfDm8GpWRU",
+      title: "Space-Efficient Sequence Alignment — Hirschberg's Linear-Space Divide & Conquer DP",
+      channel: "Bioinformatics Algorithms: An Active Learning Approach",
+      duration: "10:36",
       start: 0,
-      why: "Crystal-clear geometric proof of why meeting in the middle row reduces space from O(NM) to O(min(N,M)) while only doubling total time."
+      length: "11m",
+      why: "Shows how meeting in the middle with forward and reverse 2-row DP sweeps finds the optimal alignment midpoint in O(min(N, M)) space and O(NM) total time."
     },
     intuition: "Rolling arrays compute the Edit Distance or LCS *score* in O(min(N, M)) memory, but throw away the parent pointers needed to reconstruct the actual diff! Hirschberg's algorithm (1975) marries Divide-and-Conquer with Rolling-Array DP: by running a 1D forward DP on the top half of A and a 1D backward DP on the bottom half of A, we find the exact column j* where the optimal alignment crosses the middle row mid = N/2—reconstructing the entire alignment in O(N*M) time and strict O(min(N, M)) space.",
     content: `

@@ -452,13 +452,8 @@ for (const { unit, mod } of units) {
   page = stripScriptTag(page, 'data/implementations_code.js');
   page = stripScriptTag(page, 'data/guided_labs.js');
 
-  // Strip unused simulator scripts for this unit slug
-  const neededSimFile = slugToSimFile[slug];
-  for (const sFile of simulatorFiles) {
-    if (sFile !== neededSimFile) {
-      page = stripScriptTag(page, sFile);
-    }
-  }
+  // Keep all deferred simulator scripts on topic pages so both direct loads
+  // and subsequent SPA navigations across modules have every simulator ready.
 
   // Write file to topic/<slug>/index.html
   const topicDir = path.join(root, 'topic', slug);
@@ -604,10 +599,7 @@ for (const [buildId, build] of buildEntries) {
     (_, closingMain) => `<div class="main__content" id="reader" data-prerendered-build="${buildId}">\n${buildHtml}\n    </div>${closingMain}`
   );
 
-  // Strip unused simulator scripts from static build pages
-  for (const sFile of simulatorFiles) {
-    page = stripScriptTag(page, sFile);
-  }
+  // Keep deferred simulator scripts on build pages so SPA navigation to lessons works seamlessly.
 
   // Write file to build/<buildId>/index.html
   const buildDir = path.join(root, 'build', buildId);

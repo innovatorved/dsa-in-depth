@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,16 +824,16 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;cQ5MsiGaDY8&quot;,&quot;title&quot;:&quot;The Hungarian Algorithm (Kuhn-Munkres) for the Assignment Problem&quot;,&quot;channel&quot;:&quot;Abdul Bari&quot;,&quot;duration&quot;:&quot;24:10&quot;,&quot;length&quot;:&quot;24:10&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Clear walkthrough of the assignment problem, dual row/column potentials, and zero-slack augmenting paths.&quot;}">
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;cQ5MsiGaDY8&quot;,&quot;title&quot;:&quot;The Munkres Assignment Algorithm (Hungarian Algorithm)&quot;,&quot;channel&quot;:&quot;CompSci&quot;,&quot;duration&quot;:&quot;24:10&quot;,&quot;length&quot;:&quot;24:10&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Clear walkthrough of the assignment problem, dual row/column potentials, and zero-slack augmenting paths.&quot;}">
       <div class="video-embed" id="video-cQ5MsiGaDY8"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="cQ5MsiGaDY8">
           <img class="video-embed__thumb" src="https://img.youtube.com/vi/cQ5MsiGaDY8/hqdefault.jpg"
-               alt="The Hungarian Algorithm (Kuhn-Munkres) for the Assignment Problem"
+               alt="The Munkres Assignment Algorithm (Hungarian Algorithm)"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">Abdul Bari</span>
-        <span class="video-embed__title">The Hungarian Algorithm (Kuhn-Munkres) for the Assignment Problem</span>
+        <span class="video-embed__channel">CompSci</span>
+        <span class="video-embed__title">The Munkres Assignment Algorithm (Hungarian Algorithm)</span>
         <a href="https://www.youtube.com/watch?v=cQ5MsiGaDY8" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
@@ -887,9 +887,18 @@
               <div class="dsa-sim__title simulator-card__title">
                 <span>Min-Cut Project Selection Closure, Hungarian (u_i + v_j = c_ij) &amp; Min-Cost Max-Flow</span>
               </div>
-              <span class="badge-on2">O(V³) Hungarian · O(F·E log V) MCMF</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-on2">O(V³) Hungarian · O(F·E log V) MCMF</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Model Max-Weight Closure (Project Selection) as S-T Min-Cut with ∞ prerequisite arcs, tighten Hungarian dual potentials u_i + v_j = c_ij on the equality subgraph, or route Min-Cost Max-Flow via Johnson reduced costs.</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -904,16 +913,48 @@
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
-                Step 1 / 1
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
+                Step 1 / 7
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="10, 25, 40, 15, 30, 50, 20"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="6"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Max-Weight Closure Theorem: Prerequisite arcs (P1→D1, P2→D2) have capacity ∞ so no finite S-T cut can sever them! Min-Cut = 5 (pay D1) + 8 (drop P2) = 13 ⇒ Max Net Profit = (12+8) - 13 = +7 (select {P1, D1})!</div>
@@ -1054,7 +1095,7 @@
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">S-T Min-Cut capacity 13 selects closed project set {P1, D1} for optimal profit 12 - 5 = +7.</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] S-T Min-Cut capacity 13 selects closed project set {P1, D1} for optimal profit 12 - 5 = +7.</div></div>
           </div>
         </div>
 
@@ -1470,7 +1511,13 @@ AssignmentResult hungarianMinWeightAssignment(const std::vector&lt;std::vector&l
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1480,7 +1527,7 @@ AssignmentResult hungarianMinWeightAssignment(const std::vector&lt;std::vector&l
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

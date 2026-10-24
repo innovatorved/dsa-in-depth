@@ -178,8 +178,8 @@ int64_t polygon_twice_area(const std::vector&lt;Point&gt;&amp; poly) {
     title: "2D Convex Hull: Graham Scan vs Andrew's Monotone Chain & Rotating Calipers",
     video: {
       youtubeId: "B2AJoQSZf4M",
-      title: "Convex Hull Algorithms: Graham Scan and Monotone Chain",
-      channel: "WilliamFiset",
+      title: "Convex Hull Algorithm — Graham Scan and Jarvis March Tutorial",
+      channel: "Stable Sort",
       duration: "24m",
       length: "24:10",
       start: 0,
@@ -367,8 +367,8 @@ int64_t rotating_calipers_diameter_sq(const std::vector&lt;Pt&gt;&amp; hull) {
     title: "Sweep-Line Paradigm: Bentley-Ottmann Segment Intersection & Area of Union of Rectangles",
     video: {
       youtubeId: "dePDHVovJlE",
-      title: "Line Sweep Algorithms: Segment Intersection & Rectangle Union Area",
-      channel: "MIT OpenCourseWare",
+      title: "Line Segment Intersection — Sweep-Line Algorithm (Robert Sedgewick)",
+      channel: "Osiris Salazar (Princeton Algorithms)",
       duration: "50m",
       length: "50:35",
       start: 0,
@@ -559,8 +559,8 @@ int64_t rectangle_union_area(const std::vector&lt;Rect&gt;&amp; rects) {
     title: "Multidimensional Spatial Indexing: k-d Trees, Quadtrees, R-Trees & Z-Order (Morton) Curves",
     video: {
       youtubeId: "BK5x7IUTIyU",
-      title: "K-D Trees, Quadtrees, and Spatial Indexing Data Structures",
-      channel: "MIT OpenCourseWare",
+      title: "K-D Trees & Spatial Indexing Data Structures",
+      channel: "Computerphile",
       duration: "48m",
       length: "48:20",
       start: 0,
@@ -689,8 +689,8 @@ inline uint64_t morton_encode_2d(uint32_t x, uint32_t y) {
     title: "Algorithmic Number Theory: Extended Euclidean Algorithm, Modular Inverse, CRT & Sieve of Eratosthenes",
     video: {
       youtubeId: "hB34-GSDT3k",
-      title: "Extended Euclidean Algorithm, Modular Inverse & Chinese Remainder Theorem",
-      channel: "WilliamFiset",
+      title: "The Extended Euclidean Algorithm & Bezout Coefficients",
+      channel: "GVSUmath",
       duration: "29m",
       length: "29:15",
       start: 0,
@@ -874,8 +874,8 @@ struct LinearSieve {
     title: "Randomized Number Theory: Miller-Rabin Primality Testing & Pollard's ρ Integer Factorization",
     video: {
       youtubeId: "zmhUlVck3J0",
-      title: "Miller-Rabin Primality Test and Pollard's Rho Factorization",
-      channel: "Errichto Algorithms",
+      title: "How To Tell If A Number Is Prime: The Miller-Rabin Primality Test",
+      channel: "William Y. Feng",
       duration: "37m",
       length: "37:25",
       start: 0,
@@ -1255,8 +1255,8 @@ bool freivalds_verify(const std::vector&lt;std::vector&lt;int64_t&gt;&gt;&amp; A
     title: "P, NP, NP-Hardness & Polynomial-Time Reductions (3-SAT ≤p Independent Set ≤p Vertex Cover ≤p Subset Sum)",
     video: {
       youtubeId: "YX40hbAHx3s",
-      title: "P vs NP and the Computational Complexity Zoo",
-      channel: "MIT OpenCourseWare (Erik Demaine)",
+      title: "P vs. NP and the Computational Complexity Zoo",
+      channel: "hackerdashery",
       duration: "51m",
       length: "51:20",
       start: 0,
@@ -1421,15 +1421,13 @@ IndependentSetInstance reduce_3sat_to_independent_set(const std::vector&lt;Claus
   "approximation-algorithms-fptas": {
     title: "Approximation Algorithms: 2-Approx Vertex Cover, Greedy ln N Set Cover, Metric TSP & Knapsack FPTAS",
     video: {
-      youtubeId: "F0VsQWWVWU4",
-      id: "F0VsQWWVWU4",
-      url: "https://www.youtube.com/embed/F0VsQWWVWU4",
-      title: "MIT 6.046J Lecture 23: Approximation Algorithms (Vertex Cover, TSP, PTAS & Knapsack FPTAS)",
-      channel: "MIT OpenCourseWare",
-      duration: "1:18:20",
+      youtubeId: "OacQnsvauZs",
+      title: "Introduction to Approximation Algorithms (Vertex Cover, TSP, Greedy Set Cover & PTAS)",
+      channel: "Tim Roughgarden Lectures",
+      duration: "1:19:56",
       start: 0,
-      length: "78m",
-      why: "Derives worst-case approximation ratios using LP duality / lower bounds for Vertex Cover, Set Cover, Metric TSP (Christofides), and value-scaled Knapsack FPTAS."
+      length: "80m",
+      why: "Tim Roughgarden establishes relative approximation ratios, LP-relaxation/combinatorial lower bounds, and polynomial-time approximation schemes for NP-hard problems."
     },
     intuition: "When a problem is NP-Hard and inputs are too large for exponential search, we trade exact optimality for a **provable worst-case approximation ratio $\\rho$**. Because we cannot compute the true optimum $OPT$ directly, every approximation proof hinges on finding a **structural lower bound** on $OPT$: the size of any maximal matching lower-bounds Vertex Cover (giving a **2-approximation**), the weight of an MST lower-bounds Metric TSP (giving a **2-approximation**, or **1.5-approximation** via Christofides' minimum-weight perfect matching on odd-degree vertices), harmonic dual prices bound **Greedy Set Cover** within $\\ln N$, and rounding item values turns pseudo-polynomial 0-1 Knapsack DP into a **$(1 - \\varepsilon)$-FPTAS** running in $O(N^3 / \\varepsilon)$ time!",
     content: `
@@ -1608,8 +1606,8 @@ int64_t knapsack_fptas(const std::vector&lt;int64_t&gt;&amp; weights,
     title: "Build Lab: 2D/3D k-d Tree with Bounding-Box Pruning for K-Nearest Neighbor & Range Search",
     video: {
       youtubeId: "Glp7THUpGow",
-      title: "Building a K-D Tree for Nearest Neighbor and Range Search",
-      channel: "WilliamFiset",
+      title: "KD-Tree Nearest Neighbor Data Structure & Pruning Search",
+      channel: "Stable Sort",
       duration: "27m",
       length: "27:45",
       start: 0,

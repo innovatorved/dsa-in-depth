@@ -4,14 +4,12 @@ window.MODULE_CONTENT["m01"] = {
     title: "The RAM Model vs Modern CPU Cache Hierarchy",
     video: {
       youtubeId: "o7h_sYMk_oc",
-      id: "o7h_sYMk_oc",
-      url: "https://www.youtube.com/embed/o7h_sYMk_oc",
-      title: "MIT 6.172 Lecture 3: Bit Hacks & Cache/Memory Hierarchy",
-      channel: "MIT OpenCourseWare",
-      duration: "51:12",
+      title: "MIT 6.172 Lecture 1: Performance Engineering & Modern CPU Cache/Memory Hierarchy",
+      channel: "MIT OpenCourseWare (Charles Leiserson)",
+      duration: "54:21",
       start: 0,
-      length: "51m",
-      why: "Charles Leiserson and Julian Shun dissect why the unit-cost RAM model breaks down on modern superscalar processors and how 64-byte cache lines dominate runtime."
+      length: "54m",
+      why: "Charles Leiserson demonstrates why the flat O(1) RAM model fails on real hardware by accelerating matrix multiplication 50,000x via L1/L2/L3 cache tiling, SIMD vectorization, and instruction-level parallelism."
     },
     intuition: "<p>The classical <strong>Random Access Machine (RAM)</strong> model introduced in theoretical computer science assumes that every memory read or write costs $O(1)$ unit time, regardless of which address is accessed. On physical silicon, that assumption is false by more than two orders of magnitude. Accessing a register takes $\\approx 0.3\\text{ ns}$ (1 cycle), an L1 data cache hit takes $\\approx 1.2\\text{ ns}$ (4 cycles), an L3 cache hit takes $\\approx 12\\text{ ns}$ (40 cycles), and a main memory (DRAM) row-buffer miss takes $\\approx 65\\text{–}100\\text{ ns}$ ($200+$ cycles).</p><p>Because the CPU never fetches a single byte or a single 8-byte pointer from DRAM—it always transfers aligned <strong>64-byte cache lines</strong>—an $O(N)$ algorithm that chases randomized heap pointers (like a <code>std::list</code> traversal) stalls for 200 cycles on every node, whereas an $O(N \\log N)$ sort over a contiguous <code>std::vector</code> streams through L1 cache with hardware prefetching at 1–2 cycles per element, running up to $20\\times$ faster for $N = 10^6$.</p>",
     content: `<div class="lesson-content">
@@ -219,15 +217,13 @@ public:
   "asymptotic-notations-rigor": {
     title: "Asymptotic Notation Rigor: O, Ω, Θ, o, ω & Limit Laws",
     video: {
-      youtubeId: "CWkh5kb4TGc",
-      id: "CWkh5kb4TGc",
-      url: "https://www.youtube.com/embed/CWkh5kb4TGc",
-      title: "MIT 6.042J: Asymptotic Notation (Big-O, Omega, Theta & Little-o Rigor)",
-      channel: "MIT OpenCourseWare",
-      duration: "14:28",
+      youtubeId: "A03oI0znAoc",
+      title: "Asymptotic Notations: Big-O, Big-Omega, and Big-Theta Formal Definitions",
+      channel: "Abdul Bari",
+      duration: "15:46",
       start: 0,
-      length: "14m",
-      why: "Erik Demaine and Charles Leiserson establish the formal set-theoretic foundations of asymptotic notation, limit laws, and macro-convention algebra."
+      length: "16m",
+      why: "Derives the exact quantifier definitions (c, n₀ witnesses) and bounding curves for O(f(n)), Ω(f(n)), and Θ(f(n)) from first principles."
     },
     intuition: "<p>Asymptotic notations ($O, \\Omega, \\Theta, o, \\omega$) are not vague approximations—they are <strong>formal sets of functions</strong> defined by existential and universal quantifiers over a threshold $n_0$ and positive constants $c_1, c_2$. Just as real numbers obey relational operators ($\\le, \\ge, =, &lt;, &gt;$), asymptotic sets classify growth rates up to constant factors as $n \\to \\infty$.</p><p>Rigorously distinguishing between <strong>asymptotic bounds</strong> ($O$ vs $\\Omega$ vs $\\Theta$) and <strong>execution case regimes</strong> (Worst-Case vs Best-Case vs Expected-Case) is essential: Big-$O$ is NOT synonymous with worst-case, and $\\Omega$ is NOT synonymous with best-case. One can bound the worst-case runtime from below ($T_{\\text{worst}}(n) \\in \\Omega(n^2)$ for Bubble Sort) or bound the best-case runtime from above ($T_{\\text{best}}(n) \\in O(n)$).</p>",
     content: `<div class="lesson-content">
@@ -401,15 +397,13 @@ uint64_t divisorLatticeWork(uint64_t n) noexcept {
   "recurrence-relations-master-theorem": {
     title: "Solving Recurrences: Recursion Trees, Substitution & Master Theorem",
     video: {
-      youtubeId: "whjt_N9uYFI",
-      id: "whjt_N9uYFI",
-      url: "https://www.youtube.com/embed/whjt_N9uYFI",
-      title: "MIT 6.046J Lecture 2: Divide & Conquer — Strassen, Fibonacci, Polynomial Multiplication",
-      channel: "MIT OpenCourseWare",
-      duration: "1:20:49",
+      youtubeId: "OynWkEj0S-s",
+      title: "Master Theorem in Algorithms for Dividing Recurrence Functions",
+      channel: "Abdul Bari",
+      duration: "16:50",
       start: 0,
-      length: "81m",
-      why: "Charles Leiserson derives the recursion tree geometric series and proves the three regimes of the Master Theorem from first principles."
+      length: "17m",
+      why: "Systematically derives the three cases of the Master Theorem for T(n) = aT(n/b) + f(n) by comparing leaf work n^(log_b a) against root driving work f(n)."
     },
     intuition: "<p>Every divide-and-conquer algorithm splits a problem of size $n$ into $a$ subproblems of size $n/b$ and spends $f(n)$ non-recursive work dividing and combining results, yielding the recurrence $T(n) = a\\,T(n/b) + f(n)$. When you unroll this recurrence into a <strong>recursion tree</strong> of depth $\\log_b n$, a fundamental tug-of-war emerges between two forces: the geometric proliferation of subproblems ($a^d$ nodes at depth $d$, reaching $a^{\\log_b n} = n^{\\log_b a}$ leaves at the bottom) and the shrinking per-node cost $f(n / b^d)$.</p><p>The <strong>Master Theorem</strong> resolves this tug-of-war immediately by comparing the non-recursive driving function $f(n)$ against the <strong>watershed function</strong> $n^{\\log_b a}$: either the leaves dominate (Case 1), all $\\log_b n$ tree levels contribute equally (Case 2), or the root dominates (Case 3).</p>",
     content: `<div class="lesson-content">
@@ -799,14 +793,12 @@ double solveAkraBazziExponent(std::span&lt;const RecurrenceTerm&gt; terms) noexc
     title: "Amortized Analysis: Aggregate, Banker's & Physicist's Potential (Φ)",
     video: {
       youtubeId: "3MpzavN3Mco",
-      id: "3MpzavN3Mco",
-      url: "https://www.youtube.com/embed/3MpzavN3Mco",
-      title: "MIT 6.046J Lecture 5: Amortized Analysis — Table Doubling, Potential Method",
-      channel: "MIT OpenCourseWare",
-      duration: "1:15:40",
+      title: "MIT 6.046J Lecture 5: Amortized Analysis — Aggregate, Accounting & Potential Method",
+      channel: "MIT OpenCourseWare (Erik Demaine)",
+      duration: "1:15:30",
       start: 0,
-      length: "76m",
-      why: "Erik Demaine proves how Tarjan's potential function Φ telescopes across arbitrary operation sequences to guarantee worst-case total time without probability."
+      length: "75m",
+      why: "Erik Demaine rigorously derives Aggregate, Banker (Accounting), and Physicist Potential (Φ) amortized bounds across dynamic arrays, binary counters, and multiphase data structures."
     },
     intuition: "<p>Many of the fastest data structures in computer science—dynamic arrays (<code>std::vector</code>), two-stack queues, Splay trees, Fibonacci heaps, and Disjoint Set Union (DSU)—occasionally execute an expensive $O(n)$ or $O(\\log n)$ reorganization step. A naive worst-case per-operation multiplier bounds a sequence of $n$ operations by $n \\times O(n) = O(n^2)$, which is wildly loose because an expensive operation can only occur after many cheap operations have built up the structural mess that the expensive operation cleans up.</p><p><strong>Amortized analysis</strong> (pioneered by Robert Tarjan in 1985) proves a strict, deterministic <strong>worst-case upper bound on the average cost per operation over any sequence of $n$ operations</strong>. Unlike average-case analysis, amortized analysis makes <em>zero probabilistic assumptions</em> about the input distribution or random coins.</p>",
     content: `<div class="lesson-content">
@@ -995,8 +987,8 @@ public:
       youtubeId: "ygK0YON10sQ",
       id: "ygK0YON10sQ",
       url: "https://www.youtube.com/embed/ygK0YON10sQ",
-      title: "MIT 6.172 Lecture 10: Measurement, Timing & Stack/Heap Memory Accounting",
-      channel: "MIT OpenCourseWare",
+      title: "Recursion and Call Stack Memory Accounting",
+      channel: "Abdul Bari",
       duration: "52:45",
       start: 0,
       length: "53m",
@@ -1386,8 +1378,8 @@ size_t eytzingerLowerBound(const int32_t* a, size_t n, int32_t target) noexcept 
       youtubeId: "bSkpMdDe4g4",
       id: "bSkpMdDe4g4",
       url: "https://www.youtube.com/embed/bSkpMdDe4g4",
-      title: "MIT 6.172 Lecture 2: Bentley Rules for Optimizing Work & Branchless Code",
-      channel: "MIT OpenCourseWare",
+      title: "CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly & SIMD)",
+      channel: "CppCon (Matt Godbolt)",
       duration: "53:18",
       start: 0,
       length: "53m",
@@ -1781,8 +1773,8 @@ bool meetInTheMiddleSubsetSum(std::span&lt;const int64_t&gt; a, int64_t target) 
       youtubeId: "m9cTaYI95Zc",
       id: "m9cTaYI95Zc",
       url: "https://www.youtube.com/embed/m9cTaYI95Zc",
-      title: " Mathias Bynens — V8 Internals: Elements Kinds in JavaScript Arrays",
-      channel: "JSConf / V8 Team",
+      title: "V8 Internals for JavaScript Developers — Elements Kinds & Hidden Classes",
+      channel: "CSSConf Australia (Mathias Bynens)",
       duration: "27:42",
       start: 0,
       length: "28m",

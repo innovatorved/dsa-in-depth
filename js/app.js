@@ -584,7 +584,7 @@ window.App = (() => {
               const sim = window.SIMULATORS?.[simId];
               if (sim) {
                 try {
-                  if (!mountEl.innerHTML.trim() && typeof sim.render === 'function') {
+                  if ((!mountEl.innerHTML.trim() || !mountEl.querySelector('[data-role="custom-input"]')) && typeof sim.render === 'function') {
                     mountEl.innerHTML = sim.render();
                   }
                   if (typeof sim.mount === 'function') {

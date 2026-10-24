@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;whjt_N9uYFI&quot;,&quot;id&quot;:&quot;whjt_N9uYFI&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/whjt_N9uYFI&quot;,&quot;title&quot;:&quot;MIT 6.046J Lecture 2: Divide &amp; Conquer — Strassen, Fibonacci, Polynomial Multiplication&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare&quot;,&quot;duration&quot;:&quot;1:20:49&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;81m&quot;,&quot;why&quot;:&quot;Charles Leiserson derives the recursion tree geometric series and proves the three regimes of the Master Theorem from first principles.&quot;}">
-      <div class="video-embed" id="video-whjt_N9uYFI"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="whjt_N9uYFI">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/whjt_N9uYFI/hqdefault.jpg"
-               alt="MIT 6.046J Lecture 2: Divide &amp; Conquer — Strassen, Fibonacci, Polynomial Multiplication"
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;OynWkEj0S-s&quot;,&quot;title&quot;:&quot;Master Theorem in Algorithms for Dividing Recurrence Functions&quot;,&quot;channel&quot;:&quot;Abdul Bari&quot;,&quot;duration&quot;:&quot;16:50&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;17m&quot;,&quot;why&quot;:&quot;Systematically derives the three cases of the Master Theorem for T(n) = aT(n/b) + f(n) by comparing leaf work n^(log_b a) against root driving work f(n).&quot;}">
+      <div class="video-embed" id="video-OynWkEj0S-s"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="OynWkEj0S-s">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/OynWkEj0S-s/hqdefault.jpg"
+               alt="Master Theorem in Algorithms for Dividing Recurrence Functions"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare</span>
-        <span class="video-embed__title">MIT 6.046J Lecture 2: Divide &amp; Conquer — Strassen, Fibonacci, Polynomial Multiplication</span>
-        <a href="https://www.youtube.com/watch?v=whjt_N9uYFI" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+        <span class="video-embed__channel">Abdul Bari</span>
+        <span class="video-embed__title">Master Theorem in Algorithms for Dividing Recurrence Functions</span>
+        <a href="https://www.youtube.com/watch?v=OynWkEj0S-s" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      <p class="video-embed__why">Charles Leiserson derives the recursion tree geometric series and proves the three regimes of the Master Theorem from first principles.</p></div>
+      <p class="video-embed__why">Systematically derives the three cases of the Master Theorem for T(n) = aT(n/b) + f(n) by comparing leaf work n^(log_b a) against root driving work f(n).</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body"><p>Every divide-and-conquer algorithm splits a problem of size $n$ into $a$ subproblems of size $n/b$ and spends $f(n)$ non-recursive work dividing and combining results, yielding the recurrence $T(n) = a\,T(n/b) + f(n)$. When you unroll this recurrence into a <strong>recursion tree</strong> of depth $\log_b n$, a fundamental tug-of-war emerges between two forces: the geometric proliferation of subproblems ($a^d$ nodes at depth $d$, reaching $a^{\log_b n} = n^{\log_b a}$ leaves at the bottom) and the shrinking per-node cost $f(n / b^d)$.</p><p>The <strong>Master Theorem</strong> resolves this tug-of-war immediately by comparing the non-recursive driving function $f(n)$ against the <strong>watershed function</strong> $n^{\log_b a}$: either the leaves dominate (Case 1), all $\log_b n$ tree levels contribute equally (Case 2), or the root dominates (Case 3).</p></div>
@@ -1028,9 +1028,18 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
               <div class="dsa-sim__title simulator-card__title">
                 <span>Recursion Tree, Master Theorem &amp; Akra-Bazzi Level-Work Visualizer</span>
               </div>
-              <span class="badge-ologn">n^(log_b a) vs f(n)</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-ologn">n^(log_b a) vs f(n)</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Compare per-level work a^d · f(n/b^d) across Balanced Case 2 (Merge Sort), Leaf-Heavy Case 1 (Karatsuba/Strassen), and uneven Akra-Bazzi T(n) = T(n/3) + T(2n/3) + Θ(n).</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -1045,16 +1054,48 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
-                Step 1 / 1
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
+                Step 1 / 7
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="38, 27, 43, 3, 9, 82, 10"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="6"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Master Theorem Case 2: n^(log_b a) = n^(log_2 2) = n == Θ(f(n)). Work per level is invariant at c·n across log_2(n) levels.</div>
@@ -1086,7 +1127,7 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">Balanced recursion tree: 2^d subproblems of size n/2^d sum to c·n at every depth d.</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Balanced recursion tree: 2^d subproblems of size n/2^d sum to c·n at every depth d.</div></div>
           </div>
         </div>
 
@@ -1431,7 +1472,13 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1441,7 +1488,7 @@ void coarsenedMergeSort(std::span&lt;int64_t&gt; a, std::span&lt;int64_t&gt; scr
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

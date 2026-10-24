@@ -5,8 +5,8 @@ window.MODULE_CONTENT["m15"] = {
     title: "Combinatorial Generation: Subsets, Lexicographic Permutations (Narayana) & Gray Codes",
     video: {
       youtubeId: "GCm7m5671Ps",
-      title: "MIT 6.006 Lecture 9: Table Doubling, Karp-Rabin & Combinatorial Search",
-      channel: "MIT OpenCourseWare",
+      title: "Generate All Permutations — Backtracking State Space Tree",
+      channel: "Back To Back SWE",
       duration: "50:12",
       length: "50:12",
       start: 0,
@@ -771,8 +771,8 @@ long long knapsack_branch_and_bound(std::vector&lt;KnapsackItem&gt; items, long 
     title: "Game Trees: Minimax, Alpha-Beta Pruning, Move Ordering & Zobrist Transposition Tables",
     video: {
       youtubeId: "l-hh51ncgDI",
-      title: "MIT 6.034 Artificial Intelligence — Lecture 6: Search: Games, Minimax, and Alpha-Beta",
-      channel: "MIT OpenCourseWare",
+      title: "Algorithms Explained — Minimax and Alpha-Beta Pruning",
+      channel: "Sebastian Lague",
       duration: "49:50",
       length: "49:50",
       start: 0,
@@ -989,8 +989,8 @@ public:
     title: "Proving Greedy Correctness: Greedy Stays Ahead & Exchange Arguments (Interval Scheduling, Minimizing Lateness)",
     video: {
       youtubeId: "ARvQcqJ_-NY",
-      title: "Stanford CS161 — Greedy Algorithms, Exchange Arguments & Interval Scheduling",
-      channel: "Stanford Online",
+      title: "Greedy Method — Introduction, Choice Property & Exchange Arguments",
+      channel: "Abdul Bari",
       duration: "52:10",
       length: "52:10",
       start: 0,
@@ -1534,8 +1534,8 @@ long long max_profit_multi_share_trading(const std::vector&lt;long long&gt;&amp;
     title: "Production Case Study: Modern SAT Solvers & Package Dependency Resolution (DPLL, Unit Propagation & Two-Watched Literals)",
     video: {
       youtubeId: "d76e4hV1iJY",
-      title: "CMU Automated Reasoning — DPLL, Unit Propagation, Two-Watched Literals & CDCL",
-      channel: "Carnegie Mellon University",
+      title: "A Peek Inside SAT Solvers — DPLL, Unit Propagation & CDCL",
+      channel: "ClojureTV (Jon Smock)",
       duration: "54:20",
       length: "54:20",
       start: 0,

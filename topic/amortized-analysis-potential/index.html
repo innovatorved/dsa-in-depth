@@ -35,11 +35,11 @@
   <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=795f671d6b">
+  <link rel="stylesheet" href="css/simulators.css?v=6a969e3e40">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=5086aab7d2"></script>
-  <script src="js/manifest.js?v=f59e0416cd"></script>
+  <script src="js/manifest.js?v=7564bd6cc6"></script>
 
   <script type="application/ld+json">
 {
@@ -824,21 +824,21 @@
             📄 Cheat Sheet
           </a>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;3MpzavN3Mco&quot;,&quot;id&quot;:&quot;3MpzavN3Mco&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/3MpzavN3Mco&quot;,&quot;title&quot;:&quot;MIT 6.046J Lecture 5: Amortized Analysis — Table Doubling, Potential Method&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare&quot;,&quot;duration&quot;:&quot;1:15:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;76m&quot;,&quot;why&quot;:&quot;Erik Demaine proves how Tarjan&#039;s potential function Φ telescopes across arbitrary operation sequences to guarantee worst-case total time without probability.&quot;}">
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;3MpzavN3Mco&quot;,&quot;title&quot;:&quot;MIT 6.046J Lecture 5: Amortized Analysis — Aggregate, Accounting &amp; Potential Method&quot;,&quot;channel&quot;:&quot;MIT OpenCourseWare (Erik Demaine)&quot;,&quot;duration&quot;:&quot;1:15:30&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;75m&quot;,&quot;why&quot;:&quot;Erik Demaine rigorously derives Aggregate, Banker (Accounting), and Physicist Potential (Φ) amortized bounds across dynamic arrays, binary counters, and multiphase data structures.&quot;}">
       <div class="video-embed" id="video-3MpzavN3Mco"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="3MpzavN3Mco">
           <img class="video-embed__thumb" src="https://img.youtube.com/vi/3MpzavN3Mco/hqdefault.jpg"
-               alt="MIT 6.046J Lecture 5: Amortized Analysis — Table Doubling, Potential Method"
+               alt="MIT 6.046J Lecture 5: Amortized Analysis — Aggregate, Accounting &amp; Potential Method"
                loading="lazy">
           <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div></div>
       <div class="video-embed__info">
-        <span class="video-embed__channel">MIT OpenCourseWare</span>
-        <span class="video-embed__title">MIT 6.046J Lecture 5: Amortized Analysis — Table Doubling, Potential Method</span>
+        <span class="video-embed__channel">MIT OpenCourseWare (Erik Demaine)</span>
+        <span class="video-embed__title">MIT 6.046J Lecture 5: Amortized Analysis — Aggregate, Accounting &amp; Potential Method</span>
         <a href="https://www.youtube.com/watch?v=3MpzavN3Mco" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
           Watch on YouTube ↗
         </a>
       </div>
-      <p class="video-embed__why">Erik Demaine proves how Tarjan&#039;s potential function Φ telescopes across arbitrary operation sequences to guarantee worst-case total time without probability.</p></div>
+      <p class="video-embed__why">Erik Demaine rigorously derives Aggregate, Banker (Accounting), and Physicist Potential (Φ) amortized bounds across dynamic arrays, binary counters, and multiphase data structures.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
           <div class="intuition__body"><p>Many of the fastest data structures in computer science—dynamic arrays (<code>std::vector</code>), two-stack queues, Splay trees, Fibonacci heaps, and Disjoint Set Union (DSU)—occasionally execute an expensive $O(n)$ or $O(\log n)$ reorganization step. A naive worst-case per-operation multiplier bounds a sequence of $n$ operations by $n \times O(n) = O(n^2)$, which is wildly loose because an expensive operation can only occur after many cheap operations have built up the structural mess that the expensive operation cleans up.</p><p><strong>Amortized analysis</strong> (pioneered by Robert Tarjan in 1985) proves a strict, deterministic <strong>worst-case upper bound on the average cost per operation over any sequence of $n$ operations</strong>. Unlike average-case analysis, amortized analysis makes <em>zero probabilistic assumptions</em> about the input distribution or random coins.</p></div>
@@ -968,9 +968,18 @@ c_i = 2k + 1, ΔΦ = -2k → ĉ_i = 1"]
               <div class="dsa-sim__title simulator-card__title">
                 <span>Dynamic Array Geometric Doubling &amp; Potential Φ = 2n − m</span>
               </div>
-              <span class="badge-o1">Amortized O(1)</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
+                  🔊 SFX On
+                </button>
+                <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
+                  🗣️ Voice On
+                </button>
+                <span class="badge-o1">Amortized O(1)</span>
+              </div>
             </div>
             <p class="dsa-sim__subtitle simulator-card__description">Step through push(x) operations as capacity doubles (1 → 2 → 4 → 8 → 16). Watch Tarjan’s potential function Φ = 2n − m bank 2 credits on cheap inserts to pay for O(n) reallocation copies.</p>
+
             <div class="dsa-sim__controls simulator-card__controls">
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:6px;">
                 Preset
@@ -985,16 +994,48 @@ c_i = 2k + 1, ΔΦ = -2k → ĉ_i = 1"]
               <label style="font-size:12px;color:var(--fg-muted);display:inline-flex;align-items:center;gap:4px;margin-left:auto;">
                 Speed
                 <select class="simulator-card__input sim-select" data-role="speed" style="padding:3px 6px;font-size:11.5px;">
-                  <option value="1100">0.5×</option>
-                  <option value="650" selected>1×</option>
-                  <option value="320">2×</option>
-                  <option value="150">4×</option>
+                  <option value="1200">0.5×</option>
+                  <option value="750" selected>1×</option>
+                  <option value="380">2×</option>
+                  <option value="180">4×</option>
                 </select>
               </label>
-              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;">
+              <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
                 Step 1 / 10
               </span>
             </div>
+
+            <div class="dsa-sim__custom-bar">
+              <span class="dsa-sim__custom-label">Custom Input:</span>
+              <input
+                type="text"
+                class="simulator-card__input dsa-sim__custom-input"
+                data-role="custom-input"
+                value="38, 27, 43, 3, 9, 82, 10"
+                placeholder="e.g. 38, 27, 43, 3, 9, 82, 10 or target=42 | 10, 20, 42, 50"
+                aria-label="Custom simulator input values"
+              />
+              <button type="button" class="btn btn--primary btn--sm" data-role="apply-custom" title="Run simulator with your custom values">
+                ▶ Run Custom
+              </button>
+              <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
+                🎲 Randomize
+              </button>
+            </div>
+
+            <div class="dsa-sim__scrubber-row">
+              <span style="font-size:11px;font-family:var(--font-mono,monospace);color:var(--fg-muted);">Timeline</span>
+              <input
+                type="range"
+                class="dsa-sim__scrubber"
+                data-role="scrubber"
+                min="0"
+                max="9"
+                value="0"
+                aria-label="Step timeline scrubber"
+              />
+            </div>
+
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
               <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Φ(D_i) = 2n − m = 2(1) − 1 = 1 ≥ 0 | ĉ_i = c_i + ΔΦ = 1 + (1 − 0) = 2</div>
@@ -1034,7 +1075,7 @@ c_i = 2k + 1, ΔΦ = -2k → ĉ_i = 1"]
                 </div>
               
             </div>
-            <div class="dsa-sim__log" data-role="log">Inserted 10 at index 0. Actual cost = 1, banked +2 potential (Φ = 1), Amortized cost = 2.</div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Inserted 10 at index 0. Actual cost = 1, banked +2 potential (Φ = 1), Amortized cost = 2.</div></div>
           </div>
         </div>
 
@@ -1443,7 +1484,13 @@ public:
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
   <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
+  <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
+  <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/renderer.js?v=847826c3e7"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
@@ -1453,7 +1500,7 @@ public:
   <script type="text/plain" data-defer src="js/dashboard.js?v=8ee34b0c6c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=334b85900d"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=b6afe740e1"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=bdfc977c87"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -8,8 +8,8 @@ window.MODULE_CONTENT["m02"] = {
       url: "https://www.youtube.com/embed/5AllG-i_yto",
       id: "5AllG-i_yto",
       url: "https://www.youtube.com/embed/5AllG-i_yto",
-      title: "MIT 6.006 Lecture 2: Data Structures and Dynamic Arrays",
-      channel: "MIT OpenCourseWare",
+      title: "What If You Had to Invent a Dynamic Array? (Geometric Resizing & Amortized O(1))",
+      channel: "Reducible",
       duration: "51 min"
     },
     intuition: "A dynamic array provides $O(1)$ amortized random access and $O(1)$ amortized append by allocating a contiguous block of heap memory and growing its capacity geometrically by a constant factor $k > 1$. However, choosing $k = 2$ (GCC libstdc++ <code>std::vector</code>) versus $k = 1.5$ (MSVC <code>std::vector</code>, Meta <code>folly::fbvector</code>) determines whether the allocator can ever reuse the sum of previously freed memory chunks.",
@@ -235,8 +235,8 @@ public:
       url: "https://www.youtube.com/embed/PhgtNY_-CiY",
       id: "PhgtNY_-CiY",
       url: "https://www.youtube.com/embed/PhgtNY_-CiY",
-      title: "Prefix Sums and Difference Arrays Explained",
-      channel: "WilliamFiset",
+      title: "Prefix Sums — Problems, Invariants & Implementation in C++ and Python",
+      channel: "Errichto Algorithms",
       duration: "14 min"
     },
     intuition: "Prefix sums and difference arrays are discrete analogs of integration and differentiation. Just as the Fundamental Theorem of Calculus evaluates a definite integral $\\int_a^b f(x)\\,dx = F(b) - F(a)$ in two evaluations at the boundaries, a prefix sum array answers arbitrary contiguous range-sum queries in $O(1)$ time, while its dual—the difference array—transforms $O(N)$ range-addition updates into two $O(1)$ boundary point mutations.",
@@ -672,8 +672,8 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
       url: "https://www.youtube.com/embed/MK-NZ4hN7rs",
       id: "MK-NZ4hN7rs",
       url: "https://www.youtube.com/embed/MK-NZ4hN7rs",
-      title: "Sliding Window Technique & Monotonicity Invariants",
-      channel: "MIT OpenCourseWare",
+      title: "Sliding Window Technique — Algorithmic Mental Models & Monotonicity",
+      channel: "Ryan Schachte",
       duration: "45 min"
     },
     intuition: "A variable-size sliding window $[L, R]$ achieves $O(N)$ time if and only if the validity predicate $P(L, R)$ is monotonic with respect to window expansion and contraction—guaranteeing that the optimal left boundary $L^*(R)$ is a non-decreasing function of $R$, so $L$ and $R$ never need to move backward.",
@@ -1051,13 +1051,12 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
     title: "Twos-Complement Arithmetic, Bitmasks, Brian Kernighan's Trick & XOR",
     video: {
       youtubeId: "ZusiKXcz_ac",
-      id: "ZusiKXcz_ac",
-      url: "https://www.youtube.com/embed/ZusiKXcz_ac",
-      id: "ZusiKXcz_ac",
-      url: "https://www.youtube.com/embed/ZusiKXcz_ac",
-      title: "MIT 6.172 Lecture 2: Bit Hacks (Charles Leiserson)",
-      channel: "MIT OpenCourseWare",
-      duration: "53 min"
+      title: "MIT 6.172 Lecture 3: Bit Hacks, Two's Complement & SWAR Word-Level Parallelism",
+      channel: "MIT OpenCourseWare (Charles Leiserson)",
+      duration: "51:50",
+      start: 0,
+      length: "52m",
+      why: "Charles Leiserson derives two's-complement identities, x & (x - 1) lowest-set-bit clearing, branchless min/max, popcount masks, and De Bruijn O(1) bitscan."
     },
     intuition: "Every $w$-bit signed integer in modern hardware is represented in two's complement, where the most significant bit $b_{w-1}$ carries negative weight $-2^{w-1}$ and negation is defined by the ring identity $-x \\equiv \\sim x + 1 \\pmod{2^w}$. Because $+1$ ripples a carry across all trailing $0$s and flips the lowest set bit $1 \\to 0$, combining $x$ with $-x$ or $x - 1$ isolates or clears the lowest set bit in a single clock cycle.",
     content: `
@@ -1498,8 +1497,8 @@ public:
       url: "https://www.youtube.com/embed/gmu0RA5_zxs",
       id: "gmu0RA5_zxs",
       url: "https://www.youtube.com/embed/gmu0RA5_zxs",
-      title: "In-Place Array Rotation & Cache-Oblivious Matrix Transpose",
-      channel: "MIT OpenCourseWare",
+      title: "In-Place Array Rotation via Three-Reversal Involution",
+      channel: "Nick White",
       duration: "47 min"
     },
     intuition: "Every in-place spatial rearrangement—rotating an array by $k$, rotating an $N \\times N$ image by $90^\\circ$, or transposing a rectangular $R \\times C$ matrix—is a permutation of indices. By decomposing that permutation either into a product of two-or-three involutions (reversals/reflections) or into $\\gcd(N, k)$ disjoint algebraic orbits, we achieve $O(N)$ time with strictly $O(1)$ auxiliary memory.",
@@ -1722,8 +1721,8 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
       url: "https://www.youtube.com/embed/7pnhv842keE",
       id: "7pnhv842keE",
       url: "https://www.youtube.com/embed/7pnhv842keE",
-      title: "Boyer-Moore Majority Vote & Streaming Heavy Hitters",
-      channel: "Harvard CS229r / Algorithms",
+      title: "Boyer-Moore Majority Vote Algorithm — O(1) Space Pairwise Cancellation",
+      channel: "NeetCode",
       duration: "46 min"
     },
     intuition: "If an element appears strictly more than $\\lfloor N / 2 \\rfloor$ times in a stream, it survives pairwise annihilation against every non-matching element. Generalizing pairwise cancellation to $(k\text{-way})$ tuple cancellation yields the Misra-Gries algorithm: maintaining $k - 1$ counters in $O(k)$ space identifies every 'heavy hitter' occurring strictly more than $N / k$ times.",

@@ -692,14 +692,12 @@ void quicksort_3way(T* a, std::size_t lo, std::size_t hi) noexcept {
     title: "Randomized Quicksort: Indicator Random Variables & 1.386 N ln N Proof",
     video: {
       youtubeId: "vK_q-C-kXhs",
-      id: "vK_q-C-kXhs",
-      url: "https://www.youtube.com/embed/vK_q-C-kXhs",
       title: "MIT 6.046J Lecture 4: Quicksort & Randomized Quicksort Expected O(N log N) Proof",
-      channel: "MIT OpenCourseWare",
-      duration: "1:18:05",
+      channel: "MIT OpenCourseWare (Charles Leiserson)",
+      duration: "1:18:04",
       start: 0,
       length: "78m",
-      why: "Erik Demaine proves the exact 2n ln n expected comparison bound of Randomized Quicksort using indicator random variables over rank-ordered elements z_i and z_j."
+      why: "Charles Leiserson derives Hoare/Lomuto partitioning and proves the exact 2N ln N ≈ 1.386 N log₂ N expected comparison bound via indicator random variables X_ij."
     },
     intuition: "Instead of solving a messy recurrence over all $n$ possible partition sizes, track each pair of elements $z_i < z_j$ in sorted rank order. Two elements are compared at most once—only if one is chosen as a pivot—and they are compared if and only if the very first pivot chosen from the contiguous rank interval $\\{z_i, z_{i+1}, \\dots, z_j\\}$ is either $z_i$ or $z_j$, an event of exact probability $\\frac{2}{j - i + 1}$.",
     content: `
@@ -1138,14 +1136,12 @@ void sort5_branchless_network(T* v) noexcept {
     title: "Non-Comparison Sorts: Counting Sort, LSD/MSD Radix Sort & Bucket Sort",
     video: {
       youtubeId: "Nz1KZXbghj8",
-      id: "Nz1KZXbghj8",
-      url: "https://www.youtube.com/embed/Nz1KZXbghj8",
-      title: "MIT 6.006 Lecture 7: Counting Sort, Radix Sort & Lower Bounds for Sorting",
-      channel: "MIT OpenCourseWare",
-      duration: "49:52",
+      title: "MIT 6.006 Lecture 7: Counting Sort, Radix Sort & Comparison Sorting Lower Bounds",
+      channel: "MIT OpenCourseWare (Erik Demaine)",
+      duration: "49:44",
       start: 0,
-      length: "49m",
-      why: "Erik Demaine builds Counting Sort via cumulative prefix sums, proves why stability of the inner digit sort is mandatory for LSD Radix Sort, and derives the optimal radix choice b = Θ(n)."
+      length: "50m",
+      why: "Erik Demaine proves the Ω(N log N) decision-tree lower bound and shows how Counting Sort and LSD Radix Sort achieve O(N + K) and O(d(N + b)) linear time."
     },
     intuition: "Comparison sorts extract only $1$ bit of ordering per operation. Counting Sort and Radix Sort use the key's bits directly as a $b$-way array index—extracting $\\log_2 b$ bits of information per array lookup—reducing the tree height from $\\Omega(n \\log_2 n)$ to $\\Theta\\!\\left(\\frac{w}{\\log_2 b}(n + b)\\right)$.",
     content: `
@@ -1370,15 +1366,13 @@ void radix_sort_u64(std::vector&lt;std::uint64_t&gt;&amp; a) {
   "quickselect-bfprt-median": {
     title: "Order Statistics: Randomized Quickselect vs Deterministic BFPRT Median-of-Medians",
     video: {
-      youtubeId: "mR_RUjsJnV8",
-      id: "mR_RUjsJnV8",
-      url: "https://www.youtube.com/embed/mR_RUjsJnV8",
-      title: "MIT 6.046J Lecture 6: Order Statistics, Randomized Quickselect & Worst-Case Linear Median-of-Medians",
-      channel: "MIT OpenCourseWare",
-      duration: "1:19:12",
+      youtubeId: "PY7YiJQa3Lc",
+      title: "Linear-Time Selection: Deterministic Median-of-Medians (BFPRT) Algorithm",
+      channel: "Algorithms by Sharma Thankachan",
+      duration: "32:07",
       start: 0,
-      length: "79m",
-      why: "Erik Demaine derives Hoare's Quickselect and proves the Blum-Floyd-Pratt-Rivest-Tarjan (BFPRT) Median-of-Medians recurrence T(n) <= T(n/5) + T(7n/10) + O(n) = O(n)."
+      length: "32m",
+      why: "Proves why grouping elements into columns of 5 guarantees a 30/70 partition split and solves T(n) <= T(n/5) + T(7n/10) + O(n) = O(n)."
     },
     intuition: "Quicksort recurses on <em>both</em> partitions ($T(n) = 2T(n/2) + \\Theta(n) = \\Theta(n \\log n)$), whereas finding the $k$-th smallest element only needs to recurse on the <em>one</em> partition containing index $k$, turning the geometric series $n + \\frac{n}{2} + \\frac{n}{4} + \\dots$ into $\\Theta(n)$ expected time. And by grouping elements into columns of $5$ and recursively selecting the median of those column medians (BFPRT), we guarantee a pivot that eliminates at least $30\\%$ of elements in the worst case—yielding deterministic $O(n)$ selection because $\\frac{1}{5} + \\frac{7}{10} = \\frac{9}{10} < 1$!",
     content: `
@@ -2092,13 +2086,13 @@ bool partial_insertion_sort(T* first, T* last) noexcept {
   "build-hybrid-introsort-timsort": {
     title: "Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)",
     video: {
-      youtubeId: "Kg4bqzAqRBM",
-      title: "MIT 6.006 Lecture 3: Insertion Sort & Merge Sort Engineering",
-      channel: "MIT OpenCourseWare",
-      duration: "50:31",
-      start: 2100,
-      length: 750,
-      why: "Synthesizes insertion base cases, run invariants, and auxiliary buffer reuse into a cohesive hybrid sorting architecture."
+      youtubeId: "GhP5WbE4GYo",
+      title: "TimSort Explained and Implemented — Adaptive Runs, Insertion Sort & Galloping Merge",
+      channel: "Geekific",
+      duration: "5:38",
+      start: 0,
+      length: "6m",
+      why: "Illustrates how TimSort detects natural monotonic runs, extends short runs via binary insertion sort, and merges run stacks to beat pure MergeSort."
     },
     intuition: "In this build lab, you will assemble a production-grade <strong>Hybrid Adaptive Stable Sort</strong> from scratch—combining strict-descending run reversal, binary insertion sort to extend short runs to <code>minrun</code>, Powersort/TimSort stack invariants, and galloping-assisted smaller-half buffer merging.",
     content: `
