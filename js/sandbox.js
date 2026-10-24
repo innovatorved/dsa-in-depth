@@ -10,47 +10,49 @@
 (function(root) {
   'use strict';
 
-  var STORAGE_KEY = 'sd_sandbox_boards_v2';
+  var STORAGE_KEY = 'dsa_sandbox_boards_v1';
 
   var BLUEPRINT_ALIASES = {
-    'payment-system': 'stripe-ledger',
-    'uber-dispatch': 'uber-geo-dispatch',
-    'kafka-event-pipeline': 'twitter-feed',
-    'case-url-shortener': 'url-shortener',
-    'case-social-feed': 'twitter-feed',
-    'case-chat-system': 'whatsapp-chat',
-    'case-payment-ledger': 'stripe-ledger',
-    'case-ride-sharing': 'uber-geo-dispatch',
-    'case-video-streaming': 'youtube-video-cdn',
-    'case-rate-limiter': 'distributed-rate-limiter',
-    'case-notification-service': 'notification-pipeline',
-    'case-web-crawler': 'web-crawler',
-    'case-llm-inference-gateway': 'ai-rag-gateway',
-    'case-rag-pipeline': 'ai-rag-gateway'
+    'url-shortener': 'array-subarray-window-selector',
+    'payment-system': 'dp-paradigm-state-space-selector',
+    'uber-dispatch': 'shortest-path-routing-selector',
+    'kafka-event-pipeline': 'top-k-streaming-order-selector'
   };
 
   var NODE_TYPE_TO_CODELAB = {
-    gateway: 'sliding-window-rate-limiter',
-    APIGateway: 'sliding-window-rate-limiter',
-    lb: 'consistent-hashing-ring',
-    L4LB: 'consistent-hashing-ring',
-    L7LB: 'load-balancer-from-scratch',
-    cache: 'lru-cache',
-    RedisCache: 'lru-cache',
-    cdn: 'ttl-cache-reaper',
-    CDN: 'ttl-cache-reaper',
-    db: 'lsm-tree-kv-store',
-    SQLShard: 'lsm-tree-kv-store',
-    NoSQLKV: 'lsm-tree-kv-store',
-    search: 'tiny-search-engine',
-    queue: 'mini-kafka-log',
-    KafkaQueue: 'mini-kafka-log',
-    worker: 'circuit-breaker',
-    WorkerPool: 'circuit-breaker',
-    storage: 'write-ahead-log',
-    ObjectStorage: 'write-ahead-log',
-    service: 'singleflight-coalescer',
-    Microservice: 'singleflight-coalescer'
+    'input-stream-parser': 'build-dynamic-circular-deque',
+    'bit-parallel-filter': 'build-bloom-cuckoo-filter',
+    'hash-index-robin-hood': 'build-robin-hood-hash-map',
+    'lru-lfu-eviction-tier': 'build-lfu-lru-cache',
+    'monotonic-window-engine': 'build-dynamic-circular-deque',
+    'divide-conquer-sorter': 'build-hybrid-introsort-timsort',
+    'graph-shortest-path-router': 'build-astar-bidirectional-router',
+    'dp-state-optimizer': 'build-li-chao-convex-hull-dp',
+    'balanced-order-tree': 'build-llrb-order-statistic-tree',
+    'range-segment-fenwick': 'build-lazy-segment-tree',
+    'string-automaton-index': 'build-aho-corasick-scanner',
+    'priority-event-scheduler': 'build-indexed-d-ary-priority-queue',
+    gateway: 'build-dynamic-circular-deque',
+    APIGateway: 'build-dynamic-circular-deque',
+    lb: 'build-robin-hood-hash-map',
+    L4LB: 'build-robin-hood-hash-map',
+    L7LB: 'build-robin-hood-hash-map',
+    cache: 'build-lfu-lru-cache',
+    RedisCache: 'build-lfu-lru-cache',
+    cdn: 'build-bloom-cuckoo-filter',
+    CDN: 'build-bloom-cuckoo-filter',
+    db: 'build-llrb-order-statistic-tree',
+    SQLShard: 'build-llrb-order-statistic-tree',
+    NoSQLKV: 'build-robin-hood-hash-map',
+    search: 'build-aho-corasick-scanner',
+    queue: 'build-indexed-d-ary-priority-queue',
+    KafkaQueue: 'build-indexed-d-ary-priority-queue',
+    worker: 'build-astar-bidirectional-router',
+    WorkerPool: 'build-astar-bidirectional-router',
+    storage: 'build-lazy-segment-tree',
+    ObjectStorage: 'build-lazy-segment-tree',
+    service: 'build-hybrid-introsort-timsort',
+    Microservice: 'build-hybrid-introsort-timsort'
   };
 
   function escapeHtml(str) {
@@ -78,7 +80,7 @@
     _simMetrics: null,
 
     // Active canvas state (synced with active board)
-    _activeBlueprintId: 'url-shortener',
+    _activeBlueprintId: 'array-subarray-window-selector',
     _nodes: [],
     _connections: [],
     _frames: [],
@@ -136,7 +138,7 @@
         this._lastQueryBlueprint = queryBp;
       }
 
-      this._initBoards(requestedBp || 'url-shortener', Boolean(requestedBp));
+      this._initBoards(requestedBp || 'array-subarray-window-selector', Boolean(requestedBp));
       this.render();
       this._bindEvents();
     },
@@ -144,7 +146,7 @@
     _ensureInitialized: function() {
       var queryBp = this._getQueryBlueprintId();
       if (!this._boards || this._boards.length === 0) {
-        this._initBoards(queryBp || 'url-shortener', Boolean(queryBp));
+        this._initBoards(queryBp || 'array-subarray-window-selector', Boolean(queryBp));
       } else if (queryBp && queryBp !== this._lastQueryBlueprint) {
         this._lastQueryBlueprint = queryBp;
         this._loadBlueprint(queryBp, false);
@@ -220,10 +222,12 @@
         blueprintId: found.id,
         nodes: (found.nodes || []).map(function(n) {
           var rep = n.replicas || n.instances || 2;
+          var nType = n.type || n.blockId || 'monotonic-window-engine';
           return {
             id: n.id,
-            type: n.type,
-            name: n.name,
+            type: nType,
+            blockId: n.blockId || nType,
+            name: n.name || n.label || nType,
             x: n.x,
             y: n.y,
             replicas: rep,
@@ -294,7 +298,7 @@
         }
         this._syncFromActiveBoard();
       } else {
-        var firstBoard = this._createBoardFromBlueprint(defaultBpId || 'url-shortener');
+        var firstBoard = this._createBoardFromBlueprint(defaultBpId || 'array-subarray-window-selector');
         this._boards = [firstBoard];
         this._activeBoardId = firstBoard.id;
         this._syncFromActiveBoard();
@@ -315,7 +319,7 @@
     _syncFromActiveBoard: function() {
       var b = this._getActiveBoard();
       if (!b) return;
-      this._activeBlueprintId = b.blueprintId || 'url-shortener';
+      this._activeBlueprintId = b.blueprintId || 'array-subarray-window-selector';
       this._nodes = b.nodes || [];
       this._connections = b.connections || [];
       this._frames = b.frames || [];
@@ -485,7 +489,7 @@
     closeBoardTab: function(boardId) {
       if (this._boards.length <= 1) {
         // Reset the single board to a clean state
-        var fresh = this._createBoardFromBlueprint('url-shortener');
+        var fresh = this._createBoardFromBlueprint('array-subarray-window-selector');
         this._boards = [fresh];
         this._activeBoardId = fresh.id;
         this._syncFromActiveBoard();
@@ -651,6 +655,18 @@
       if (this._nodes.length === 0) return;
       this._pushHistory();
       var typeRank = {
+        'input-stream-parser': 0,
+        'bit-parallel-filter': 1,
+        'hash-index-robin-hood': 2,
+        'lru-lfu-eviction-tier': 2,
+        'monotonic-window-engine': 3,
+        'divide-conquer-sorter': 3,
+        'graph-shortest-path-router': 3,
+        'dp-state-optimizer': 3,
+        'balanced-order-tree': 4,
+        'range-segment-fenwick': 4,
+        'string-automaton-index': 4,
+        'priority-event-scheduler': 4,
         Client: 0,
         CDN: 1,
         L4LB: 1,
@@ -899,7 +915,7 @@
       var data = this._getData();
       var blocks = data.buildingBlocks || [];
       var bps = data.blueprints || [];
-      var cap = typeof data.calculateCapacity === 'function' ? data.calculateCapacity(this._inputs) : { bottlenecks: [] };
+      var cap = typeof data.calculateCapacity === 'function' ? data.calculateCapacity(this._inputs, this._nodes, this._connections) : { bottlenecks: [] };
       this._simMetrics = cap;
       var activeBoard = this._getActiveBoard();
 
@@ -1342,7 +1358,12 @@
       var targetLatencyMs = (bp && bp.targetLatencyMs) ? bp.targetLatencyMs : 150;
 
       // 1. No Single Points of Failure (SPOF)
-      var spofTypes = ['Microservice', 'SQLShard', 'NoSQLKV', 'RedisCache', 'L4LB', 'L7LB', 'APIGateway', 'service', 'db', 'cache', 'lb', 'gateway'];
+      var spofTypes = [
+        'monotonic-window-engine', 'divide-conquer-sorter', 'graph-shortest-path-router',
+        'dp-state-optimizer', 'balanced-order-tree', 'range-segment-fenwick',
+        'string-automaton-index', 'priority-event-scheduler',
+        'Microservice', 'SQLShard', 'NoSQLKV', 'RedisCache', 'L4LB', 'L7LB', 'APIGateway', 'service', 'db', 'cache', 'lb', 'gateway'
+      ];
       var coreNodes = nodes.filter(function(n) { return spofTypes.indexOf(n.type) !== -1; });
       var spofNodes = coreNodes.filter(function(n) {
         var instances = Number(n.instances != null ? n.instances : n.replicas) || 1;
@@ -1353,15 +1374,17 @@
       // 2. Read Path Caching / Offload
       var readQps = Number(cap.readQps) || 0;
       var hasCacheOrCdn = nodes.some(function(n) {
-        return n.type === 'RedisCache' || n.type === 'CDN' || n.type === 'cache' || n.type === 'cdn';
+        return n.type === 'hash-index-robin-hood' || n.type === 'lru-lfu-eviction-tier' || n.type === 'bit-parallel-filter' ||
+          n.type === 'RedisCache' || n.type === 'CDN' || n.type === 'cache' || n.type === 'cdn';
       });
-      var cachePassed = readQps < 5000 || hasCacheOrCdn;
+      var cachePassed = readQps < 5000 || hasCacheOrCdn || nodes.length >= 3;
 
       // 3. Async Write / Burst Buffering
       var writeQps = Number(cap.writeQps) || 0;
       var writeUtilization = (writeQps / 40000) * 100;
       var hasQueueOrWorker = nodes.some(function(n) {
-        return n.type === 'KafkaQueue' || n.type === 'WorkerPool' || n.type === 'queue' || n.type === 'worker';
+        return n.type === 'priority-event-scheduler' || n.type === 'monotonic-window-engine' ||
+          n.type === 'KafkaQueue' || n.type === 'WorkerPool' || n.type === 'queue' || n.type === 'worker';
       });
       var asyncPassed = hasQueueOrWorker || writeUtilization < 80;
 
@@ -1818,7 +1841,7 @@
             rNode.instances = nextRep;
             self._syncToActiveBoard();
             var data = self._getData();
-            var cap = data.calculateCapacity(self._inputs);
+            var cap = data.calculateCapacity(self._inputs, self._nodes, self._connections);
             var panel = container.querySelector('#sandbox-capacity-panel');
             if (panel) {
               var wrapper = document.createElement('div');
@@ -1875,7 +1898,7 @@
           self._inputs[key] = Number(sbInp.value);
           self._syncToActiveBoard();
           var data = self._getData();
-          var cap = data.calculateCapacity(self._inputs);
+          var cap = data.calculateCapacity(self._inputs, self._nodes, self._connections);
           var panel = container.querySelector('#sandbox-capacity-panel');
           if (panel) {
             var activeId = sbInp.id;

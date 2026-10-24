@@ -1380,7 +1380,7 @@ window.Renderer = (() => {
         <h1 class="lesson-header__title">Data Structures &amp; Algorithms Glossary</h1>
         <p class="hero__subtitle" style="margin-top:0.5rem;">Rigorous mathematical, asymptotic, and mechanical definitions across all 18 modules.</p>
         <div style="margin-top:1rem;">
-          <input type="text" id="glossary-filter" data-action="filter-glossary" placeholder="Filter terms (e.g. amortized, Red-Black, Dijkstra, suffix)..." style="width:100%; max-width:400px; padding:0.5rem 0.75rem; background:var(--bg-surface,#222); border:1px solid var(--border-color,#333); border-radius:6px; color:inherit; font-size:13px;">
+          <input type="text" id="glossary-filter" data-action="filter-glossary" placeholder="Filter terms (e.g. amortized, Red-Black, Dijkstra, suffix)..." style="width:100%; max-width:400px; padding:0.5rem 0.75rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; color:var(--fg); font-size:13px;">
         </div>
       </div>
 
@@ -1392,12 +1392,12 @@ window.Renderer = (() => {
       const catText = item.category || item.cat || 'Algorithms';
       const compText = item.complexity ? ` · <code>${escapeHtml(item.complexity)}</code>` : '';
       html += `
-        <div class="glossary-item" style="padding:1rem; border:1px solid var(--border-color,#333); border-radius:6px; background:var(--bg-card,#191a1c);">
+        <div class="glossary-item" style="padding:1rem; border:1px solid var(--border); border-radius:6px; background:var(--surface);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem; gap:8px; flex-wrap:wrap;">
-            <strong style="font-size:15px; color:var(--fg,#fff);">${escapeHtml(item.term)}${compText}</strong>
+            <strong style="font-size:15px; color:var(--fg);">${escapeHtml(item.term)}${compText}</strong>
             <span class="badge badge--secondary" style="font-size:11px;">${escapeHtml(catText)}</span>
           </div>
-          <p style="margin:0.25rem 0 0; font-size:13px; color:var(--fg-muted,#aaa); line-height:1.5;">${escapeHtml(defText)}</p>
+          <p style="margin:0.25rem 0 0; font-size:13px; color:var(--fg-muted); line-height:1.5;">${escapeHtml(defText)}</p>
         </div>
       `;
     }
@@ -1459,14 +1459,14 @@ window.Renderer = (() => {
       const c = modContent[unit.slug];
       const takeaways = c?.keyTakeaways || [];
       html += `
-        <div style="padding:1.25rem; border:1px solid var(--border-color,#333); border-radius:8px; background:var(--bg-card,#191a1c);">
+        <div style="padding:1.25rem; border:1px solid var(--border); border-radius:8px; background:var(--surface);">
           <h3 style="font-size:16px; margin:0 0 0.5rem; display:flex; justify-content:space-between;">
             <span>${unit.title}</span>
-            <a href="#topic/${unit.slug}" style="font-size:12px; color:var(--accent,#6366f1); text-decoration:none;">View Lesson →</a>
+            <a href="/topic/${unit.slug}/" style="font-size:12px; color:var(--link); text-decoration:none;">View Lesson →</a>
           </h3>
           ${takeaways.length ? `
-            <div style="font-size:12px; font-weight:700; color:var(--fg-muted,#888); margin-bottom:0.25rem;">KEY TAKEAWAYS:</div>
-            <ul style="margin:0; padding-left:1.25rem; font-size:13px; color:var(--fg-muted,#ccc); line-height:1.5;">
+            <div style="font-size:12px; font-weight:700; color:var(--fg-muted); margin-bottom:0.25rem;">KEY TAKEAWAYS:</div>
+            <ul style="margin:0; padding-left:1.25rem; font-size:13px; color:var(--fg-prose); line-height:1.5;">
               ${takeaways.map(t => `<li style="margin-bottom:0.25rem;">${escapeHtml(t)}</li>`).join('')}
             </ul>
           ` : '<p style="font-size:12px; color:var(--fg-muted);">Deep unit content available in lesson.</p>'}

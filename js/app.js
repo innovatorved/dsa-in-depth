@@ -208,7 +208,7 @@ window.App = (() => {
       window.location.hash = '';
       return;
     }
-    if (hash === '/glossary' || hash === 'glossary') {
+    if (hash === '/glossary' || hash === 'glossary' || path === 'glossary' || path.startsWith('glossary/')) {
       currentView = 'glossary';
       currentSlug = null;
       activeTab = 'curriculum';
@@ -534,7 +534,7 @@ window.App = (() => {
 
       case 'sandbox':
         if (window.SandboxController) {
-          window.SandboxController.mount(reader, { blueprintId: currentSlug || 'url-shortener' });
+          window.SandboxController.mount(reader, { blueprintId: currentSlug || 'array-subarray-window-selector' });
           activeSandbox = true;
         }
         if (window.Analytics) {
@@ -1295,7 +1295,7 @@ window.App = (() => {
   function attachMermaidAccessibility() {
     const diagrams = document.querySelectorAll('.mermaid');
     const topicTitleEl = document.querySelector('.lesson-header__title');
-    const topicTitle = topicTitleEl ? topicTitleEl.textContent.trim() : 'System Architecture';
+    const topicTitle = topicTitleEl ? topicTitleEl.textContent.trim() : 'Algorithm & Data Structure';
     diagrams.forEach(el => {
       const svg = el.querySelector('svg');
       if (svg) {
@@ -1303,7 +1303,7 @@ window.App = (() => {
           svg.setAttribute('role', 'img');
         }
         if (!svg.hasAttribute('aria-label')) {
-          svg.setAttribute('aria-label', `System Architecture Diagram for ${topicTitle}`);
+          svg.setAttribute('aria-label', `Algorithm & Data Structure Diagram for ${topicTitle}`);
         }
       }
     });

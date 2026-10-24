@@ -170,6 +170,11 @@
   --selected-bg: rgba(255, 255, 255, 0.06);
   --bg-card: #0a0a0a;
   --bg-hover: #171717;
+  --bg-secondary: #0a0a0a;
+  --bg-elevated: #121212;
+  --bg-surface: #0a0a0a;
+  --border-color: #262626;
+  --fg-primary: #ffffff;
   --border-subtle: #171717;
 
   /* Code & Syntax */
@@ -258,6 +263,11 @@
   --selected-bg: rgba(0, 0, 0, 0.04);
   --bg-card: #ffffff;
   --bg-hover: #f5f5f5;
+  --bg-secondary: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-surface: #ffffff;
+  --border-color: #e5e5e5;
+  --fg-primary: #0a0a0a;
 
   --code-bg: #fafafa;
   --code-border: #e5e5e5;

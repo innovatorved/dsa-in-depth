@@ -22,7 +22,7 @@
     _cardFlipped: false,
     _srsCategoryFilter: 'all',
     _reviewedTodayCount: 0,
-    _selectedNoteSlug: 'requirements-clarification',
+    _selectedNoteSlug: 'ram-model-vs-modern-cpu',
     _importFeedback: null,
     _abortController: null,
     _latencyScaleMode: 'actual', // actual | humanized
@@ -392,9 +392,9 @@
       }
       if (units.length === 0) {
         units = [
-          { slug: 'requirements-clarification', title: 'Requirements Clarification' },
-          { slug: 'back-of-the-envelope-capacity-planning', title: 'Back-of-the-Envelope Capacity Planning' },
-          { slug: 'consensus', title: 'Raft & Paxos Consensus' }
+          { slug: 'ram-model-vs-modern-cpu', title: 'RAM Model vs Modern CPU Cache Hierarchy' },
+          { slug: 'robin-hood-cuckoo-hashing', title: 'Robin Hood & Cuckoo Hashing' },
+          { slug: 'red-black-llrb-isomorphism', title: 'Left-Leaning Red-Black (LLRB) Trees' }
         ];
       }
 
@@ -514,16 +514,16 @@
       }).join('');
 
       var matrixRows = [
-        { cat: 'storage', name: 'B-Tree (PostgreSQL / InnoDB)', write: 'O(log N) random in-place page rewrite + WAL', read: 'Fast O(log N) point & range queries', bestFor: 'OLTP read-heavy workloads, strict ACID transactions', watchOut: 'Write amplification & page fragmentation on random UUID keys', slug: 'b-trees-vs-lsm-trees', buildId: 'wal-crash-recovery' },
-        { cat: 'storage', name: 'LSM-Tree (RocksDB / Cassandra)', write: 'Fast O(1) append to MemTable + sequential SSTable flush', read: 'Checks MemTable + multiple SSTables (needs Bloom filter)', bestFor: 'High-ingest write streams, time-series, event logs', watchOut: 'Compaction CPU/IO spikes causing P99 latency stalls', slug: 'b-trees-vs-lsm-trees', buildId: 'lsm-tree' },
-        { cat: 'database', name: 'Leader-Follower (Single Leader)', write: 'All writes routed to single leader node', read: 'Scale reads across N async replicas', bestFor: 'Read-heavy CRUD apps requiring monotonic leader writes', watchOut: 'Replication lag (stale reads) & failover split-brain', slug: 'replication-strategies', buildId: 'raft-consensus' },
-        { cat: 'database', name: 'Leaderless Dynamo Quorum (R+W>N)', write: 'Parallel writes to W of N nodes (sloppy quorum + hinted handoff)', read: 'Parallel reads from R nodes + read repair / anti-entropy', bestFor: 'Always-writable high-availability key-value stores', watchOut: 'Concurrent write conflicts require Vector Clocks or LWW', slug: 'quorums-read-write', buildId: 'vector-clocks' },
-        { cat: 'messaging', name: 'Log Broker (Apache Kafka / Redpanda)', write: 'Sequential partition append; O(1) throughput', read: 'Consumer groups track offsets; full replayability', bestFor: 'Event sourcing, CDC pipelines, multi-consumer stream processing', watchOut: 'Max parallelism inside a consumer group is capped by partition count', slug: 'log-based-brokers', buildId: 'mini-kafka-log' },
-        { cat: 'messaging', name: 'Queue Broker (RabbitMQ / SQS)', write: 'Per-message routing via exchanges & queues', read: 'Competing workers ACK individual messages + DLQ', bestFor: 'Task queues, variable-duration background jobs, per-msg retries', watchOut: 'No log replay once ACKed; memory pressure when queues back up', slug: 'message-queues-vs-event-streams', buildId: 'outbox-cdc-relay' },
-        { cat: 'protocol', name: 'gRPC (HTTP/2 + Protobuf)', write: 'Binary framing, multiplexed streams, strict schema codegen', read: 'Low CPU serialization overhead; bidirectional streaming', bestFor: 'Internal microservice-to-microservice East-West RPC', watchOut: 'Needs gRPC-Web proxy for browsers; harder human curl debugging', slug: 'rest-vs-graphql-vs-grpc', buildId: 'circuit-breaker' },
-        { cat: 'protocol', name: 'WebSockets vs Server-Sent Events (SSE)', write: 'WS: Full-duplex TCP frame; SSE: HTTP unidirectional stream', read: 'Sub-10ms server push without polling overhead', bestFor: 'WS: Chat/collaborative editing; SSE: AI token streaming & live tickers', watchOut: 'Stateful L7 connections require sticky load balancing & pub/sub backplane', slug: 'websockets-vs-sse-vs-long-polling', buildId: 'gossip-protocol' },
-        { cat: 'coordination', name: 'Token Bucket vs Sliding Window Counter', write: 'O(1) atomic Redis Lua evaluation per request', read: 'Immediate allow/reject with Retry-After headers', bestFor: 'API Gateway burst tolerance (Token Bucket) vs strict quota enforcement', watchOut: 'Fixed windows allow 2x boundary bursts; distributed sync needs atomic Lua', slug: 'rate-limiting-algorithms', buildId: 'sliding-window-rate-limiter' },
-        { cat: 'coordination', name: 'Singleflight & Cache Stampede Lock', write: 'Coalesces N concurrent cache-miss callers into 1 DB query', read: 'Shares single in-flight Promise/Future across all waiters', bestFor: 'Hot keys (celebrity profiles, flash sales) on cache expiration', watchOut: 'If underlying DB call hangs without timeout, all coalesced callers block', slug: 'singleflight-and-request-coalescing', buildId: 'singleflight-coalescer' }
+        { cat: 'hashing', name: 'Robin Hood / SwissTable Open Addressing', write: 'O(1) amortized flat-array insert with PSL swap or SIMD 16-way probe', read: 'O(1) expected lookup with L1 cache locality & bounded probe variance', bestFor: 'High-throughput in-memory hash tables, compiler symbol tables, dedup indexes', watchOut: 'Load factor > 87.5% requires full array resize & rehash spike', slug: 'robin-hood-cuckoo-hashing', buildId: 'build-robin-hood-hash-map' },
+        { cat: 'hashing', name: 'Bloom / Cuckoo / Xor Probabilistic Filter', write: 'O(k) bitwise hash sets or Cuckoo 2-choice kick relocation', read: 'O(1) membership test (~7-10 bits/key at 1% false-positive rate)', bestFor: 'Eliminating negative disk/SSTable lookups and CDN one-hit-wonder filtering', watchOut: 'Standard Bloom filters forbid deletion; Cuckoo insertion can cycle past load 95%', slug: 'bloom-filters-counting-xor', buildId: 'build-bloom-cuckoo-filter' },
+        { cat: 'hashing', name: 'Intrusive O(1) LRU / LFU Eviction Cache', write: 'O(1) hash map + intrusive doubly-linked frequency/recency list splice', read: 'Strict O(1) worst-case lookup + recency/frequency promotion', bestFor: 'Hot working-set caching under skewed Zipfian traffic distributions', watchOut: 'Pure LRU suffers scan pollution on sequential scans; W-TinyLFU or LFU bucket needed', slug: 'lru-lfu-eviction-structures', buildId: 'build-lfu-lru-cache' },
+        { cat: 'trees', name: 'Left-Leaning Red-Black (LLRB) / Order-Statistic Tree', write: 'O(log N) insert/delete with at most 2 rotations per level + size maintenance', read: 'O(log N) exact lookup, predecessor/successor, rank(k), and select(i)', bestFor: 'Adversarial-resistant ordered dictionaries and live percentile rank queries', watchOut: 'Pointer chasing incurs ~100ns DRAM miss per tree level vs flat B-Trees', slug: 'red-black-llrb-isomorphism', buildId: 'build-llrb-order-statistic-tree' },
+        { cat: 'trees', name: 'Lazy Segment Tree vs Fenwick Tree (BIT)', write: 'O(log N) range update via O(1) lazy tag composition or lowbit prefix delta', read: 'O(log N) arbitrary monoid range query (min, max, sum, GCD, affine)', bestFor: 'Dynamic range-update + range-query workloads over N <= 10^6 elements', watchOut: 'Segment tree uses 4N memory; Fenwick requires invertible group operation for arbitrary ranges', slug: 'lazy-propagation-segment-tree-beats', buildId: 'build-lazy-segment-tree' },
+        { cat: 'graphs', name: 'Bidirectional A* & 4-Ary Indexed Heap Dijkstra', write: 'O(log_4 V) decreaseKey via flat position-indexed 4-ary heap', read: 'O((V + E) log_4 V) shortest path; A* prunes search space via admissible heuristic', bestFor: 'Road network routing, dependency resolution, and non-negative weighted graphs', watchOut: 'Fails on negative edge weights (requires Bellman-Ford / Johnson reweighting)', slug: 'dijkstra-relaxation-invariants', buildId: 'build-astar-bidirectional-router' },
+        { cat: 'graphs', name: 'Indexed D-Ary Priority Queue & Timer Wheel', write: 'O(log_d N) siftUp/siftDown with cache-aligned d=4 children per cache line', read: 'O(1) peekMin and O(log_d N) extractMin / key mutation by handle', bestFor: 'Event-driven schedulers, network packet pacing, and Dijkstra/Prim kernels', watchOut: 'Unindexed binary heaps require lazy deletion duplicates bloated to O(E) memory', slug: 'binary-d-ary-heaps', buildId: 'build-indexed-d-ary-priority-queue' },
+        { cat: 'strings', name: 'Aho-Corasick Multi-Pattern Automaton', write: 'O(sum(|P|) * |Sigma|) trie construction + BFS failure & dictionary suffix links', read: 'Single-pass O(N + Z) text scan regardless of pattern dictionary size k', bestFor: 'Intrusion detection (IDS), log scrubbing, and multi-keyword lexer engines', watchOut: 'Full 256-way transition tables consume high RAM unless compressed or bit-packed', slug: 'aho-corasick-trie-automaton', buildId: 'build-aho-corasick-scanner' },
+        { cat: 'dp-sorting', name: 'Convex Hull Trick (Li Chao Segment Tree)', write: 'O(log X) line insertion f(x) = m*x + b via midpoint dominance split', read: 'O(log X) minimum/maximum envelope evaluation at arbitrary query coordinate x', bestFor: 'Reducing O(N^2) 1D/1D dynamic programming recurrences with bilinear cost to O(N log N)', watchOut: 'Standard monotonic deque CHT fails when slopes m_j or queries x_i are non-monotonic', slug: 'convex-hull-trick-li-chao-tree', buildId: 'build-li-chao-convex-hull-dp' },
+        { cat: 'dp-sorting', name: 'Hybrid Introsort & Adaptive TimSort', write: '3-way Dutch Flag quicksort + heapsort depth guard + galloping natural run merge', read: 'O(N log N) worst-case guaranteed; O(N) on partially sorted real-world data', bestFor: 'General-purpose standard library sorting (unstable primitives vs stable objects)', watchOut: 'Naive Lomuto/2-way quicksort degrades to O(N^2) on all-equal duplicate keys', slug: 'case-timsort-pdqsort', buildId: 'build-hybrid-introsort-timsort' }
       ];
 
       var activeCat = this._matrixCategory || 'all';
@@ -625,9 +625,9 @@
                 '<p class="eco-card__desc">Side-by-side comparison of distributed storage engines, replication topologies, brokers, protocols, and coordination primitives.</p>' +
               '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
-                ['all', 'storage', 'database', 'messaging', 'protocol', 'coordination'].map(function(cat) {
+                ['all', 'hashing', 'trees', 'graphs', 'strings', 'dp-sorting'].map(function(cat) {
                   return '<button class="eco-btn eco-btn--sm ' + (activeCat === cat ? 'eco-btn--primary' : '') + '" data-matrix-cat="' + cat + '">' +
-                    (cat === 'all' ? 'All Primitives' : cat.charAt(0).toUpperCase() + cat.slice(1)) +
+                    (cat === 'all' ? 'All Primitives' : cat.toUpperCase()) +
                   '</button>';
                 }).join('') +
               '</div>' +
@@ -784,7 +784,7 @@
         var openBuildBtn = e.target.closest('[data-open-build]');
         if (openBuildBtn && root.App && root.App.navigateToBuild) {
           e.preventDefault();
-          root.App.navigateToBuild(openBuildBtn.getAttribute('data-open-build'), 'guided');
+          root.App.navigateToBuild(openBuildBtn.getAttribute('data-open-build') + '?mode=guided', e);
           return;
         }
 

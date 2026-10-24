@@ -79,7 +79,7 @@
         const cta = shell.querySelector('.landing-hero__actions .btn--primary');
         if (cta && last) {
           cta.textContent = 'Continue learning →';
-          cta.setAttribute('href', '#topic/' + last);
+          cta.setAttribute('href', '/topic/' + last + '/');
         }
         for (const card of cards) {
           const units = card.dataset.units.split(' ');

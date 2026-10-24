@@ -717,33 +717,74 @@
     }
   ];
 
-  // Add alias ID 'url-shortener' lookup support via calculateCapacity & blueprint helper
-  function calculateCapacity(inputs, nodes, connections) {
-    var dau = Number(inputs && inputs.dau) || 1000000;
-    var readsPerUser = Number(inputs && inputs.readsPerUser) || 30;
-    var writesPerUser = Number(inputs && inputs.writesPerUser) || 5;
-    var payloadBytes = Number(inputs && inputs.payloadBytes) || 512;
-    var cacheHitRatio = Math.min(99.9, Math.max(0, Number(inputs && inputs.cacheHitRatio) || 85));
-    var replicationFactor = Math.max(1, Number(inputs && inputs.replicationFactor) || 2);
-    var retentionDays = Math.max(1, Number(inputs && inputs.retentionDays) || 30);
+  // Normalize BUILDING_BLOCKS and BLUEPRINTS for SandboxController compatibility
+  var CATEGORY_COLORS = {
+    edge: '#38bdf8',
+    cache: '#f59e0b',
+    compute: '#8b5cf6',
+    storage: '#10b981',
+    messaging: '#ec4899'
+  };
+  for (var bi = 0; bi < BUILDING_BLOCKS.length; bi++) {
+    var bb = BUILDING_BLOCKS[bi];
+    bb.type = bb.type || bb.id;
+    bb.color = bb.color || CATEGORY_COLORS[bb.category] || '#3291ff';
+    bb.badge = bb.badge || (bb.name + ' · ' + Math.round((bb.maxQpsPerInstance || 50000) / 1000) + 'k QPS/node');
+  }
+  for (var bpi = 0; bpi < BLUEPRINTS.length; bpi++) {
+    var bpItem = BLUEPRINTS[bpi];
+    if (Array.isArray(bpItem.nodes)) {
+      for (var ni = 0; ni < bpItem.nodes.length; ni++) {
+        var nd = bpItem.nodes[ni];
+        nd.type = nd.type || nd.blockId;
+        nd.name = nd.name || nd.label || nd.type;
+        nd.replicas = nd.replicas || nd.instances || 2;
+      }
+    }
+  }
 
-    var readQps = Math.round((dau * readsPerUser) / 86400);
-    var writeQps = Math.round((dau * writesPerUser) / 86400);
-    var totalQps = readQps + writeQps;
+  function calculateCapacity(inputs, nodes, connections) {
+    inputs = inputs || {};
+    var readQps, writeQps, totalQps;
+    if (inputs.qps != null) {
+      totalQps = Math.max(1, Number(inputs.qps) || 50000);
+      var ratio = Math.max(1, Number(inputs.readWriteRatio) || 100);
+      writeQps = Math.max(1, Math.round(totalQps / (ratio + 1)));
+      readQps = Math.max(1, totalQps - writeQps);
+    } else {
+      var dau = Number(inputs.dau) || 1000000;
+      var readsPerUser = Number(inputs.readsPerUser) || 30;
+      var writesPerUser = Number(inputs.writesPerUser) || 5;
+      readQps = Math.round((dau * readsPerUser) / 86400);
+      writeQps = Math.round((dau * writesPerUser) / 86400);
+      totalQps = readQps + writeQps;
+    }
     var peakQps = Math.round(totalQps * 2.5);
 
-    var ingressMbps = Number(((writeQps * payloadBytes * 8) / 1e6).toFixed(2));
-    var egressMbps = Number(((readQps * payloadBytes * 8) / 1e6).toFixed(2));
-    var originReadQps = Math.round(readQps * (1 - cacheHitRatio / 100));
+    var readBytes = Number(inputs.avgReadPayloadBytes || inputs.payloadBytes) || 256;
+    var writeBytes = Number(inputs.avgWritePayloadBytes || inputs.payloadBytes) || 512;
+    var rawHit = inputs.cacheHitRate != null ? Number(inputs.cacheHitRate) : (inputs.cacheHitRatio != null ? Number(inputs.cacheHitRatio) : 0.90);
+    var cacheHitFraction = rawHit > 1 ? Math.min(0.999, rawHit / 100) : Math.min(0.999, Math.max(0, rawHit));
+    var cacheHitRatio = Number((cacheHitFraction * 100).toFixed(1));
 
-    var dailyStorageGb = Number(((dau * writesPerUser * payloadBytes * replicationFactor) / 1e9).toFixed(2));
-    var yearlyStorageTb = Number(((dailyStorageGb * retentionDays) / 1000).toFixed(2));
+    var replicationFactor = Math.max(1, Number(inputs.replicationFactor) || 3);
+    var retentionDays = Math.max(1, Number(inputs.storageRetentionDays || inputs.retentionDays) || 365);
+
+    var ingressMbps = Number(((writeQps * writeBytes * 8) / 1e6).toFixed(2));
+    var egressMbps = Number(((readQps * readBytes * 8) / 1e6).toFixed(2));
+    var cacheHitQps = Math.round(readQps * cacheHitFraction);
+    var originReadQps = Math.max(0, readQps - cacheHitQps);
+    var dbTotalQps = originReadQps + writeQps;
+
+    var dailyStorageGb = Number(((writeQps * 86400 * writeBytes * replicationFactor) / 1e9).toFixed(2));
+    var totalStorageTb = Number(((dailyStorageGb * retentionDays) / 1000).toFixed(2));
     var hotRamGb = Number(Math.max(0.5, (dailyStorageGb * 0.2)).toFixed(2));
     var computeCores = Math.max(2, Math.ceil(peakQps / 15000));
 
     var blockMap = {};
     for (var i = 0; i < BUILDING_BLOCKS.length; i++) {
       blockMap[BUILDING_BLOCKS[i].id] = BUILDING_BLOCKS[i];
+      blockMap[BUILDING_BLOCKS[i].type] = BUILDING_BLOCKS[i];
     }
 
     var nodeList = Array.isArray(nodes) ? nodes : [];
@@ -754,10 +795,10 @@
 
     for (var j = 0; j < nodeList.length; j++) {
       var n = nodeList[j];
-      var block = blockMap[n.blockId] || BUILDING_BLOCKS[0];
-      var inst = Math.max(1, Number(n.instances) || block.defaultInstances || 1);
+      var block = blockMap[n.blockId || n.type] || BUILDING_BLOCKS[0];
+      var inst = Math.max(1, Number(n.instances || n.replicas) || block.defaultInstances || 1);
       var cap = inst * (block.maxQpsPerInstance || 50000);
-      var effectiveLoad = block.category === 'storage' ? (originReadQps + writeQps) : totalQps;
+      var effectiveLoad = block.category === 'storage' ? dbTotalQps : totalQps;
       var util = Math.min(999, Math.round((effectiveLoad / Math.max(1, cap)) * 100));
 
       var nodeLat = block.baseLatencyMs * (util > 85 ? 1 + (util - 85) * 0.08 : 1);
@@ -771,30 +812,40 @@
         status: util > 95 ? 'overloaded' : (util > 75 ? 'warning' : 'healthy')
       };
 
-      if (util > 90) {
+      if (util > 85) {
+        var compName = n.name || n.label || block.name;
         bottlenecks.push({
           nodeId: n.id,
-          label: n.label || block.name,
+          label: compName,
+          component: compName,
+          severity: util > 100 ? 'critical' : 'warning',
+          title: util + '% Capacity Utilization (' + effectiveLoad.toLocaleString() + ' / ' + cap.toLocaleString() + ' QPS)',
           utilizationPct: util,
-          recommendation: 'Scale ' + (n.label || block.name) + ' instances or upgrade to a lower asymptotic complexity structure.'
+          message: 'Scale ' + compName + ' instances/shards or upgrade to a lower asymptotic complexity kernel.',
+          recommendation: 'Scale ' + compName + ' instances/shards or upgrade to a lower asymptotic complexity kernel.'
         });
       }
     }
 
+    var avgLatencyMs = Number(totalLatency.toFixed(2));
     return {
       readQps: readQps,
       writeQps: writeQps,
       totalQps: totalQps,
       peakQps: peakQps,
+      dbTotalQps: dbTotalQps,
+      cacheHitQps: cacheHitQps,
       ingressMbps: ingressMbps,
       egressMbps: egressMbps,
       cacheHitRatio: cacheHitRatio,
       originReadQps: originReadQps,
       dailyStorageGb: dailyStorageGb,
-      yearlyStorageTb: yearlyStorageTb,
+      yearlyStorageTb: totalStorageTb,
+      totalStorageTb: totalStorageTb,
       hotRamGb: hotRamGb,
       computeCores: computeCores,
-      estimatedP99Ms: Number(totalLatency.toFixed(2)),
+      avgLatencyMs: avgLatencyMs,
+      estimatedP99Ms: avgLatencyMs,
       estimatedMonthlyCostUsd: Math.round(totalMonthlyCost),
       bottlenecks: bottlenecks,
       nodeMetrics: nodeMetrics
