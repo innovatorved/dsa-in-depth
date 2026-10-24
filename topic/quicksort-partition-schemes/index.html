@@ -915,7 +915,7 @@
                 </select>
               </label>
               <span class="simulator-card__status" data-role="step-status" style="font-family:var(--font-mono,monospace);font-size:12px;font-weight:600;">
-                Step 1 / 10
+                Step 1 / 7
               </span>
             </div>
 
@@ -944,7 +944,7 @@
                 class="dsa-sim__scrubber"
                 data-role="scrubber"
                 min="0"
-                max="9"
+                max="6"
                 value="0"
                 aria-label="Step timeline scrubber"
               />
@@ -952,9 +952,9 @@
 
             <div class="invariant-box" style="margin:0 0 0.75rem 0;padding:0.6rem 0.9rem;">
               <h4 style="margin:0 0 0.25rem 0;font-size:12px;">Invariant &amp; State</h4>
-              <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">Partition Invariant: A[lo..lt-1] < pivot | A[lt..gt] == pivot | A[gt+1..hi] > pivot</div>
+              <div data-role="invariant" style="font-size:12.5px;font-family:var(--font-mono,monospace);color:var(--fg-primary);">3-Way QuickSort (Dijkstra Dutch National Flag): partitions subarray into < pivot, == pivot, and > pivot.</div>
             </div>
-            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">38</span></div><div class="dsa-sim__cell is-active is-pivot"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">27</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">43</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">9</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">82</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">10</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">27</span></div></div></div>
+            <div class="dsa-sim__stage" data-role="stage"><div class="dsa-sim__array"><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[0]</span><span class="dsa-sim__cell-val">38</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[1]</span><span class="dsa-sim__cell-val">27</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[2]</span><span class="dsa-sim__cell-val">43</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[3]</span><span class="dsa-sim__cell-val">3</span></div><div class="dsa-sim__cell is-active is-pivot"><span class="dsa-sim__cell-idx">[4]</span><span class="dsa-sim__cell-val">9</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[5]</span><span class="dsa-sim__cell-val">82</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[6]</span><span class="dsa-sim__cell-val">10</span></div><div class="dsa-sim__cell is-active"><span class="dsa-sim__cell-idx">[7]</span><span class="dsa-sim__cell-val">27</span></div></div></div>
             <div class="dsa-sim__metrics" data-role="metrics">
               
                 <div class="dsa-sim__metric">
@@ -963,17 +963,22 @@
                 </div>
               
                 <div class="dsa-sim__metric">
-                  <div class="dsa-sim__metric-label">Swaps / Moves</div>
+                  <div class="dsa-sim__metric-label">Swaps</div>
                   <div class="dsa-sim__metric-value">0</div>
                 </div>
               
                 <div class="dsa-sim__metric">
-                  <div class="dsa-sim__metric-label">Equal Keys Locked</div>
+                  <div class="dsa-sim__metric-label">Locked Keys</div>
                   <div class="dsa-sim__metric-value">0 / 8</div>
                 </div>
               
+                <div class="dsa-sim__metric">
+                  <div class="dsa-sim__metric-label">Array Size</div>
+                  <div class="dsa-sim__metric-value">8</div>
+                </div>
+              
             </div>
-            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Select pivot = 27. Partition into &lt; 27, == 27, &gt; 27.</div></div>
+            <div class="dsa-sim__log" data-role="log"><div>[Step 1] Starting 3-Way QuickSort on [38, 27, 43, 3, 9, 82, 10, 27].</div></div>
           </div>
         </div>
 
@@ -1495,10 +1500,10 @@ void quicksort_3way(T* a, std::size_t lo, std::size_t hi) noexcept {
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=df0f0e8a26"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=e6f72b7678"></script>
-  <script type="text/plain" data-defer src="js/simulators-linear.js?v=97b8c89e5f"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=305d035e35"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
-  <script type="text/plain" data-defer src="js/simulators-trees.js?v=8bebea3570"></script>
+  <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>

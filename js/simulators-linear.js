@@ -128,7 +128,7 @@ window.SIMULATORS = window.SIMULATORS || {};
       'build-dynamic-circular-deque'
     ],
     presets: [
-      { id: 'double', label: 'push(x) × 10 with 2× Growth (Φ = 2n − m)', count: 10 },
+      { id: 'double', label: 'push(x) × 10 with 2× Growth (Φ = 2n − m)', count: 10, arr: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
       { id: 'burst', label: 'Resize Boundary Burst (n = 1..16)', count: 16 }
     ],
     buildFrames(preset) {
@@ -137,9 +137,11 @@ window.SIMULATORS = window.SIMULATORS || {};
       let m = 1;
       let totalActual = 0;
       const items = [];
+      const customSeq = Array.isArray(preset.arr) && preset.arr.length >= 2 ? preset.arr.slice(0, 16) : null;
+      const totalSteps = customSeq ? customSeq.length : (preset.count || 10);
 
-      for (let step = 1; step <= preset.count; step++) {
-        const val = step * 10;
+      for (let step = 1; step <= totalSteps; step++) {
+        const val = customSeq ? customSeq[step - 1] : step * 10;
         const prevPhi = Math.max(0, 2 * n - m);
         let resized = false;
         let copied = 0;
@@ -213,13 +215,16 @@ window.SIMULATORS = window.SIMULATORS || {};
       'sliding-window-monotonicity'
     ],
     presets: [
-      { id: 'window', label: 'Shortest Subarray with Sum ≥ 15', mode: 'window' },
-      { id: 'dutch', label: 'Dijkstra 3-Way Dutch National Flag (0, 1, 2)', mode: 'dutch' }
+      { id: 'window', label: 'Shortest Subarray with Sum ≥ Target', mode: 'window', arr: [2, 3, 1, 2, 4, 3, 7, 2], target: 8 },
+      { id: 'dutch', label: 'Dijkstra 3-Way Dutch National Flag (0, 1, 2)', mode: 'dutch', arr: [2, 0, 2, 1, 1, 0, 2, 0, 1] }
     ],
     buildFrames(preset) {
       const frames = [];
       if (preset.mode === 'dutch') {
-        const arr = [2, 0, 2, 1, 1, 0, 2, 0, 1];
+        const raw = Array.isArray(preset.arr) && preset.arr.length >= 3
+          ? preset.arr.slice(0, 14).map(x => Math.abs(Number(x) || 0) % 3)
+          : [2, 0, 2, 1, 1, 0, 2, 0, 1];
+        const arr = [...raw];
         let low = 0, mid = 0, high = arr.length - 1;
         let swaps = 0;
 
@@ -267,8 +272,10 @@ window.SIMULATORS = window.SIMULATORS || {};
         return frames;
       }
 
-      const arr = [2, 3, 1, 2, 4, 3, 7, 2];
-      const target = 8;
+      const arr = Array.isArray(preset.arr) && preset.arr.length >= 3
+        ? preset.arr.slice(0, 12).map(x => Math.max(1, Math.abs(Number(x) || 1)))
+        : [2, 3, 1, 2, 4, 3, 7, 2];
+      const target = preset.target != null ? Math.max(1, Number(preset.target)) : 8;
       let L = 0, sum = 0, bestLen = Infinity, bestPair = [-1, -1], ops = 0;
 
       for (let R = 0; R < arr.length; R++) {
@@ -328,14 +335,16 @@ window.SIMULATORS = window.SIMULATORS || {};
       'stacks-expression-evaluation'
     ],
     presets: [
-      { id: 'hist', label: 'Largest Rectangle in Histogram (Monotonic Stack)', mode: 'hist' },
-      { id: 'deque', label: 'Sliding Window Maximum k = 3 (Monotonic Deque)', mode: 'deque' }
+      { id: 'hist', label: 'Largest Rectangle in Histogram (Monotonic Stack)', mode: 'hist', arr: [2, 1, 5, 6, 2, 3] },
+      { id: 'deque', label: 'Sliding Window Maximum k = 3 (Monotonic Deque)', mode: 'deque', arr: [1, 3, -1, -3, 5, 3, 6, 7], k: 3 }
     ],
     buildFrames(preset) {
       const frames = [];
       if (preset.mode === 'deque') {
-        const arr = [1, 3, -1, -3, 5, 3, 6, 7];
-        const k = 3;
+        const arr = Array.isArray(preset.arr) && preset.arr.length >= 3
+          ? preset.arr.slice(0, 12).map(x => Number(x) || 0)
+          : [1, 3, -1, -3, 5, 3, 6, 7];
+        const k = preset.k != null ? Math.max(2, Math.min(arr.length, Number(preset.k))) : 3;
         const dq = [];
         const out = [];
 
@@ -379,7 +388,10 @@ window.SIMULATORS = window.SIMULATORS || {};
         return frames;
       }
 
-      const heights = [2, 1, 5, 6, 2, 3, 0];
+      const rawH = Array.isArray(preset.arr) && preset.arr.length >= 3
+        ? preset.arr.slice(0, 12).map(x => Math.max(1, Math.abs(Number(x) || 1)))
+        : [2, 1, 5, 6, 2, 3];
+      const heights = [...rawH, 0];
       const st = [];
       let maxArea = 0;
       let bestDesc = '0';

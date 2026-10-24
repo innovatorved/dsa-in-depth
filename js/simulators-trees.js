@@ -277,13 +277,38 @@ window.SIMULATORS = window.SIMULATORS || {};
     ],
     presets: [
       { id: 'lower_bound', label: 'First True Boundary in [F, F, F, F, F, T, T, T]', boundary: 5 },
-      { id: 'koko', label: 'Parametric Search: Minimum Ship Capacity (boundary = 2)', boundary: 2 }
+      { id: 'lower', label: 'lower_bound: First x ≥ 35 (boundary at index 4)', boundary: 4, arr: [10, 18, 24, 31, 39, 47, 55, 68], target: 35 },
+      { id: 'koko', label: 'Parametric Search: Minimum Ship Capacity (boundary = 2)', boundary: 2, arr: [10, 18, 24, 31, 39, 47, 55, 68], target: 22 }
     ],
     buildFrames(preset) {
       const frames = [];
-      const vals = [10, 18, 24, 31, 39, 47, 55, 68];
-      const b = preset.boundary;
+      const rawVals = Array.isArray(preset.arr) && preset.arr.length >= 3
+        ? preset.arr.slice(0, 12).map(x => Number(x) || 0)
+        : [10, 18, 24, 31, 39, 47, 55, 68];
+      const vals = [...rawVals].sort((a, b) => a - b);
+      let b = preset.boundary != null ? Math.min(vals.length - 1, Math.max(0, preset.boundary)) : Math.floor(vals.length / 2);
+      if (preset.target != null && !Number.isNaN(Number(preset.target))) {
+        const idx = vals.findIndex(v => v >= Number(preset.target));
+        b = idx >= 0 ? idx : vals.length;
+      }
+      const threshVal = b < vals.length ? vals[b] : (vals[vals.length - 1] + 1);
       let lo = 0, hi = vals.length, step = 0;
+
+      frames.push({
+        stageHtml: renderArrayCells(vals, {
+          active: vals.map((_, i) => i),
+          match: vals.map((_, i) => i >= b ? i : -1).filter(i => i >= 0),
+          tags: Object.fromEntries(vals.map((v, i) => [i, i >= b ? 'P=True' : 'P=False']))
+        }),
+        invariant: `Initial Sorted Monotonic Domain: [0, ${vals.length}) | Threshold P(x): x ≥ ${threshVal} (Boundary index = ${b})`,
+        metrics: [
+          { label: 'Interval [lo, hi)', value: `[0, ${vals.length})` },
+          { label: 'Predicate P(x)', value: `x ≥ ${threshVal}` },
+          { label: 'Monotonic Split', value: `F×${b} then T×${vals.length - b}` },
+          { label: 'Max Probes ⌈log₂N⌉', value: `${Math.ceil(Math.log2(vals.length + 1))}` }
+        ],
+        log: `Initialized half-open interval [lo=0, hi=${vals.length}) over sorted array [${vals.join(', ')}] for predicate P(x): x ≥ ${threshVal}.`
+      });
 
       while (lo < hi) {
         const mid = lo + ((hi - lo) >> 1);
@@ -310,22 +335,25 @@ window.SIMULATORS = window.SIMULATORS || {};
             { label: 'Interval [lo, hi)', value: `[${prevLo}, ${prevHi}) -> [${lo}, ${hi})` },
             { label: 'Midpoint Probe', value: `mid = ${mid} (val ${vals[mid]})` },
             { label: 'Predicate P(mid)', value: pred ? 'TRUE (hi = mid)' : 'FALSE (lo = mid + 1)' },
-            { label: 'Probes Used', value: `${step} / ⌈log₂ 8⌉ = 3` }
+            { label: 'Probes Used', value: `${step} / ⌈log₂ ${vals.length}⌉` }
           ],
-          log: `Probed mid=${mid}: P(${vals[mid]}) is ${pred}. Narrowed interval [${prevLo}, ${prevHi}) -> [${lo}, ${hi}).`
+          log: `Probed mid=${mid} (val=${vals[mid]}): P(${vals[mid]}) is ${pred}. Narrowed half-open interval [${prevLo}, ${prevHi}) -> [${lo}, ${hi}).`
         });
       }
 
       frames.push({
-        stageHtml: renderArrayCells(vals, { match: [lo], tags: { [lo]: `lo=hi=${lo} (FIRST TRUE)` } }),
-        invariant: `Terminated: lo == hi == ${lo}. First index satisfying P(x) = True is [${lo}] (value ${vals[lo]}).`,
+        stageHtml: renderArrayCells(vals, {
+          match: lo < vals.length ? [lo] : [],
+          tags: lo < vals.length ? { [lo]: `lo=hi=${lo} (FIRST TRUE)` } : {}
+        }),
+        invariant: `Terminated: lo == hi == ${lo}. First index satisfying P(x) = True is [${lo}]${lo < vals.length ? ` (value ${vals[lo]})` : ' (past end)'}.`,
         metrics: [
           { label: 'Converged Index', value: `lo = hi = ${lo}` },
-          { label: 'Optimal Value', value: `${vals[lo]}` },
+          { label: 'Optimal Value', value: lo < vals.length ? `${vals[lo]}` : 'None (past end)' },
           { label: 'Total Evaluations', value: `${step}` },
           { label: 'Off-By-One Risk', value: '0% (Half-Open)' }
         ],
-        log: `Loop terminated with lo == hi == ${lo}. Exact decision boundary found at index [${lo}]!`
+        log: `Loop terminated with lo == hi == ${lo}. Exact decision boundary found at index [${lo}]${lo < vals.length ? ` = ${vals[lo]}` : ''}!`
       });
 
       return frames;
@@ -351,12 +379,14 @@ window.SIMULATORS = window.SIMULATORS || {};
       'build-indexed-dary-priority-queue'
     ],
     presets: [
-      { id: 'floyd', label: 'Floyd Bottom-Up O(N) Min-Heap Construction', mode: 'floyd' },
-      { id: 'extract', label: 'Indexed 4-Ary PQ decreaseKey(id, newKey) + Two-Heaps Median', mode: 'extract' }
+      { id: 'floyd', label: 'Floyd Bottom-Up O(N) Min-Heap Construction', mode: 'floyd', arr: [45, 32, 18, 29, 12, 9, 25] },
+      { id: 'extract', label: 'Min-Heap Build + Extract-Min & Sift-Down', mode: 'extract', arr: [50, 40, 35, 28, 15, 10, 6] }
     ],
     buildFrames(preset) {
       const frames = [];
-      const arr = [45, 32, 18, 29, 12, 9, 25];
+      const arr = Array.isArray(preset.arr) && preset.arr.length >= 3
+        ? preset.arr.slice(0, 12).map(x => Number(x) || 0)
+        : [45, 32, 18, 29, 12, 9, 25];
       let totalSwaps = 0;
 
       const renderHeapStage = (a, activeIdx, swappedIdx) => {
@@ -364,7 +394,7 @@ window.SIMULATORS = window.SIMULATORS || {};
         for (let i = 1; i < a.length; i++) tags[i] = `p=[${(i - 1) >> 1}]`;
         return `
           <div style="font-size:12px;font-family:var(--font-mono,monospace);text-align:center;color:var(--fg-muted);">
-            Tree Levels: &nbsp; L0: [${a[0]}] &nbsp;|&nbsp; L1: [${a[1]}, ${a[2]}] &nbsp;|&nbsp; L2: [${a.slice(3).join(', ')}]
+            Tree Levels: &nbsp; L0: [${a[0]}] &nbsp;|&nbsp; L1: [${a.slice(1, 3).join(', ')}] &nbsp;|&nbsp; L2: [${a.slice(3, 7).join(', ')}]
           </div>
           ${renderArrayCells(a, { pivot: activeIdx != null ? [activeIdx] : [], match: swappedIdx != null ? [swappedIdx] : [], tags })}
         `;
@@ -379,11 +409,12 @@ window.SIMULATORS = window.SIMULATORS || {};
           { label: 'Total Sift Swaps', value: '0' },
           { label: 'Bound ∑ h_i', value: '≤ 2N − 2 log₂N' }
         ],
-        log: 'Starting Floyd bottom-up heapify from last internal node i = ⌊N/2⌋ - 1 = 2 down to 0.'
+        log: `Starting Floyd bottom-up heapify from last internal node i = ⌊${arr.length}/2⌋ - 1 = ${Math.floor(arr.length / 2) - 1} down to 0.`
       });
 
       for (let start = Math.floor(arr.length / 2) - 1; start >= 0; start--) {
         let cur = start;
+        let swappedInSubtree = false;
         while (2 * cur + 1 < arr.length) {
           let left = 2 * cur + 1;
           let right = left + 1;
@@ -393,6 +424,7 @@ window.SIMULATORS = window.SIMULATORS || {};
           const oldCurVal = arr[cur], oldSmVal = arr[smallest];
           [arr[cur], arr[smallest]] = [arr[smallest], arr[cur]];
           totalSwaps++;
+          swappedInSubtree = true;
           frames.push({
             stageHtml: renderHeapStage([...arr], cur, smallest),
             invariant: `siftDown(start=${start}): swapped parent [${cur}]=${oldCurVal} with smaller child [${smallest}]=${oldSmVal}`,
@@ -403,6 +435,57 @@ window.SIMULATORS = window.SIMULATORS || {};
               { label: 'Current Min (A[0])', value: `${arr[0]}` }
             ],
             log: `siftDown(${start}): A[${cur}]=${oldCurVal} > A[${smallest}]=${oldSmVal} -> swapped to restore min-heap order.`
+          });
+          cur = smallest;
+        }
+        if (!swappedInSubtree) {
+          frames.push({
+            stageHtml: renderHeapStage([...arr], start, null),
+            invariant: `siftDown(start=${start}): A[${start}]=${arr[start]} ≤ children -> already satisfies min-heap invariant.`,
+            metrics: [
+              { label: 'Root Index', value: `i = ${start}` },
+              { label: 'Swapped Indices', value: 'None (0 swaps)' },
+              { label: 'Total Swaps', value: `${totalSwaps}` },
+              { label: 'Current Min (A[0])', value: `${arr[0]}` }
+            ],
+            log: `Inspected internal node [${start}]=${arr[start]}: already smaller than its children; 0 swaps needed.`
+          });
+        }
+      }
+
+      // Extract-min demonstration step
+      if (arr.length > 2) {
+        const minVal = arr[0];
+        const lastVal = arr.pop();
+        arr[0] = lastVal;
+        frames.push({
+          stageHtml: renderHeapStage([...arr], 0, null),
+          invariant: `extractMin() removed root ${minVal}, moved last leaf ${lastVal} to root [0], now sifting down.`,
+          metrics: [
+            { label: 'Extracted Min', value: `${minVal}` },
+            { label: 'New Root (temp)', value: `${lastVal}` },
+            { label: 'Remaining Size', value: `${arr.length}` },
+            { label: 'Next Action', value: 'siftDown(0)' }
+          ],
+          log: `extractMin(): Returned min=${minVal}, placed last leaf ${lastVal} at A[0], and initiated siftDown(0).`
+        });
+        let cur = 0;
+        while (2 * cur + 1 < arr.length) {
+          let left = 2 * cur + 1, right = left + 1, smallest = left;
+          if (right < arr.length && arr[right] < arr[left]) smallest = right;
+          if (arr[cur] <= arr[smallest]) break;
+          [arr[cur], arr[smallest]] = [arr[smallest], arr[cur]];
+          totalSwaps++;
+          frames.push({
+            stageHtml: renderHeapStage([...arr], cur, smallest),
+            invariant: `extractMin siftDown: swapped [${cur}] ⇄ [${smallest}]; new root min is ${arr[0]}`,
+            metrics: [
+              { label: 'Extracted Min', value: `${minVal}` },
+              { label: 'Swapped', value: `[${cur}] ⇄ [${smallest}]` },
+              { label: 'Total Swaps', value: `${totalSwaps}` },
+              { label: 'New Heap Min', value: `${arr[0]}` }
+            ],
+            log: `Restored heap property after extractMin: swapped [${cur}] with smaller child [${smallest}].`
           });
           cur = smallest;
         }
