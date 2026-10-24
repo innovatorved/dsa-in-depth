@@ -2013,6 +2013,672 @@ window.App = (() => {
     };
   }
 
+  const KNOWN_CPP_STD_HEADERS = new Set([
+    'bits/stdc++.h', 'codelab/dsa.hpp', 'codelab/test.hpp',
+    'iostream', 'iomanip', 'sstream', 'fstream', 'string', 'string_view',
+    'vector', 'deque', 'list', 'forward_list', 'array', 'span',
+    'set', 'unordered_set', 'map', 'unordered_map', 'stack', 'queue',
+    'bitset', 'algorithm', 'numeric', 'iterator', 'functional', 'utility',
+    'tuple', 'optional', 'variant', 'any', 'memory', 'cmath', 'cstdlib',
+    'cstdio', 'cstring', 'climits', 'cfloat', 'cstdint', 'cassert', 'cctype',
+    'chrono', 'random', 'complex', 'exception', 'stdexcept', 'type_traits',
+    'limits', 'ranges', 'concepts', 'bit', 'numbers', 'compare', 'charconv',
+    'filesystem', 'thread', 'mutex', 'atomic', 'condition_variable', 'future',
+    'valarray', 'regex', 'new', 'initializer_list', 'system_error',
+    'stdio.h', 'stdlib.h', 'string.h', 'math.h', 'stdint.h', 'limits.h',
+    'assert.h', 'ctype.h', 'time.h', 'stdbool.h', 'stddef.h'
+  ]);
+
+  const CPP_COMPLETION_DOCS = [
+    {
+      label: 'std::vector',
+      insertText: 'std::vector<${1:int}> ${2:v}',
+      detail: '<vector> Dynamic contiguous array',
+      doc: '**`std::vector<T>`** — Dynamic contiguous array (`<vector>` / `<bits/stdc++.h>`).\n\n- Random access: `O(1)`\n- Amortized push_back: `O(1)`\n- Methods: `.push_back(x)`, `.emplace_back(...)`, `.pop_back()`, `.size()`, `.empty()`, `.begin()`, `.end()`, `.clear()`, `.resize(n)`'
+    },
+    {
+      label: 'std::unordered_map',
+      insertText: 'std::unordered_map<${1:int}, ${2:int}> ${3:mp}',
+      detail: '<unordered_map> O(1) hash table',
+      doc: '**`std::unordered_map<K, V>`** — Hash table mapping keys to values (`<unordered_map>`).\n\n- Average lookup/insert/erase: `O(1)`\n- Methods: `mp[k]`, `.find(k)`, `.count(k)`, `.contains(k)` (C++20), `.erase(k)`, `.size()`'
+    },
+    {
+      label: 'std::unordered_set',
+      insertText: 'std::unordered_set<${1:int}> ${2:seen}',
+      detail: '<unordered_set> O(1) hash set',
+      doc: '**`std::unordered_set<K>`** — Hash set of unique keys (`<unordered_set>`).\n\n- Average lookup/insert/erase: `O(1)`\n- Methods: `.insert(x)`, `.count(x)`, `.contains(x)` (C++20), `.erase(x)`'
+    },
+    {
+      label: 'std::priority_queue',
+      insertText: 'std::priority_queue<${1:int}> ${2:pq}',
+      detail: '<queue> Binary heap priority queue',
+      doc: '**`std::priority_queue<T>`** — Max-heap by default (`<queue>`).\n\n- Min-heap: `std::priority_queue<int, std::vector<int>, std::greater<int>>`\n- Operations: `.push(x)`, `.pop()`, `.top()`, `.empty()`, `.size()` (`O(log N)`)'
+    },
+    {
+      label: 'std::map',
+      insertText: 'std::map<${1:int}, ${2:int}> ${3:mp}',
+      detail: '<map> Ordered Red-Black tree map',
+      doc: '**`std::map<K, V>`** — Ordered key-value map (`O(log N)` lookup/insert/erase, supports `.lower_bound(k)` / `.upper_bound(k)`).'
+    },
+    {
+      label: 'std::set',
+      insertText: 'std::set<${1:int}> ${2:st}',
+      detail: '<set> Ordered Red-Black tree set',
+      doc: '**`std::set<K>`** — Ordered unique set (`O(log N)` lookup/insert/erase, supports `.lower_bound(x)` / `.upper_bound(x)`).'
+    },
+    {
+      label: 'std::queue',
+      insertText: 'std::queue<${1:int}> ${2:q}',
+      detail: '<queue> FIFO queue',
+      doc: '**`std::queue<T>`** — FIFO queue (`.push(x)`, `.pop()`, `.front()`, `.back()`, `.empty()`, `.size()`).'
+    },
+    {
+      label: 'std::deque',
+      insertText: 'std::deque<${1:int}> ${2:dq}',
+      detail: '<deque> Double-ended queue',
+      doc: '**`std::deque<T>`** — Double-ended queue (`O(1)` `.push_front(x)`, `.push_back(x)`, `.pop_front()`, `.pop_back()`, `dq[i]`).'
+    },
+    {
+      label: 'std::stack',
+      insertText: 'std::stack<${1:int}> ${2:st}',
+      detail: '<stack> LIFO stack',
+      doc: '**`std::stack<T>`** — LIFO stack (`.push(x)`, `.pop()`, `.top()`, `.empty()`, `.size()`).'
+    },
+    {
+      label: 'std::sort',
+      insertText: 'std::sort(${1:v}.begin(), ${1:v}.end());',
+      detail: '<algorithm> O(N log N) Introsort',
+      doc: '**`std::sort(first, last, comp?)`** — Sorts range `[first, last)` in `O(N log N)` worst-case time.'
+    },
+    {
+      label: 'std::lower_bound',
+      insertText: 'std::lower_bound(${1:v}.begin(), ${1:v}.end(), ${2:target})',
+      detail: '<algorithm> O(log N) binary search >= target',
+      doc: '**`std::lower_bound(first, last, val)`** — Returns iterator to the first element `>= val` in sorted range `[first, last)` (`O(log N)`).'
+    },
+    {
+      label: 'std::upper_bound',
+      insertText: 'std::upper_bound(${1:v}.begin(), ${1:v}.end(), ${2:target})',
+      detail: '<algorithm> O(log N) binary search > target',
+      doc: '**`std::upper_bound(first, last, val)`** — Returns iterator to the first element `> val` in sorted range `[first, last)` (`O(log N)`).'
+    },
+    {
+      label: 'ListNode',
+      insertText: 'ListNode* ${1:head} = buildLinkedList({${2:1, 2, 3}});',
+      detail: '<codelab/dsa.hpp> Singly-linked list node',
+      doc: '**`codelab::ListNode`** (`<codelab/dsa.hpp>`)\n```cpp\nstruct ListNode {\n  int val;\n  ListNode* next;\n  ListNode(int x = 0, ListNode* n = nullptr);\n};\n```\nHelpers: `buildLinkedList({1,2,3})`, `linkedListToVector(head)`.'
+    },
+    {
+      label: 'TreeNode',
+      insertText: 'TreeNode* ${1:root} = buildBinaryTree({${2:1, 2, 3}});',
+      detail: '<codelab/dsa.hpp> Binary tree node',
+      doc: '**`codelab::TreeNode`** (`<codelab/dsa.hpp>`)\n```cpp\nstruct TreeNode {\n  int val;\n  TreeNode* left;\n  TreeNode* right;\n  TreeNode(int x = 0, TreeNode* l = nullptr, TreeNode* r = nullptr);\n};\n```\nHelper: `buildBinaryTree({1, 2, 3, INT_MIN, 5})`.'
+    },
+    {
+      label: 'buildLinkedList',
+      insertText: 'buildLinkedList({${1:1, 2, 3}})',
+      detail: '<codelab/dsa.hpp> Vector -> ListNode*',
+      doc: '**`ListNode* buildLinkedList(const std::vector<int>& values)`** — Builds a singly-linked list from an initializer vector.'
+    },
+    {
+      label: 'linkedListToVector',
+      insertText: 'linkedListToVector(${1:head})',
+      detail: '<codelab/dsa.hpp> ListNode* -> std::vector<int>',
+      doc: '**`std::vector<int> linkedListToVector(const ListNode* head)`** — Converts a `ListNode*` chain into `std::vector<int>` for assertions.'
+    },
+    {
+      label: 'buildBinaryTree',
+      insertText: 'buildBinaryTree({${1:1, 2, 3}})',
+      detail: '<codelab/dsa.hpp> Level-order vector -> TreeNode*',
+      doc: '**`TreeNode* buildBinaryTree(const std::vector<int>& values, int nullSentinel = INT_MIN)`** — Constructs a binary tree from level-order values.'
+    },
+    {
+      label: 'DESCRIBE',
+      insertText: 'DESCRIBE("${1:Suite Name}", {\n  TEST("${2:test case}", {\n    ASSERT_EQ(${3:actual}, ${4:expected});\n  });\n});',
+      detail: '<codelab/test.hpp> Test suite block',
+      doc: '**`DESCRIBE(name, { ... })`** (`<codelab/test.hpp>`) — Defines a structured C++20 test suite that streams results to the CodeLab Test Runner.'
+    },
+    {
+      label: 'TEST',
+      insertText: 'TEST("${1:test name}", {\n  ASSERT_EQ(${2:actual}, ${3:expected});\n});',
+      detail: '<codelab/test.hpp> Test case block',
+      doc: '**`TEST(name, { ... })`** (`<codelab/test.hpp>`) — Defines a test case inside `main()` or `DESCRIBE(...)`.'
+    },
+    {
+      label: 'ASSERT_EQ',
+      insertText: 'ASSERT_EQ(${1:actual}, ${2:expected});',
+      detail: '<codelab/test.hpp> Equality assertion',
+      doc: '**`ASSERT_EQ(actual, expected)`** (`<codelab/test.hpp>`) — Asserts `actual == expected` and reports formatted values on failure.'
+    },
+    {
+      label: 'ASSERT_NE',
+      insertText: 'ASSERT_NE(${1:actual}, ${2:expected});',
+      detail: '<codelab/test.hpp> Inequality assertion',
+      doc: '**`ASSERT_NE(actual, expected)`** (`<codelab/test.hpp>`) — Asserts `actual != expected`.'
+    },
+    {
+      label: 'ASSERT_TRUE',
+      insertText: 'ASSERT_TRUE(${1:condition});',
+      detail: '<codelab/test.hpp> Boolean true assertion',
+      doc: '**`ASSERT_TRUE(condition)`** (`<codelab/test.hpp>`) — Asserts `static_cast<bool>(condition) == true`.'
+    },
+    {
+      label: 'ASSERT_FALSE',
+      insertText: 'ASSERT_FALSE(${1:condition});',
+      detail: '<codelab/test.hpp> Boolean false assertion',
+      doc: '**`ASSERT_FALSE(condition)`** (`<codelab/test.hpp>`) — Asserts `static_cast<bool>(condition) == false`.'
+    },
+    {
+      label: 'CODELAB_TEST_EXIT_CODE',
+      insertText: 'return CODELAB_TEST_EXIT_CODE();',
+      detail: '<codelab/test.hpp> Return test runner exit code',
+      doc: '**`CODELAB_TEST_EXIT_CODE()`** (`<codelab/test.hpp>`) — Returns `0` if all `TEST(...)` blocks passed, or `1` if any failed.'
+    },
+    {
+      label: '#include <bits/stdc++.h>',
+      insertText: '#include <bits/stdc++.h>',
+      detail: 'Competitive programming umbrella STL header',
+      doc: 'Pre-mounted in `/usr/include/bits/stdc++.h` — includes `<iostream>`, `<vector>`, `<string>`, `<algorithm>`, `<unordered_map>`, `<map>`, `<set>`, `<queue>`, `<stack>`, `<numeric>`, `<optional>`, etc.'
+    },
+    {
+      label: '#include <codelab/dsa.hpp>',
+      insertText: '#include <codelab/dsa.hpp>',
+      detail: 'CodeLab DSA structures (ListNode, TreeNode)',
+      doc: 'Pre-mounted in `/usr/include/codelab/dsa.hpp` — provides `ListNode`, `TreeNode`, `buildLinkedList`, `linkedListToVector`, `buildBinaryTree`, and `printVector`.'
+    },
+    {
+      label: '#include <codelab/test.hpp>',
+      insertText: '#include <codelab/test.hpp>',
+      detail: 'CodeLab C++20 unit test framework',
+      doc: 'Pre-mounted in `/usr/include/codelab/test.hpp` — provides `DESCRIBE`, `TEST`, `ASSERT_EQ`, `ASSERT_NE`, `ASSERT_TRUE`, `ASSERT_FALSE`, and `CODELAB_TEST_EXIT_CODE()`.'
+    }
+  ];
+
+  let monacoCppProvidersRegistered = false;
+
+  function ensureMonacoCppProviders(monaco) {
+    if (!monaco || !monaco.languages || monacoCppProvidersRegistered) return;
+    monacoCppProvidersRegistered = true;
+
+    try {
+      if (typeof monaco.languages.registerCompletionItemProvider === 'function') {
+        monaco.languages.registerCompletionItemProvider('cpp', {
+          triggerCharacters: ['.', ':', '<', '"', '/'],
+          provideCompletionItems(model, position) {
+            const word = model.getWordUntilPosition(position);
+            const range = {
+              startLineNumber: position.lineNumber,
+              endLineNumber: position.lineNumber,
+              startColumn: word.startColumn,
+              endColumn: word.endColumn
+            };
+            const Kind = monaco.languages.CompletionItemKind || {};
+            const InsertRule = monaco.languages.CompletionItemInsertTextRule || {};
+            const suggestions = CPP_COMPLETION_DOCS.map((item) => ({
+              label: item.label,
+              kind: item.label.startsWith('#')
+                ? (Kind.Module || 8)
+                : item.label.startsWith('ASSERT') || item.label === 'DESCRIBE' || item.label === 'TEST'
+                  ? (Kind.Snippet || 27)
+                  : (Kind.Function || 1),
+              detail: item.detail,
+              documentation: { value: item.doc },
+              insertText: item.insertText,
+              insertTextRules: InsertRule.InsertAsSnippet || 4,
+              range
+            }));
+            return { suggestions };
+          }
+        });
+      }
+
+      if (typeof monaco.languages.registerHoverProvider === 'function') {
+        const hoverMap = new Map();
+        for (const item of CPP_COMPLETION_DOCS) {
+          hoverMap.set(item.label, item);
+          const shortName = item.label.replace(/^std::/, '');
+          if (!hoverMap.has(shortName)) hoverMap.set(shortName, item);
+        }
+        monaco.languages.registerHoverProvider('cpp', {
+          provideHover(model, position) {
+            const word = model.getWordAtPosition(position);
+            if (!word || !word.word) return null;
+            const entry = hoverMap.get(word.word) || hoverMap.get('std::' + word.word);
+            if (!entry) return null;
+            return {
+              range: new monaco.Range(
+                position.lineNumber,
+                word.startColumn,
+                position.lineNumber,
+                word.endColumn
+              ),
+              contents: [
+                { value: `**${entry.label}** — *${entry.detail}*` },
+                { value: entry.doc }
+              ]
+            };
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('[CodeLab C++ IntelliSense registration warning]:', err);
+    }
+  }
+
+  function analyzeCppSource(filename, code, workspaceFiles = {}) {
+    const diagnostics = [];
+    const lines = String(code || '').split(/\r?\n/);
+    const hasUsingStd = /\busing\s+namespace\s+std\s*;/.test(code);
+    const hasAnyInclude = /^\s*#\s*include\b/m.test(code);
+
+    // 1. Validate #include directives & line-level patterns
+    for (let i = 0; i < lines.length; i++) {
+      const lineNum = i + 1;
+      const rawLine = lines[i];
+      const trimmed = rawLine.trim();
+
+      // Check #include <...> or #include "..."
+      const incMatch = trimmed.match(/^#\s*include\s*([<"])([^>"]+)([>"])$/);
+      if (incMatch) {
+        const bracket = incMatch[1];
+        const headerPath = incMatch[2].trim();
+        const startCol = rawLine.indexOf(headerPath) + 1;
+        const endCol = startCol + headerPath.length;
+        if (bracket === '<') {
+          if (!KNOWN_CPP_STD_HEADERS.has(headerPath) && !workspaceFiles[headerPath]) {
+            diagnostics.push({
+              line: lineNum,
+              col: startCol,
+              endLine: lineNum,
+              endCol,
+              severity: 'error',
+              code: 'CPP_INCLUDE_NOT_FOUND',
+              message: `Header '<${headerPath}>' not found in WASI sysroot (/usr/include). Try <bits/stdc++.h>, <codelab/dsa.hpp>, or <codelab/test.hpp>.`
+            });
+          }
+        } else if (bracket === '"') {
+          const dir = filename.includes('/') ? filename.slice(0, filename.lastIndexOf('/') + 1) : '';
+          const existsLocal =
+            workspaceFiles[headerPath] !== undefined ||
+            workspaceFiles[dir + headerPath] !== undefined ||
+            workspaceFiles['src/' + headerPath] !== undefined ||
+            KNOWN_CPP_STD_HEADERS.has(headerPath);
+          if (!existsLocal) {
+            diagnostics.push({
+              line: lineNum,
+              col: startCol,
+              endLine: lineNum,
+              endCol,
+              severity: 'error',
+              code: 'CPP_LOCAL_HEADER_MISSING',
+              message: `Local header '"${headerPath}"' does not exist in the workspace.`
+            });
+          }
+        }
+      }
+
+      // Check accidental single '=' inside if (...) condition (excluding ==, !=, <=, >=)
+      const withoutComments = rawLine.replace(/\/\/.*$/, '');
+      const ifAssignMatch = withoutComments.match(/\bif\s*\(\s*([a-zA-Z_]\w*)\s*=[^=]/);
+      if (ifAssignMatch) {
+        const col = rawLine.indexOf(ifAssignMatch[0]) + 1;
+        diagnostics.push({
+          line: lineNum,
+          col,
+          endLine: lineNum,
+          endCol: col + ifAssignMatch[0].length,
+          severity: 'warning',
+          code: 'CPP_ASSIGN_IN_COND',
+          message: `Using assignment '=' in 'if' condition; did you mean '=='?`
+        });
+      }
+    }
+
+    // 2. Lexical scan for bracket/brace/paren balance & unterminated strings/comments
+    const stack = [];
+    const pairs = { '{': '}', '(': ')', '[': ']' };
+    const closers = { '}': '{', ')': '(', ']': '[' };
+    let inBlockComment = false;
+    let blockCommentStart = null;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const lineNum = i + 1;
+      let inString = false;
+      let stringChar = '';
+      let stringStartCol = 1;
+
+      for (let j = 0; j < line.length; j++) {
+        const ch = line[j];
+        const next = line[j + 1] || '';
+        const col = j + 1;
+
+        if (inBlockComment) {
+          if (ch === '*' && next === '/') {
+            inBlockComment = false;
+            blockCommentStart = null;
+            j++;
+          }
+          continue;
+        }
+
+        if (inString) {
+          if (ch === '\\') {
+            j++;
+            continue;
+          }
+          if (ch === stringChar) {
+            inString = false;
+          }
+          continue;
+        }
+
+        if (ch === '/' && next === '/') {
+          break; // line comment
+        }
+        if (ch === '/' && next === '*') {
+          inBlockComment = true;
+          blockCommentStart = { line: lineNum, col };
+          j++;
+          continue;
+        }
+        if (ch === '"' || ch === "'") {
+          inString = true;
+          stringChar = ch;
+          stringStartCol = col;
+          continue;
+        }
+
+        if (pairs[ch]) {
+          stack.push({ ch, expected: pairs[ch], line: lineNum, col });
+        } else if (closers[ch]) {
+          if (stack.length === 0) {
+            diagnostics.push({
+              line: lineNum,
+              col,
+              endLine: lineNum,
+              endCol: col + 1,
+              severity: 'error',
+              code: 'CPP_UNMATCHED_CLOSER',
+              message: `Unmatched closing '${ch}' with no matching '${closers[ch]}'.`
+            });
+          } else {
+            const top = stack[stack.length - 1];
+            if (top.ch !== closers[ch]) {
+              diagnostics.push({
+                line: lineNum,
+                col,
+                endLine: lineNum,
+                endCol: col + 1,
+                severity: 'error',
+                code: 'CPP_MISMATCHED_BRACKET',
+                message: `Mismatched '${ch}': expected '${top.expected}' to close '${top.ch}' from line ${top.line}:${top.col}.`
+              });
+              stack.pop();
+            } else {
+              stack.pop();
+            }
+          }
+        }
+      }
+
+      if (inString && !line.endsWith('\\')) {
+        diagnostics.push({
+          line: lineNum,
+          col: stringStartCol,
+          endLine: lineNum,
+          endCol: line.length + 1,
+          severity: 'error',
+          code: 'CPP_UNTERMINATED_STRING',
+          message: `Unterminated ${stringChar === '"' ? 'string' : 'character'} literal.`
+        });
+      }
+    }
+
+    if (inBlockComment && blockCommentStart) {
+      diagnostics.push({
+        line: blockCommentStart.line,
+        col: blockCommentStart.col,
+        endLine: blockCommentStart.line,
+        endCol: blockCommentStart.col + 2,
+        severity: 'error',
+        code: 'CPP_UNTERMINATED_COMMENT',
+        message: `Unterminated '/*' block comment.`
+      });
+    }
+
+    for (const unclosed of stack) {
+      diagnostics.push({
+        line: unclosed.line,
+        col: unclosed.col,
+        endLine: unclosed.line,
+        endCol: unclosed.col + 1,
+        severity: 'error',
+        code: 'CPP_UNCLOSED_DELIMITER',
+        message: `Unclosed '${unclosed.ch}'; expected matching '${unclosed.expected}'.`
+      });
+    }
+
+    // 3. Warn if unqualified STL symbols are used without `std::` or `using namespace std;`
+    if (!hasUsingStd && hasAnyInclude) {
+      for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i].replace(/\/\/.*$/, '');
+        if (/^\s*#/.test(rawLine)) continue;
+        const unqualifiedMatch = rawLine.match(/(?:^|[^:\w])(vector|unordered_map|unordered_set|priority_queue|cout|cin|endl)\b/);
+        if (unqualifiedMatch) {
+          const sym = unqualifiedMatch[1];
+          const idx = rawLine.indexOf(sym);
+          const before = rawLine.slice(Math.max(0, idx - 5), idx);
+          if (before !== 'std::') {
+            diagnostics.push({
+              line: i + 1,
+              col: idx + 1,
+              endLine: i + 1,
+              endCol: idx + 1 + sym.length,
+              severity: 'warning',
+              code: 'CPP_UNQUALIFIED_STD',
+              message: `'${sym}' is in namespace 'std'. Qualify as 'std::${sym}' or add 'using namespace std;'.`
+            });
+          }
+        }
+      }
+    }
+
+    return diagnostics;
+  }
+
+  function applyCppMarkersToWorkbench(wb, filename, diagItems, owner = 'codelab-cpp-linter') {
+    if (!wb || !filename) return;
+    const monaco = wb.monaco || window.monaco;
+    const model = wb.models?.get(filename) || (typeof wb._getOrCreateModel === 'function' ? wb._getOrCreateModel(filename) : null);
+
+    if (monaco && monaco.editor && model && typeof monaco.editor.setModelMarkers === 'function') {
+      const Sev = monaco.MarkerSeverity || { Error: 8, Warning: 4, Info: 2, Hint: 1 };
+      const markers = diagItems.map((d) => ({
+        startLineNumber: d.line || 1,
+        startColumn: d.col || 1,
+        endLineNumber: d.endLine || d.line || 1,
+        endColumn: d.endCol || (d.col ? d.col + 1 : 100),
+        message: d.message,
+        code: d.code || owner,
+        source: owner,
+        severity: d.severity === 'error'
+          ? (Sev.Error || 8)
+          : d.severity === 'warning'
+            ? (Sev.Warning || 4)
+            : (Sev.Info || 2)
+      }));
+      monaco.editor.setModelMarkers(model, owner, markers);
+    }
+
+    // Sync with CodeLab's unified DiagnosticsStore (Problems panel)
+    const diagMod = window.CodeLab?.diagnostics || window.CodeLabDiagnostics;
+    if (!wb._diagnosticsStore && diagMod && typeof diagMod.createDiagnosticsStore === 'function') {
+      wb._diagnosticsStore = diagMod.createDiagnosticsStore();
+    }
+    if (wb._diagnosticsStore) {
+      const sourceTag = `${owner}:${filename}`;
+      if (typeof wb._diagnosticsStore.clear === 'function') {
+        wb._diagnosticsStore.clear(sourceTag);
+      }
+      if (typeof wb._diagnosticsStore.add === 'function') {
+        diagItems.forEach((d, idx) => {
+          wb._diagnosticsStore.add({
+            id: `${sourceTag}:${idx}:${d.line}:${d.col}`,
+            file: filename,
+            line: d.line || 1,
+            column: d.col || 1,
+            endLine: d.endLine || d.line || 1,
+            endColumn: d.endCol || (d.col ? d.col + 1 : 2),
+            message: d.message,
+            severity: d.severity || 'error',
+            source: sourceTag,
+            code: d.code || owner
+          });
+        });
+      }
+    }
+  }
+
+  function applyClangStderrDiagnostics(wb, stderrText) {
+    if (!wb) return;
+    const files = Object.keys(wb.files || {}).filter(f => /\.(cpp|cc|cxx|hpp|h)$/i.test(f));
+    const perFile = new Map();
+    for (const f of files) perFile.set(f, []);
+
+    const regex = /^([^\s:]+):(\d+):(\d+):\s*(fatal error|error|warning|note):\s*(.+)$/gm;
+    let match;
+    while ((match = regex.exec(String(stderrText || ''))) !== null) {
+      const rawPath = match[1].replace(/^\/workspace\/+/, '').replace(/^\.\//, '');
+      const line = parseInt(match[2], 10) || 1;
+      const col = parseInt(match[3], 10) || 1;
+      const kind = match[4];
+      const msg = match[5];
+      if (kind === 'note') continue;
+
+      const targetFile = files.find(f => f === rawPath || f.endsWith('/' + rawPath) || rawPath.endsWith('/' + f)) || wb.activeFile;
+      if (targetFile) {
+        if (!perFile.has(targetFile)) perFile.set(targetFile, []);
+        perFile.get(targetFile).push({
+          line,
+          col,
+          endLine: line,
+          endCol: col + 8,
+          severity: kind === 'warning' ? 'warning' : 'error',
+          code: 'clang++',
+          message: `[clang++] ${msg}`
+        });
+      }
+    }
+
+    for (const [file, items] of perFile.entries()) {
+      applyCppMarkersToWorkbench(wb, file, items, 'clang-wasi');
+    }
+  }
+
+  function attachCppVscodeExtension(wb, mountOpts = {}) {
+    if (!wb || wb._cppVscodeExtAttached) return wb;
+    wb._cppVscodeExtAttached = true;
+
+    const ensureCppCore = () => {
+      const ext = window.CodeLab?.extensions || {};
+      if (!wb.cppToolchain && typeof ext.cpp === 'function') {
+        const origRenderShell = wb._renderShell;
+        const origBindEvents = wb._bindEvents;
+        wb._renderShell = function () {
+          if (typeof this._refreshLanguageSwitcher === 'function') this._refreshLanguageSwitcher();
+        };
+        wb._bindEvents = function () {};
+        try {
+          ext.cpp(wb, {
+            std: 'c++20',
+            optLevel: '-O2',
+            cacheInIndexedDB: true,
+            files: mountOpts.cppFiles || mountOpts.cppSolutionFiles,
+            starterFiles: mountOpts.cppStarterFiles,
+            solutionFiles: mountOpts.cppSolutionFiles,
+            activate: false
+          });
+        } finally {
+          wb._renderShell = origRenderShell;
+          wb._bindEvents = origBindEvents;
+        }
+      }
+
+      // Wrap wb.cppCompiler once so Clang WASI compile errors/warnings become editor squiggles
+      if (wb.cppCompiler && !wb.cppCompiler._hasDiagnosticWrapper) {
+        const baseCompiler = wb.cppCompiler;
+        const wrappedCompiler = async (req = {}) => {
+          let stderrBuf = '';
+          const origStderr = req.onStderr;
+          const res = await baseCompiler({
+            ...req,
+            onStderr: (chunk) => {
+              stderrBuf += String(chunk || '');
+              if (typeof origStderr === 'function') origStderr(chunk);
+            }
+          });
+          applyClangStderrDiagnostics(wb, stderrBuf);
+          return res;
+        };
+        wrappedCompiler._hasDiagnosticWrapper = true;
+        wb.cppCompiler = wrappedCompiler;
+        window.__codelabCppCompiler = wrappedCompiler;
+      }
+    };
+
+    const runCppLintPass = (targetFilename) => {
+      const monaco = wb.monaco || window.monaco;
+      if (monaco) ensureMonacoCppProviders(monaco);
+      const filesMap = wb.files || {};
+      const candidates = targetFilename
+        ? [targetFilename].filter(f => /\.(cpp|cc|cxx|hpp|h)$/i.test(f))
+        : Object.keys(filesMap).filter(f => /\.(cpp|cc|cxx|hpp|h)$/i.test(f));
+
+      for (const fname of candidates) {
+        const content = filesMap[fname];
+        if (typeof content !== 'string') continue;
+        const diags = analyzeCppSource(fname, content, filesMap);
+        applyCppMarkersToWorkbench(wb, fname, diags, 'codelab-cpp-linter');
+      }
+    };
+
+    ensureCppCore();
+
+    // Hook setLanguage so switching to C++ always activates the C++ extension + VS Code linter/IntelliSense
+    if (typeof wb.setLanguage === 'function' && !wb._setLanguageCppHooked) {
+      const origSetLanguage = wb.setLanguage.bind(wb);
+      wb._setLanguageCppHooked = true;
+      wb.setLanguage = function (newLang) {
+        const normalized = newLang === 'c++' ? 'cpp' : newLang;
+        if (normalized === 'cpp') {
+          ensureCppCore();
+        }
+        const res = origSetLanguage(normalized);
+        if (normalized === 'cpp') {
+          setTimeout(() => runCppLintPass(), 40);
+        }
+        return res;
+      };
+    }
+
+    // Live debounced linting on C++ file edits
+    let lintTimer = null;
+    if (typeof wb.on === 'function') {
+      wb.on('codelab:code-change', (ev) => {
+        const fname = ev?.filename || ev?.path || wb.activeFile;
+        if (!fname || !/\.(cpp|cc|cxx|hpp|h)$/i.test(fname)) return;
+        if (lintTimer) clearTimeout(lintTimer);
+        lintTimer = setTimeout(() => runCppLintPass(fname), 150);
+      });
+    }
+
+    // Run initial pass once Monaco finishes loading
+    setTimeout(() => runCppLintPass(), 300);
+    setTimeout(() => runCppLintPass(), 1000);
+    return wb;
+  }
+
   function mountCodeLabWithExtensions(mountEl, mountOpts = {}) {
     const CodeLab = window.CodeLab;
     if (!CodeLab || !mountEl) return null;
@@ -2066,6 +2732,7 @@ window.App = (() => {
             onLabComplete: mountOpts.onLabComplete
           }));
         }
+        wb.use((w) => attachCppVscodeExtension(w, mountOpts));
       } finally {
         wb._renderShell = origRenderShell;
         wb._bindEvents = origBindEvents;
