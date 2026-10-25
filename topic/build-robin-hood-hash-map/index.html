@@ -30,9 +30,10 @@
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=d266742353">
+  <link rel="stylesheet" href="css/components.css?v=0f432d5f5e">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -862,10 +863,10 @@
       <h2>Architecture &amp; Invariant Specifications</h2>
       <p>Our implementation guarantees four structural invariants across every <code>insert</code>, <code>find</code>, <code>erase</code>, and <code>rehash</code> operation:</p>
       <ol>
-        <li><strong>Power-of-Two Capacity ($m = 2^r$) with SplitMix64 Finalizer:</strong> Every key is mixed through a 64-bit SplitMix64 avalanche permutation so both high and low bits have full entropy, and bucket indexing uses a single bitwise AND <code>idx = hash & (m - 1)</code>.</li>
-        <li><strong>1-Based Distance-from-Initial-Bucket (<code>dib</code> = <code>psl + 1</code>):</strong> Instead of storing both a <code>bool occupied</code> flag and a <code>uint32_t psl</code> counter, we store a single integer <code>dib</code> (Distance from Initial Bucket): <code>dib == 0</code> denotes an <code>EMPTY</code> slot, while <code>dib >= 1</code> denotes an occupied slot with $\text{PSL} = \text{dib} - 1$.</li>
+        <li><strong>Power-of-Two Capacity (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><msup><mn>2</mn><mi>r</mi></msup></mrow><annotation encoding="application/x-tex">m = 2^r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span></span></span></span></span></span></span></span></span></span></span>) with SplitMix64 Finalizer:</strong> Every key is mixed through a 64-bit SplitMix64 avalanche permutation so both high and low bits have full entropy, and bucket indexing uses a single bitwise AND <code>idx = hash & (m - 1)</code>.</li>
+        <li><strong>1-Based Distance-from-Initial-Bucket (<code>dib</code> = <code>psl + 1</code>):</strong> Instead of storing both a <code>bool occupied</code> flag and a <code>uint32_t psl</code> counter, we store a single integer <code>dib</code> (Distance from Initial Bucket): <code>dib == 0</code> denotes an <code>EMPTY</code> slot, while <code>dib >= 1</code> denotes an occupied slot with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PSL</mtext><mo>=</mo><mtext>dib</mtext><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{PSL} = \text{dib} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">PSL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">dib</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.</li>
         <li><strong>Robin Hood Swap Invariant (<code>curr_dib > slot.dib</code>):</strong> During <code>insert</code>, if an occupied slot has the same key, we update its value in-place; otherwise if <code>curr_dib > slot.dib</code>, the incoming entry steals the slot via <code>std::swap</code> and continues probing with the displaced entry.</li>
-        <li><strong>Backward-Shift Deletion (<code>erase</code>):</strong> When deleting at <code>idx</code>, we inspect <code>next = (idx + 1) & mask</code>. While <code>table[next].dib > 1</code> (meaning the occupant at <code>next</code> is occupied AND displaced from its home bucket, i.e., $\text{PSL} > 0$), we shift <code>table[next]</code> backward to <code>table[idx]</code> with <code>dib - 1</code> and advance <code>idx = next</code>. Finally, we clear <code>table[idx].dib = 0</code>.</li>
+        <li><strong>Backward-Shift Deletion (<code>erase</code>):</strong> When deleting at <code>idx</code>, we inspect <code>next = (idx + 1) & mask</code>. While <code>table[next].dib > 1</code> (meaning the occupant at <code>next</code> is occupied AND displaced from its home bucket, i.e., <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PSL</mtext><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\text{PSL} &gt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord text"><span class="mord">PSL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>), we shift <code>table[next]</code> backward to <code>table[idx]</code> with <code>dib - 1</code> and advance <code>idx = next</code>. Finally, we clear <code>table[idx].dib = 0</code>.</li>
       </ol>
 
       <table class="complexity-matrix">
@@ -883,22 +884,22 @@
             <td><code>insert(key, val)</code></td>
             <td><span class="badge-o1">O(1)</span></td>
             <td><span class="badge-ologn">O(log log N)</span> (Random)</td>
-            <td><span class="badge-o1">O(1)</span> ($O(N)$ on resize)</td>
-            <td>$0$ Tombstones</td>
+            <td><span class="badge-o1">O(1)</span> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> on resize)</td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> Tombstones</td>
           </tr>
           <tr>
             <td><code>find(key)</code> (Hit &amp; Miss)</td>
             <td><span class="badge-o1">O(1)</span></td>
             <td>Early-exit when <code>dib > slot.dib</code></td>
             <td><span class="badge-o1">O(1)</span></td>
-            <td>$0$ Tombstones</td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> Tombstones</td>
           </tr>
           <tr>
             <td><code>erase(key)</code> (Backward Shift)</td>
             <td><span class="badge-o1">O(1)</span></td>
             <td>Shifts until <code>dib <= 1</code></td>
             <td><span class="badge-o1">O(1)</span></td>
-            <td>$0$ Tombstones (Self-healing)</td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> Tombstones (Self-healing)</td>
           </tr>
           <tr>
             <td><code>maxPsl()</code> / Telemetry</td>
@@ -912,7 +913,7 @@
 
       <div class="invariant-box">
         <h4>Formal Proof: Correctness of Backward-Shift Deletion Without Tombstones</h4>
-        <p>Suppose slot $i$ is deleted. Let $C = [i+1, i+2, \dots, i+L]$ (modulo $m$) be the maximal contiguous run of slots immediately following $i$ whose occupants satisfy $\text{dib} > 1$ (equivalently $\text{PSL} \ge 1$). For every key $k \in C$, its home bucket $h(k)$ lies at or before $i$ along the cluster, so $k$ originally probed across slot $i$. Shifting every key in $C$ backward by $1$ slot and decrementing its <code>dib</code> by $1$ moves each key $1$ step closer to its home bucket $h(k)$, preserving the Robin Hood ordering invariant $\text{dib}[j+1] \le \text{dib}[j] + 1$ and leaving slot $i + L$ safely <code>EMPTY</code> (<code>dib = 0</code>) because slot $i + L + 1$ either is <code>EMPTY</code> or holds a key at its exact home bucket (<code>dib == 1</code>).</p>
+        <p>Suppose slot <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> is deleted. Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mo stretchy="false">[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>i</mi><mo>+</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>i</mi><mo>+</mo><mi>L</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">C = [i+1, i+2, \dots, i+L]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mclose">]</span></span></span></span> (modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span>) be the maximal contiguous run of slots immediately following <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> whose occupants satisfy <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>dib</mtext><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{dib} &gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord text"><span class="mord">dib</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> (equivalently <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PSL</mtext><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{PSL} \ge 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord text"><span class="mord">PSL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>). For every key <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>∈</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">k \in C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span>, its home bucket <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span> lies at or before <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> along the cluster, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> originally probed across slot <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>. Shifting every key in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span> backward by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> slot and decrementing its <code>dib</code> by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> moves each key <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> step closer to its home bucket <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span>, preserving the Robin Hood ordering invariant <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>dib</mtext><mo stretchy="false">[</mo><mi>j</mi><mo>+</mo><mn>1</mn><mo stretchy="false">]</mo><mo>≤</mo><mtext>dib</mtext><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{dib}[j+1] \le \text{dib}[j] + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">dib</span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">dib</span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> and leaving slot <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">i + L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span></span></span></span> safely <code>EMPTY</code> (<code>dib = 0</code>) because slot <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mi>L</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">i + L + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> either is <code>EMPTY</code> or holds a key at its exact home bucket (<code>dib == 1</code>).</p>
       </div>
 
       <h2>Visualizing End-to-End Insert, Early-Exit Find &amp; Backward-Shift Erase</h2>
@@ -1165,129 +1166,132 @@ AND table[idx].key == key ?"}
 
       <div class="hardware-box">
         <h4>Hardware Reality: Cached Hash Comparison Before Full Key Equality</h4>
-        <p>When keys are strings (<code>std::string</code>) or composite structs, calling <code>slot.key == key</code> dereferences a heap pointer and runs <code>memcmp</code>. By caching the 32-bit or 64-bit hash inside the slot (or comparing <code>slot.dib == dib</code> first, since two keys at the same slot index <code>idx</code> have the exact same home bucket $(idx - (\text{dib}-1)) \bmod m$ <em>if and only if</em> their <code>dib</code> values are equal!), we reject $> 99\%$ of non-matching slots in registers without ever touching the string heap buffer.</p>
+        <p>When keys are strings (<code>std::string</code>) or composite structs, calling <code>slot.key == key</code> dereferences a heap pointer and runs <code>memcmp</code>. By caching the 32-bit or 64-bit hash inside the slot (or comparing <code>slot.dib == dib</code> first, since two keys at the same slot index <code>idx</code> have the exact same home bucket <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>i</mi><mi>d</mi><mi>x</mi><mo>−</mo><mo stretchy="false">(</mo><mtext>dib</mtext><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mtext> </mtext><mo lspace="0.22em" rspace="0.22em"><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mo><mtext> </mtext><mi>m</mi></mrow><annotation encoding="application/x-tex">(idx - (\text{dib}-1)) \bmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord text"><span class="mord">dib</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">))</span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> <em>if and only if</em> their <code>dib</code> values are equal!), we reject <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>99</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">&gt; 99\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">99%</span></span></span></span> of non-matching slots in registers without ever touching the string heap buffer.</p>
       </div>
 
       <h2>Complete Reference Implementation: <code>RobinHoodMap&lt;K, V&gt;</code> in C++20</h2>
-      <div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">// C++20: Complete Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift
-#include &lt;vector&gt;
-#include &lt;cstdint&gt;
-#include &lt;optional&gt;
-#include &lt;utility&gt;
-#include &lt;algorithm&gt;
+      <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">119 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
+      <span class="code-block__toggle-text">Expand</span>
+      <span class="code-block__chevron">▼</span>
+    </button></div></div><pre><code class="language-cpp"><span class="tok-comment">// C++20: Complete Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift</span>
+<span class="tok-preproc">#include &lt;vector&gt;</span>
+<span class="tok-preproc">#include &lt;cstdint&gt;</span>
+<span class="tok-preproc">#include &lt;optional&gt;</span>
+<span class="tok-preproc">#include &lt;utility&gt;</span>
+<span class="tok-preproc">#include &lt;algorithm&gt;</span>
 
-template &lt;typename K, typename V&gt;
-class RobinHoodMap {
-    struct Slot {
-        K key{};
-        V val{};
-        uint32_t dib = 0; // 0 = EMPTY, &gt;= 1 means PSL = dib - 1
-    };
+<span class="tok-kw">template</span> <span class="tok-op">&lt;</span><span class="tok-kw">typename</span> K<span class="tok-op">,</span> <span class="tok-kw">typename</span> V<span class="tok-op">&gt;</span>
+<span class="tok-kw">class</span> RobinHoodMap {
+    <span class="tok-kw">struct</span> Slot {
+        K key{}<span class="tok-op">;</span>
+        V val{}<span class="tok-op">;</span>
+        <span class="tok-type">uint32_t</span> dib <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span> <span class="tok-comment">// 0 = EMPTY, &gt;= 1 means PSL = dib - 1</span>
+    }<span class="tok-op">;</span>
 
-    std::vector&lt;Slot&gt; table_;
-    size_t size_ = 0;
+    std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span>Slot<span class="tok-op">&gt;</span> table_<span class="tok-op">;</span>
+    <span class="tok-type">size_t</span> size_ <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
 
-    static uint64_t hashKey(const K&amp; k) noexcept {
-        uint64_t x = static_cast&lt;uint64_t&gt;(std::hash&lt;K&gt;{}(k));
-        x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9ULL;
-        x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111ebULL;
-        return x ^ (x &gt;&gt; 31);
+    <span class="tok-kw">static</span> <span class="tok-type">uint64_t</span> <span class="tok-fn">hashKey</span>(<span class="tok-kw">const</span> K<span class="tok-op">&amp;</span> k) <span class="tok-kw">noexcept</span> {
+        <span class="tok-type">uint64_t</span> x <span class="tok-op">=</span> static_cast<span class="tok-op">&lt;</span><span class="tok-type">uint64_t</span><span class="tok-op">&gt;</span>(std<span class="tok-op">::</span>hash<span class="tok-op">&lt;</span>K<span class="tok-op">&gt;</span>{}(k))<span class="tok-op">;</span>
+        x <span class="tok-op">=</span> (x <span class="tok-op">^</span> (x <span class="tok-op">&gt;&gt;</span> <span class="tok-num">30</span>)) <span class="tok-op">*</span> 0xbf58476d1ce4e5b9ULL<span class="tok-op">;</span>
+        x <span class="tok-op">=</span> (x <span class="tok-op">^</span> (x <span class="tok-op">&gt;&gt;</span> <span class="tok-num">27</span>)) <span class="tok-op">*</span> 0x94d049bb133111ebULL<span class="tok-op">;</span>
+        <span class="tok-kw">return</span> x <span class="tok-op">^</span> (x <span class="tok-op">&gt;&gt;</span> <span class="tok-num">31</span>)<span class="tok-op">;</span>
     }
 
-    void rehash(size_t newCap) {
-        std::vector&lt;Slot&gt; old = std::move(table_);
-        table_.assign(newCap, Slot{});
-        size_ = 0;
-        for (auto&amp; s : old) {
-            if (s.dib &gt; 0) insert(std::move(s.key), std::move(s.val));
+    <span class="tok-kw">void</span> <span class="tok-fn">rehash</span>(<span class="tok-type">size_t</span> newCap) {
+        std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span>Slot<span class="tok-op">&gt;</span> old <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(table_)<span class="tok-op">;</span>
+        table_<span class="tok-op">.</span><span class="tok-fn">assign</span>(newCap<span class="tok-op">,</span> Slot{})<span class="tok-op">;</span>
+        size_ <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">auto</span><span class="tok-op">&amp;</span> s <span class="tok-op">:</span> old) {
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">&gt;</span> <span class="tok-num">0</span>) <span class="tok-fn">insert</span>(std<span class="tok-op">::</span><span class="tok-fn">move</span>(s<span class="tok-op">.</span>key)<span class="tok-op">,</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(s<span class="tok-op">.</span>val))<span class="tok-op">;</span>
         }
     }
 
-public:
-    explicit RobinHoodMap(size_t initialPow2Cap = 16) : table_(initialPow2Cap) {}
+<span class="tok-kw">public</span><span class="tok-op">:</span>
+    <span class="tok-kw">explicit</span> <span class="tok-fn">RobinHoodMap</span>(<span class="tok-type">size_t</span> initialPow2Cap <span class="tok-op">=</span> <span class="tok-num">16</span>) <span class="tok-op">:</span> <span class="tok-fn">table_</span>(initialPow2Cap) {}
 
-    size_t size() const noexcept { return size_; }
+    <span class="tok-type">size_t</span> <span class="tok-fn">size</span>() <span class="tok-kw">const</span> <span class="tok-kw">noexcept</span> { <span class="tok-kw">return</span> size_<span class="tok-op">;</span> }
 
-    bool insert(K key, V val) {
-        // Resize at 85% load factor (17/20)
-        if ((size_ + 1) * 20 &gt;= table_.size() * 17) {
-            rehash(table_.size() * 2);
+    <span class="tok-kw">bool</span> <span class="tok-fn">insert</span>(K key<span class="tok-op">,</span> V val) {
+        <span class="tok-comment">// Resize at 85% load factor (17/20)</span>
+        <span class="tok-kw">if</span> ((size_ <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">*</span> <span class="tok-num">20</span> <span class="tok-op">&gt;=</span> table_<span class="tok-op">.</span><span class="tok-fn">size</span>() <span class="tok-op">*</span> <span class="tok-num">17</span>) {
+            <span class="tok-fn">rehash</span>(table_<span class="tok-op">.</span><span class="tok-fn">size</span>() <span class="tok-op">*</span> <span class="tok-num">2</span>)<span class="tok-op">;</span>
         }
-        const size_t mask = table_.size() - 1;
-        size_t idx = hashKey(key) &amp; mask;
-        uint32_t curDib = 1;
+        <span class="tok-kw">const</span> <span class="tok-type">size_t</span> mask <span class="tok-op">=</span> table_<span class="tok-op">.</span><span class="tok-fn">size</span>() <span class="tok-op">-</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+        <span class="tok-type">size_t</span> idx <span class="tok-op">=</span> <span class="tok-fn">hashKey</span>(key) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+        <span class="tok-type">uint32_t</span> curDib <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
 
-        while (true) {
-            Slot&amp; s = table_[idx];
-            if (s.dib == 0) {
-                s.key = std::move(key);
-                s.val = std::move(val);
-                s.dib = curDib;
-                ++size_;
-                return true;
+        <span class="tok-kw">while</span> (<span class="tok-kw">true</span>) {
+            Slot<span class="tok-op">&amp;</span> s <span class="tok-op">=</span> table_[idx]<span class="tok-op">;</span>
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">==</span> <span class="tok-num">0</span>) {
+                s<span class="tok-op">.</span>key <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(key)<span class="tok-op">;</span>
+                s<span class="tok-op">.</span>val <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(val)<span class="tok-op">;</span>
+                s<span class="tok-op">.</span>dib <span class="tok-op">=</span> curDib<span class="tok-op">;</span>
+                <span class="tok-op">++</span>size_<span class="tok-op">;</span>
+                <span class="tok-kw">return</span> <span class="tok-kw">true</span><span class="tok-op">;</span>
             }
-            if (s.dib == curDib &amp;&amp; s.key == key) {
-                s.val = std::move(val); // Update existing key in-place
-                return false;
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">==</span> curDib <span class="tok-op">&amp;&amp;</span> s<span class="tok-op">.</span>key <span class="tok-op">==</span> key) {
+                s<span class="tok-op">.</span>val <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(val)<span class="tok-op">;</span> <span class="tok-comment">// Update existing key in-place</span>
+                <span class="tok-kw">return</span> <span class="tok-kw">false</span><span class="tok-op">;</span>
             }
-            // Robin Hood Rule: steal slot if incoming key has larger DIB than occupant
-            if (curDib &gt; s.dib) {
-                std::swap(key, s.key);
-                std::swap(val, s.val);
-                std::swap(curDib, s.dib);
+            <span class="tok-comment">// Robin Hood Rule: steal slot if incoming key has larger DIB than occupant</span>
+            <span class="tok-kw">if</span> (curDib <span class="tok-op">&gt;</span> s<span class="tok-op">.</span>dib) {
+                std<span class="tok-op">::</span><span class="tok-fn">swap</span>(key<span class="tok-op">,</span> s<span class="tok-op">.</span>key)<span class="tok-op">;</span>
+                std<span class="tok-op">::</span><span class="tok-fn">swap</span>(val<span class="tok-op">,</span> s<span class="tok-op">.</span>val)<span class="tok-op">;</span>
+                std<span class="tok-op">::</span><span class="tok-fn">swap</span>(curDib<span class="tok-op">,</span> s<span class="tok-op">.</span>dib)<span class="tok-op">;</span>
             }
-            idx = (idx + 1) &amp; mask;
-            ++curDib;
+            idx <span class="tok-op">=</span> (idx <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+            <span class="tok-op">++</span>curDib<span class="tok-op">;</span>
         }
     }
 
-    std::optional&lt;V&gt; find(const K&amp; key) const {
-        const size_t mask = table_.size() - 1;
-        size_t idx = hashKey(key) &amp; mask;
-        uint32_t curDib = 1;
+    std<span class="tok-op">::</span><span class="tok-type">optional</span><span class="tok-op">&lt;</span>V<span class="tok-op">&gt;</span> <span class="tok-fn">find</span>(<span class="tok-kw">const</span> K<span class="tok-op">&amp;</span> key) <span class="tok-kw">const</span> {
+        <span class="tok-kw">const</span> <span class="tok-type">size_t</span> mask <span class="tok-op">=</span> table_<span class="tok-op">.</span><span class="tok-fn">size</span>() <span class="tok-op">-</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+        <span class="tok-type">size_t</span> idx <span class="tok-op">=</span> <span class="tok-fn">hashKey</span>(key) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+        <span class="tok-type">uint32_t</span> curDib <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
 
-        while (true) {
-            const Slot&amp; s = table_[idx];
-            // Early-exit invariant: if slot is empty OR occupant is richer, key cannot exist
-            if (s.dib &lt; curDib) return std::nullopt;
-            if (s.dib == curDib &amp;&amp; s.key == key) return s.val;
-            idx = (idx + 1) &amp; mask;
-            ++curDib;
+        <span class="tok-kw">while</span> (<span class="tok-kw">true</span>) {
+            <span class="tok-kw">const</span> Slot<span class="tok-op">&amp;</span> s <span class="tok-op">=</span> table_[idx]<span class="tok-op">;</span>
+            <span class="tok-comment">// Early-exit invariant: if slot is empty OR occupant is richer, key cannot exist</span>
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">&lt;</span> curDib) <span class="tok-kw">return</span> std<span class="tok-op">::</span>nullopt<span class="tok-op">;</span>
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">==</span> curDib <span class="tok-op">&amp;&amp;</span> s<span class="tok-op">.</span>key <span class="tok-op">==</span> key) <span class="tok-kw">return</span> s<span class="tok-op">.</span>val<span class="tok-op">;</span>
+            idx <span class="tok-op">=</span> (idx <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+            <span class="tok-op">++</span>curDib<span class="tok-op">;</span>
         }
     }
 
-    bool erase(const K&amp; key) {
-        const size_t mask = table_.size() - 1;
-        size_t idx = hashKey(key) &amp; mask;
-        uint32_t curDib = 1;
+    <span class="tok-kw">bool</span> <span class="tok-fn">erase</span>(<span class="tok-kw">const</span> K<span class="tok-op">&amp;</span> key) {
+        <span class="tok-kw">const</span> <span class="tok-type">size_t</span> mask <span class="tok-op">=</span> table_<span class="tok-op">.</span><span class="tok-fn">size</span>() <span class="tok-op">-</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+        <span class="tok-type">size_t</span> idx <span class="tok-op">=</span> <span class="tok-fn">hashKey</span>(key) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+        <span class="tok-type">uint32_t</span> curDib <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
 
-        while (true) {
-            Slot&amp; s = table_[idx];
-            if (s.dib &lt; curDib) return false; // Key not found
-            if (s.dib == curDib &amp;&amp; s.key == key) break; // Located target at idx
-            idx = (idx + 1) &amp; mask;
-            ++curDib;
+        <span class="tok-kw">while</span> (<span class="tok-kw">true</span>) {
+            Slot<span class="tok-op">&amp;</span> s <span class="tok-op">=</span> table_[idx]<span class="tok-op">;</span>
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">&lt;</span> curDib) <span class="tok-kw">return</span> <span class="tok-kw">false</span><span class="tok-op">;</span> <span class="tok-comment">// Key not found</span>
+            <span class="tok-kw">if</span> (s<span class="tok-op">.</span>dib <span class="tok-op">==</span> curDib <span class="tok-op">&amp;&amp;</span> s<span class="tok-op">.</span>key <span class="tok-op">==</span> key) <span class="tok-kw">break</span><span class="tok-op">;</span> <span class="tok-comment">// Located target at idx</span>
+            idx <span class="tok-op">=</span> (idx <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+            <span class="tok-op">++</span>curDib<span class="tok-op">;</span>
         }
 
-        // Tombstone-free backward shift deletion
-        size_t next = (idx + 1) &amp; mask;
-        while (table_[next].dib &gt; 1) {
-            table_[idx] = std::move(table_[next]);
-            --table_[idx].dib;
-            idx = next;
-            next = (next + 1) &amp; mask;
+        <span class="tok-comment">// Tombstone-free backward shift deletion</span>
+        <span class="tok-type">size_t</span> next <span class="tok-op">=</span> (idx <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
+        <span class="tok-kw">while</span> (table_[next]<span class="tok-op">.</span>dib <span class="tok-op">&gt;</span> <span class="tok-num">1</span>) {
+            table_[idx] <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">move</span>(table_[next])<span class="tok-op">;</span>
+            <span class="tok-op">--</span>table_[idx]<span class="tok-op">.</span>dib<span class="tok-op">;</span>
+            idx <span class="tok-op">=</span> next<span class="tok-op">;</span>
+            next <span class="tok-op">=</span> (next <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">&amp;</span> mask<span class="tok-op">;</span>
         }
-        table_[idx] = Slot{};
-        --size_;
-        return true;
+        table_[idx] <span class="tok-op">=</span> Slot{}<span class="tok-op">;</span>
+        <span class="tok-op">--</span>size_<span class="tok-op">;</span>
+        <span class="tok-kw">return</span> <span class="tok-kw">true</span><span class="tok-op">;</span>
     }
 
-    uint32_t maxPsl() const noexcept {
-        uint32_t maxD = 1;
-        for (const auto&amp; s : table_) maxD = std::max(maxD, s.dib);
-        return maxD - 1;
+    <span class="tok-type">uint32_t</span> <span class="tok-fn">maxPsl</span>() <span class="tok-kw">const</span> <span class="tok-kw">noexcept</span> {
+        <span class="tok-type">uint32_t</span> maxD <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">const</span> <span class="tok-kw">auto</span><span class="tok-op">&amp;</span> s <span class="tok-op">:</span> table_) maxD <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">max</span>(maxD<span class="tok-op">,</span> s<span class="tok-op">.</span>dib)<span class="tok-op">;</span>
+        <span class="tok-kw">return</span> maxD <span class="tok-op">-</span> <span class="tok-num">1</span><span class="tok-op">;</span>
     }
-};</code></pre></div>
+}<span class="tok-op">;</span></code></pre></div>
 
       <div class="callout callout-warning">
         <h4>Failure Modes &amp; Adversarial Pitfalls</h4>
@@ -1436,7 +1440,7 @@ public:
         </div>
         
         
-        <p class="check-slider__prompt">In the build lab, each `Slot` stores `uint8_t psl` where `0` means empty and `d &gt;= 1` means occupied with Probe Sequence Length $d - 1$, rather than `bool occupied; size_t psl;`.</p>
+        <p class="check-slider__prompt">In the build lab, each `Slot` stores `uint8_t psl` where `0` means empty and `d &gt;= 1` means occupied with Probe Sequence Length <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">d - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, rather than `bool occupied; size_t psl;`.</p>
         <div class="quiz-options check-slider__options" id="quiz-options-m04-build-q4">
           <label class="exercise-option quiz-option-label">
             <input type="radio" name="quiz-m04-build-q4" value="0" />
@@ -1717,7 +1721,9 @@ public:
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e89e80cbc2"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b4564caf69"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1727,7 +1733,7 @@ public:
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=ccebf4c773"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=05469d388e"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

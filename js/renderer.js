@@ -270,24 +270,181 @@ window.Renderer = (() => {
       .replace(/&#39;/g, "'");
   }
 
+  function highlightSyntax(code, lang) {
+    if (!code) return '';
+    const cleanLang = (lang || 'cpp').toLowerCase();
+
+    const CPP_KEYWORDS = new Set([
+      'auto', 'bool', 'break', 'case', 'catch', 'class', 'const', 'constexpr', 'continue',
+      'default', 'delete', 'do', 'double', 'else', 'enum', 'explicit', 'export', 'extern',
+      'false', 'float', 'for', 'friend', 'goto', 'if', 'inline', 'int', 'long', 'mutable',
+      'namespace', 'new', 'noexcept', 'nullptr', 'operator', 'private', 'protected', 'public',
+      'return', 'short', 'signed', 'sizeof', 'static', 'static_assert', 'struct', 'switch',
+      'template', 'this', 'throw', 'true', 'try', 'typedef', 'typename', 'union', 'unsigned',
+      'using', 'virtual', 'void', 'volatile', 'while'
+    ]);
+
+    const JS_KEYWORDS = new Set([
+      'async', 'await', 'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
+      'default', 'delete', 'do', 'else', 'export', 'extends', 'false', 'finally', 'for',
+      'function', 'if', 'import', 'in', 'instanceof', 'let', 'new', 'null', 'return',
+      'super', 'switch', 'this', 'throw', 'true', 'try', 'typeof', 'undefined', 'var',
+      'void', 'while', 'with', 'yield', 'type', 'interface', 'implements', 'declare'
+    ]);
+
+    const PY_KEYWORDS = new Set([
+      'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else',
+      'except', 'False', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is',
+      'lambda', 'None', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'True', 'try',
+      'while', 'with', 'yield', 'self'
+    ]);
+
+    const SH_KEYWORDS = new Set([
+      'if', 'then', 'else', 'elif', 'fi', 'for', 'while', 'do', 'done', 'in', 'case',
+      'esac', 'echo', 'exit', 'return', 'set', 'export', 'alias', 'local', 'function'
+    ]);
+
+    const CPP_TYPES = new Set([
+      'vector', 'string', 'span', 'pair', 'tuple', 'unordered_map', 'unordered_set', 'map', 'set',
+      'queue', 'stack', 'priority_queue', 'unique_ptr', 'shared_ptr', 'optional', 'size_t',
+      'uint32_t', 'uint64_t', 'int64_t', 'int32_t', 'ptrdiff_t', 'RecurrenceTerm', 'ListNode', 'TreeNode'
+    ]);
+
+    const isCpp = ['cpp', 'c++', 'cc', 'cxx', 'c', 'hpp', 'h'].includes(cleanLang);
+    const isPy = ['py', 'python'].includes(cleanLang);
+    const isSh = ['sh', 'bash', 'shell', 'zsh'].includes(cleanLang);
+    const isJs = ['js', 'javascript', 'ts', 'typescript', 'node'].includes(cleanLang);
+
+    const tokenRegex = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/|#[^\n]*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`[\s\S]*?`)|(\b\d+\.?\d*(?:[eE][+-]?\d+)?\b)|(\b[a-zA-Z_]\w*\b)|([+\-*/%=&|<>!^~?:;,.]+)/g;
+
+    let result = '';
+    let lastIndex = 0;
+    let match;
+
+    while ((match = tokenRegex.exec(code)) !== null) {
+      if (match.index > lastIndex) {
+        result += escapeHtml(code.slice(lastIndex, match.index));
+      }
+      const [full, commentOrHash, str, num, word, op] = match;
+      if (commentOrHash) {
+        if (commentOrHash.startsWith('#') && isCpp && /^\s*#\s*(include|define|pragma|ifdef|ifndef|endif|else)/.test(commentOrHash)) {
+          result += '<span class="tok-preproc">' + escapeHtml(commentOrHash) + '</span>';
+        } else if (commentOrHash.startsWith('#') && (isPy || isSh)) {
+          result += '<span class="tok-comment">' + escapeHtml(commentOrHash) + '</span>';
+        } else if (commentOrHash.startsWith('//') || commentOrHash.startsWith('/*')) {
+          result += '<span class="tok-comment">' + escapeHtml(commentOrHash) + '</span>';
+        } else {
+          result += escapeHtml(commentOrHash);
+        }
+      } else if (str) {
+        result += '<span class="tok-str">' + escapeHtml(str) + '</span>';
+      } else if (num) {
+        result += '<span class="tok-num">' + escapeHtml(num) + '</span>';
+      } else if (word) {
+        if (isCpp && CPP_KEYWORDS.has(word)) {
+          result += '<span class="tok-kw">' + escapeHtml(word) + '</span>';
+        } else if (isCpp && CPP_TYPES.has(word)) {
+          result += '<span class="tok-type">' + escapeHtml(word) + '</span>';
+        } else if (isJs && JS_KEYWORDS.has(word)) {
+          result += '<span class="tok-kw">' + escapeHtml(word) + '</span>';
+        } else if (isPy && PY_KEYWORDS.has(word)) {
+          result += '<span class="tok-kw">' + escapeHtml(word) + '</span>';
+        } else if (isSh && SH_KEYWORDS.has(word)) {
+          result += '<span class="tok-kw">' + escapeHtml(word) + '</span>';
+        } else if (code[tokenRegex.lastIndex] === '(') {
+          result += '<span class="tok-fn">' + escapeHtml(word) + '</span>';
+        } else {
+          result += escapeHtml(word);
+        }
+      } else if (op) {
+        result += '<span class="tok-op">' + escapeHtml(op) + '</span>';
+      } else {
+        result += escapeHtml(full);
+      }
+      lastIndex = tokenRegex.lastIndex;
+    }
+
+    if (lastIndex < code.length) {
+      result += escapeHtml(code.slice(lastIndex));
+    }
+    return result;
+  }
+
+  function renderMathInHtml(html) {
+    if (!html || typeof html !== 'string') return html;
+
+    const k = (typeof window !== 'undefined' && window.katex) || (typeof globalThis !== 'undefined' && globalThis.katex);
+
+    // Stash pre, code, svg, script, textarea blocks to protect them from math delimiters
+    const stash = [];
+    let safe = html.replace(/<(pre|code|svg|script|textarea)\b[\s\S]*?<\/\1>/gi, (m) => {
+      stash.push(m);
+      return '\x00PROTECTED_' + (stash.length - 1) + '\x00';
+    });
+
+    // 1. Block math $$...$$
+    safe = safe.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
+      const clean = math.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim();
+      if (k && typeof k.renderToString === 'function') {
+        try {
+          return k.renderToString(clean, { displayMode: true, throwOnError: false });
+        } catch (_) {}
+      }
+      return '<div class="katex-display-math" data-math="' + escapeHtml(clean) + '">$$' + escapeHtml(clean) + '$$</div>';
+    });
+
+    // 2. Inline math $...$
+    safe = safe.replace(/\$([^\$\n\r]+?)\$/g, (_, math) => {
+      const clean = math.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim();
+      if (k && typeof k.renderToString === 'function') {
+        try {
+          return k.renderToString(clean, { displayMode: false, throwOnError: false });
+        } catch (_) {}
+      }
+      return '<span class="katex-inline-math" data-math="' + escapeHtml(clean) + '">$' + escapeHtml(clean) + '$</span>';
+    });
+
+    // Restore protected blocks
+    return safe.replace(/\x00PROTECTED_(\d+)\x00/g, (_, i) => stash[Number(i)]);
+  }
+
   function renderTopicCodeBlock(rawCode, lang) {
     const cleanLang = (lang || 'cpp').toLowerCase();
     const isRunnable = ['js', 'javascript', 'ts', 'typescript', 'cpp', 'c++', 'cc', 'cxx', 'c', 'hpp', 'py', 'python', 'node', 'sh', 'bash'].includes(cleanLang);
     const displayLang = (cleanLang === 'cpp' || cleanLang === 'c++' || cleanLang === 'cc') ? 'C++20' : cleanLang.toUpperCase();
     const unescaped = unescapeHtml(rawCode).trim();
+    const lineCount = unescaped ? unescaped.split('\n').length : 0;
+    const isLong = lineCount > 6;
+    const collapsedClass = isLong ? ' code-block--collapsed' : '';
+    const initialExpanded = !isLong;
+
     const runBtn = isRunnable
-      ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button>`
+      ? `<button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button>`
       : '';
+
+    const copyBtn = `<button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button>`;
+
+    const toggleBtn = `<button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="${initialExpanded}" title="Expand or collapse code block">
+      <span class="code-block__toggle-text">${initialExpanded ? 'Collapse' : 'Expand'}</span>
+      <span class="code-block__chevron">${initialExpanded ? '▲' : '▼'}</span>
+    </button>`;
+
+    const highlighted = highlightSyntax(unescaped, cleanLang);
+
     return (
-      '<div class="code-block">' +
-        '<div class="code-block__header">' +
-          '<span class="code-block__lang">' + escapeHtml(displayLang) + '</span>' +
+      '<div class="code-block code-block--collapsible' + collapsedClass + '">' +
+        '<div class="code-block__header" data-action="toggle-code-header">' +
+          '<div style="display:flex;align-items:center;gap:8px;">' +
+            '<span class="code-block__lang">' + escapeHtml(displayLang) + '</span>' +
+            '<span class="code-block__lines-chip">' + lineCount + ' lines</span>' +
+          '</div>' +
           '<div style="display:flex;align-items:center;gap:6px;">' +
             runBtn +
-            '<button type="button" class="code-block__copy" data-action="copy-code">Copy</button>' +
+            copyBtn +
+            toggleBtn +
           '</div>' +
         '</div>' +
-        '<pre><code class="language-' + escapeHtml(cleanLang) + '">' + escapeHtml(unescaped) + '</code></pre>' +
+        '<pre><code class="language-' + escapeHtml(cleanLang) + '">' + highlighted + '</code></pre>' +
       '</div>'
     );
   }
@@ -577,7 +734,7 @@ window.Renderer = (() => {
     // Prev/Next navigation
     html += renderLessonNav(slug, mod, part);
 
-    return html;
+    return renderMathInHtml(html);
   }
 
   // Order build files: README first, then implementation, demo, tests
@@ -898,9 +1055,10 @@ window.Renderer = (() => {
   function convertMarkdownToHTML(md) {
     if (!md) return '';
 
-    // Phase 1: Extract code blocks, mermaid diagrams, and inline code spans to protect them from other regexes
+    // Phase 1: Extract code blocks, mermaid diagrams, inline code spans, and math to protect them from markdown regexes
     const codeBlocks = [];
     const inlineCodes = [];
+    const mathSpans = [];
     let html = md
       // Mermaid blocks MUST be replaced before generic code blocks
       .replace(/```mermaid\s*\n([\s\S]*?)```/g, (_, diagram) => {
@@ -912,22 +1070,7 @@ window.Renderer = (() => {
       .replace(/```(\S+)?[^\n]*\n([\s\S]*?)```/g, (_, lang, code) => {
         const idx = codeBlocks.length;
         const cleanLang = (lang || 'text').toLowerCase();
-        const isRunnable = ['js', 'javascript', 'ts', 'typescript', 'cpp', 'c++', 'cc', 'cxx', 'c', 'hpp', 'node', 'sh', 'bash'].includes(cleanLang);
-        const runBtn = isRunnable
-          ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE (Node.js v22, TypeScript &amp; C++20 WASI)">⚡ Run in CodeLab</button>`
-          : '';
-        codeBlocks.push(
-          '<div class="code-block">' +
-            '<div class="code-block__header">' +
-              '<span class="code-block__lang">' + escapeHtml(cleanLang) + '</span>' +
-              '<div style="display:flex;align-items:center;gap:6px;">' +
-                runBtn +
-                '<button type="button" class="code-block__copy" data-action="copy-code">Copy</button>' +
-              '</div>' +
-            '</div>' +
-            '<pre><code class="language-' + escapeHtml(cleanLang) + '">' + escapeHtml(code.trim()) + '</code></pre>' +
-          '</div>'
-        );
+        codeBlocks.push(renderTopicCodeBlock(code.trim(), cleanLang));
         return '\x00CODEBLOCK_' + idx + '\x00';
       })
       // Inline code (`...`) - escape HTML entities inside backticks & protect from markdown regexes
@@ -935,6 +1078,18 @@ window.Renderer = (() => {
         const idx = inlineCodes.length;
         inlineCodes.push('<code>' + escapeHtml(code) + '</code>');
         return '\x00INLINECODE_' + idx + '\x00';
+      })
+      // Block math ($$...$$) - protect from markdown asterisks / underscores
+      .replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
+        const idx = mathSpans.length;
+        mathSpans.push({ isBlock: true, math });
+        return '\x00MATHSPAN_' + idx + '\x00';
+      })
+      // Inline math ($...$) - protect from markdown asterisks / underscores
+      .replace(/\$([^\$\n\r]+?)\$/g, (_, math) => {
+        const idx = mathSpans.length;
+        mathSpans.push({ isBlock: false, math });
+        return '\x00MATHSPAN_' + idx + '\x00';
       });
 
     // Phase 2: Process block-level markdown syntax (code blocks & inline code are safely extracted)
@@ -1077,9 +1232,14 @@ window.Renderer = (() => {
 
     out = out
       .replace(/\x00CODEBLOCK_(\d+)\x00/g, (_, idx) => codeBlocks[parseInt(idx)])
-      .replace(/\x00INLINECODE_(\d+)\x00/g, (_, idx) => inlineCodes[parseInt(idx)]);
+      .replace(/\x00INLINECODE_(\d+)\x00/g, (_, idx) => inlineCodes[parseInt(idx)])
+      .replace(/\x00MATHSPAN_(\d+)\x00/g, (_, idx) => {
+        const item = mathSpans[parseInt(idx)];
+        if (!item) return '';
+        return item.isBlock ? `$$${item.math}$$` : `$${item.math}$`;
+      });
 
-    return out;
+    return renderMathInHtml(out);
   }
 
   /**

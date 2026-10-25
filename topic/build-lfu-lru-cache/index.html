@@ -30,9 +30,10 @@
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=d266742353">
+  <link rel="stylesheet" href="css/components.css?v=0f432d5f5e">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -841,7 +842,7 @@
       <p class="video-embed__why">Deep-dive lecture covering Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine.</p></div>
         <aside class="intuition">
           <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
-          <div class="intuition__body"><p>Building a production-grade $O(1)$ LFU Cache requires orchestrating three invariants simultaneously without a single memory leak or dangling iterator: (1) a key lookup table <code>key -> Node</code>, (2) per-frequency circular doubly linked lists <code>freq -> List</code> that preserve LRU tie-breaking within each frequency tier, and (3) a deterministic <code>min_freq</code> cursor that tracks the lowest populated frequency bucket in $O(1)$ time.</p></div>
+          <div class="intuition__body"><p>Building a production-grade <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> LFU Cache requires orchestrating three invariants simultaneously without a single memory leak or dangling iterator: (1) a key lookup table <code>key -> Node</code>, (2) per-frequency circular doubly linked lists <code>freq -> List</code> that preserve LRU tie-breaking within each frequency tier, and (3) a deterministic <code>min_freq</code> cursor that tracks the lowest populated frequency bucket in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time.</p></div>
         </aside>
       <div class="audio-player" id="audio-player-build-lfu-lru-cache">
         <button class="audio-player__play-btn" id="audio-btn-build-lfu-lru-cache" data-action="toggle-audio" data-slug="build-lfu-lru-cache" aria-label="Play audio" title="Play audio">
@@ -859,21 +860,21 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="build-lfu-lru-cache" id="audio-speed-build-lfu-lru-cache" title="Playback speed">1x</button>
         <audio id="audio-build-lfu-lru-cache" src="audio/build-lfu-lru-cache.mp3" preload="metadata"></audio>
       </div><article class="prose">
-      <h3>End-to-End State Machine of the $O(1)$ LFU Engine</h3>
-      <p>Let us trace every edge case required to implement a zero-allocation, bug-free $O(1)$ LFU Cache of capacity $C$. Every cached item is represented by a <code>Node</code> containing <code>{key, value, freq, prev, next}</code>. We maintain:</p>
+      <h3>End-to-End State Machine of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> LFU Engine</h3>
+      <p>Let us trace every edge case required to implement a zero-allocation, bug-free <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> LFU Cache of capacity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span>. Every cached item is represented by a <code>Node</code> containing <code>{key, value, freq, prev, next}</code>. We maintain:</p>
       <ul>
         <li><code>key_table</code>: Maps <code>key -&gt; Node*</code> (or arena slot index).</li>
         <li><code>freq_table</code>: Maps <code>freq -&gt; DoublyLinkedList</code>, where each list orders nodes of that exact frequency from Most Recently Used (front) to Least Recently Used (back).</li>
-        <li><code>min_freq</code>: An integer tracking the smallest frequency $f \ge 1$ such that <code>freq_table[f]</code> is non-empty.</li>
+        <li><code>min_freq</code>: An integer tracking the smallest frequency <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f \ge 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> such that <code>freq_table[f]</code> is non-empty.</li>
       </ul>
 
       <div class="invariant-box">
         <div class="invariant-title">Verification Checklist: The 4 Invariant Transitions of O(1) LFU</div>
         <ol>
-          <li><strong>Transition 1 — Cache Hit on <code>get(key)</code>:</strong> Find node $u$ with frequency $f = u.\text{freq}$. Unlink $u$ from <code>freq_table[f]</code>. If <code>freq_table[f].empty()</code> and $f == \text{min\_freq}$, set $\text{min\_freq} = f + 1$. Set $u.\text{freq} = f + 1$ and push $u$ to the MRU front of <code>freq_table[f + 1]</code>. Return $u.\text{value}$.</li>
-          <li><strong>Transition 2 — Cache Hit on <code>put(key, new_val)</code>:</strong> Overwrite $u.\text{value} = \text{new\_val}$, and execute the <strong>exact same frequency promotion logic</strong> as Transition 1!</li>
-          <li><strong>Transition 3 — Cache Miss on <code>put(key, val)</code> when Full (<code>size == capacity</code>):</strong> Look up bucket <code>freq_table[min_freq]</code>. Pop its <strong>LRU tail node</strong> $v$, and erase $v.\text{key}$ from <code>key_table</code>. (Note: we do NOT need to update <code>min_freq</code> based on $v$'s removal because we are about to reset <code>min_freq = 1</code> in Transition 4!)</li>
-          <li><strong>Transition 4 — Inserting the New Node on <code>put(key, val)</code>:</strong> Initialize node $w$ with $\text{freq} = 1$, push $w$ to the MRU front of <code>freq_table[1]</code>, insert <code>key_table[key] = w</code>, and unconditionally set <code>min_freq = 1</code>.</li>
+          <li><strong>Transition 1 — Cache Hit on <code>get(key)</code>:</strong> Find node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> with frequency <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mi>u</mi><mi mathvariant="normal">.</mi><mtext>freq</mtext></mrow><annotation encoding="application/x-tex">f = u.\text{freq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">u</span><span class="mord">.</span><span class="mord text"><span class="mord">freq</span></span></span></span></span>. Unlink <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> from <code>freq_table[f]</code>. If <code>freq_table[f].empty()</code> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mo>=</mo><mtext>min_freq</mtext></mrow><annotation encoding="application/x-tex">f == \text{min\_freq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">==</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">min_freq</span></span></span></span></span>, set <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>min_freq</mtext><mo>=</mo><mi>f</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{min\_freq} = f + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">min_freq</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>. Set <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi mathvariant="normal">.</mi><mtext>freq</mtext><mo>=</mo><mi>f</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">u.\text{freq} = f + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">u</span><span class="mord">.</span><span class="mord text"><span class="mord">freq</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> and push <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> to the MRU front of <code>freq_table[f + 1]</code>. Return <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi mathvariant="normal">.</mi><mtext>value</mtext></mrow><annotation encoding="application/x-tex">u.\text{value}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">u</span><span class="mord">.</span><span class="mord text"><span class="mord">value</span></span></span></span></span>.</li>
+          <li><strong>Transition 2 — Cache Hit on <code>put(key, new_val)</code>:</strong> Overwrite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi mathvariant="normal">.</mi><mtext>value</mtext><mo>=</mo><mtext>new_val</mtext></mrow><annotation encoding="application/x-tex">u.\text{value} = \text{new\_val}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">u</span><span class="mord">.</span><span class="mord text"><span class="mord">value</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">new_val</span></span></span></span></span>, and execute the <strong>exact same frequency promotion logic</strong> as Transition 1!</li>
+          <li><strong>Transition 3 — Cache Miss on <code>put(key, val)</code> when Full (<code>size == capacity</code>):</strong> Look up bucket <code>freq_table[min_freq]</code>. Pop its <strong>LRU tail node</strong> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span>, and erase <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi mathvariant="normal">.</mi><mtext>key</mtext></mrow><annotation encoding="application/x-tex">v.\text{key}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mord">.</span><span class="mord text"><span class="mord">key</span></span></span></span></span> from <code>key_table</code>. (Note: we do NOT need to update <code>min_freq</code> based on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span>'s removal because we are about to reset <code>min_freq = 1</code> in Transition 4!)</li>
+          <li><strong>Transition 4 — Inserting the New Node on <code>put(key, val)</code>:</strong> Initialize node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>freq</mtext><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{freq} = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">freq</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, push <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> to the MRU front of <code>freq_table[1]</code>, insert <code>key_table[key] = w</code>, and unconditionally set <code>min_freq = 1</code>.</li>
         </ol>
       </div>
 
@@ -890,31 +891,31 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>get(key)</code> (Hit at $f == \text{min\_freq}$, last item in bucket)</td>
+            <td><code>get(key)</code> (Hit at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mo>=</mo><mtext>min_freq</mtext></mrow><annotation encoding="application/x-tex">f == \text{min\_freq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">==</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">min_freq</span></span></span></span></span>, last item in bucket)</td>
             <td><code>min_freq = f + 1</code></td>
-            <td>Unlink from $f$, push front $f+1$</td>
-            <td>$O(1)$</td>
-            <td>Forgetting to check if bucket $f$ became empty</td>
+            <td>Unlink from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span>, push front <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+            <td>Forgetting to check if bucket <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span> became empty</td>
           </tr>
           <tr>
-            <td><code>get(key)</code> (Hit at $f &gt; \text{min\_freq}$)</td>
+            <td><code>get(key)</code> (Hit at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>&gt;</mo><mtext>min_freq</mtext></mrow><annotation encoding="application/x-tex">f &gt; \text{min\_freq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">min_freq</span></span></span></span></span>)</td>
             <td>Unchanged</td>
-            <td>Unlink from $f$, push front $f+1$</td>
-            <td>$O(1)$</td>
-            <td>Incrementing <code>min_freq</code> when $f \neq \text{min\_freq}$!</td>
+            <td>Unlink from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span>, push front <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+            <td>Incrementing <code>min_freq</code> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo mathvariant="normal">≠</mo><mtext>min_freq</mtext></mrow><annotation encoding="application/x-tex">f \neq \text{min\_freq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord katex-vbox"><span class="katex-thinbox"><span class="rlap"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="katex-inner"><span class="mord"><span class="mrel"></span></span></span><span class="katex-fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">min_freq</span></span></span></span></span>!</td>
           </tr>
           <tr>
             <td><code>put(key, val)</code> (New key when full)</td>
             <td>Reset <code>min_freq = 1</code></td>
-            <td>Pop tail of <code>min_freq</code>, push front of $1$</td>
-            <td>$O(1)$</td>
+            <td>Pop tail of <code>min_freq</code>, push front of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
             <td>Evicting AFTER setting <code>min_freq = 1</code>!</td>
           </tr>
           <tr>
             <td><code>capacity == 0</code></td>
             <td>N/A (No-op)</td>
             <td>None</td>
-            <td>$O(1)$</td>
+            <td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
             <td>Attempting to evict from an empty <code>freq_table[0]</code></td>
           </tr>
         </tbody>
@@ -964,7 +965,7 @@
         <p>A textbook C++ LFU implementation using <code>std::unordered_map&lt;int, std::list&lt;Node&gt;&gt; freq_table</code> suffers from two performance hazards in long-running services:</p>
         <ol>
           <li><strong>Per-Promotion Heap Allocations:</strong> Calling <code>freq_table[f].erase(it)</code> and <code>freq_table[f+1].push_front(...)</code> deallocates a heap node and allocates a brand-new heap node on <em>every single cache hit</em>! Using <code>std::list::splice</code> (or intrusive doubly linked list nodes) moves the existing node between frequency buckets by rewiring 4 pointers with <strong>zero heap allocations</strong>.</li>
-          <li><strong>Unbounded Empty Frequency Buckets:</strong> If a hot item is accessed $10^7$ times, a naive <code>freq_table</code> creates $10^7$ empty <code>std::list</code> entries for frequencies $1, 2, \dots, 10^7 - 1$, exhausting gigabytes of RAM! In production, either erase empty buckets from <code>freq_table</code> when their size hits 0, or store frequency buckets as an intrusive doubly linked list of active frequency headers.</li>
+          <li><strong>Unbounded Empty Frequency Buckets:</strong> If a hot item is accessed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> times, a naive <code>freq_table</code> creates <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> empty <code>std::list</code> entries for frequencies <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msup><mn>10</mn><mn>7</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1, 2, \dots, 10^7 - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, exhausting gigabytes of RAM! In production, either erase empty buckets from <code>freq_table</code> when their size hits 0, or store frequency buckets as an intrusive doubly linked list of active frequency headers.</li>
         </ol>
       </div>
 
@@ -1101,122 +1102,125 @@
         </div>
 
       <h3>Production Implementation: Zero-Allocation Intrusive O(1) LFU Cache Engine</h3>
-      <div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">#include &lt;cstdint&gt;
-#include &lt;unordered_map&gt;
-#include &lt;vector&gt;
+      <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">112 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
+      <span class="code-block__toggle-text">Expand</span>
+      <span class="code-block__chevron">▼</span>
+    </button></div></div><pre><code class="language-cpp"><span class="tok-preproc">#include &lt;cstdint&gt;</span>
+<span class="tok-preproc">#include &lt;unordered_map&gt;</span>
+<span class="tok-preproc">#include &lt;vector&gt;</span>
 
-class LFUCache {
-  struct Node {
-    int key = 0;
-    int value = 0;
-    int freq = 1;
-    int prev = -1;
-    int next = -1;
-  };
+<span class="tok-kw">class</span> LFUCache {
+  <span class="tok-kw">struct</span> Node {
+    <span class="tok-kw">int</span> key <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+    <span class="tok-kw">int</span> value <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+    <span class="tok-kw">int</span> freq <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">int</span> prev <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">int</span> next <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+  }<span class="tok-op">;</span>
 
-  struct FreqList {
-    int head = -1; // MRU front
-    int tail = -1; // LRU back
-    int count = 0;
-  };
+  <span class="tok-kw">struct</span> FreqList {
+    <span class="tok-kw">int</span> head <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span> <span class="tok-comment">// MRU front</span>
+    <span class="tok-kw">int</span> tail <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span> <span class="tok-comment">// LRU back</span>
+    <span class="tok-kw">int</span> count <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+  }<span class="tok-op">;</span>
 
-  int capacity_;
-  int size_ = 0;
-  int min_freq_ = 0;
-  std::vector&lt;Node&gt; pool_;
-  std::vector&lt;int&gt; free_slots_;
-  std::unordered_map&lt;int, int&gt; key_to_slot_;
-  std::unordered_map&lt;int, FreqList&gt; freq_lists_;
+  <span class="tok-kw">int</span> capacity_<span class="tok-op">;</span>
+  <span class="tok-kw">int</span> size_ <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+  <span class="tok-kw">int</span> min_freq_ <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span>
+  std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span>Node<span class="tok-op">&gt;</span> pool_<span class="tok-op">;</span>
+  std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span> free_slots_<span class="tok-op">;</span>
+  std<span class="tok-op">::</span><span class="tok-type">unordered_map</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">,</span> <span class="tok-kw">int</span><span class="tok-op">&gt;</span> key_to_slot_<span class="tok-op">;</span>
+  std<span class="tok-op">::</span><span class="tok-type">unordered_map</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">,</span> FreqList<span class="tok-op">&gt;</span> freq_lists_<span class="tok-op">;</span>
 
-  void remove_from_list(int slot, int freq) {
-    auto it = freq_lists_.find(freq);
-    FreqList&amp; list = it-&gt;second;
-    const int p = pool_[slot].prev;
-    const int n = pool_[slot].next;
+  <span class="tok-kw">void</span> <span class="tok-fn">remove_from_list</span>(<span class="tok-kw">int</span> slot<span class="tok-op">,</span> <span class="tok-kw">int</span> freq) {
+    <span class="tok-kw">auto</span> it <span class="tok-op">=</span> freq_lists_<span class="tok-op">.</span><span class="tok-fn">find</span>(freq)<span class="tok-op">;</span>
+    FreqList<span class="tok-op">&amp;</span> list <span class="tok-op">=</span> it<span class="tok-op">-&gt;</span>second<span class="tok-op">;</span>
+    <span class="tok-kw">const</span> <span class="tok-kw">int</span> p <span class="tok-op">=</span> pool_[slot]<span class="tok-op">.</span>prev<span class="tok-op">;</span>
+    <span class="tok-kw">const</span> <span class="tok-kw">int</span> n <span class="tok-op">=</span> pool_[slot]<span class="tok-op">.</span>next<span class="tok-op">;</span>
 
-    if (p != -1) pool_[p].next = n;
-    else list.head = n;
+    <span class="tok-kw">if</span> (p <span class="tok-op">!=</span> <span class="tok-op">-</span><span class="tok-num">1</span>) pool_[p]<span class="tok-op">.</span>next <span class="tok-op">=</span> n<span class="tok-op">;</span>
+    <span class="tok-kw">else</span> list<span class="tok-op">.</span>head <span class="tok-op">=</span> n<span class="tok-op">;</span>
 
-    if (n != -1) pool_[n].prev = p;
-    else list.tail = p;
+    <span class="tok-kw">if</span> (n <span class="tok-op">!=</span> <span class="tok-op">-</span><span class="tok-num">1</span>) pool_[n]<span class="tok-op">.</span>prev <span class="tok-op">=</span> p<span class="tok-op">;</span>
+    <span class="tok-kw">else</span> list<span class="tok-op">.</span>tail <span class="tok-op">=</span> p<span class="tok-op">;</span>
 
-    pool_[slot].prev = pool_[slot].next = -1;
-    if (--list.count == 0) {
-      freq_lists_.erase(it); // Prevent unbounded empty bucket memory leak!
-      if (min_freq_ == freq) {
-        ++min_freq_;
+    pool_[slot]<span class="tok-op">.</span>prev <span class="tok-op">=</span> pool_[slot]<span class="tok-op">.</span>next <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">if</span> (<span class="tok-op">--</span>list<span class="tok-op">.</span>count <span class="tok-op">==</span> <span class="tok-num">0</span>) {
+      freq_lists_<span class="tok-op">.</span><span class="tok-fn">erase</span>(it)<span class="tok-op">;</span> <span class="tok-comment">// Prevent unbounded empty bucket memory leak!</span>
+      <span class="tok-kw">if</span> (min_freq_ <span class="tok-op">==</span> freq) {
+        <span class="tok-op">++</span>min_freq_<span class="tok-op">;</span>
       }
     }
   }
 
-  void push_front_list(int slot, int freq) {
-    FreqList&amp; list = freq_lists_[freq];
-    pool_[slot].prev = -1;
-    pool_[slot].next = list.head;
-    if (list.head != -1) pool_[list.head].prev = slot;
-    else list.tail = slot;
-    list.head = slot;
-    ++list.count;
+  <span class="tok-kw">void</span> <span class="tok-fn">push_front_list</span>(<span class="tok-kw">int</span> slot<span class="tok-op">,</span> <span class="tok-kw">int</span> freq) {
+    FreqList<span class="tok-op">&amp;</span> list <span class="tok-op">=</span> freq_lists_[freq]<span class="tok-op">;</span>
+    pool_[slot]<span class="tok-op">.</span>prev <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    pool_[slot]<span class="tok-op">.</span>next <span class="tok-op">=</span> list<span class="tok-op">.</span>head<span class="tok-op">;</span>
+    <span class="tok-kw">if</span> (list<span class="tok-op">.</span>head <span class="tok-op">!=</span> <span class="tok-op">-</span><span class="tok-num">1</span>) pool_[list<span class="tok-op">.</span>head]<span class="tok-op">.</span>prev <span class="tok-op">=</span> slot<span class="tok-op">;</span>
+    <span class="tok-kw">else</span> list<span class="tok-op">.</span>tail <span class="tok-op">=</span> slot<span class="tok-op">;</span>
+    list<span class="tok-op">.</span>head <span class="tok-op">=</span> slot<span class="tok-op">;</span>
+    <span class="tok-op">++</span>list<span class="tok-op">.</span>count<span class="tok-op">;</span>
   }
 
-  void touch(int slot) {
-    const int f = pool_[slot].freq;
-    remove_from_list(slot, f);
-    pool_[slot].freq = f + 1;
-    push_front_list(slot, f + 1);
+  <span class="tok-kw">void</span> <span class="tok-fn">touch</span>(<span class="tok-kw">int</span> slot) {
+    <span class="tok-kw">const</span> <span class="tok-kw">int</span> f <span class="tok-op">=</span> pool_[slot]<span class="tok-op">.</span>freq<span class="tok-op">;</span>
+    <span class="tok-fn">remove_from_list</span>(slot<span class="tok-op">,</span> f)<span class="tok-op">;</span>
+    pool_[slot]<span class="tok-op">.</span>freq <span class="tok-op">=</span> f <span class="tok-op">+</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-fn">push_front_list</span>(slot<span class="tok-op">,</span> f <span class="tok-op">+</span> <span class="tok-num">1</span>)<span class="tok-op">;</span>
   }
 
-public:
-  explicit LFUCache(int capacity) : capacity_(capacity), pool_(capacity &gt; 0 ? capacity : 0) {
-    for (int i = capacity - 1; i &gt;= 0; --i) {
-      free_slots_.push_back(i);
+<span class="tok-kw">public</span><span class="tok-op">:</span>
+  <span class="tok-kw">explicit</span> <span class="tok-fn">LFUCache</span>(<span class="tok-kw">int</span> capacity) <span class="tok-op">:</span> <span class="tok-fn">capacity_</span>(capacity)<span class="tok-op">,</span> <span class="tok-fn">pool_</span>(capacity <span class="tok-op">&gt;</span> <span class="tok-num">0</span> <span class="tok-op">?</span> capacity <span class="tok-op">:</span> <span class="tok-num">0</span>) {
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i <span class="tok-op">=</span> capacity <span class="tok-op">-</span> <span class="tok-num">1</span><span class="tok-op">;</span> i <span class="tok-op">&gt;=</span> <span class="tok-num">0</span><span class="tok-op">;</span> <span class="tok-op">--</span>i) {
+      free_slots_<span class="tok-op">.</span><span class="tok-fn">push_back</span>(i)<span class="tok-op">;</span>
     }
   }
 
-  int get(int key) {
-    auto it = key_to_slot_.find(key);
-    if (it == key_to_slot_.end()) return -1;
-    const int slot = it-&gt;second;
-    touch(slot);
-    return pool_[slot].value;
+  <span class="tok-kw">int</span> <span class="tok-fn">get</span>(<span class="tok-kw">int</span> key) {
+    <span class="tok-kw">auto</span> it <span class="tok-op">=</span> key_to_slot_<span class="tok-op">.</span><span class="tok-fn">find</span>(key)<span class="tok-op">;</span>
+    <span class="tok-kw">if</span> (it <span class="tok-op">==</span> key_to_slot_<span class="tok-op">.</span><span class="tok-fn">end</span>()) <span class="tok-kw">return</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">const</span> <span class="tok-kw">int</span> slot <span class="tok-op">=</span> it<span class="tok-op">-&gt;</span>second<span class="tok-op">;</span>
+    <span class="tok-fn">touch</span>(slot)<span class="tok-op">;</span>
+    <span class="tok-kw">return</span> pool_[slot]<span class="tok-op">.</span>value<span class="tok-op">;</span>
   }
 
-  void put(int key, int value) {
-    if (capacity_ &lt;= 0) return;
+  <span class="tok-kw">void</span> <span class="tok-fn">put</span>(<span class="tok-kw">int</span> key<span class="tok-op">,</span> <span class="tok-kw">int</span> value) {
+    <span class="tok-kw">if</span> (capacity_ <span class="tok-op">&lt;=</span> <span class="tok-num">0</span>) <span class="tok-kw">return</span><span class="tok-op">;</span>
 
-    auto it = key_to_slot_.find(key);
-    if (it != key_to_slot_.end()) {
-      const int slot = it-&gt;second;
-      pool_[slot].value = value;
-      touch(slot);
-      return;
+    <span class="tok-kw">auto</span> it <span class="tok-op">=</span> key_to_slot_<span class="tok-op">.</span><span class="tok-fn">find</span>(key)<span class="tok-op">;</span>
+    <span class="tok-kw">if</span> (it <span class="tok-op">!=</span> key_to_slot_<span class="tok-op">.</span><span class="tok-fn">end</span>()) {
+      <span class="tok-kw">const</span> <span class="tok-kw">int</span> slot <span class="tok-op">=</span> it<span class="tok-op">-&gt;</span>second<span class="tok-op">;</span>
+      pool_[slot]<span class="tok-op">.</span>value <span class="tok-op">=</span> value<span class="tok-op">;</span>
+      <span class="tok-fn">touch</span>(slot)<span class="tok-op">;</span>
+      <span class="tok-kw">return</span><span class="tok-op">;</span>
     }
 
-    int slot = -1;
-    if (size_ == capacity_) {
-      // Evict LRU tail of min_freq_ BEFORE resetting min_freq_ = 1!
-      const int victim = freq_lists_[min_freq_].tail;
-      remove_from_list(victim, min_freq_);
-      key_to_slot_.erase(pool_[victim].key);
-      slot = victim; // Reuse evicted slot in place!
-    } else {
-      slot = free_slots_.back();
-      free_slots_.pop_back();
-      ++size_;
+    <span class="tok-kw">int</span> slot <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">if</span> (size_ <span class="tok-op">==</span> capacity_) {
+      <span class="tok-comment">// Evict LRU tail of min_freq_ BEFORE resetting min_freq_ = 1!</span>
+      <span class="tok-kw">const</span> <span class="tok-kw">int</span> victim <span class="tok-op">=</span> freq_lists_[min_freq_]<span class="tok-op">.</span>tail<span class="tok-op">;</span>
+      <span class="tok-fn">remove_from_list</span>(victim<span class="tok-op">,</span> min_freq_)<span class="tok-op">;</span>
+      key_to_slot_<span class="tok-op">.</span><span class="tok-fn">erase</span>(pool_[victim]<span class="tok-op">.</span>key)<span class="tok-op">;</span>
+      slot <span class="tok-op">=</span> victim<span class="tok-op">;</span> <span class="tok-comment">// Reuse evicted slot in place!</span>
+    } <span class="tok-kw">else</span> {
+      slot <span class="tok-op">=</span> free_slots_<span class="tok-op">.</span><span class="tok-fn">back</span>()<span class="tok-op">;</span>
+      free_slots_<span class="tok-op">.</span><span class="tok-fn">pop_back</span>()<span class="tok-op">;</span>
+      <span class="tok-op">++</span>size_<span class="tok-op">;</span>
     }
 
-    pool_[slot].key = key;
-    pool_[slot].value = value;
-    pool_[slot].freq = 1;
-    push_front_list(slot, 1);
-    key_to_slot_[key] = slot;
-    min_freq_ = 1;
+    pool_[slot]<span class="tok-op">.</span>key <span class="tok-op">=</span> key<span class="tok-op">;</span>
+    pool_[slot]<span class="tok-op">.</span>value <span class="tok-op">=</span> value<span class="tok-op">;</span>
+    pool_[slot]<span class="tok-op">.</span>freq <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-fn">push_front_list</span>(slot<span class="tok-op">,</span> <span class="tok-num">1</span>)<span class="tok-op">;</span>
+    key_to_slot_[key] <span class="tok-op">=</span> slot<span class="tok-op">;</span>
+    min_freq_ <span class="tok-op">=</span> <span class="tok-num">1</span><span class="tok-op">;</span>
   }
-};</code></pre></div>
+}<span class="tok-op">;</span></code></pre></div>
 
       <div class="callout callout-warning">
         <div class="callout-title">Production Pitfall: Evicting After Inserting &amp; Leaking Empty Frequency Buckets</div>
-        <p>When implementing <code>LFUCache::put</code> on a cache miss when <code>size == capacity</code>, you must <strong>always evict the victim from <code>freq_lists_[min_freq_]</code> BEFORE inserting the new key and resetting <code>min_freq_ = 1</code></strong>. If you insert the new key first (or set <code>min_freq_ = 1</code> first), and the old <code>min_freq_</code> was $&gt; 1$, then evicting from <code>min_freq_ == 1</code> will immediately evict the brand-new item you just inserted! Additionally, always erase a frequency bucket from <code>freq_lists_</code> when its count drops to 0 so long-running caches do not leak millones of empty hash entries as item frequencies climb.</p>
+        <p>When implementing <code>LFUCache::put</code> on a cache miss when <code>size == capacity</code>, you must <strong>always evict the victim from <code>freq_lists_[min_freq_]</code> BEFORE inserting the new key and resetting <code>min_freq_ = 1</code></strong>. If you insert the new key first (or set <code>min_freq_ = 1</code> first), and the old <code>min_freq_</code> was <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">&gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, then evicting from <code>min_freq_ == 1</code> will immediately evict the brand-new item you just inserted! Additionally, always erase a frequency bucket from <code>freq_lists_</code> when its count drops to 0 so long-running caches do not leak millones of empty hash entries as item frequencies climb.</p>
       </div>
     </article>
       <section class="check-slider" data-slug="build-lfu-lru-cache" data-total="4" aria-label="Check yourself">
@@ -1244,7 +1248,7 @@ public:
         
           <label class="exercise-option quiz-option-label">
             <input type="radio" name="quiz-q03-build-cache-1" value="1" />
-            <span>It allows the cache to hold more than $2^{32}$ items without using 64-bit integers.</span>
+            <span>It allows the cache to hold more than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span></span> items without using 64-bit integers.</span>
           </label>
         
           <label class="exercise-option quiz-option-label">
@@ -1254,7 +1258,7 @@ public:
         
           <label class="exercise-option quiz-option-label">
             <input type="radio" name="quiz-q03-build-cache-1" value="3" />
-            <span>It sorts the `nodes` array by key in $O(1)$ time on every insertion.</span>
+            <span>It sorts the `nodes` array by key in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time on every insertion.</span>
           </label>
         </div>
         <div class="check-slider__actions">
@@ -1317,11 +1321,11 @@ public:
         </div>
         
         
-        <p class="check-slider__prompt">Consider an LFU cache where a single hot key is accessed $10^7$ times (`get(hotKey)` in a tight loop). On each hit, `hotKey` moves from `freqBuckets[f]` to `freqBuckets[f + 1]`. What happens if `unlinkFromBucket(f, idx)` does NOT call `freqBuckets.erase(f)` when bucket `f` becomes empty?</p>
+        <p class="check-slider__prompt">Consider an LFU cache where a single hot key is accessed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> times (`get(hotKey)` in a tight loop). On each hit, `hotKey` moves from `freqBuckets[f]` to `freqBuckets[f + 1]`. What happens if `unlinkFromBucket(f, idx)` does NOT call `freqBuckets.erase(f)` when bucket `f` becomes empty?</p>
         <div class="quiz-options check-slider__options" id="quiz-options-q03-build-cache-3">
           <label class="exercise-option quiz-option-label">
             <input type="radio" name="quiz-q03-build-cache-3" value="0" />
-            <span>Without erasing empty buckets, the `freqBuckets` hash map accumulates $10^7$ empty bucket entries (one for every historical frequency $1, 2, \dots, 10^7$), causing an unbounded $O(\text{total hits})$ memory leak even when cache capacity $C = 1$.</span>
+            <span>Without erasing empty buckets, the `freqBuckets` hash map accumulates <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> empty bucket entries (one for every historical frequency <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">1, 2, \dots, 10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span>), causing an unbounded <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mtext>total hits</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\text{total hits})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord text"><span class="mord">total hits</span></span><span class="mclose">)</span></span></span></span> memory leak even when cache capacity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">C = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.</span>
           </label>
         
           <label class="exercise-option quiz-option-label">
@@ -1347,7 +1351,7 @@ public:
         </div>
         <div class="exercise-feedback quiz-feedback check-slider__feedback" id="feedback-q03-build-cache-3" style="display: none;">
           <div class="feedback-msg"></div>
-          <div class="feedback-exp">The number of *non-empty* frequency buckets can never exceed the cache capacity $C$ (since each of the $C$ items belongs to exactly one bucket). However, the maximum frequency value $f$ grows unboundedly with the number of hits. Deleting a bucket entry as soon as its head becomes `NULL_IDX` strictly bounds `freqBuckets.size() &lt;= C`.</div>
+          <div class="feedback-exp">The number of *non-empty* frequency buckets can never exceed the cache capacity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span> (since each of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span> items belongs to exactly one bucket). However, the maximum frequency value <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span> grows unboundedly with the number of hits. Deleting a bucket entry as soon as its head becomes `NULL_IDX` strictly bounds `freqBuckets.size() &lt;= C`.</div>
         </div>
       </div>
       <div class="quiz-card check-slider__slide" id="quiz-q03-build-cache-4" data-type="mcq" data-slug="build-lfu-lru-cache" data-index="3" hidden>
@@ -1358,7 +1362,7 @@ public:
         </div>
         
         
-        <p class="check-slider__prompt">Recent systems research (Yang et al., SOSP 2023, *&#039;FIFO queues are all you need for cache eviction&#039;*) introduced **S3-FIFO**, which uses a small FIFO queue (`S`, 10% capacity), a main FIFO queue (`M`, 90% capacity), and a ghost FIFO queue (`G`, storing only evicted key hashes). Why does S3-FIFO achieve both lower miss ratios than LRU/W-TinyLFU on production traces AND up to $6\times$ higher throughput on 16+ CPU cores?</p>
+        <p class="check-slider__prompt">Recent systems research (Yang et al., SOSP 2023, *&#039;FIFO queues are all you need for cache eviction&#039;*) introduced **S3-FIFO**, which uses a small FIFO queue (`S`, 10% capacity), a main FIFO queue (`M`, 90% capacity), and a ghost FIFO queue (`G`, storing only evicted key hashes). Why does S3-FIFO achieve both lower miss ratios than LRU/W-TinyLFU on production traces AND up to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">6\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">6</span><span class="mord">×</span></span></span></span> higher throughput on 16+ CPU cores?</p>
         <div class="quiz-options check-slider__options" id="quiz-options-q03-build-cache-4">
           <label class="exercise-option quiz-option-label">
             <input type="radio" name="quiz-q03-build-cache-4" value="0" />
@@ -1627,7 +1631,9 @@ public:
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e89e80cbc2"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b4564caf69"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1637,7 +1643,7 @@ public:
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=ccebf4c773"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=05469d388e"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

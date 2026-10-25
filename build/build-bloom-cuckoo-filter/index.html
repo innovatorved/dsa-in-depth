@@ -30,9 +30,10 @@
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=d266742353">
+  <link rel="stylesheet" href="css/components.css?v=0f432d5f5e">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -323,7 +324,7 @@
 <ul>
 <li><strong>Core Mechanical Concept</strong>: Computing Alternate Bucket from Fingerprint Alone: i2 = i1 ^ hash(fp)</li>
 <li><strong>Target Module</strong>: <code>index.js</code> (<code>CuckooFilter._indices</code>)</li>
-<li><strong>Engineering Specification</strong>: Implement <code>_indices(item)</code> on <code>CuckooFilter</code>. Because XOR is an involution ($x \oplus y \oplus y = x$), defining <code>i2 = (i1 ^ hashA(String(fp))) &amp; mask</code> allows us to compute a displaced fingerprint’s alternate bucket from <code>(currentIdx, fp)</code> without storing the original key!</li>
+<li><strong>Engineering Specification</strong>: Implement <code>_indices(item)</code> on <code>CuckooFilter</code>. Because XOR is an involution (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>⊕</mo><mi>y</mi><mo>⊕</mo><mi>y</mi><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">x \oplus y \oplus y = x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>), defining <code>i2 = (i1 ^ hashA(String(fp))) &amp; mask</code> allows us to compute a displaced fingerprint’s alternate bucket from <code>(currentIdx, fp)</code> without storing the original key!</li>
 <li><strong>Verification Invariant</strong>: computes involutory alternate bucket indices via XOR</li>
 </ul>
 <h3>Step 4: Cuckoo Kick-Out Displacement & Safe Deletion</h3>
@@ -429,7 +430,9 @@
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e89e80cbc2"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b4564caf69"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -439,7 +442,7 @@
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=ccebf4c773"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=05469d388e"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

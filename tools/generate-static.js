@@ -129,6 +129,15 @@ context.window.document = context.document;
 context.window.addEventListener = () => {};
 context.window.removeEventListener = () => {};
 
+// Inject KaTeX into SSG context for pre-rendering math formulas
+try {
+  const katex = require('katex');
+  context.window.katex = katex;
+  context.katex = katex;
+} catch (err) {
+  console.warn('[SSG KaTeX Warning]:', err.message);
+}
+
 // Deterministic PRNG for reproducible SSG generation
 context.Math = Object.create(Math);
 let currentSsgSeed = 12345;
