@@ -326,6 +326,15 @@ function replaceSidebarContent(html, newSidebarHtml) {
     html.slice(lastDivEnd);
 }
 
+// Helper to set or replace JSON-LD structured data deterministically before </head>
+function setJsonLd(doc, jsonLdObj) {
+  const stripped = doc
+    .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '')
+    .replace(/\s*<\/head>/i, '');
+  const jsonLdTag = `\n\n  <script type="application/ld+json">\n${JSON.stringify(jsonLdObj, null, 2)}\n  </script>\n</head>`;
+  return stripped + jsonLdTag;
+}
+
 // 4a. Statically Pre-render Homepage index.html with Full Sidebar & Crawlable Curriculum Links
 console.log('Pre-rendering homepage index.html with crawlable curriculum & JSON-LD structured data...');
 const totalSims = Object.keys(context.window.SIMULATORS || {}).length;
@@ -338,7 +347,7 @@ context.window.SITE_COUNTS = {
   questions: 720
 };
 
-let homeHtml = baseHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
+let homeHtml = baseHtml;
 const homeSidebarHtml = renderStaticSidebar(curriculum, null);
 homeHtml = replaceSidebarContent(homeHtml, homeSidebarHtml);
 
@@ -378,8 +387,7 @@ const homeJsonLd = {
     }
   ]
 };
-const homeJsonLdTag = `\n  <script type="application/ld+json">\n${JSON.stringify(homeJsonLd, null, 2)}\n  </script>`;
-homeHtml = homeHtml.replace('</head>', () => `${homeJsonLdTag}\n</head>`);
+homeHtml = setJsonLd(homeHtml, homeJsonLd);
 
 fs.writeFileSync(path.join(root, 'index.html'), homeHtml, 'utf8');
 console.log('✓ Pre-rendered homepage index.html with 180 crawlable topic links & JSON-LD');
@@ -387,7 +395,7 @@ console.log('✓ Pre-rendered homepage index.html with 180 crawlable topic links
 console.log(`Starting SSG generation for ${units.length} curriculum units...`);
 
 // Clean template for topic and build pages (stripped of homepage-specific JSON-LD)
-let template = baseHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
+let template = baseHtml.replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '');
 if (!template.includes('<base href="/">')) {
   template = template.replace('<head>', '<head>\n  <base href="/">');
 }
@@ -536,8 +544,7 @@ for (const { unit, mod } of units) {
     }
   };
 
-  const jsonLdTag = `\n  <script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>`;
-  page = page.replace('</head>', () => `${jsonLdTag}\n</head>`);
+  page = setJsonLd(page, jsonLd);
 
   // Pre-render sidebar HTML with current unit active
   const sidebarHtml = renderStaticSidebar(curriculum, slug);
@@ -676,8 +683,7 @@ for (const [buildId, build] of buildEntries) {
     }
   };
 
-  const jsonLdTag = `\n  <script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>`;
-  page = page.replace('</head>', () => `${jsonLdTag}\n</head>`);
+  page = setJsonLd(page, jsonLd);
 
   // Activate Builds tab in sidebar and pre-render Builds sidebar list
   page = page.replace(

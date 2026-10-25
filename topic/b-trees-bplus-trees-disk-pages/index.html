@@ -40,31 +40,6 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
-
-  
-  
-  
-  
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "B-Trees & B+ Trees: Page Fanout, Proactive Splitting & Leaf Sibling Chains",
-  "description": "Why doesn't PostgreSQL or MySQL InnoDB use a Red-Black Tree or AVL Tree for on-disk indexes? Because on $N = 10^9$ rows, a binary tree has height $\\log210^9.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/b-trees-bplus-trees-disk-pages/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1608,3 +1583,24 @@ void splitChild(BTreeNode&lt;Key, T&gt;* parent, int idx) {
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "B-Trees & B+ Trees: Page Fanout, Proactive Splitting & Leaf Sibling Chains",
+  "description": "Why doesn't PostgreSQL or MySQL InnoDB use a Red-Black Tree or AVL Tree for on-disk indexes? Because on $N = 10^9$ rows, a binary tree has height $\\log210^9.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/b-trees-bplus-trees-disk-pages/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
