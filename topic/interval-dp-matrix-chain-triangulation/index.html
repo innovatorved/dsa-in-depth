@@ -32,7 +32,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
+  <link rel="stylesheet" href="css/components.css?v=d266742353">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -1085,109 +1085,7 @@ flowchart TD
         </table>
 
         <h3>4. Reference C++20 Implementation</h3>
-        <div class="topic-codelab-card" data-slug="interval-dp-matrix-chain-triangulation" data-lang="cpp" data-title="Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
-
-// TODO (Step 1): Implement matrix_chain_multiplication adhering to asymptotic bounds
-#include &lt;algorithm&gt;
-#include &lt;cstdint&gt;
-#include &lt;limits&gt;
-#include &lt;vector&gt;
-
-// 1. Matrix Chain Multiplication with Transpose-Cache Optimization (p has size n + 1)
-long long matrix_chain_multiplication(const std::vector&lt;long long&gt;&amp; p) {
-  // TODO (Step 2): Add algorithmic logic
-  return {};
-}
-
-// 2. Burst Balloons: Guess the LAST balloon popped inside open interval (i, j)
-long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
-    // Pad with virtual boundary balloons of value 1 at both ends
-    std::vector&lt;long long&gt; a;
-    a.reserve(nums.size() + 2);
-    a.push_back(1);
-    for (int x : nums) if (x &gt; 0) a.push_back(x);
-    a.push_back(1);
-
-    const int m = static_cast&lt;int&gt;(a.size());
-    std::vector&lt;std::vector&lt;long long&gt;&gt; dp(m, std::vector&lt;long long&gt;(m, 0));
-
-    // len is the distance j - i between open interval boundaries (minimum 2)
-    for (int len = 2; len &lt; m; ++len) {
-        for (int i = 0; i + len &lt; m; ++i) {
-            const int j = i + len;
-            const long long boundary_prod = a[i] * a[j];
-            long long best = 0;
-            for (int k = i + 1; k &lt; j; ++k) {
-                best = std::max(best, dp[i][k] + dp[k][j] + boundary_prod * a[k]);
-            }
-            dp[i][j] = best;
-        }
-    }
-    return dp[0][m - 1];
-}
-
-int main() {
-  DESCRIBE(&quot;Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation&quot;, {
-    TEST(&quot;runs verification&quot;, {
-      ASSERT_TRUE(true);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
-
-// TODO (Step 1): Implement matrix_chain_multiplication adhering to asymptotic bounds
-#include &lt;algorithm&gt;
-#include &lt;cstdint&gt;
-#include &lt;limits&gt;
-#include &lt;vector&gt;
-
-// 1. Matrix Chain Multiplication with Transpose-Cache Optimization (p has size n + 1)
-long long matrix_chain_multiplication(const std::vector&lt;long long&gt;&amp; p) {
-  // TODO (Step 2): Add algorithmic logic
-  return {};
-}
-
-// 2. Burst Balloons: Guess the LAST balloon popped inside open interval (i, j)
-long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
-    // Pad with virtual boundary balloons of value 1 at both ends
-    std::vector&lt;long long&gt; a;
-    a.reserve(nums.size() + 2);
-    a.push_back(1);
-    for (int x : nums) if (x &gt; 0) a.push_back(x);
-    a.push_back(1);
-
-    const int m = static_cast&lt;int&gt;(a.size());
-    std::vector&lt;std::vector&lt;long long&gt;&gt; dp(m, std::vector&lt;long long&gt;(m, 0));
-
-    // len is the distance j - i between open interval boundaries (minimum 2)
-    for (int len = 2; len &lt; m; ++len) {
-        for (int i = 0; i + len &lt; m; ++i) {
-            const int j = i + len;
-            const long long boundary_prod = a[i] * a[j];
-            long long best = 0;
-            for (int k = i + 1; k &lt; j; ++k) {
-                best = std::max(best, dp[i][k] + dp[k][j] + boundary_prod * a[k]);
-            }
-            dp[i][j] = best;
-        }
-    }
-    return dp[0][m - 1];
-}
-
-int main() {
-  DESCRIBE(&quot;Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation&quot;, {
-    TEST(&quot;runs verification&quot;, {
-      ASSERT_TRUE(true);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;algorithm&gt;
+        <div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
 #include &lt;vector&gt;
@@ -1245,12 +1143,7 @@ long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
         }
     }
     return dp[0][m - 1];
-}
-
-int main() {
-  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
-  return 0;
-}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
+}</code></pre></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Guessing the First Action When Sub-Intervals Interact</h4>
@@ -1437,6 +1330,61 @@ int main() {
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
+      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span class="build-lab-card__progress">2 Guided Steps</span>
+            </div>
+            <h2 class="build-lab-card__title">Interval DP: Matrix Chain Multiplication, Optimal BST &amp; Polygon Triangulation</h2>
+            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="interval-dp-matrix-chain-triangulation" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Launch Guided Lab</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="interval-dp-matrix-chain-triangulation" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        
+          <div class="build-lab-steps-grid">
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="interval-dp-matrix-chain-triangulation" data-mode="guided" data-step-index="0">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">01</span>
+                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+                </div>
+                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
+                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 1 →</span>
+                </div>
+              </button>
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="interval-dp-matrix-chain-triangulation" data-mode="guided" data-step-index="1">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">02</span>
+                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+                </div>
+                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
+                <div class="build-lab-step-card__concept">Click &quot;⚡ Run &amp; Test&quot; to compile and run with Clang WASI.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 2 →</span>
+                </div>
+              </button>
+            
+          </div>
+        
+      </section>
+    
       <div class="exercise-card" id="exercise-interval-dp-matrix-chain-triangulation">
         <div class="exercise-card__header">
           <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
@@ -1589,7 +1537,7 @@ int main() {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b0a9d392ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1597,9 +1545,9 @@ int main() {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=6ba0f7e6cf"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -32,7 +32,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
+  <link rel="stylesheet" href="css/components.css?v=d266742353">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -1074,241 +1074,7 @@ flowchart LR
         </div>
 
 <h3>4. Production Implementation: Huffman Code Lengths, Canonical Bit-Assignment &amp; LZ77 Tokenizer</h3>
-<div class="topic-codelab-card" data-slug="huffman-lz77-deflate" data-lang="cpp" data-title="Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
-
-// TODO (Step 1): Complete the CanonicalCode implementation according to lesson invariants
-#include &lt;algorithm&gt;
-#include &lt;cstdint&gt;
-#include &lt;queue&gt;
-#include &lt;string_view&gt;
-#include &lt;utility&gt;
-#include &lt;vector&gt;
-
-struct CanonicalCode {
-public:
-  // TODO (Step 2): Add member variables and algorithmic methods
-};
-
-// 1. Computes Optimal Huffman Lengths &amp; Canonical Prefix-Free Bitstrings
-std::vector&lt;CanonicalCode&gt; build_canonical_huffman(const std::vector&lt;uint64_t&gt;&amp; freq) {
-    struct Node {
-        uint64_t w;
-        int left, right, sym;
-        bool operator&gt;(const Node&amp; o) const { return w &gt; o.w; }
-    };
-    std::vector&lt;Node&gt; pool;
-    std::priority_queue&lt;std::pair&lt;uint64_t, int&gt;,
-                        std::vector&lt;std::pair&lt;uint64_t, int&gt;&gt;,
-                        std::greater&lt;&gt;&gt; pq;
-
-    for (int c = 0; c &lt; static_cast&lt;int&gt;(freq.size()); ++c) {
-        if (freq[c] &gt; 0) {
-            int id = static_cast&lt;int&gt;(pool.size());
-            pool.push_back({freq[c], -1, -1, c});
-            pq.push({freq[c], id});
-        }
-    }
-    if (pq.empty()) return {};
-    if (pq.size() == 1) {
-        return {{static_cast&lt;uint8_t&gt;(pool[0].sym), 1, 0}};
-    }
-
-    while (pq.size() &gt; 1) {
-        auto [w1, u] = pq.top(); pq.pop();
-        auto [w2, v] = pq.top(); pq.pop();
-        int p = static_cast&lt;int&gt;(pool.size());
-        pool.push_back({w1 + w2, u, v, -1});
-        pq.push({w1 + w2, p});
-    }
-
-    std::vector&lt;CanonicalCode&gt; codes;
-    auto dfs = [&amp;](auto&amp; self, int u, uint8_t d) -&gt; void {
-        if (pool[u].sym != -1) {
-            codes.push_back({static_cast&lt;uint8_t&gt;(pool[u].sym), d, 0});
-            return;
-        }
-        self(self, pool[u].left, d + 1);
-        self(self, pool[u].right, d + 1);
-    };
-    dfs(dfs, pq.top().second, 0);
-
-    // Sort by (bit_len, sym) and assign Canonical codewords
-    std::sort(codes.begin(), codes.end(), [](const CanonicalCode&amp; a, const CanonicalCode&amp; b) {
-        return (a.bit_len != b.bit_len) ? (a.bit_len &lt; b.bit_len) : (a.sym &lt; b.sym);
-    });
-    uint32_t cur_bits = 0;
-    for (size_t i = 0; i &lt; codes.size(); ++i) {
-        if (i &gt; 0) {
-            cur_bits = (cur_bits + 1) &lt;&lt; (codes[i].bit_len - codes[i - 1].bit_len);
-        }
-        codes[i].bits = cur_bits;
-    }
-    return codes;
-}
-
-// 2. LZ77 Sliding-Window Tokenizer with Overlap Support (e.g., dist=1, len=10 RLE)
-struct LZ77Token {
-    uint16_t dist; // 0 if literal
-    uint16_t len;  // 0 if literal, else match length &gt;= 3
-    uint8_t lit;   // valid if dist == 0
-};
-
-std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_size = 32768) {
-    std::vector&lt;LZ77Token&gt; out;
-    const size_t n = src.size();
-    size_t i = 0;
-    while (i &lt; n) {
-        size_t best_dist = 0, best_len = 0;
-        size_t start_j = (i &gt; window_size) ? (i - window_size) : 0;
-        for (size_t j = start_j; j &lt; i; ++j) {
-            size_t len = 0;
-            while (i + len &lt; n &amp;&amp; len &lt; 258 &amp;&amp; src[j + len] == src[i + len]) {
-                ++len;
-            }
-            if (len &gt;= 3 &amp;&amp; len &gt; best_len) {
-                best_len = len;
-                best_dist = i - j;
-            }
-        }
-        if (best_len &gt;= 3) {
-            out.push_back({static_cast&lt;uint16_t&gt;(best_dist), static_cast&lt;uint16_t&gt;(best_len), 0});
-            i += best_len;
-        } else {
-            out.push_back({0, 0, static_cast&lt;uint8_t&gt;(src[i])});
-            ++i;
-        }
-    }
-    return out;
-}
-
-int main() {
-  DESCRIBE(&quot;Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE&quot;, {
-    TEST(&quot;initializes correctly&quot;, {
-      ASSERT_TRUE(true);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
-
-// TODO (Step 1): Complete the CanonicalCode implementation according to lesson invariants
-#include &lt;algorithm&gt;
-#include &lt;cstdint&gt;
-#include &lt;queue&gt;
-#include &lt;string_view&gt;
-#include &lt;utility&gt;
-#include &lt;vector&gt;
-
-struct CanonicalCode {
-public:
-  // TODO (Step 2): Add member variables and algorithmic methods
-};
-
-// 1. Computes Optimal Huffman Lengths &amp; Canonical Prefix-Free Bitstrings
-std::vector&lt;CanonicalCode&gt; build_canonical_huffman(const std::vector&lt;uint64_t&gt;&amp; freq) {
-    struct Node {
-        uint64_t w;
-        int left, right, sym;
-        bool operator&gt;(const Node&amp; o) const { return w &gt; o.w; }
-    };
-    std::vector&lt;Node&gt; pool;
-    std::priority_queue&lt;std::pair&lt;uint64_t, int&gt;,
-                        std::vector&lt;std::pair&lt;uint64_t, int&gt;&gt;,
-                        std::greater&lt;&gt;&gt; pq;
-
-    for (int c = 0; c &lt; static_cast&lt;int&gt;(freq.size()); ++c) {
-        if (freq[c] &gt; 0) {
-            int id = static_cast&lt;int&gt;(pool.size());
-            pool.push_back({freq[c], -1, -1, c});
-            pq.push({freq[c], id});
-        }
-    }
-    if (pq.empty()) return {};
-    if (pq.size() == 1) {
-        return {{static_cast&lt;uint8_t&gt;(pool[0].sym), 1, 0}};
-    }
-
-    while (pq.size() &gt; 1) {
-        auto [w1, u] = pq.top(); pq.pop();
-        auto [w2, v] = pq.top(); pq.pop();
-        int p = static_cast&lt;int&gt;(pool.size());
-        pool.push_back({w1 + w2, u, v, -1});
-        pq.push({w1 + w2, p});
-    }
-
-    std::vector&lt;CanonicalCode&gt; codes;
-    auto dfs = [&amp;](auto&amp; self, int u, uint8_t d) -&gt; void {
-        if (pool[u].sym != -1) {
-            codes.push_back({static_cast&lt;uint8_t&gt;(pool[u].sym), d, 0});
-            return;
-        }
-        self(self, pool[u].left, d + 1);
-        self(self, pool[u].right, d + 1);
-    };
-    dfs(dfs, pq.top().second, 0);
-
-    // Sort by (bit_len, sym) and assign Canonical codewords
-    std::sort(codes.begin(), codes.end(), [](const CanonicalCode&amp; a, const CanonicalCode&amp; b) {
-        return (a.bit_len != b.bit_len) ? (a.bit_len &lt; b.bit_len) : (a.sym &lt; b.sym);
-    });
-    uint32_t cur_bits = 0;
-    for (size_t i = 0; i &lt; codes.size(); ++i) {
-        if (i &gt; 0) {
-            cur_bits = (cur_bits + 1) &lt;&lt; (codes[i].bit_len - codes[i - 1].bit_len);
-        }
-        codes[i].bits = cur_bits;
-    }
-    return codes;
-}
-
-// 2. LZ77 Sliding-Window Tokenizer with Overlap Support (e.g., dist=1, len=10 RLE)
-struct LZ77Token {
-    uint16_t dist; // 0 if literal
-    uint16_t len;  // 0 if literal, else match length &gt;= 3
-    uint8_t lit;   // valid if dist == 0
-};
-
-std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_size = 32768) {
-    std::vector&lt;LZ77Token&gt; out;
-    const size_t n = src.size();
-    size_t i = 0;
-    while (i &lt; n) {
-        size_t best_dist = 0, best_len = 0;
-        size_t start_j = (i &gt; window_size) ? (i - window_size) : 0;
-        for (size_t j = start_j; j &lt; i; ++j) {
-            size_t len = 0;
-            while (i + len &lt; n &amp;&amp; len &lt; 258 &amp;&amp; src[j + len] == src[i + len]) {
-                ++len;
-            }
-            if (len &gt;= 3 &amp;&amp; len &gt; best_len) {
-                best_len = len;
-                best_dist = i - j;
-            }
-        }
-        if (best_len &gt;= 3) {
-            out.push_back({static_cast&lt;uint16_t&gt;(best_dist), static_cast&lt;uint16_t&gt;(best_len), 0});
-            i += best_len;
-        } else {
-            out.push_back({0, 0, static_cast&lt;uint8_t&gt;(src[i])});
-            ++i;
-        }
-    }
-    return out;
-}
-
-int main() {
-  DESCRIBE(&quot;Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE&quot;, {
-    TEST(&quot;initializes correctly&quot;, {
-      ASSERT_TRUE(true);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;algorithm&gt;
+<div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;queue&gt;
 #include &lt;string_view&gt;
@@ -1411,12 +1177,7 @@ std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_siz
         }
     }
     return out;
-}
-
-int main() {
-  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
-  return 0;
-}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
+}</code></pre></div>
 
 <div class="callout callout-warning">
   <div class="callout-title">Overlapping LZ77 Copy (<code>len &gt; dist</code>) Breaks <code>memcpy</code>!</div>
@@ -1600,6 +1361,61 @@ int main() {
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
+      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span class="build-lab-card__progress">2 Guided Steps</span>
+            </div>
+            <h2 class="build-lab-card__title">Lossless Compression: Huffman Optimality Proof, LZ77 Sliding Window &amp; DEFLATE</h2>
+            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="huffman-lz77-deflate" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Launch Guided Lab</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="huffman-lz77-deflate" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        
+          <div class="build-lab-steps-grid">
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="huffman-lz77-deflate" data-mode="guided" data-step-index="0">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">01</span>
+                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+                </div>
+                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
+                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 1 →</span>
+                </div>
+              </button>
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="huffman-lz77-deflate" data-mode="guided" data-step-index="1">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">02</span>
+                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+                </div>
+                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
+                <div class="build-lab-step-card__concept">Click &quot;⚡ Run &amp; Test&quot; to compile and run with Clang WASI.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 2 →</span>
+                </div>
+              </button>
+            
+          </div>
+        
+      </section>
+    
       <div class="exercise-card" id="exercise-huffman-lz77-deflate">
         <div class="exercise-card__header">
           <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
@@ -1752,7 +1568,7 @@ int main() {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b0a9d392ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1760,9 +1576,9 @@ int main() {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=6ba0f7e6cf"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -32,7 +32,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
+  <link rel="stylesheet" href="css/components.css?v=d266742353">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -1109,144 +1109,87 @@
         </div>
 
       <h3>Production Implementation: Contiguous Arena-Backed O(1) LRU Cache</h3>
-      <div class="topic-codelab-card" data-slug="lru-lfu-eviction-structures" data-lang="cpp" data-title="LRU Cache Invariant &amp; Eviction Lab" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 3 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
+      <div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">#include &lt;cstdint&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
 
-using namespace std;
+// High-locality O(1) LRU Cache using a pre-allocated Node pool (0 mallocs after construction!)
+class FastLRUCache {
+  struct Node {
+    int key = 0;
+    int value = 0;
+    int prev = 0;
+    int next = 0;
+  };
 
-class LRUCache {
-  size_t capacity_;
-  list&lt;pair&lt;int, int&gt;&gt; items_; // (key, value), front is MRU, back is LRU
-  unordered_map&lt;int, list&lt;pair&lt;int, int&gt;&gt;::iterator&gt; map_;
+  int cap_;
+  std::vector&lt;Node&gt; pool_; // Index 0 is the circular dummy sentinel!
+  std::vector&lt;int&gt; free_list_;
+  std::unordered_map&lt;int, int&gt; index_map_;
+
+  void unlink(int u) noexcept {
+    const int p = pool_[u].prev;
+    const int n = pool_[u].next;
+    pool_[p].next = n;
+    pool_[n].prev = p;
+  }
+
+  void push_mru_front(int u) noexcept {
+    const int first = pool_[0].next;
+    pool_[u].prev = 0;
+    pool_[u].next = first;
+    pool_[first].prev = u;
+    pool_[0].next = u;
+  }
 
 public:
-  explicit LRUCache(size_t capacity) : capacity_(capacity) {}
+  explicit FastLRUCache(int capacity) : cap_(capacity), pool_(capacity + 1) {
+    pool_[0].prev = 0;
+    pool_[0].next = 0;
+    free_list_.reserve(capacity);
+    for (int i = capacity; i &gt;= 1; --i) {
+      free_list_.push_back(i);
+    }
+    index_map_.reserve(capacity * 2);
+  }
 
-  int get(int key) {
-    // TODO (Step 2): If key not in map_, return -1
-    // Otherwise promote node to front with items_.splice() and return value
-    return -1;
+  int get(int key) noexcept {
+    auto it = index_map_.find(key);
+    if (it == index_map_.end()) return -1;
+    const int u = it-&gt;second;
+    unlink(u);
+    push_mru_front(u);
+    return pool_[u].value;
   }
 
   void put(int key, int value) {
-    // TODO (Step 3): If key already exists, update value and promote to front
-    // If key is new and size == capacity_, evict items_.back() from map_ and list
-    // Emplace new item at items_.begin() and record iterator in map_
-  }
-};
-
-int main() {
-  DESCRIBE(&quot;LRU Cache Eviction&quot;, {
-    TEST(&quot;promotes on get and evicts least recently used&quot;, {
-      LRUCache cache(2);
-      cache.put(1, 10);
-      cache.put(2, 20);
-      ASSERT_EQ(cache.get(1), 10); // 1 is now MRU, 2 is LRU
-      cache.put(3, 30);            // evicts 2
-      ASSERT_EQ(cache.get(2), -1); // 2 evicted
-      ASSERT_EQ(cache.get(3), 30);
-      ASSERT_EQ(cache.get(1), 10);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-
-using namespace std;
-
-class LRUCache {
-  size_t capacity_;
-  list&lt;pair&lt;int, int&gt;&gt; items_; // (key, value), front is MRU, back is LRU
-  unordered_map&lt;int, list&lt;pair&lt;int, int&gt;&gt;::iterator&gt; map_;
-
-public:
-  explicit LRUCache(size_t capacity) : capacity_(capacity) {}
-
-  int get(int key) {
-    // TODO (Step 2): If key not in map_, return -1
-    // Otherwise promote node to front with items_.splice() and return value
-    return -1;
-  }
-
-  void put(int key, int value) {
-    // TODO (Step 3): If key already exists, update value and promote to front
-    // If key is new and size == capacity_, evict items_.back() from map_ and list
-    // Emplace new item at items_.begin() and record iterator in map_
-  }
-};
-
-int main() {
-  DESCRIBE(&quot;LRU Cache Eviction&quot;, {
-    TEST(&quot;promotes on get and evicts least recently used&quot;, {
-      LRUCache cache(2);
-      cache.put(1, 10);
-      cache.put(2, 20);
-      ASSERT_EQ(cache.get(1), 10); // 1 is now MRU, 2 is LRU
-      cache.put(3, 30);            // evicts 2
-      ASSERT_EQ(cache.get(2), -1); // 2 evicted
-      ASSERT_EQ(cache.get(3), 30);
-      ASSERT_EQ(cache.get(1), 10);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/dsa.hpp&gt;
-#include &lt;codelab/test.hpp&gt;
-
-using namespace std;
-
-class LRUCache {
-  size_t capacity_;
-  list&lt;pair&lt;int, int&gt;&gt; items_; // (key, value)
-  unordered_map&lt;int, list&lt;pair&lt;int, int&gt;&gt;::iterator&gt; map_;
-
-public:
-  explicit LRUCache(size_t capacity) : capacity_(capacity) {}
-
-  int get(int key) {
-    auto it = map_.find(key);
-    if (it == map_.end()) return -1;
-    // O(1) splice node to head (Most Recently Used)
-    items_.splice(items_.begin(), items_, it-&gt;second);
-    return it-&gt;second-&gt;second;
-  }
-
-  void put(int key, int value) {
-    auto it = map_.find(key);
-    if (it != map_.end()) {
-      it-&gt;second-&gt;second = value;
-      items_.splice(items_.begin(), items_, it-&gt;second);
+    if (cap_ &lt;= 0) return;
+    auto it = index_map_.find(key);
+    if (it != index_map_.end()) {
+      const int u = it-&gt;second;
+      pool_[u].value = value;
+      unlink(u);
+      push_mru_front(u);
       return;
     }
 
-    if (items_.size() &gt;= capacity_) {
-      int lruKey = items_.back().first;
-      map_.erase(lruKey);
-      items_.pop_back();
+    int u = 0;
+    if (!free_list_.empty()) {
+      u = free_list_.back();
+      free_list_.pop_back();
+    } else {
+      // Reuse the LRU victim node at pool_[0].prev directly without freeing!
+      u = pool_[0].prev;
+      unlink(u);
+      index_map_.erase(pool_[u].key);
     }
 
-    items_.emplace_front(key, value);
-    map_[key] = items_.begin();
+    pool_[u].key = key;
+    pool_[u].value = value;
+    push_mru_front(u);
+    index_map_[key] = u;
   }
-};
-
-int main() {
-  DESCRIBE(&quot;LRU Cache Eviction&quot;, {
-    TEST(&quot;promotes on get and evicts least recently used&quot;, {
-      LRUCache cache(2);
-      cache.put(1, 10);
-      cache.put(2, 20);
-      ASSERT_EQ(cache.get(1), 10); // 1 is now MRU, 2 is LRU
-      cache.put(3, 30);            // evicts 2
-      ASSERT_EQ(cache.get(2), -1); // 2 evicted
-      ASSERT_EQ(cache.get(3), 30);
-      ASSERT_EQ(cache.get(1), 10);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
+};</code></pre></div>
 
       <div class="callout callout-warning">
         <div class="callout-title">Production Pitfall: Forgetting to Store <code>key</code> Inside the Doubly Linked List Node</div>
@@ -1430,6 +1373,74 @@ int main() {
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
+      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span class="build-lab-card__progress">3 Guided Steps</span>
+            </div>
+            <h2 class="build-lab-card__title">LRU Cache Invariant &amp; Eviction Lab</h2>
+            <p class="build-lab-card__desc">Build an O(1) Least-Recently-Used Cache combining a doubly-linked list with a hash map.</p>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Launch Guided Lab</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        
+          <div class="build-lab-steps-grid">
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="0">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">01</span>
+                  <span class="build-lab-step-card__target">O(1) Access and Splice</span>
+                </div>
+                <div class="build-lab-step-card__title">Dual Structure Invariant</div>
+                <div class="build-lab-step-card__concept">Store (key, value) pairs in std::list, and map each key to its list iterator in std::unordered_map.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 1 →</span>
+                </div>
+              </button>
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="1">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">02</span>
+                  <span class="build-lab-step-card__target">Splicing to Head</span>
+                </div>
+                <div class="build-lab-step-card__title">Get Operation with MRU Promotion</div>
+                <div class="build-lab-step-card__concept">If key exists, splice its node to the front of the list and return its value.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 2 →</span>
+                </div>
+              </button>
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="2">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">03</span>
+                  <span class="build-lab-step-card__target">Tail Eviction</span>
+                </div>
+                <div class="build-lab-step-card__title">Put Operation with LRU Eviction</div>
+                <div class="build-lab-step-card__concept">When inserting beyond capacity, remove the back element from both list and map.</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 3 →</span>
+                </div>
+              </button>
+            
+          </div>
+        
+      </section>
+    
       <div class="exercise-card" id="exercise-lru-lfu-eviction-structures">
         <div class="exercise-card__header">
           <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
@@ -1618,7 +1629,7 @@ int main() {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b0a9d392ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1626,9 +1637,9 @@ int main() {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=6ba0f7e6cf"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

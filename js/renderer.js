@@ -270,79 +270,82 @@ window.Renderer = (() => {
       .replace(/&#39;/g, "'");
   }
 
-  function renderTopicCodeBlock(rawCode, lang, slug, title) {
+  function renderTopicCodeBlock(rawCode, lang) {
     const cleanLang = (lang || 'cpp').toLowerCase();
-    const unescaped = unescapeHtml(rawCode);
-    const lab = (window.TopicGuidedLabs && typeof window.TopicGuidedLabs.getLab === 'function')
-      ? window.TopicGuidedLabs.getLab(slug, unescaped, title)
-      : null;
-
-    const isCpp = cleanLang === 'cpp' || cleanLang === 'c++' || cleanLang === 'cc';
-    const isJs = cleanLang === 'js' || cleanLang === 'javascript';
-    const langPill = isCpp ? 'C++20 (Clang WASI)' : (isJs ? 'JavaScript (ES2022)' : cleanLang.toUpperCase());
-    const runBtnLabel = isCpp ? 'C++20' : (isJs ? 'JS' : cleanLang.toUpperCase());
-    const starterCode = lab?.starterCode || unescaped;
-    const solutionCode = lab?.solutionCode || unescaped;
-    const stepsCount = lab?.steps?.length || 0;
-    const hasGuided = stepsCount > 0;
-    const labTitle = lab?.title || title || 'Interactive CodeLab';
-
+    const isRunnable = ['js', 'javascript', 'ts', 'typescript', 'cpp', 'c++', 'cc', 'cxx', 'c', 'hpp', 'py', 'python', 'node', 'sh', 'bash'].includes(cleanLang);
+    const displayLang = (cleanLang === 'cpp' || cleanLang === 'c++' || cleanLang === 'cc') ? 'C++20' : cleanLang.toUpperCase();
+    const unescaped = unescapeHtml(rawCode).trim();
+    const runBtn = isRunnable
+      ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button>`
+      : '';
     return (
-      '<div class="topic-codelab-card" data-slug="' + escapeHtml(slug || '') + '" data-lang="' + escapeHtml(cleanLang) + '" data-title="' + escapeHtml(labTitle) + '" data-active-tab="starter">' +
-        '<div class="topic-codelab-header">' +
-          '<div class="topic-codelab-header__left">' +
-            '<span class="topic-codelab-pill">' +
-              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>' +
-              escapeHtml(langPill) +
-            '</span>' +
-            (hasGuided ? '<span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · ' + stepsCount + ' Steps</span>' : '') +
-            '<span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span>' +
-            '<div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes">' +
-              '<button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">' +
-                '✏️ Exercise' +
-              '</button>' +
-              '<button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">' +
-                '💡 Reference Solution' +
-              '</button>' +
-            '</div>' +
-          '</div>' +
-          '<div class="topic-codelab-actions">' +
-            '<button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">' +
-              '⚡ Run &amp; Test (' + escapeHtml(runBtnLabel) + ')' +
-            '</button>' +
-            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">' +
-              '↗ Full IDE' +
-            '</button>' +
-            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">' +
-              '📋 Copy' +
-            '</button>' +
-            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">' +
-              '↺ Reset' +
-            '</button>' +
+      '<div class="code-block">' +
+        '<div class="code-block__header">' +
+          '<span class="code-block__lang">' + escapeHtml(displayLang) + '</span>' +
+          '<div style="display:flex;align-items:center;gap:6px;">' +
+            runBtn +
+            '<button type="button" class="code-block__copy" data-action="copy-code">Copy</button>' +
           '</div>' +
         '</div>' +
-
-        '<div class="topic-codelab-body">' +
-          '<div class="topic-codelab-code" role="tabpanel" aria-label="Code editor">' +
-            '<pre><code class="language-' + escapeHtml(cleanLang) + '" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">' + escapeHtml(starterCode.trim()) + '</code></pre>' +
-          '</div>' +
-          '<textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">' + escapeHtml(starterCode.trim()) + '</textarea>' +
-          '<textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">' + escapeHtml(solutionCode.trim()) + '</textarea>' +
-        '</div>' +
-
-        '<div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console">' +
-          '<div class="topic-codelab-console-header">' +
-            '<div class="topic-codelab-console-title">' +
-              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>' +
-              '<span>Execution Console (' + escapeHtml(langPill) + ')</span>' +
-              '<span class="topic-codelab-status-badge">Ready</span>' +
-            '</div>' +
-            '<button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button>' +
-          '</div>' +
-          '<pre class="topic-codelab-console-output"></pre>' +
-        '</div>' +
+        '<pre><code class="language-' + escapeHtml(cleanLang) + '">' + escapeHtml(unescaped) + '</code></pre>' +
       '</div>'
     );
+  }
+
+  function renderTopicCodeLabCard(slug, unit, mod) {
+    const lab = (window.TopicGuidedLabs && typeof window.TopicGuidedLabs.getLab === 'function')
+      ? window.TopicGuidedLabs.getLab(slug, '', unit?.title)
+      : null;
+    if (!lab) return '';
+
+    const steps = Array.isArray(lab.steps) ? lab.steps : [];
+    const labTitle = lab.title || `${unit?.title || 'Interactive'} CodeLab`;
+    const labSummary = lab.summary || 'Hands-on implementation and algorithmic verification in in-browser C++20 Clang WASI.';
+    const totalSteps = steps.length || 2;
+
+    return `
+      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span class="build-lab-card__progress">${totalSteps} Guided Steps</span>
+            </div>
+            <h2 class="build-lab-card__title">${escapeHtml(labTitle)}</h2>
+            <p class="build-lab-card__desc">${escapeHtml(labSummary)}</p>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Launch Guided Lab</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        ${steps.length ? `
+          <div class="build-lab-steps-grid">
+            ${steps.map((s, idx) => `
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided" data-step-index="${idx}">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">0${idx + 1}</span>
+                  <span class="build-lab-step-card__target">${escapeHtml(s.concept || 'Algorithmic Invariant')}</span>
+                </div>
+                <div class="build-lab-step-card__title">${escapeHtml((s.title || '').replace(/^Step\s*\d+:\s*/i, ''))}</div>
+                <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || s.hint || 'Implement and verify core invariants in C++20.')}</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step ${idx + 1} →</span>
+                </div>
+              </button>
+            `).join('')}
+          </div>
+        ` : ''}
+      </section>
+    `;
   }
 
   /**
@@ -477,7 +480,7 @@ window.Renderer = (() => {
         html += '<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--divider);">';
         let deepDiveHtml = moduleContent.content.replace(
           /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
-          (match, lang, code) => renderTopicCodeBlock(code, lang, slug, unit.title)
+          (match, lang, code) => renderTopicCodeBlock(code, lang)
         );
         html += '<div class="lesson-deep-dive">' + deepDiveHtml + '</div>';
       }
@@ -493,7 +496,7 @@ window.Renderer = (() => {
       );
       bodyHtml = bodyHtml.replace(
         /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
-        (match, lang, code) => renderTopicCodeBlock(code, lang, slug, unit.title)
+        (match, lang, code) => renderTopicCodeBlock(code, lang)
       );
       html += bodyHtml;
     } else {
@@ -520,6 +523,9 @@ window.Renderer = (() => {
         html += `<div class="sim-card-placeholder" data-sim-slug="${slug}"></div>`;
       }
     }
+
+    // Interactive Guided C++20 CodeLab Workbench Card
+    html += renderTopicCodeLabCard(slug, unit, mod);
 
     // Interactive Practice / Challenge Exercise
     if (window.Exercises && window.Exercises.renderExercise) {
@@ -1582,6 +1588,7 @@ window.Renderer = (() => {
     renderCheatSheet,
     convertMarkdownToHTML,
     renderTopicCodeBlock,
+    renderTopicCodeLabCard,
     escapeHtml,
     icons
   };

@@ -1778,6 +1778,17 @@ window.App = (() => {
         return;
       }
 
+      const openTopicLabBtn = target.closest('[data-action="open-topic-codelab"]');
+      if (openTopicLabBtn) {
+        e.preventDefault();
+        const slug = openTopicLabBtn.getAttribute('data-slug') || currentSlug;
+        const mode = openTopicLabBtn.getAttribute('data-mode') || 'guided';
+        const stepAttr = openTopicLabBtn.getAttribute('data-step-index');
+        const stepIndex = stepAttr !== null ? parseInt(stepAttr, 10) : undefined;
+        openTopicCodeLab(slug, mode, stepIndex);
+        return;
+      }
+
       const openRepoBtn = target.closest('[data-action="open-repo-codelab"]');
       if (openRepoBtn) {
         e.preventDefault();
@@ -2831,6 +2842,56 @@ window.App = (() => {
     });
   }
 
+  function openTopicCodeLab(slug, mode = 'guided', stepIndex) {
+    const curLab = window.TopicGuidedLabs?.getLab ? window.TopicGuidedLabs.getLab(slug) : null;
+    const unitTitle = document.querySelector('.lesson__title, h1')?.textContent?.trim() || slug;
+    const title = curLab?.title || `${unitTitle} — C++20 Guided Lab`;
+    const summary = curLab?.summary || `Hands-on C++20 implementation and algorithmic verification for ${unitTitle}.`;
+    const steps = curLab?.steps || [
+      { id: 'step-1', title: 'Step 1: Core Implementation Invariants', concept: 'Memory & Time Bounds' },
+      { id: 'step-2', title: 'Step 2: Algorithmic Verification & Tests', concept: 'Verification Suite' }
+    ];
+    const starterCode = curLab?.starterCode || '#include <bits/stdc++.h>\n#include <codelab/dsa.hpp>\nusing namespace std;\n\n// TODO: Implement according to lesson invariants\n\nint main() {\n  return 0;\n}\n';
+    const solutionCode = curLab?.solutionCode || starterCode;
+
+    const files = {
+      'src/main.cpp': mode === 'solution' ? solutionCode : starterCode,
+      'src/solution.hpp': solutionCode,
+      'README.md': `# ${title}\n\n${summary}\n\n## Verification\n\nRun in the terminal:\n\`\`\`bash\ng++ -std=c++20 -O2 src/main.cpp -o app && ./app\n\`\`\`\n`
+    };
+
+    const starterFiles = { 'src/main.cpp': starterCode };
+    const solutionFiles = { 'src/main.cpp': solutionCode };
+
+    return openGlobalCodeLab({
+      labId: 'topic-' + slug,
+      title: title,
+      summary: summary,
+      mode: mode === 'solution' ? 'sandbox' : 'guided',
+      language: 'cpp',
+      entry: 'src/main.cpp',
+      cppEntry: 'src/main.cpp',
+      files: files,
+      starterFiles: starterFiles,
+      solutionFiles: solutionFiles,
+      cppStarterFiles: starterFiles,
+      cppSolutionFiles: solutionFiles,
+      steps: steps,
+      guided: {
+        title: title,
+        summary: summary,
+        steps: steps,
+        starterFiles: starterFiles,
+        solutionFiles: solutionFiles
+      }
+    }).then(instance => {
+      if (typeof stepIndex === 'number' && !Number.isNaN(stepIndex) && instance?.selectStep) {
+        setTimeout(() => instance.selectStep(stepIndex, true), 100);
+      }
+      return instance;
+    });
+  }
+
   function openSnippetInCodeLab(code, lang, title) {
     const norm = (lang || 'javascript').toLowerCase();
     let fileName = 'snippet.js';
@@ -3056,6 +3117,7 @@ window.App = (() => {
     closeDiagramLightbox,
     openGlobalCodeLab,
     closeGlobalCodeLab,
+    openTopicCodeLab,
     openSnippetInCodeLab,
     openRepoInCodeLab,
     openChallengeCodeLab,

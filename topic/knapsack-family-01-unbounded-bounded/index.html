@@ -32,7 +32,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
+  <link rel="stylesheet" href="css/components.css?v=d266742353">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -1162,76 +1162,86 @@ flowchart LR
         </table>
 
         <h3>4. Reference C++20 Implementation</h3>
-        <div class="topic-codelab-card" data-slug="knapsack-family-01-unbounded-bounded" data-lang="cpp" data-title="0/1 Knapsack: 1D Space-Optimized Dynamic Programming" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 1 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
+        <div class="code-block"><div class="code-block__header"><span class="code-block__lang">C++20</span><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button><button type="button" class="code-block__copy" data-action="copy-code">Copy</button></div></div><pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;bitset&gt;
+#include &lt;cstdint&gt;
+#include &lt;deque&gt;
+#include &lt;vector&gt;
 
-int knapsack_01(int W, const vector&lt;int&gt;&amp; weights, const vector&lt;int&gt;&amp; values) {
-  vector&lt;int&gt; dp(W + 1, 0);
-  // TODO (Step 1): Reverse capacity DP transition
-  return dp[W];
-}
+struct BoundedItem {
+    int weight;
+    long long value;
+    int count;
+};
 
-int main() {
-  DESCRIBE(&quot;0/1 Knapsack DP&quot;, {
-    TEST(&quot;finds maximum knapsack value&quot;, {
-      vector&lt;int&gt; weights = {2, 3, 4, 5};
-      vector&lt;int&gt; values = {3, 4, 5, 8};
-      ASSERT_EQ(knapsack_01(5, weights, values), 8);
-      ASSERT_EQ(knapsack_01(8, weights, values), 13);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
+// 1. Bounded Knapsack in O(W * sum(log k_i)) via Binary Splitting
+long long bounded_knapsack_binary_split(const std::vector&lt;BoundedItem&gt;&amp; items, int capacity) {
+    std::vector&lt;long long&gt; dp(capacity + 1, 0);
 
-int knapsack_01(int W, const vector&lt;int&gt;&amp; weights, const vector&lt;int&gt;&amp; values) {
-  vector&lt;int&gt; dp(W + 1, 0);
-  // TODO (Step 1): Reverse capacity DP transition
-  return dp[W];
-}
+    auto apply_01_item = [&amp;](int w, long long v) {
+        for (int cap = capacity; cap &gt;= w; --cap) {
+            dp[cap] = std::max(dp[cap], dp[cap - w] + v);
+        }
+    };
 
-int main() {
-  DESCRIBE(&quot;0/1 Knapsack DP&quot;, {
-    TEST(&quot;finds maximum knapsack value&quot;, {
-      vector&lt;int&gt; weights = {2, 3, 4, 5};
-      vector&lt;int&gt; values = {3, 4, 5, 8};
-      ASSERT_EQ(knapsack_01(5, weights, values), 8);
-      ASSERT_EQ(knapsack_01(8, weights, values), 13);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
-#include &lt;codelab/test.hpp&gt;
-using namespace std;
-
-int knapsack_01(int W, const vector&lt;int&gt;&amp; weights, const vector&lt;int&gt;&amp; values) {
-  vector&lt;int&gt; dp(W + 1, 0);
-  int n = weights.size();
-
-  for (int i = 0; i &lt; n; ++i) {
-    int wt = weights[i];
-    int val = values[i];
-    // Reverse capacity traversal guarantees each item is used at most once
-    for (int w = W; w &gt;= wt; --w) {
-      dp[w] = max(dp[w], dp[w - wt] + val);
+    for (const auto&amp; item : items) {
+        int rem = item.count;
+        for (int b = 1; b &lt;= rem; b &lt;&lt;= 1) {
+            int bundle_w = b * item.weight;
+            if (bundle_w &lt;= capacity) {
+                apply_01_item(bundle_w, b * item.value);
+            }
+            rem -= b;
+        }
+        if (rem &gt; 0 &amp;&amp; rem * item.weight &lt;= capacity) {
+            apply_01_item(rem * item.weight, rem * item.value);
+        }
     }
-  }
-  return dp[W];
+    return dp[capacity];
 }
 
-int main() {
-  DESCRIBE(&quot;0/1 Knapsack DP&quot;, {
-    TEST(&quot;finds maximum knapsack value&quot;, {
-      vector&lt;int&gt; weights = {2, 3, 4, 5};
-      vector&lt;int&gt; values = {3, 4, 5, 8};
-      ASSERT_EQ(knapsack_01(5, weights, values), 8);
-      ASSERT_EQ(knapsack_01(8, weights, values), 13);
-    });
-  });
-  return CODELAB_TEST_EXIT_CODE();
-}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
+// 2. Bounded Knapsack in Strict O(N * W) Time via Monotonic Deque over Residue Classes
+long long bounded_knapsack_monotonic_queue(const std::vector&lt;BoundedItem&gt;&amp; items, int capacity) {
+    std::vector&lt;long long&gt; dp(capacity + 1, 0);
+    std::deque&lt;std::pair&lt;int, long long&gt;&gt; dq; // (quotient q, shifted_val = dp[q*w + r] - q*v)
+
+    for (const auto&amp; item : items) {
+        const int w = item.weight;
+        const long long v = item.value;
+        const int k = item.count;
+        if (w &gt; capacity || k == 0) continue;
+
+        for (int r = 0; r &lt; w; ++r) {
+            dq.clear();
+            int max_q = (capacity - r) / w;
+            for (int q = 0; q &lt;= max_q; ++q) {
+                long long shifted = dp[q * w + r] - q * v;
+                while (!dq.empty() &amp;&amp; dq.back().second &lt;= shifted) {
+                    dq.pop_back();
+                }
+                dq.emplace_back(q, shifted);
+                // Evict window elements older than q - k
+                if (dq.front().first &lt; q - k) {
+                    dq.pop_front();
+                }
+                dp[q * w + r] = dq.front().second + q * v;
+            }
+        }
+    }
+    return dp[capacity];
+}
+
+// 3. O(N * W / 64) Word-Parallel Subset Sum using std::bitset
+template &lt;std::size_t MAXW = 100001&gt;
+bool subset_sum_bitset(const std::vector&lt;int&gt;&amp; weights, int target) {
+    if (target &lt; 0 || static_cast&lt;std::size_t&gt;(target) &gt;= MAXW) return false;
+    std::bitset&lt;MAXW&gt; reachable;
+    reachable.set(0);
+    for (int w : weights) {
+        reachable |= (reachable &lt;&lt; w);
+    }
+    return reachable.test(target);
+}</code></pre></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Splitting $k_i$ into Powers of 2 Up to $\lceil \log_2 k_i \rceil$ Instead of Remainder $R$</h4>
@@ -1418,6 +1428,48 @@ int main() {
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
+      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span class="build-lab-card__progress">1 Guided Steps</span>
+            </div>
+            <h2 class="build-lab-card__title">0/1 Knapsack: 1D Space-Optimized Dynamic Programming</h2>
+            <p class="build-lab-card__desc">Solve the 0/1 knapsack problem in O(N · W) time and O(W) memory using reverse-capacity traversal to enforce the single-use invariant.</p>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="knapsack-family-01-unbounded-bounded" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Launch Guided Lab</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="knapsack-family-01-unbounded-bounded" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        
+          <div class="build-lab-steps-grid">
+            
+              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="knapsack-family-01-unbounded-bounded" data-mode="guided" data-step-index="0">
+                <div class="build-lab-step-card__header">
+                  <span class="build-lab-step-card__num">01</span>
+                  <span class="build-lab-step-card__target">In-Place DP Single-Use Enforcement</span>
+                </div>
+                <div class="build-lab-step-card__title">Reverse-Capacity Transition</div>
+                <div class="build-lab-step-card__concept">For each item (weight, val), iterate capacity w from W down to weight: dp[w] = max(dp[w], dp[w - weight] + val).</div>
+                <div class="build-lab-step-card__footer">
+                  <span>In-Browser Clang C++20</span>
+                  <span class="build-lab-step-card__open">Step 1 →</span>
+                </div>
+              </button>
+            
+          </div>
+        
+      </section>
+    
       <div class="exercise-card" id="exercise-knapsack-family-01-unbounded-bounded">
         <div class="exercise-card__header">
           <span class="exercise-card__badge">⚡ Interactive Challenge · Staff Level</span>
@@ -1582,7 +1634,7 @@ int main() {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=b0a9d392ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1590,9 +1642,9 @@ int main() {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=7274ec6d52"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=6ba0f7e6cf"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
