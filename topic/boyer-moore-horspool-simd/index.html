@@ -40,6 +40,27 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Sublinear Average-Case Matching: Boyer-Moore Bad-Character/Good-Suffix & Horspool",
+  "description": "Both KMP and the Z-algorithm inspect every single text byte at least once because they scan the pattern from left to right; if the last byte of an $M$-byte.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/boyer-moore-horspool-simd/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1574,24 +1595,3 @@ std::vector&lt;size_t&gt; bmh_search(std::string_view text, std::string_view pat
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Sublinear Average-Case Matching: Boyer-Moore Bad-Character/Good-Suffix & Horspool",
-  "description": "Both KMP and the Z-algorithm inspect every single text byte at least once because they scan the pattern from left to right; if the last byte of an $M$-byte.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/boyer-moore-horspool-simd/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>

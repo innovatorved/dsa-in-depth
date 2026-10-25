@@ -40,6 +40,27 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Geometric Divide-and-Conquer: Planar Closest Pair of Points in O(N log N)",
+  "description": "Checking all NN-1/2 pairs of 2D points takes ON^2 time. Splitting the plane at the median X-coordinate solves the left and right halves recursively to get.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/divide-and-conquer-closest-pair/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1573,24 +1594,3 @@ ClosestPairResult solve_closest_pair(std::vector&lt;Point2D&gt;&amp; pts) {
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Geometric Divide-and-Conquer: Planar Closest Pair of Points in O(N log N)",
-  "description": "Checking all NN-1/2 pairs of 2D points takes ON^2 time. Splitting the plane at the median X-coordinate solves the left and right halves recursively to get.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/divide-and-conquer-closest-pair/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>

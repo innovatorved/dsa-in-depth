@@ -40,6 +40,27 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Rabin-Karp Rolling Hash: Mersenne Prime Moduli (2^61 - 1) & Birthday Collision Avoidance",
+  "description": "Karp and Rabin 1987 turned string comparison into modular arithmetic by treating a string $S0..N-1$ as a polynomial evaluated at a random base $B$ modulo a.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/rabin-karp-polynomial-rolling-hash/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1586,24 +1607,3 @@ class RollingHash61 {
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Rabin-Karp Rolling Hash: Mersenne Prime Moduli (2^61 - 1) & Birthday Collision Avoidance",
-  "description": "Karp and Rabin 1987 turned string comparison into modular arithmetic by treating a string $S0..N-1$ as a polynomial evaluated at a random base $B$ modulo a.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/rabin-karp-polynomial-rolling-hash/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>

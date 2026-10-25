@@ -40,6 +40,27 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Twos-Complement Arithmetic, Bitmasks, Brian Kernighan's Trick & XOR",
+  "description": "Every $w$-bit signed integer in modern hardware is represented in two's complement, where the most significant bit $bw-1$ carries negative weight $-2^w-1$.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/bit-manipulation-twos-complement/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1578,24 +1599,3 @@ void enumerate_all_submasks(int n) noexcept {
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Twos-Complement Arithmetic, Bitmasks, Brian Kernighan's Trick & XOR",
-  "description": "Every $w$-bit signed integer in modern hardware is represented in two's complement, where the most significant bit $bw-1$ carries negative weight $-2^w-1$.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/bit-manipulation-twos-complement/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>

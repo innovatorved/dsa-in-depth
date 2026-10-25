@@ -40,6 +40,27 @@
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
   <script src="js/manifest.js?v=54c3c21358"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Randomized Number Theory: Miller-Rabin Primality Testing & Pollard's ρ Integer Factorization",
+  "description": "Trial division up to $\\sqrtN$ takes $10^9$ iterations for a 64-bit integer $N \\sim 10^18$. Miller-Rabin tests primality in $Ok \\log^3 N$ time by combining.",
+  "url": "https://dsa-in-depth.vedgupta.in/topic/primality-miller-rabin-pollard-rho/",
+  "author": {
+    "@type": "Person",
+    "name": "Ved Gupta",
+    "url": "https://vedgupta.in"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DSA In Depth",
+    "url": "https://dsa-in-depth.vedgupta.in"
+  }
+}
+  </script>
+</head>
 <body>
   <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1515,24 +1536,3 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
 </body>
 </html>
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Randomized Number Theory: Miller-Rabin Primality Testing & Pollard's ρ Integer Factorization",
-  "description": "Trial division up to $\\sqrtN$ takes $10^9$ iterations for a 64-bit integer $N \\sim 10^18$. Miller-Rabin tests primality in $Ok \\log^3 N$ time by combining.",
-  "url": "https://dsa-in-depth.vedgupta.in/topic/primality-miller-rabin-pollard-rho/",
-  "author": {
-    "@type": "Person",
-    "name": "Ved Gupta",
-    "url": "https://vedgupta.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DSA In Depth",
-    "url": "https://dsa-in-depth.vedgupta.in"
-  }
-}
-  </script>
-</head>
