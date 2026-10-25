@@ -308,6 +308,24 @@ for (const part of curriculum.parts) {
   }
 }
 
+// Helper to robustly replace the inner content of <div class="sidebar__content" id="sidebar-content">
+function replaceSidebarContent(html, newSidebarHtml) {
+  const startMarker = '<div class="sidebar__content" id="sidebar-content">';
+  const startIndex = html.indexOf(startMarker);
+  if (startIndex === -1) return html;
+  const contentStart = startIndex + startMarker.length;
+
+  const asideEnd = html.indexOf('</aside>', contentStart);
+  if (asideEnd === -1) return html;
+
+  const lastDivEnd = html.lastIndexOf('</div>', asideEnd);
+  if (lastDivEnd === -1 || lastDivEnd < contentStart) return html;
+
+  return html.slice(0, contentStart) +
+    `\n${newSidebarHtml}\n    ` +
+    html.slice(lastDivEnd);
+}
+
 // 4a. Statically Pre-render Homepage index.html with Full Sidebar & Crawlable Curriculum Links
 console.log('Pre-rendering homepage index.html with crawlable curriculum & JSON-LD structured data...');
 const totalSims = Object.keys(context.window.SIMULATORS || {}).length;
@@ -320,12 +338,9 @@ context.window.SITE_COUNTS = {
   questions: 720
 };
 
-let homeHtml = baseHtml;
+let homeHtml = baseHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
 const homeSidebarHtml = renderStaticSidebar(curriculum, null);
-homeHtml = homeHtml.replace(
-  /<div class="sidebar__content" id="sidebar-content">[\s\S]*?<\/div>/i,
-  () => `<div class="sidebar__content" id="sidebar-content">\n${homeSidebarHtml}\n    </div>`
-);
+homeHtml = replaceSidebarContent(homeHtml, homeSidebarHtml);
 
 if (context.window.Landing && typeof context.window.Landing.render === 'function') {
   const landingHtml = context.window.Landing.render().replace('<div class="landing">', '<div class="landing landing-shell">');
@@ -364,17 +379,15 @@ const homeJsonLd = {
   ]
 };
 const homeJsonLdTag = `\n  <script type="application/ld+json">\n${JSON.stringify(homeJsonLd, null, 2)}\n  </script>`;
-if (!homeHtml.includes('@id": "https://dsa-in-depth.vedgupta.in/#website"')) {
-  homeHtml = homeHtml.replace('</head>', () => `${homeJsonLdTag}\n</head>`);
-}
+homeHtml = homeHtml.replace('</head>', () => `${homeJsonLdTag}\n</head>`);
 
 fs.writeFileSync(path.join(root, 'index.html'), homeHtml, 'utf8');
 console.log('✓ Pre-rendered homepage index.html with 180 crawlable topic links & JSON-LD');
 
 console.log(`Starting SSG generation for ${units.length} curriculum units...`);
 
-// Ensure <base href="/"> is in head if not already present
-let template = homeHtml;
+// Clean template for topic and build pages (stripped of homepage-specific JSON-LD)
+let template = baseHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
 if (!template.includes('<base href="/">')) {
   template = template.replace('<head>', '<head>\n  <base href="/">');
 }
@@ -528,10 +541,7 @@ for (const { unit, mod } of units) {
 
   // Pre-render sidebar HTML with current unit active
   const sidebarHtml = renderStaticSidebar(curriculum, slug);
-  page = page.replace(
-    /<div class="sidebar__content" id="sidebar-content">[\s\S]*?<\/div>/i,
-    () => `<div class="sidebar__content" id="sidebar-content">\n${sidebarHtml}\n    </div>`
-  );
+  page = replaceSidebarContent(page, sidebarHtml);
 
   // Replace #reader content with prerendered lesson
   page = page.replace(
@@ -679,10 +689,7 @@ for (const [buildId, build] of buildEntries) {
     'class="sidebar__tab active" data-tab="builds" role="tab" aria-selected="true"'
   );
   const buildsSidebarHtml = renderStaticBuildsSidebar(implementations, buildId);
-  page = page.replace(
-    /<div class="sidebar__content" id="sidebar-content">[\s\S]*?<\/div>/i,
-    () => `<div class="sidebar__content" id="sidebar-content">\n${buildsSidebarHtml}\n    </div>`
-  );
+  page = replaceSidebarContent(page, buildsSidebarHtml);
 
   // Replace #reader content with prerendered build page
   page = page.replace(
