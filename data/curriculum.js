@@ -43,8 +43,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1308,
                 "excerpt": "Why an O(N) pointer-chasing traversal can run 20x slower than an O(N log N) contiguous array sort on modern silicon.",
                 "mermaidCount": 1
               }
@@ -70,8 +70,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1232,
                 "excerpt": "Formal set-theoretic definitions of asymptotic growth rates, limit ratios, L'Hôpital's rule, and common hidden-constant fallacies.",
                 "mermaidCount": 1
               }
@@ -97,8 +97,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1234,
                 "excerpt": "Deriving tight closed-form bounds via work-per-level recursion trees, inductive substitution, and the three regimes of the Master Theorem.",
                 "mermaidCount": 1
               }
@@ -124,8 +124,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1123,
                 "excerpt": "Solving recurrences with unequal subproblem splits like T(n) = T(n/3) + T(2n/3) + O(n) via the characteristic exponent p and integral formula.",
                 "mermaidCount": 1
               }
@@ -151,8 +151,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1143,
                 "excerpt": "Proving worst-case sequence bounds without probability using aggregate counting, accounting credits, and Tarjan's potential function Φ.",
                 "mermaidCount": 1
               }
@@ -178,8 +178,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1161,
                 "excerpt": "Accounting for activation records, stack depth overflows, tail-call elimination (TCO), and in-place vs auxiliary heap allocations.",
                 "mermaidCount": 1
               }
@@ -205,8 +205,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1326,
                 "excerpt": "Achieving optimal I/O transfers across all levels of cache without tuning for block size B or cache capacity M.",
                 "mermaidCount": 1
               }
@@ -232,8 +232,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1086,
                 "excerpt": "How speculative execution pipelines stall on random branches (15–20 cycles) and how CMOV/bitwise arithmetic eliminates branch hazards.",
                 "mermaidCount": 1
               }
@@ -259,8 +259,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1154,
                 "excerpt": "Translating input size N and latency budgets into optimal complexity targets using precomputation, hashing, and space-time duality.",
                 "mermaidCount": 1
               }
@@ -286,8 +286,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1114,
                 "excerpt": "Inside V8's Elements Kinds lattice: how PACKED_SMI_ELEMENTS, PACKED_DOUBLE_ELEMENTS, and HOLEY transitions dictate CPU cache efficiency.",
                 "mermaidCount": 1
               }
@@ -322,8 +322,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1254,
                 "excerpt": "Why growth factor 2× prevents heap address reuse while φ ≈ 1.618 or 1.5× allows subsequent allocations to reclaim previously freed blocks.",
                 "mermaidCount": 1
               }
@@ -349,8 +349,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1105,
                 "excerpt": "Duality between prefix accumulation and discrete differentiation for O(1) static range queries and batch range additions.",
                 "mermaidCount": 1
               }
@@ -376,8 +376,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1193,
                 "excerpt": "Proving monotonicity and completeness in converging two-pointer scans and Dijkstra's 3-way Dutch National Flag partition.",
                 "mermaidCount": 1
               }
@@ -403,8 +403,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1025,
                 "excerpt": "When the two-pointer window invariant holds (non-negative weights / monotonic predicates) and when it breaks down.",
                 "mermaidCount": 1
               }
@@ -430,8 +430,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1053,
                 "excerpt": "Deriving Kadane's linear-time optimal substructure invariant and extending it to circular buffers via min-subarray complement.",
                 "mermaidCount": 1
               }
@@ -457,8 +457,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1339,
                 "excerpt": "Bitwise algebra in two's complement: isolating lowest set bits (x & -x), clearing lowest set bits (x & (x-1)), and XOR linear independence.",
                 "mermaidCount": 1
               }
@@ -484,8 +484,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1199,
                 "excerpt": "Packing 64 boolean states into CPU registers for 64× speedups in set intersections, transitive closures, and subset-sum DP.",
                 "mermaidCount": 1
               }
@@ -511,8 +511,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1339,
                 "excerpt": "Bentley's three-reversal theorem vs GCD cycle-leader juggling for O(1) auxiliary space array rotation and matrix manipulation.",
                 "mermaidCount": 1
               }
@@ -538,8 +538,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1280,
                 "excerpt": "Finding frequent elements in a single O(N) pass and O(k) space via pairwise element cancellation.",
                 "mermaidCount": 1
               }
@@ -565,8 +565,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1296,
                 "excerpt": "Implement a power-of-2 bitmasked circular deque and dynamic array with geometric resizing and zero-allocation wrap-around indexing.",
                 "mermaidCount": 1
               }
@@ -601,8 +601,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1045,
                 "excerpt": "Sentinel dummy nodes, pointer manipulation invariants, and why the Linux kernel embeds list_head inside structs via container_of.",
                 "mermaidCount": 1
               }
@@ -628,8 +628,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1291,
                 "excerpt": "Mathematical proof of entry-point convergence μ and period λ in functional graphs, plus Brent's teleporting power-of-2 optimization.",
                 "mermaidCount": 1
               }
@@ -655,8 +655,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1209,
                 "excerpt": "Storing cache-line-sized arrays inside list nodes and gap buffers to achieve O(1) localized edits without pointer overhead.",
                 "mermaidCount": 1
               }
@@ -682,8 +682,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1354,
                 "excerpt": "Pugh's geometric level promotion via coin flips: proving O(log N) high-probability search and lock-free concurrency advantages over balanced trees.",
                 "mermaidCount": 1
               }
@@ -709,8 +709,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1279,
                 "excerpt": "Operator precedence parsing, right-associative exponentiation, and converting infix expressions to RPN/ASTs without recursion.",
                 "mermaidCount": 1
               }
@@ -736,8 +736,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1240,
                 "excerpt": "Maintaining strictly ordered stack prefixes to compute all-nearest smaller/greater boundaries and sum of subarray minimums in O(N).",
                 "mermaidCount": 1
               }
@@ -763,8 +763,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1076,
                 "excerpt": "Pruning dominated tail elements and expired head indices to answer sliding window extrema in amortized O(1) per step.",
                 "mermaidCount": 1
               }
@@ -790,8 +790,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1158,
                 "excerpt": "Achieving strict O(1) get and put in LFU caches using a doubly linked list of frequency buckets rather than a O(log N) min-heap.",
                 "mermaidCount": 1
               }
@@ -817,8 +817,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1264,
                 "excerpt": "How Redis dynamically upgrades sorted sets from contiguous listpacks to dual-indexed dict + zskiplist structures for O(1) point and O(log N) range queries.",
                 "mermaidCount": 1
               }
@@ -844,8 +844,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-18",
+                "wordCount": 1205,
                 "excerpt": "Build zero-dependency O(1) LRU and Shah-Mitra-Matani O(1) frequency-bucketed LFU caches with TTL and eviction telemetry.",
                 "mermaidCount": 1
               }
@@ -889,8 +889,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1231,
                 "excerpt": "Carter-Wegman universal hash families, Knuth multiplicative Fibonacci hashing, and why pairwise independence bounds expected collisions to 1 + α.",
                 "mermaidCount": 1
               }
@@ -916,8 +916,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1355,
                 "excerpt": "Primary clustering in linear probing (Knuth's 1/(1-α)^2 bound) vs cache-line locality that outperforms pointer-chased separate chaining.",
                 "mermaidCount": 1
               }
@@ -943,8 +943,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1345,
                 "excerpt": "Equalizing Probe Sequence Lengths (PSL) with Robin Hood swaps, backward-shift deletion without tombstones, and O(1) worst-case lookup in Cuckoo Hashing.",
                 "mermaidCount": 1
               }
@@ -970,8 +970,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1104,
                 "excerpt": "How attackers craft colliding payloads to degrade O(1) hash maps into O(N^2) CPU denial-of-service, and how keyed PRFs (SipHash) prevent it.",
                 "mermaidCount": 1
               }
@@ -997,8 +997,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1167,
                 "excerpt": "Karger's virtual-node ring vs Highest Random Weight (HRW) hashing and Mirrokni's (1+ε) bounded-load capacity guarantees.",
                 "mermaidCount": 1
               }
@@ -1024,8 +1024,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1299,
                 "excerpt": "Deriving optimal k = (m/n) ln 2 bits per element, Kirsch-Mitzenmacher double hashing, deletion in Cuckoo filters, and static 1.23n-bit Xor filters.",
                 "mermaidCount": 1
               }
@@ -1051,8 +1051,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1163,
                 "excerpt": "Sublinear frequency tables with (ε, δ) Markov inequality guarantees, conservative updates, and heavy-hitter min-heap tracking.",
                 "mermaidCount": 1
               }
@@ -1078,8 +1078,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1160,
                 "excerpt": "Counting 10^9 distinct elements with <1% error in 1,6384 6-bit registers using leading-zero bit patterns and harmonic mean bias correction.",
                 "mermaidCount": 1
               }
@@ -1105,8 +1105,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1166,
                 "excerpt": "How 1-byte h2 metadata control bytes and 16-way SSE2/NEON bitmask instructions eliminate cache misses in modern C++ and Rust hash maps.",
                 "mermaidCount": 1
               }
@@ -1132,8 +1132,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1311,
                 "excerpt": "Implement a high-performance open-addressed hash table tracking Probe Sequence Length (PSL), Robin Hood displacement, and backward-shift deletion.",
                 "mermaidCount": 1
               }
@@ -1168,8 +1168,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1166,
                 "excerpt": "Why adjacent swaps remove at most 1 inversion (Ω(N^2)), why Insertion Sort dominates for N ≤ 24, and Sedgewick's Shellsort gap sequences.",
                 "mermaidCount": 1
               }
@@ -1195,8 +1195,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1259,
                 "excerpt": "Stable merging invariants, ping-pong auxiliary buffer optimization, bottom-up iterative passes, and inversion counting.",
                 "mermaidCount": 1
               }
@@ -1222,8 +1222,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1328,
                 "excerpt": "Why Hoare partitioning performs 3× fewer swaps than Lomuto, and how 3-way Dutch National Flag partitioning defeats duplicate-key O(N^2) traps.",
                 "mermaidCount": 1
               }
@@ -1249,8 +1249,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1168,
                 "excerpt": "Using linearity of expectation over indicator variables X_ij to prove 2N ln N expected comparisons regardless of input distribution.",
                 "mermaidCount": 1
               }
@@ -1276,8 +1276,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1329,
                 "excerpt": "Information-theoretic proof that any comparison sort requires at least ⌈log2(N!)⌉ = N log2 N - 1.44N comparisons in the worst case.",
                 "mermaidCount": 1
               }
@@ -1303,8 +1303,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1298,
                 "excerpt": "Bypassing the comparison lower bound via prefix-sum stable bucket offsets, base-256 byte passes, and IEEE-754 float sign-bit flipping.",
                 "mermaidCount": 1
               }
@@ -1330,8 +1330,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1187,
                 "excerpt": "Finding the k-th smallest element in expected O(N) via Hoare's Quickselect and guaranteed worst-case O(N) via 5-element group medians (T(n) ≤ T(n/5) + T(7n/10) + O(n)).",
                 "mermaidCount": 1
               }
@@ -1357,8 +1357,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1395,
                 "excerpt": "Sorting 100 TB datasets with 4 GB RAM: tournament loser trees, replacement selection (2M average run length), and multi-pass disk I/O minimization.",
                 "mermaidCount": 1
               }
@@ -1384,8 +1384,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1482,
                 "excerpt": "How TimSort exploits natural runs and galloping mode for stable sorts while Orson Peters' Pattern-Defeating Quicksort (pdqsort) achieves branchless speed.",
                 "mermaidCount": 1
               }
@@ -1411,8 +1411,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1307,
                 "excerpt": "Implement an adaptive sorting engine with monotonic run discovery, binary insertion sort for short runs, stack balance invariants, and galloping merge.",
                 "mermaidCount": 1
               }
@@ -1447,8 +1447,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1307,
                 "excerpt": "Viewing binary search as finding the partition point of a monotonic boolean predicate [F, F, ..., T, T] on a half-open interval [lo, hi).",
                 "mermaidCount": 1
               }
@@ -1474,8 +1474,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1163,
                 "excerpt": "Transforming min-max and max-min optimization problems into O(log(Range) · T_check) decision predicates.",
                 "mermaidCount": 1
               }
@@ -1501,8 +1501,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1276,
                 "excerpt": "Bentley-Yao O(log i) unbounded search, invariant restoration in cyclically shifted arrays, and continuous/discrete ternary search.",
                 "mermaidCount": 1
               }
@@ -1528,8 +1528,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1247,
                 "excerpt": "Chazelle-Guibas pointer promotion: propagating every second element upward with bridge pointers to eliminate K-1 binary searches.",
                 "mermaidCount": 1
               }
@@ -1555,8 +1555,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1185,
                 "excerpt": "Shamos-Hoey strip argument: why the 2δ × δ bounding box packing invariant limits inner-loop distance checks to at most 7 neighbors.",
                 "mermaidCount": 1
               }
@@ -1582,8 +1582,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1020,
                 "excerpt": "Trading expensive multiplications for additions to reduce big-integer multiplication to O(N^1.585) and matrix multiplication to O(N^2.807).",
                 "mermaidCount": 1
               }
@@ -1609,8 +1609,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 1187,
                 "excerpt": "Evaluating and interpolating polynomials at complex N-th roots of unity via even-odd butterfly symmetries and Number Theoretic Transform (NTT).",
                 "mermaidCount": 1
               }
@@ -1636,8 +1636,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 957,
                 "excerpt": "Horowitz-Sahni bidirectional state space decomposition for N ≤ 40 knapsack, 4-SUM, and shortest unweighted bidirectional search.",
                 "mermaidCount": 1
               }
@@ -1663,8 +1663,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 991,
                 "excerpt": "Decoupling dynamic updates from queries by recursively computing how left-half modifications contribute to right-half queries.",
                 "mermaidCount": 1
               }
@@ -1690,8 +1690,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-19",
+                "wordCount": 855,
                 "excerpt": "Why standard binary search thrashes TLB and L1 caches on large arrays, and how breadth-first Eytzinger (1-indexed heap) layout + prefetching achieves 3× speedups.",
                 "mermaidCount": 1
               }
@@ -1735,8 +1735,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1257,
                 "excerpt": "Pointer nodes vs flat arena arrays, explicit stack state machines for single-pass post-order, and Euler tour flattenings.",
                 "mermaidCount": 1
               }
@@ -1762,8 +1762,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1054,
                 "excerpt": "Rewiring inorder predecessor null right pointers as temporary return threads to traverse trees in O(N) time and O(1) extra memory.",
                 "mermaidCount": 1
               }
@@ -1789,8 +1789,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1029,
                 "excerpt": "Why Preorder+Postorder fails on unary nodes, O(N) hash-indexed Preorder+Inorder reconstruction, and 2N-bit Jacobson LOUDS encoding.",
                 "mermaidCount": 1
               }
@@ -1816,8 +1816,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 990,
                 "excerpt": "Inorder successor replacement mechanics and Eppinger's theorem: why alternating insertions and asymmetric Hibbard deletions degrade BST height to Θ(√N).",
                 "mermaidCount": 1
               }
@@ -1843,8 +1843,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1047,
                 "excerpt": "Isomorphism between random BST node depths and Quicksort pivot comparisons, proving expected depth 2 ln N.",
                 "mermaidCount": 1
               }
@@ -1870,8 +1870,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1036,
                 "excerpt": "Why bottom-up siftDown converges to Σ (h / 2^h) = O(N) work, and why 4-ary heaps outperform binary heaps in cache-bound Dijkstra workloads.",
                 "mermaidCount": 1
               }
@@ -1897,8 +1897,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1231,
                 "excerpt": "Lazy consolidation, cascading cuts, and potential function Φ(H) = t(H) + 2m(H) achieving O(1) amortized insert, merge, and decreaseKey.",
                 "mermaidCount": 1
               }
@@ -1924,8 +1924,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 941,
                 "excerpt": "Balancing a Max-Heap lower half and Min-Heap upper half for streaming quantiles, lazy deletion tombstones, and O(N log K) selection.",
                 "mermaidCount": 1
               }
@@ -1951,8 +1951,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1190,
                 "excerpt": "Why Linux, Netty, and Kafka replace O(log N) heap timers with Varghese-Lauck O(1) hierarchical timing wheels for millions of connection timeouts.",
                 "mermaidCount": 1
               }
@@ -1978,8 +1978,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1167,
                 "excerpt": "Implement Sedgewick's IndexMinPQ over a cache-aligned 4-ary heap supporting O(1) key containment checks and O(log_4 N) priority updates.",
                 "mermaidCount": 1
               }
@@ -2014,8 +2014,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1057,
                 "excerpt": "Proving minimum node count N(h) = F_{h+2} - 1 yields h < 1.44 log2 N, and restoring height invariants in at most one single or double rotation on insert.",
                 "mermaidCount": 1
               }
@@ -2041,8 +2041,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1060,
                 "excerpt": "Mapping 2-3-4 B-tree nodes to red-black edges, proving height ≤ 2 log2(N+1), and reducing implementation to 3 lines of rotateLeft/rotateRight/flipColors.",
                 "mermaidCount": 1
               }
@@ -2068,8 +2068,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1206,
                 "excerpt": "Cartesian product of BST keys and random heap priorities, plus Implicit Treaps as dynamic arrays supporting O(log N) range reversal and cut-paste.",
                 "mermaidCount": 1
               }
@@ -2095,8 +2095,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1118,
                 "excerpt": "Why Zig-Zig rotates the grandparent first, Sleator-Tarjan's rank potential Φ = Σ log2(size(x)) telescopic proof, and the Dynamic Optimality Conjecture.",
                 "mermaidCount": 1
               }
@@ -2122,8 +2122,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1192,
                 "excerpt": "CLRS Theorem 14.1 for maintaining subtree aggregates during rotations, k-th order statistics, and 1D overlap queries with max-endpoint augmentation.",
                 "mermaidCount": 1
               }
@@ -2149,8 +2149,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1087,
                 "excerpt": "Matching node size to 4KB–16KB NVMe pages (fanout B ≈ 512) to resolve 10^9 keys in 3 disk reads, proactive top-down splitting, and sequential leaf scans.",
                 "mermaidCount": 1
               }
@@ -2176,8 +2176,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1124,
                 "excerpt": "Trading read amplification for sequential write throughput via SkipList MemTables, immutable SSTables, Bloom filters, and Size-Tiered vs Leveled compaction.",
                 "mermaidCount": 1
               }
@@ -2203,8 +2203,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 979,
                 "excerpt": "Driscoll-Sarnak-Sleator-Tarjan persistence: creating new version roots in O(log N) time and space by sharing unmodified subtrees.",
                 "mermaidCount": 1
               }
@@ -2230,8 +2230,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1064,
                 "excerpt": "How Linux's Completely Fair Scheduler (CFS) tracks leftmost min-vruntime in O(1) and how Virtual Memory Areas (VMAs) use augmented gap rbtrees.",
                 "mermaidCount": 1
               }
@@ -2257,8 +2257,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1187,
                 "excerpt": "Implement a complete Sedgewick LLRB tree augmented with subtree sizes supporting insert, Hibbard-free delete, rank(key), select(k), and rangeCount(lo, hi).",
                 "mermaidCount": 1
               }
@@ -2293,8 +2293,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1220,
                 "excerpt": "Precomputing power-of-2 intervals in O(N log N) for O(1) overlapping idempotent queries (min/max/gcd) and Disjoint Sparse Tables for non-idempotent monoids.",
                 "mermaidCount": 1
               }
@@ -2320,8 +2320,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1229,
                 "excerpt": "How index bit manipulation (i & -i) encodes a prefix responsibility tree in a flat N-element array, plus dual BITs for range-add / range-sum.",
                 "mermaidCount": 1
               }
@@ -2347,8 +2347,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1031,
                 "excerpt": "Decomposing any interval [L, R] into at most 2⌈log2 N⌉ canonical tree nodes, non-commutative monoid merging (max subarray sum), and 2N iterative ZKW layouts.",
                 "mermaidCount": 1
               }
@@ -2374,8 +2374,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1110,
                 "excerpt": "Composing deferred endomorphism tags in O(log N) and Ji Ruyi's potential-amortized break/tag conditions for range a[i] = min(a[i], x) updates.",
                 "mermaidCount": 1
               }
@@ -2401,8 +2401,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 978,
                 "excerpt": "Allocating child pointers lazily over [0, 10^9] and subtracting prefix version trees (root[R] - root[L-1]) to binary search subarray order statistics.",
                 "mermaidCount": 1
               }
@@ -2428,8 +2428,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1164,
                 "excerpt": "Balancing block size B = √N for non-associative updates, and Mo's Hilbert/snake block sorting to bound pointer movements across Q range queries.",
                 "mermaidCount": 1
               }
@@ -2455,8 +2455,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1032,
                 "excerpt": "O(N log N) jump pointers for k-th ancestor and LCA vs Bender-Farach-Colton Euler tour depth reduction to O(N) build / O(1) query RMQ.",
                 "mermaidCount": 1
               }
@@ -2482,8 +2482,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1249,
                 "excerpt": "Sleator-Tarjan heavy-edge classification: why any root-to-leaf path crosses at most log2 N light edges, enabling Segment Tree operations on tree paths.",
                 "mermaidCount": 1
               }
@@ -2509,8 +2509,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 979,
                 "excerpt": "Building the unique heap-ordered inorder binary tree of an array in O(N) via a right-spine monotonic stack and unifying RMQ with Tree LCA.",
                 "mermaidCount": 1
               }
@@ -2536,8 +2536,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-21",
+                "wordCount": 1213,
                 "excerpt": "Build an AtCoder-style generic LazySegmentTree supporting range affine transformations (a[i] ← b·a[i] + c) and range sum/min/max queries.",
                 "mermaidCount": 1
               }
@@ -2581,8 +2581,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1126,
                 "excerpt": "Alphabet fanout tradeoffs (array vs map vs child-sibling), path compression of single-child chains, and Redis rax / Linux XArray prefix indexing.",
                 "mermaidCount": 1
               }
@@ -2608,8 +2608,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1212,
                 "excerpt": "Treating 32/64-bit integers as fixed-depth binary strings to answer maximum XOR pair, XOR < K count, and persistent subarray XOR queries in O(W).",
                 "mermaidCount": 1
               }
@@ -2635,8 +2635,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1058,
                 "excerpt": "O(1) sliding window hash updates, fast Mersenne bitshift modular reduction, and why single-modulus 10^9+7 fails above 40,000 strings via the Birthday Paradox.",
                 "mermaidCount": 1
               }
@@ -2662,8 +2662,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1109,
                 "excerpt": "Computing longest proper prefix-suffix borders π[i] in O(|P|) via potential Φ = π[i-1], and KMP automaton transition tables for streaming text.",
                 "mermaidCount": 1
               }
@@ -2689,8 +2689,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1085,
                 "excerpt": "Maintaining the rightmost matched prefix interval [L, R] to bootstrap Z[i] from Z[i - L] without ever re-scanning characters left of R.",
                 "mermaidCount": 1
               }
@@ -2716,8 +2716,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1109,
                 "excerpt": "Right-to-left pattern verification and bad-character skip tables that inspect only O(|T| / |P|) characters on natural language and source code.",
                 "mermaidCount": 1
               }
@@ -2743,8 +2743,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1179,
                 "excerpt": "Generalizing KMP to a set of patterns: BFS failure link construction, output link compression to avoid O(N^2) empty-match traversals, and DFA completion.",
                 "mermaidCount": 1
               }
@@ -2770,8 +2770,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1176,
                 "excerpt": "Exploiting palindrome reflection symmetry across the rightmost center C to find all maximal palindrome radii and all ≤ N+2 distinct palindrome states in O(N).",
                 "mermaidCount": 1
               }
@@ -2797,8 +2797,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1228,
                 "excerpt": "How BurntSushi's ripgrep extracts literal prefixes from regexes, uses SIMD memchr/Teddy shuffle masks, and switches to Aho-Corasick without reading every byte.",
                 "mermaidCount": 1
               }
@@ -2824,8 +2824,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 970,
                 "excerpt": "Implement a compiled Aho-Corasick multi-pattern scanner with trie insertion, BFS failure transitions, output suffix links, and streaming match extraction.",
                 "mermaidCount": 1
               }
@@ -2860,8 +2860,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1413,
                 "excerpt": "Compressing all N(N+1)/2 substrings into ≤ 2N tree edges via open leaf ends, Rule 2/Rule 3 extensions, skip-count trick, and suffix links.",
                 "mermaidCount": 1
               }
@@ -2887,8 +2887,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1293,
                 "excerpt": "Replacing pointer-heavy suffix trees with a flat sorted permutation of suffix indices via 2^k rank-pair radix doubling and Induced Sorting (S/L types).",
                 "mermaidCount": 1
               }
@@ -2914,8 +2914,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 851,
                 "excerpt": "Why LCP[rank[i]] ≥ LCP[rank[i-1]] - 1 guarantees linear time, reducing substring LCP queries to RMQ, and counting Σ (N - SA[i] - LCP[i]) distinct substrings.",
                 "mermaidCount": 1
               }
@@ -2941,8 +2941,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1249,
                 "excerpt": "Blumer's minimal DFA of all substrings: why endpos sets form a laminar tree (suffix link tree) of at most 2N-1 states and 3N-4 transitions.",
                 "mermaidCount": 1
               }
@@ -2968,8 +2968,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1246,
                 "excerpt": "Reversible block-sorting permutation that clusters identical contexts for compression while enabling O(|P|) backward search via Wavelet Tree rank queries.",
                 "mermaidCount": 1
               }
@@ -2995,8 +2995,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1033,
                 "excerpt": "Russ Cox's analysis: why PCRE/JS backtracking explodes in O(2^N) on (a+)+b while Thompson's lockstep state-set simulation guarantees O(|R|·|T|) time.",
                 "mermaidCount": 1
               }
@@ -3022,8 +3022,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1373,
                 "excerpt": "Searching edit graphs along diagonal k = x - y snakes in O((N+M)D) time, and Hirschberg's divide-and-conquer midpoint split for O(min(N,M)) memory.",
                 "mermaidCount": 1
               }
@@ -3049,8 +3049,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1320,
                 "excerpt": "Shannon entropy lower bound H(X), canonical prefix-free Huffman code lengths, LZ77 (distance, length) back-references, and RFC 1951 DEFLATE.",
                 "mermaidCount": 1
               }
@@ -3076,8 +3076,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 988,
                 "excerpt": "Why standard Myers diff sometimes aligns brace lines poorly and how Patience/Histogram diff anchors on low-frequency unique lines for human-readable patches.",
                 "mermaidCount": 1
               }
@@ -3103,8 +3103,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-22",
+                "wordCount": 1253,
                 "excerpt": "Compile regular expressions (concatenation, alternation |, Kleene *, +, ?, char classes) into Thompson NFA state graphs and execute linear-time lockstep matching.",
                 "mermaidCount": 1
               }
@@ -3149,7 +3149,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 1044,
                 "excerpt": "Why pointer-of-vectors adjacency lists suffer L3 cache misses and how flat offsets[] + edges[] CSR arrays accelerate graph traversals by 5–10×.",
                 "mermaidCount": 1
               }
@@ -3176,7 +3176,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 1021,
                 "excerpt": "Two-distance queue invariant in BFS, 0-1 edge weights via front/back deque insertion, multi-source virtual supernodes, and bidirectional frontier intersection.",
                 "mermaidCount": 1
               }
@@ -3203,7 +3203,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 941,
                 "excerpt": "Entry/exit intervals [tin[u], tout[u]], 3-color cycle detection (WHITE/GRAY/BLACK), and why undirected DFS produces only Tree and Back edges.",
                 "mermaidCount": 1
               }
@@ -3230,7 +3230,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 828,
                 "excerpt": "Equivalence of DAG acyclicity and topological orderings, lexicographically smallest schedules via min-heap Kahn, and critical path scheduling.",
                 "mermaidCount": 1
               }
@@ -3257,7 +3257,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 660,
                 "excerpt": "König's characterization: proving a graph is 2-colorable iff it contains no odd-length cycle, and extracting odd-cycle witnesses via BFS layer parity.",
                 "mermaidCount": 1
               }
@@ -3284,7 +3284,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 826,
                 "excerpt": "Computing low[u] back-edge reachability to identify critical single points of failure (low[v] > tin[u] for bridges, low[v] ≥ tin[u] for cut vertices) in O(V+E).",
                 "mermaidCount": 1
               }
@@ -3311,7 +3311,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 927,
                 "excerpt": "Condensing directed cycles into a DAG of SCCs and solving boolean 2-CNF satisfiability (x ∨ y ≡ ¬x → y ∧ ¬y → x) in linear time.",
                 "mermaidCount": 1
               }
@@ -3338,7 +3338,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 857,
                 "excerpt": "In/out-degree parity conditions, splicing cycle detours in O(E) via Hierholzer's stack, and genome assembly on De Bruijn k-mer graphs.",
                 "mermaidCount": 1
               }
@@ -3365,7 +3365,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 852,
                 "excerpt": "How Bazel Skyframe, Cargo, and Turborepo schedule parallel task execution along DAG wavefronts and report minimal circular dependency chains using Tarjan SCCs.",
                 "mermaidCount": 1
               }
@@ -3392,7 +3392,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 833,
                 "excerpt": "Implement single-pass Tarjan SCC extraction, condensation DAG construction, and a complete 2-SAT boolean constraint solver with witness assignment.",
                 "mermaidCount": 1
               }
@@ -3428,7 +3428,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 737,
                 "excerpt": "Why Union by Rank alone gives O(log N), Path Compression alone gives O(log N) amortized, and combining both yields Tarjan's O(α(N)) ≤ 4 bound.",
                 "mermaidCount": 1
               }
@@ -3455,7 +3455,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 928,
                 "excerpt": "Maintaining edge potentials along parent pointers (bipartite parity / relative offsets) and combining Undo-Stack DSU with a Segment Tree over time.",
                 "mermaidCount": 1
               }
@@ -3482,7 +3482,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 863,
                 "excerpt": "Unifying all MST algorithms via the Red-Blue Cut and Cycle rules, dense O(V^2) Prim vs sparse O(E log E) Kruskal, and parallel Borůvka component hookings.",
                 "mermaidCount": 1
               }
@@ -3509,7 +3509,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 866,
                 "excerpt": "Inductive settled-set proof, lazy deletion vs decreaseKey in 4-ary heaps, and Dial's O(V + E + C) bucket queue for bounded integer weights.",
                 "mermaidCount": 1
               }
@@ -3536,7 +3536,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 727,
                 "excerpt": "Potential-reweighted Dijkstra view of A*: why admissibility (h(u) ≤ d*(u,t)) guarantees optimality and consistency (h(u) ≤ w(u,v) + h(v)) prevents re-expansions.",
                 "mermaidCount": 1
               }
@@ -3563,7 +3563,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 866,
                 "excerpt": "Path-length relaxation invariant after k passes, currency arbitrage cycle detection, and solving x_v - x_u ≤ w(u,v) linear feasibility systems.",
                 "mermaidCount": 1
               }
@@ -3590,7 +3590,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 758,
                 "excerpt": "Intermediate vertex set {1..k} DP state compression in O(V^3) vs Johnson's Bellman-Ford potential shift w'(u,v) = w(u,v) + h(u) - h(v) ≥ 0 for O(VE log V).",
                 "mermaidCount": 1
               }
@@ -3617,7 +3617,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 843,
                 "excerpt": "Encoding fuel capacities, k free edge discounts, and mandatory waypoint bitmasks into product graphs G × S without changing Dijkstra's engine.",
                 "mermaidCount": 1
               }
@@ -3644,7 +3644,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 922,
                 "excerpt": "Why standard Dijkstra takes 2 seconds on 50M road intersections, and how node contraction shortcuts enable sub-millisecond upward-only bidirectional queries.",
                 "mermaidCount": 1
               }
@@ -3671,7 +3671,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 1002,
                 "excerpt": "Implement a multi-algorithm shortest-path router supporting Dijkstra, A* with pluggable heuristics, and Bidirectional Dijkstra with exact μ stopping criteria.",
                 "mermaidCount": 1
               }
@@ -3707,7 +3707,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 909,
                 "excerpt": "Capacity and skew-symmetry invariants, why backward residual edges (f(v,u) = -f(u,v)) enable greedy undo operations, and XOR edge-pair indexing.",
                 "mermaidCount": 1
               }
@@ -3734,7 +3734,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 868,
                 "excerpt": "Proving |f| ≤ cap(S, T) for any s-t cut, equivalence of zero augmenting paths and saturated min-cuts, and guaranteed integer flows on integer capacities.",
                 "mermaidCount": 1
               }
@@ -3761,7 +3761,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 791,
                 "excerpt": "Why augmenting along shortest unweighted paths guarantees residual distances δ_f(s, v) never decrease and each edge saturates at most V/2 times.",
                 "mermaidCount": 1
               }
@@ -3788,7 +3788,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 874,
                 "excerpt": "Saturating an entire level graph in O(VE) via dead-end pointer pruning (ptr[u]), achieving O(V^2 E) general and O(E√V) on unit-capacity networks.",
                 "mermaidCount": 1
               }
@@ -3815,7 +3815,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 989,
                 "excerpt": "Relaxing flow conservation during execution: excess nodes, valid height labels h(s) = V, admissible pushes, and O(V^2 √E) highest-label discharge.",
                 "mermaidCount": 1
               }
@@ -3842,7 +3842,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 923,
                 "excerpt": "Simultaneous shortest vertex-disjoint augmenting paths, Hall's neighborhood condition |N(S)| ≥ |S|, and deriving Minimum Vertex Cover / Maximum Independent Set.",
                 "mermaidCount": 1
               }
@@ -3869,7 +3869,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 862,
                 "excerpt": "Maintaining dual vertex potentials u[i] + v[j] ≤ C[i][j] to augment along tight zero-slack edges in O(N^3) time.",
                 "mermaidCount": 1
               }
@@ -3896,7 +3896,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 869,
                 "excerpt": "Routing flow along minimum-cost augmenting paths without negative-weight Bellman-Ford overhead after the first pass by updating node potentials π(v).",
                 "mermaidCount": 1
               }
@@ -3923,7 +3923,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 791,
                 "excerpt": "Translating non-obvious optimization problems into s-t min-cuts (open-pit mining / project selection) and lower-bound circulation feasibility.",
                 "mermaidCount": 1
               }
@@ -3950,7 +3950,7 @@ window.CURRICULUM_DATA = {
                 ],
                 "created": "2026-05-14",
                 "updated": "2026-10-23",
-                "wordCount": 1400,
+                "wordCount": 823,
                 "excerpt": "Build a production Dinic Max-Flow solver with BFS level graphs, current-arc DFS blocking flows, s-t Min-Cut partition extraction, and bipartite matching.",
                 "mermaidCount": 1
               }
@@ -3994,8 +3994,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1015,
                 "excerpt": "Iterative next_permutation pivot-and-reverse, binary reflected Gray code g = i ^ (i >> 1) single-bit transitions, and Gosper's hack for k-bit subsets.",
                 "mermaidCount": 1
               }
@@ -4021,8 +4021,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1020,
                 "excerpt": "Structuring exact search trees with O(1) incremental state undo, canonical ordering to eliminate isomorphic permutations, and Minimum Remaining Values (MRV).",
                 "mermaidCount": 1
               }
@@ -4048,8 +4048,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1069,
                 "excerpt": "Exploiting x.left.right = x in toroidal doubly-linked sparse matrices to cover and uncover rows/columns in exact Cover, Pentominoes, and Sudoku.",
                 "mermaidCount": 1
               }
@@ -4075,8 +4075,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1047,
                 "excerpt": "Pruning suboptimal subtrees using LP/fractional knapsack upper bounds and 1-tree lower bounds before expanding exponential branches.",
                 "mermaidCount": 1
               }
@@ -4102,8 +4102,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1058,
                 "excerpt": "Zero-sum game evaluation, why optimal move ordering reduces branching factor from b^d to b^(d/2), iterative deepening, and 64-bit XOR Zobrist hashing.",
                 "mermaidCount": 1
               }
@@ -4129,8 +4129,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 963,
                 "excerpt": "Distinguishing valid greedy choices from plausible traps using structural induction ('greedy stays ahead') and inversion-swapping exchange proofs.",
                 "mermaidCount": 1
               }
@@ -4156,8 +4156,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1024,
                 "excerpt": "Edmonds-Rado Theorem: hereditary systems (E, I) with the exchange property characterize the exact family of subsets where weighted greedy is optimal.",
                 "mermaidCount": 1
               }
@@ -4183,8 +4183,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 898,
                 "excerpt": "Making greedy choices tentatively and using a min/max heap to retroactively swap out the worst prior commitment (Moore-Hodgson & Buy-Sell matching).",
                 "mermaidCount": 1
               }
@@ -4210,8 +4210,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1221,
                 "excerpt": "How Chaff/MiniSat and Cargo's PubGrub solver resolve millions of boolean/version constraints via Two-Watched Literals, Unit Propagation, and Conflict-Driven Clause Learning.",
                 "mermaidCount": 1
               }
@@ -4237,8 +4237,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1256,
                 "excerpt": "Implement Knuth's toroidal doubly-linked Dancing Links matrix with Minimum Remaining Values (MRV) column selection and exact-cover Sudoku/N-Queens reductions.",
                 "mermaidCount": 1
               }
@@ -4273,8 +4273,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 961,
                 "excerpt": "MIT 6.006 SRTBOT (Subproblem, Relate, Topological order, Base cases, Original, Time) and why DP requires acyclicity and prefix independence.",
                 "mermaidCount": 1
               }
@@ -4300,8 +4300,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 977,
                 "excerpt": "Reachable-state sparsity in top-down DP vs cache-contiguous loop dependency order and 2-row / 1-row reverse-iteration space reduction.",
                 "mermaidCount": 1
               }
@@ -4327,8 +4327,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1194,
                 "excerpt": "Why iterating capacity downward prevents item reuse, O(NW/64) bitset shifts, power-of-2 item bundling, and O(NW) residue-class monotonic queue DP.",
                 "mermaidCount": 1
               }
@@ -4354,8 +4354,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 923,
                 "excerpt": "Maintaining minimal tail values tails[k] of increasing subsequences of length k+1 via binary search, parent pointer reconstruction, and Dilworth's antichain duality.",
                 "mermaidCount": 1
               }
@@ -4381,8 +4381,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1108,
                 "excerpt": "Prefix alignment transitions, Damerau adjacent transposition extensions, affine gap penalties, and diagonal banded DP when edit distance k ≪ N.",
                 "mermaidCount": 1
               }
@@ -4408,8 +4408,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 999,
                 "excerpt": "Iterating by increasing interval length len = r - l + 1 to solve parenthesization, burst-balloons last-action framing, and minimum-weight triangulation.",
                 "mermaidCount": 1
               }
@@ -4435,8 +4435,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1146,
                 "excerpt": "Why merging subtree knapsacks bounded by sz[u] costs O(N^2) total (not O(N^3)) via LCA pair counting, and two-pass prefix/suffix rerooting.",
                 "mermaidCount": 1
               }
@@ -4462,8 +4462,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 895,
                 "excerpt": "Why Longest Path is NP-hard on general graphs but O(V+E) on DAGs, push vs pull transitions along Kahn's order, and DAG reachability.",
                 "mermaidCount": 1
               }
@@ -4489,8 +4489,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 956,
                 "excerpt": "How TeX avoids ugly greedy rivers of whitespace by minimizing cubic badness across entire paragraphs via Dynamic Programming.",
                 "mermaidCount": 1
               }
@@ -4516,8 +4516,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1012,
                 "excerpt": "Implement Hirschberg's divide-and-conquer optimal sequence aligner using two-row forward and reverse DP passes to reconstruct full diffs in O(min(N,M)) space.",
                 "mermaidCount": 1
               }
@@ -4552,8 +4552,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1129,
                 "excerpt": "Encoding visited subsets as N-bit integers, binomial proof that iterating sub = (sub - 1) & mask across all masks takes exactly 3^N steps, and Steiner trees.",
                 "mermaidCount": 1
               }
@@ -4579,8 +4579,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1075,
                 "excerpt": "Replacing O(3^N) submask enumeration with O(N 2^N) bit-by-bit prefix dimension accumulation and computing OR/AND/XOR array convolutions via FWHT.",
                 "mermaidCount": 1
               }
@@ -4606,8 +4606,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 870,
                 "excerpt": "Evaluating f(R) - f(L-1) digit-by-digit with state (pos, tight, started, customState) to count 10^18-range integers in 18 iterations.",
                 "mermaidCount": 1
               }
@@ -4633,8 +4633,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1119,
                 "excerpt": "Advancing a jagged cell-by-cell boundary frontline of M+1 bits instead of full column-to-column transitions to reduce O(N 4^M) to O(N M 2^M).",
                 "mermaidCount": 1
               }
@@ -4660,8 +4660,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 857,
                 "excerpt": "When cost C(l, r) satisfies C(a, c) + C(b, d) ≤ C(a, d) + C(b, c), optimal split points opt(k, i) ≤ opt(k, i+1) are monotonic, reducing O(K N^2) to O(K N log N).",
                 "mermaidCount": 1
               }
@@ -4687,8 +4687,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 778,
                 "excerpt": "Using opt(l, r-1) ≤ opt(l, r) ≤ opt(l+1, r) telescoping bounds to compute Optimal Binary Search Trees and Order-Preserving Huffman codes in quadratic time.",
                 "mermaidCount": 1
               }
@@ -4714,8 +4714,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 834,
                 "excerpt": "Rewriting quadratic recurrences into linear functions y = m_j x + b_j and querying the lower envelope via monotonic deque slopes or dynamic Li Chao segment trees.",
                 "mermaidCount": 1
               }
@@ -4741,8 +4741,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 714,
                 "excerpt": "Eliminating the 'choose at most K items' DP dimension on convex/concave objectives by binary searching a per-item penalty λ.",
                 "mermaidCount": 1
               }
@@ -4768,8 +4768,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 862,
                 "excerpt": "Accelerating 1D DP transitions from O(N) to O(K^3 log N) via companion matrix binary exponentiation over (+, ×) and (min, +) semirings.",
                 "mermaidCount": 1
               }
@@ -4795,8 +4795,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 450,
                 "excerpt": "Implement both a monotonic-slope Convex Hull Trick deque and a dynamic Sparse Li Chao Segment Tree over [-10^9, 10^9] for O(N log X) DP optimization.",
                 "mermaidCount": 1
               }
@@ -4831,8 +4831,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 676,
                 "excerpt": "Exact integer signed area determinants, collinear bounding-box checks, ray-casting point-in-polygon, and avoiding IEEE-754 catastrophic cancellation.",
                 "mermaidCount": 1
               }
@@ -4858,8 +4858,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 858,
                 "excerpt": "Constructing lower and upper convex hulls without trigonometric atan2 via Andrew's lexicographic sort, and finding farthest point pairs in O(N) via Rotating Calipers.",
                 "mermaidCount": 1
               }
@@ -4885,8 +4885,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 575,
                 "excerpt": "Reducing 2D static geometry to 1D dynamic event processing: active status BSTs for O((N+I) log N) segment intersections and Segment Tree coordinate-compressed rectangle union.",
                 "mermaidCount": 1
               }
@@ -4912,8 +4912,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 662,
                 "excerpt": "Alternating hyperplane splits in k-d trees, bounding-box branch-and-bound nearest-neighbor pruning, R-tree minimum bounding rectangles, and Morton bit interleaving.",
                 "mermaidCount": 1
               }
@@ -4939,8 +4939,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 991,
                 "excerpt": "Bézout coefficients ax + by = gcd(a,b), Fermat vs Extended GCD modular inverses, Garner's Chinese Remainder reconstruction, and O(N) linear prime sieve.",
                 "mermaidCount": 1
               }
@@ -4966,8 +4966,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 689,
                 "excerpt": "Eliminating Carmichael pseudoprimes via non-trivial square roots of unity, deterministic 64-bit witness bases, and Pollard's ρ O(N^(1/4)) Birthday-Paradox cycle detector.",
                 "mermaidCount": 1
               }
@@ -4993,8 +4993,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 941,
                 "excerpt": "Distinguishing zero-error Las Vegas from bounded-error Monte Carlo, probability amplification, Karger's Ω(1/n^2) random edge contraction, and O(N^2) matrix product verification.",
                 "mermaidCount": 1
               }
@@ -5020,8 +5020,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 731,
                 "excerpt": "Cook-Levin theorem, Karp's 21 reductions, recognizing disguised NP-hard problems in production, and pseudo-polynomial vs strongly NP-complete bounds.",
                 "mermaidCount": 1
               }
@@ -5047,8 +5047,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 945,
                 "excerpt": "Proving worst-case approximation ratios ρ: maximal matching 2-approx Vertex Cover, Christofides 1.5-approx Metric TSP, and value-scaled O(N^3 / ε) Knapsack FPTAS.",
                 "mermaidCount": 1
               }
@@ -5074,8 +5074,8 @@ window.CURRICULUM_DATA = {
                   "https://cp-algorithms.com/"
                 ],
                 "created": "2026-05-14",
-                "updated": "2026-10-23",
-                "wordCount": 1400,
+                "updated": "2026-10-24",
+                "wordCount": 1072,
                 "excerpt": "Implement a balanced static and dynamic k-d Tree supporting orthogonal bounding-box range queries and branch-and-bound K-Nearest Neighbor (k-NN) search.",
                 "mermaidCount": 1
               }

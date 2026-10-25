@@ -6,6 +6,8 @@
   "scripts": {
     "build": "node tools/build.js",
     "validate": "node tools/validate.js",
+    "check:rendered": "node tools/check-rendered.js",
+    "test": "node tools/validate.js && node tools/check-rendered.js",
     "stamp": "node tools/stamp-assets.js",
     "stamp:check": "node tools/stamp-assets.js --check",
     "prerender": "node tools/generate-static.js",

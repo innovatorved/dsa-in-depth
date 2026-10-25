@@ -9,11 +9,11 @@
    - `index.html` loads `js/init.js` and `js/manifest.js` immediately, then hydrates deferred app scripts via `js/bootstrap.js`.
    - Per-module lesson content (`data/content/m01-*.js` .. `m18-*.js`) and question banks (`data/questions/q01-*.js` .. `q18-*.js`) are loaded on demand by `js/lazy.js` using cache-busted hashes in `window.LAZY_MANIFEST`.
 3. **Static Pre-Rendering for SEO & Instant First Paint**:
-   - `node tools/generate-static.js` pre-renders all 180 unit pages (`/topic/<slug>/index.html`), all 20+ coding lab pages (`/build/<id>/index.html`), and `sitemap.xml`.
+   - `node tools/generate-static.js` pre-renders the homepage (`index.html`) with full curriculum navigation and Schema.org structured data, all 180 unit pages (`/topic/<slug>/index.html`), all 22 coding lab pages (`/build/<id>/index.html`), and `sitemap.xml`.
 4. **Deterministic Asset Stamping**:
    - `node tools/stamp-assets.js` computes 10-character SHA-1 hashes for every CSS/JS/data file and updates query strings (`?v=xxxxxxxxxx`) across `index.html`, `404.html`, and `js/manifest.js`, while syncing quantitative curriculum counts across `README.md`, `index.html`, and `js/landing.js`.
-5. **Strict Validation Gate (`node tools/validate.js`)**:
-   - Verifies curriculum schema, 180 unit slugs, 69 interactive simulators across 100% of units, 22 build labs (and executes their test suites), primary-source URL compliance against `SOURCES.md`, Mermaid diagram syntax, and pre-rendered HTML word counts (`>= 300` words per page).
+5. **Strict Validation & Quality Gates (`node tools/validate.js` & `node tools/check-rendered.js`)**:
+   - Verifies curriculum schema, 180 unit slugs, 69 interactive simulators, 22 build labs, primary-source URL compliance against `SOURCES.md`, Mermaid diagram syntax, 0 duplicate consecutive paragraphs, 0 raw Markdown leaks in `.intuition__body`, precomputed audio durations, and pre-rendered HTML word counts (`>= 300` words per page).
 
 ## Directory Structure
 
@@ -71,9 +71,10 @@ dsa-in-depth/
 │   └── questions/                 # q01-*.js through q18-*.js (540–900 questions)
 └── tools/
     ├── stamp-assets.js            # Computes SHA-1 cache-busting query params & syncs counts
-    ├── generate-static.js         # Pre-renders /topic/<slug>/ and /build/<id>/ static HTML + sitemap.xml
+    ├── generate-static.js         # Pre-renders index.html, /topic/<slug>/, /build/<id>/ HTML + sitemap.xml
+    ├── check-rendered.js          # QA gate for duplicate paragraphs, markdown leaks & audio durations
     ├── validate.js                # Comprehensive schema, link, source, simulator, and test validator
-    └── build.js                   # Full pipeline orchestrator (stamp → generate-static → stamp → validate)
+    └── build.js                   # Build orchestrator for dist/ generation
 ```
 
 ## Common Commands
