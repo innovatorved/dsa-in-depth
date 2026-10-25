@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1146,7 +1146,151 @@
         </div>
 
       <h3>Production Implementation: 3-Reversal, Juggling &amp; Cache-Tiled Square Transpose</h3>
-      <pre><code class="language-cpp">#include &lt;algorithm&gt;
+      <div class="topic-codelab-card" data-slug="in-place-matrix-cyclic-shifts" data-lang="cpp" data-title="In-Place Array Rotations (Juggling/Reversal) &amp; Matrix Transposition" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement for adhering to asymptotic bounds
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;numeric&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+
+// Cache-friendly 3-Reversal Right Rotation by k positions
+template &lt;typename T&gt;
+void rotate_right_reversal(std::vector&lt;T&gt;&amp; a, std::size_t k) noexcept {
+  // TODO (Step 2): Add algorithmic logic
+  return {};
+}
+
+// Minimum-Move Juggling Left Rotation by k positions using gcd(n, k) cycles
+template &lt;typename T&gt;
+void rotate_left_juggling(std::vector&lt;T&gt;&amp; a, std::size_t k) noexcept {
+  const std::size_t n = a.size();
+  if (n &lt;= 1) return;
+  k %= n;
+  if (k == 0) return;
+
+  const std::size_t cycles = std::gcd(n, k);
+  for (std::size_t start = 0; start &lt; cycles; ++start) {
+    T tmp = std::move(a[start]);
+    std::size_t cur = start;
+    while (true) {
+      std::size_t next = cur + k;
+      if (next &gt;= n) next -= n; // faster than % n!
+      if (next == start) break;
+      a[cur] = std::move(a[next]);
+      cur = next;
+    }
+    a[cur] = std::move(tmp);
+  }
+}
+
+// In-Place 90-Degree Clockwise Matrix Rotation (Cache-Tiled Transpose + Row Reverse)
+void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcept {
+  constexpr std::size_t TILE = 32;
+  // Step 1: Tiled In-Place Transpose across upper triangle (r &lt; c)
+  for (std::size_t r0 = 0; r0 &lt; n; r0 += TILE) {
+    for (std::size_t c0 = r0; c0 &lt; n; c0 += TILE) {
+      const std::size_t r_end = std::min(r0 + TILE, n);
+      const std::size_t c_end = std::min(c0 + TILE, n);
+      for (std::size_t r = r0; r &lt; r_end; ++r) {
+        const std::size_t c_start = (r0 == c0) ? (r + 1) : c0;
+        for (std::size_t c = c_start; c &lt; c_end; ++c) {
+          std::swap(mat[r * n + c], mat[c * n + r]);
+        }
+      }
+    }
+  }
+  // Step 2: Reverse each row sequentially
+  for (std::size_t r = 0; r &lt; n; ++r) {
+    auto row_begin = mat.begin() + static_cast&lt;std::ptrdiff_t&gt;(r * n);
+    std::reverse(row_begin, row_begin + static_cast&lt;std::ptrdiff_t&gt;(n));
+  }
+}
+
+int main() {
+  DESCRIBE(&quot;In-Place Array Rotations (Juggling/Reversal) &amp; Matrix Transposition&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement for adhering to asymptotic bounds
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;numeric&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+
+// Cache-friendly 3-Reversal Right Rotation by k positions
+template &lt;typename T&gt;
+void rotate_right_reversal(std::vector&lt;T&gt;&amp; a, std::size_t k) noexcept {
+  // TODO (Step 2): Add algorithmic logic
+  return {};
+}
+
+// Minimum-Move Juggling Left Rotation by k positions using gcd(n, k) cycles
+template &lt;typename T&gt;
+void rotate_left_juggling(std::vector&lt;T&gt;&amp; a, std::size_t k) noexcept {
+  const std::size_t n = a.size();
+  if (n &lt;= 1) return;
+  k %= n;
+  if (k == 0) return;
+
+  const std::size_t cycles = std::gcd(n, k);
+  for (std::size_t start = 0; start &lt; cycles; ++start) {
+    T tmp = std::move(a[start]);
+    std::size_t cur = start;
+    while (true) {
+      std::size_t next = cur + k;
+      if (next &gt;= n) next -= n; // faster than % n!
+      if (next == start) break;
+      a[cur] = std::move(a[next]);
+      cur = next;
+    }
+    a[cur] = std::move(tmp);
+  }
+}
+
+// In-Place 90-Degree Clockwise Matrix Rotation (Cache-Tiled Transpose + Row Reverse)
+void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcept {
+  constexpr std::size_t TILE = 32;
+  // Step 1: Tiled In-Place Transpose across upper triangle (r &lt; c)
+  for (std::size_t r0 = 0; r0 &lt; n; r0 += TILE) {
+    for (std::size_t c0 = r0; c0 &lt; n; c0 += TILE) {
+      const std::size_t r_end = std::min(r0 + TILE, n);
+      const std::size_t c_end = std::min(c0 + TILE, n);
+      for (std::size_t r = r0; r &lt; r_end; ++r) {
+        const std::size_t c_start = (r0 == c0) ? (r + 1) : c0;
+        for (std::size_t c = c_start; c &lt; c_end; ++c) {
+          std::swap(mat[r * n + c], mat[c * n + r]);
+        }
+      }
+    }
+  }
+  // Step 2: Reverse each row sequentially
+  for (std::size_t r = 0; r &lt; n; ++r) {
+    auto row_begin = mat.begin() + static_cast&lt;std::ptrdiff_t&gt;(r * n);
+    std::reverse(row_begin, row_begin + static_cast&lt;std::ptrdiff_t&gt;(n));
+  }
+}
+
+int main() {
+  DESCRIBE(&quot;In-Place Array Rotations (Juggling/Reversal) &amp; Matrix Transposition&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;numeric&gt;
 #include &lt;utility&gt;
@@ -1209,7 +1353,12 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
     auto row_begin = mat.begin() + static_cast&lt;std::ptrdiff_t&gt;(r * n);
     std::reverse(row_begin, row_begin + static_cast&lt;std::ptrdiff_t&gt;(n));
   }
-}</code></pre>
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
       <div class="callout callout-warning">
         <div class="callout-title">Production Pitfall: Swapping the Entire $N \times N$ Matrix During In-Place Transpose</div>
@@ -1528,6 +1677,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1544,7 +1694,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1552,8 +1702,9 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

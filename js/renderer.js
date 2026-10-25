@@ -260,6 +260,91 @@ window.Renderer = (() => {
     return html;
   }
 
+  function unescapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+  }
+
+  function renderTopicCodeBlock(rawCode, lang, slug, title) {
+    const cleanLang = (lang || 'cpp').toLowerCase();
+    const unescaped = unescapeHtml(rawCode);
+    const lab = (window.TopicGuidedLabs && typeof window.TopicGuidedLabs.getLab === 'function')
+      ? window.TopicGuidedLabs.getLab(slug, unescaped, title)
+      : null;
+
+    const isCpp = cleanLang === 'cpp' || cleanLang === 'c++' || cleanLang === 'cc';
+    const isJs = cleanLang === 'js' || cleanLang === 'javascript';
+    const langPill = isCpp ? 'C++20 (Clang WASI)' : (isJs ? 'JavaScript (ES2022)' : cleanLang.toUpperCase());
+    const runBtnLabel = isCpp ? 'C++20' : (isJs ? 'JS' : cleanLang.toUpperCase());
+    const starterCode = lab?.starterCode || unescaped;
+    const solutionCode = lab?.solutionCode || unescaped;
+    const stepsCount = lab?.steps?.length || 0;
+    const hasGuided = stepsCount > 0;
+    const labTitle = lab?.title || title || 'Interactive CodeLab';
+
+    return (
+      '<div class="topic-codelab-card" data-slug="' + escapeHtml(slug || '') + '" data-lang="' + escapeHtml(cleanLang) + '" data-title="' + escapeHtml(labTitle) + '" data-active-tab="starter">' +
+        '<div class="topic-codelab-header">' +
+          '<div class="topic-codelab-header__left">' +
+            '<span class="topic-codelab-pill">' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>' +
+              escapeHtml(langPill) +
+            '</span>' +
+            (hasGuided ? '<span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · ' + stepsCount + ' Steps</span>' : '') +
+            '<span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span>' +
+            '<div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes">' +
+              '<button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">' +
+                '✏️ Exercise' +
+              '</button>' +
+              '<button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">' +
+                '💡 Reference Solution' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="topic-codelab-actions">' +
+            '<button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">' +
+              '⚡ Run &amp; Test (' + escapeHtml(runBtnLabel) + ')' +
+            '</button>' +
+            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">' +
+              '↗ Full IDE' +
+            '</button>' +
+            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">' +
+              '📋 Copy' +
+            '</button>' +
+            '<button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">' +
+              '↺ Reset' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="topic-codelab-body">' +
+          '<div class="topic-codelab-code" role="tabpanel" aria-label="Code editor">' +
+            '<pre><code class="language-' + escapeHtml(cleanLang) + '" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">' + escapeHtml(starterCode.trim()) + '</code></pre>' +
+          '</div>' +
+          '<textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">' + escapeHtml(starterCode.trim()) + '</textarea>' +
+          '<textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">' + escapeHtml(solutionCode.trim()) + '</textarea>' +
+        '</div>' +
+
+        '<div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console">' +
+          '<div class="topic-codelab-console-header">' +
+            '<div class="topic-codelab-console-title">' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>' +
+              '<span>Execution Console (' + escapeHtml(langPill) + ')</span>' +
+              '<span class="topic-codelab-status-badge">Ready</span>' +
+            '</div>' +
+            '<button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button>' +
+          '</div>' +
+          '<pre class="topic-codelab-console-output"></pre>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
   /**
    * Render a Lesson View
    */
@@ -390,7 +475,11 @@ window.Renderer = (() => {
       const isPlaceholder = moduleContent?.content?.includes('This topic is covered in depth in the curriculum archive');
       if (moduleContent?.content && !isPlaceholder && !archiveContent.includes('Real-World Usage')) {
         html += '<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--divider);">';
-        html += '<div class="lesson-deep-dive">' + moduleContent.content + '</div>';
+        let deepDiveHtml = moduleContent.content.replace(
+          /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
+          (match, lang, code) => renderTopicCodeBlock(code, lang, slug, unit.title)
+        );
+        html += '<div class="lesson-deep-dive">' + deepDiveHtml + '</div>';
       }
     } else if (moduleContent?.content) {
       let bodyHtml = moduleContent.content.replace(
@@ -401,6 +490,10 @@ window.Renderer = (() => {
             ? `<div class="simulator-mount" data-sim="${simId}">${simObj.render()}</div>`
             : match;
         }
+      );
+      bodyHtml = bodyHtml.replace(
+        /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
+        (match, lang, code) => renderTopicCodeBlock(code, lang, slug, unit.title)
       );
       html += bodyHtml;
     } else {
@@ -1488,6 +1581,7 @@ window.Renderer = (() => {
     renderGlossary,
     renderCheatSheet,
     convertMarkdownToHTML,
+    renderTopicCodeBlock,
     escapeHtml,
     icons
   };

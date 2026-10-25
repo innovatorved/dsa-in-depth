@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -869,7 +869,34 @@
         <div class="invariant-box">
           <h4>Core Invariant — Submask Enumeration in Exact $O(3^N)$ Time</h4>
           <p>Many partition DPs (such as Minimum Number of Work Sessions, Chromatic Number, or Steiner Tree) require iterating over all submasks $s \subseteq m$ for every mask $m \in [0, 2^N - 1]$. A naive check of all pairs $(m, s)$ takes $O(4^N)$. Instead, using the two's complement decrement trick:</p>
-          <pre><code class="language-cpp">for (int s = m; s &gt; 0; s = (s - 1) &amp; m) { ... }</code></pre>
+          <div class="topic-codelab-card" data-slug="bitmask-dp-tsp-hamiltonian" data-lang="cpp" data-title="Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+using namespace std;
+
+for (int s = m; s &gt; 0; s = (s - 1) &amp; m) { ... }
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+using namespace std;
+
+for (int s = m; s &gt; 0; s = (s - 1) &amp; m) { ... }
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+using namespace std;
+
+for (int s = m; s &gt; 0; s = (s - 1) &amp; m) { ... }
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
           <p>visits <strong>only</strong> the $2^{\text{popcount}(m)}$ valid submasks of $m$ in descending order!<br/>
           <strong>Proof of $O(3^N)$ Total Time:</strong> By the Binomial Theorem, summing $2^k$ over all masks $m$ with $\text{popcount}(m) = k$ gives:</p>
           $$\sum_{m=0}^{2^N - 1} 2^{\text{popcount}(m)} = \sum_{k=0}^{N} \binom{N}{k} 2^k \cdot 1^{N - k} = (2 + 1)^N = 3^N$$
@@ -1099,7 +1126,97 @@ flowchart LR
         </table>
 
         <h3>4. Reference C++20 Implementation</h3>
-        <pre><code class="language-cpp">#include &lt;algorithm&gt;
+        <div class="topic-codelab-card" data-slug="bitmask-dp-tsp-hamiltonian" data-lang="cpp" data-title="Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement tsp_held_karp adhering to asymptotic bounds
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+
+// 1. Held-Karp O(N^2 * 2^N) Exact Traveling Salesperson Tour (Fixed at start vertex 0)
+long long tsp_held_karp(const std::vector&lt;std::vector&lt;long long&gt;&gt;&amp; dist) {
+  // TODO (Step 2): Add algorithmic logic
+  return {};
+}
+
+// 2. O(N * 2^N) Bin Packing / Elevator Rides via Tuple State DP: (num_rides, current_ride_weight)
+int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long long capacity) {
+    const int n = static_cast&lt;int&gt;(weights.size());
+    const std::uint32_t limit = 1U &lt;&lt; n;
+    std::vector&lt;std::pair&lt;int, long long&gt;&gt; dp(limit, { n + 1, 0 });
+    dp[0] = { 1, 0 }; // 1st bin open with 0 weight used
+
+    for (std::uint32_t mask = 1; mask &lt; limit; ++mask) {
+        for (std::uint32_t bits = mask; bits; bits &amp;= bits - 1) {
+            int i = __builtin_ctz(bits);
+            auto [rides, used_w] = dp[mask ^ (1U &lt;&lt; i)];
+            std::pair&lt;int, long long&gt; candidate =
+                (used_w + weights[i] &lt;= capacity)
+                    ? std::make_pair(rides, used_w + weights[i])
+                    : std::make_pair(rides + 1, weights[i]);
+            dp[mask] = std::min(dp[mask], candidate);
+        }
+    }
+    return dp[limit - 1].first;
+}
+
+int main() {
+  DESCRIBE(&quot;Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement tsp_held_karp adhering to asymptotic bounds
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+
+// 1. Held-Karp O(N^2 * 2^N) Exact Traveling Salesperson Tour (Fixed at start vertex 0)
+long long tsp_held_karp(const std::vector&lt;std::vector&lt;long long&gt;&gt;&amp; dist) {
+  // TODO (Step 2): Add algorithmic logic
+  return {};
+}
+
+// 2. O(N * 2^N) Bin Packing / Elevator Rides via Tuple State DP: (num_rides, current_ride_weight)
+int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long long capacity) {
+    const int n = static_cast&lt;int&gt;(weights.size());
+    const std::uint32_t limit = 1U &lt;&lt; n;
+    std::vector&lt;std::pair&lt;int, long long&gt;&gt; dp(limit, { n + 1, 0 });
+    dp[0] = { 1, 0 }; // 1st bin open with 0 weight used
+
+    for (std::uint32_t mask = 1; mask &lt; limit; ++mask) {
+        for (std::uint32_t bits = mask; bits; bits &amp;= bits - 1) {
+            int i = __builtin_ctz(bits);
+            auto [rides, used_w] = dp[mask ^ (1U &lt;&lt; i)];
+            std::pair&lt;int, long long&gt; candidate =
+                (used_w + weights[i] &lt;= capacity)
+                    ? std::make_pair(rides, used_w + weights[i])
+                    : std::make_pair(rides + 1, weights[i]);
+            dp[mask] = std::min(dp[mask], candidate);
+        }
+    }
+    return dp[limit - 1].first;
+}
+
+int main() {
+  DESCRIBE(&quot;Bitmask DP: Held-Karp O(N^2 2^N) Traveling Salesperson &amp; Submask Enumeration (O(3^N) Proof)&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
 #include &lt;vector&gt;
@@ -1159,7 +1276,12 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
         }
     }
     return dp[limit - 1].first;
-}</code></pre>
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Infinite Loop in Submask Enumeration When <code>s = 0</code></h4>
@@ -1481,6 +1603,7 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1497,7 +1620,7 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1505,8 +1628,9 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

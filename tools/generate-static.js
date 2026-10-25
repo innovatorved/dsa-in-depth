@@ -145,6 +145,9 @@ if (fs.existsSync(path.join(root, 'data/implementations_code.js'))) {
 if (fs.existsSync(path.join(root, 'data/guided_labs.js'))) {
   vm.runInNewContext(fs.readFileSync(path.join(root, 'data/guided_labs.js'), 'utf8'), context);
 }
+if (fs.existsSync(path.join(root, 'data/topic_guided_labs.js'))) {
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'data/topic_guided_labs.js'), 'utf8'), context);
+}
 if (fs.existsSync(path.join(root, 'data/challenges.js'))) {
   vm.runInNewContext(fs.readFileSync(path.join(root, 'data/challenges.js'), 'utf8'), context);
 }

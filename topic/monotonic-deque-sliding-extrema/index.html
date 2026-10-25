@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1159,66 +1159,153 @@
         </div>
 
       <h3>Production Implementation: Sliding Window Maximum &amp; Shortest Subarray with Sum $ge K$</h3>
-      <pre><code class="language-cpp">#include &lt;algorithm&gt;
-#include &lt;cstdint&gt;
-#include &lt;vector&gt;
+      <div class="topic-codelab-card" data-slug="monotonic-deque-sliding-extrema" data-lang="cpp" data-title="Monotonic Deque: O(N) Sliding Window Extremum" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 3 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
 
-// O(N) Sliding Window Maximum using a register-indexed flat array deque
-std::vector&lt;int&gt; sliding_window_maximum(const std::vector&lt;int&gt;&amp; nums, std::size_t k) {
-  const std::size_t n = nums.size();
+// O(N) Sliding Window Maximum using a flat deque
+vector&lt;int&gt; sliding_window_maximum(const vector&lt;int&gt;&amp; nums, size_t k) {
+  const size_t n = nums.size();
   if (n == 0 || k == 0) return {};
+  if (k == 1) return nums;
 
-  std::vector&lt;std::size_t&gt; dq(n); // Flat array deque: at most N pushes total!
-  std::size_t head = 0, tail = 0;
-  std::vector&lt;int&gt; result;
+  vector&lt;int&gt; result;
   result.reserve(n - k + 1);
 
-  for (std::size_t r = 0; r &lt; n; ++r) {
-    // 1. Evict expired front index outside [r - k + 1 .. r]
-    if (head &lt; tail &amp;&amp; dq[head] + k &lt;= r) {
-      ++head;
-    }
-    // 2. Evict dominated back indices with value &lt;= nums[r]
-    while (head &lt; tail &amp;&amp; nums[dq[tail - 1]] &lt;= nums[r]) {
-      --tail;
-    }
-    dq[tail++] = r;
+  vector&lt;int&gt; deq(n);
+  size_t head = 0;
+  size_t tail = 0;
 
-    if (r + 1 &gt;= k) {
-      result.push_back(nums[dq[head]]);
-    }
+  for (size_t i = 0; i &lt; n; ++i) {
+    // TODO (Step 1): Evict elements whose index is out of current window [i - k + 1, i]
+
+    // TODO (Step 2): Evict elements from tail smaller than nums[i] to maintain monotonic decreasing order
+
+    // Push current index
+    deq[tail++] = static_cast&lt;int&gt;(i);
+
+    // TODO (Step 3): If window is fully formed (i &gt;= k - 1), record nums[deq[head]]
   }
+
   return result;
 }
 
-// LeetCode 862: Shortest Subarray with Sum &gt;= K (handles negative numbers in O(N)!)
-int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std::int64_t k) {
-  const std::size_t n = nums.size();
-  std::vector&lt;std::int64_t&gt; pref(n + 1, 0);
-  for (std::size_t i = 0; i &lt; n; ++i) {
-    pref[i + 1] = pref[i] + nums[i];
+int main() {
+  DESCRIBE(&quot;Sliding Window Maximum&quot;, {
+    TEST(&quot;computes sliding window extrema correctly&quot;, {
+      vector&lt;int&gt; nums = {1, 3, -1, -3, 5, 3, 6, 7};
+      vector&lt;int&gt; res = sliding_window_maximum(nums, 3);
+      vector&lt;int&gt; expected = {3, 3, 5, 5, 6, 7};
+      ASSERT_EQ(res, expected);
+    });
+
+    TEST(&quot;handles k = 1 and monotonic inputs&quot;, {
+      vector&lt;int&gt; nums = {9, 8, 7, 6, 5};
+      ASSERT_EQ(sliding_window_maximum(nums, 2), vector&lt;int&gt;({9, 8, 7, 6}));
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// O(N) Sliding Window Maximum using a flat deque
+vector&lt;int&gt; sliding_window_maximum(const vector&lt;int&gt;&amp; nums, size_t k) {
+  const size_t n = nums.size();
+  if (n == 0 || k == 0) return {};
+  if (k == 1) return nums;
+
+  vector&lt;int&gt; result;
+  result.reserve(n - k + 1);
+
+  vector&lt;int&gt; deq(n);
+  size_t head = 0;
+  size_t tail = 0;
+
+  for (size_t i = 0; i &lt; n; ++i) {
+    // TODO (Step 1): Evict elements whose index is out of current window [i - k + 1, i]
+
+    // TODO (Step 2): Evict elements from tail smaller than nums[i] to maintain monotonic decreasing order
+
+    // Push current index
+    deq[tail++] = static_cast&lt;int&gt;(i);
+
+    // TODO (Step 3): If window is fully formed (i &gt;= k - 1), record nums[deq[head]]
   }
 
-  std::vector&lt;std::size_t&gt; dq(n + 1);
-  std::size_t head = 0, tail = 0;
-  std::size_t min_len = n + 1;
+  return result;
+}
 
-  for (std::size_t r = 0; r &lt;= n; ++r) {
-    // 1. Pop front while valid sum &gt;= k is achieved; once L is paired with current R,
-    //    no future R' &gt; R can form a shorter subarray with L, so L is permanently retired!
-    while (head &lt; tail &amp;&amp; pref[r] - pref[dq[head]] &gt;= k) {
-      min_len = std::min(min_len, r - dq[head]);
-      ++head;
+int main() {
+  DESCRIBE(&quot;Sliding Window Maximum&quot;, {
+    TEST(&quot;computes sliding window extrema correctly&quot;, {
+      vector&lt;int&gt; nums = {1, 3, -1, -3, 5, 3, 6, 7};
+      vector&lt;int&gt; res = sliding_window_maximum(nums, 3);
+      vector&lt;int&gt; expected = {3, 3, 5, 5, 6, 7};
+      ASSERT_EQ(res, expected);
+    });
+
+    TEST(&quot;handles k = 1 and monotonic inputs&quot;, {
+      vector&lt;int&gt; nums = {9, 8, 7, 6, 5};
+      ASSERT_EQ(sliding_window_maximum(nums, 2), vector&lt;int&gt;({9, 8, 7, 6}));
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+vector&lt;int&gt; sliding_window_maximum(const vector&lt;int&gt;&amp; nums, size_t k) {
+  const size_t n = nums.size();
+  if (n == 0 || k == 0) return {};
+  if (k == 1) return nums;
+
+  vector&lt;int&gt; result;
+  result.reserve(n - k + 1);
+
+  vector&lt;int&gt; deq(n);
+  size_t head = 0;
+  size_t tail = 0;
+
+  for (size_t i = 0; i &lt; n; ++i) {
+    // 1. Evict elements that fell outside window [i - k + 1, i]
+    while (head &lt; tail &amp;&amp; deq[head] &lt;= static_cast&lt;int&gt;(i - k)) {
+      head++;
     }
-    // 2. Maintain strictly increasing prefix sums in deque: if pref[back] &gt;= pref[r],
-    //    then r is both further right (shorter subarray) AND has a smaller prefix sum!
-    while (head &lt; tail &amp;&amp; pref[dq[tail - 1]] &gt;= pref[r]) {
-      --tail;
+
+    // 2. Discard elements strictly dominated by nums[i]
+    while (head &lt; tail &amp;&amp; nums[deq[tail - 1]] &lt;= nums[i]) {
+      tail--;
     }
-    dq[tail++] = r;
+
+    // 3. Insert current element index
+    deq[tail++] = static_cast&lt;int&gt;(i);
+
+    // 4. Record front when window is primed
+    if (i &gt;= k - 1) {
+      result.push_back(nums[deq[head]]);
+    }
   }
-  return (min_len &lt;= n) ? static_cast&lt;int&gt;(min_len) : -1;
-}</code></pre>
+
+  return result;
+}
+
+int main() {
+  DESCRIBE(&quot;Sliding Window Maximum&quot;, {
+    TEST(&quot;computes sliding window extrema correctly&quot;, {
+      vector&lt;int&gt; nums = {1, 3, -1, -3, 5, 3, 6, 7};
+      vector&lt;int&gt; res = sliding_window_maximum(nums, 3);
+      vector&lt;int&gt; expected = {3, 3, 5, 5, 6, 7};
+      ASSERT_EQ(res, expected);
+    });
+
+    TEST(&quot;handles k = 1 and monotonic inputs&quot;, {
+      vector&lt;int&gt; nums = {9, 8, 7, 6, 5};
+      ASSERT_EQ(sliding_window_maximum(nums, 2), vector&lt;int&gt;({9, 8, 7, 6}));
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
       <div class="callout callout-warning">
         <div class="callout-title">Production Pitfall: Storing Values Instead of Indices in the Monotonic Deque</div>
@@ -1569,6 +1656,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1585,7 +1673,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1593,8 +1681,9 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

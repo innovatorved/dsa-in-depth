@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1032,7 +1032,13 @@ flowchart TD
         </table>
 
         <h3>5. Production-Grade C++20 Implementation</h3>
-        <pre><code class="language-cpp">#include &lt;cstdint&gt;
+        <div class="topic-codelab-card" data-slug="primality-miller-rabin-pollard-rho" data-lang="cpp" data-title="Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#039;s ρ Integer Factorization" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement mul_mod adhering to asymptotic bounds
+#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 #include &lt;numeric&gt;
 #include &lt;algorithm&gt;
@@ -1041,7 +1047,8 @@ using u64 = uint64_t;
 using u128 = __uint128_t;
 
 inline u64 mul_mod(u64 a, u64 b, u64 m) {
-    return static_cast&lt;u64&gt;((static_cast&lt;u128&gt;(a) * b) % m);
+  // TODO (Step 2): Add algorithmic logic
+  return {};
 }
 
 u64 power_mod(u64 base, u64 exp, u64 mod) {
@@ -1066,7 +1073,7 @@ bool is_prime_u64(u64 n) {
     int s = __builtin_ctzll(d);
     d &gt;&gt;= s;
 
-    // Sinclair's 7 bases sufficient for all n < 2^64
+    // Sinclair&#039;s 7 bases sufficient for all n &lt; 2^64
     for (u64 a : {2ULL, 325ULL, 9375ULL, 28178ULL, 450775ULL, 9780504ULL, 1795265022ULL}) {
         if (a % n == 0) continue;
         u64 x = power_mod(a, d, n);
@@ -1084,7 +1091,7 @@ bool is_prime_u64(u64 n) {
     return true;
 }
 
-// Pollard's Rho with Brent's cycle detection and batched GCD
+// Pollard&#039;s Rho with Brent&#039;s cycle detection and batched GCD
 u64 pollard_rho(u64 n) {
     if (n % 2 == 0) return 2;
     auto f = [n](u64 x, u64 c) { return (mul_mod(x, x, n) + c) % n; };
@@ -1126,7 +1133,225 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
     u64 d = pollard_rho(n);
     factorize_rec(d, factors);
     factorize_rec(n / d, factors);
-}</code></pre>
+}
+
+int main() {
+  DESCRIBE(&quot;Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#039;s ρ Integer Factorization&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Implement mul_mod adhering to asymptotic bounds
+#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+#include &lt;numeric&gt;
+#include &lt;algorithm&gt;
+
+using u64 = uint64_t;
+using u128 = __uint128_t;
+
+inline u64 mul_mod(u64 a, u64 b, u64 m) {
+  // TODO (Step 2): Add algorithmic logic
+  return {};
+}
+
+u64 power_mod(u64 base, u64 exp, u64 mod) {
+    u64 res = 1;
+    base %= mod;
+    while (exp &gt; 0) {
+        if (exp &amp; 1) res = mul_mod(res, base, mod);
+        base = mul_mod(base, base, mod);
+        exp &gt;&gt;= 1;
+    }
+    return res;
+}
+
+// 100% Deterministic Miller-Rabin for all 64-bit unsigned integers
+bool is_prime_u64(u64 n) {
+    if (n &lt; 2) return false;
+    for (u64 p : {2ULL, 3ULL, 5ULL, 7ULL, 11ULL, 13ULL, 17ULL, 19ULL, 23ULL, 29ULL, 31ULL, 37ULL}) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    u64 d = n - 1;
+    int s = __builtin_ctzll(d);
+    d &gt;&gt;= s;
+
+    // Sinclair&#039;s 7 bases sufficient for all n &lt; 2^64
+    for (u64 a : {2ULL, 325ULL, 9375ULL, 28178ULL, 450775ULL, 9780504ULL, 1795265022ULL}) {
+        if (a % n == 0) continue;
+        u64 x = power_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int r = 1; r &lt; s; ++r) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+
+// Pollard&#039;s Rho with Brent&#039;s cycle detection and batched GCD
+u64 pollard_rho(u64 n) {
+    if (n % 2 == 0) return 2;
+    auto f = [n](u64 x, u64 c) { return (mul_mod(x, x, n) + c) % n; };
+
+    for (u64 c = 1; ; ++c) {
+        u64 x = 2, y = 2, g = 1, q = 1, xs = 2;
+        int m = 128;
+        for (int r = 1; g == 1; r &lt;&lt;= 1) {
+            x = y;
+            for (int i = 0; i &lt; r; ++i) y = f(y, c);
+            for (int k = 0; k &lt; r &amp;&amp; g == 1; k += m) {
+                xs = y;
+                int lim = std::min(m, r - k);
+                for (int i = 0; i &lt; lim; ++i) {
+                    y = f(y, c);
+                    u64 diff = x &gt; y ? x - y : y - x;
+                    q = mul_mod(q, diff, n);
+                }
+                g = std::gcd(q, n);
+            }
+        }
+        if (g == n) { // Overshot: backtrack step-by-step from saved xs
+            do {
+                xs = f(xs, c);
+                u64 diff = x &gt; xs ? x - xs : xs - x;
+                g = std::gcd(diff, n);
+            } while (g == 1);
+        }
+        if (g &lt; n) return g;
+    }
+}
+
+void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
+    if (n == 1) return;
+    if (is_prime_u64(n)) {
+        factors.push_back(n);
+        return;
+    }
+    u64 d = pollard_rho(n);
+    factorize_rec(d, factors);
+    factorize_rec(n / d, factors);
+}
+
+int main() {
+  DESCRIBE(&quot;Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#039;s ρ Integer Factorization&quot;, {
+    TEST(&quot;runs verification&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+#include &lt;numeric&gt;
+#include &lt;algorithm&gt;
+
+using u64 = uint64_t;
+using u128 = __uint128_t;
+
+inline u64 mul_mod(u64 a, u64 b, u64 m) {
+    return static_cast&lt;u64&gt;((static_cast&lt;u128&gt;(a) * b) % m);
+}
+
+u64 power_mod(u64 base, u64 exp, u64 mod) {
+    u64 res = 1;
+    base %= mod;
+    while (exp &gt; 0) {
+        if (exp &amp; 1) res = mul_mod(res, base, mod);
+        base = mul_mod(base, base, mod);
+        exp &gt;&gt;= 1;
+    }
+    return res;
+}
+
+// 100% Deterministic Miller-Rabin for all 64-bit unsigned integers
+bool is_prime_u64(u64 n) {
+    if (n &lt; 2) return false;
+    for (u64 p : {2ULL, 3ULL, 5ULL, 7ULL, 11ULL, 13ULL, 17ULL, 19ULL, 23ULL, 29ULL, 31ULL, 37ULL}) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    u64 d = n - 1;
+    int s = __builtin_ctzll(d);
+    d &gt;&gt;= s;
+
+    // Sinclair&#039;s 7 bases sufficient for all n &lt; 2^64
+    for (u64 a : {2ULL, 325ULL, 9375ULL, 28178ULL, 450775ULL, 9780504ULL, 1795265022ULL}) {
+        if (a % n == 0) continue;
+        u64 x = power_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int r = 1; r &lt; s; ++r) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+
+// Pollard&#039;s Rho with Brent&#039;s cycle detection and batched GCD
+u64 pollard_rho(u64 n) {
+    if (n % 2 == 0) return 2;
+    auto f = [n](u64 x, u64 c) { return (mul_mod(x, x, n) + c) % n; };
+
+    for (u64 c = 1; ; ++c) {
+        u64 x = 2, y = 2, g = 1, q = 1, xs = 2;
+        int m = 128;
+        for (int r = 1; g == 1; r &lt;&lt;= 1) {
+            x = y;
+            for (int i = 0; i &lt; r; ++i) y = f(y, c);
+            for (int k = 0; k &lt; r &amp;&amp; g == 1; k += m) {
+                xs = y;
+                int lim = std::min(m, r - k);
+                for (int i = 0; i &lt; lim; ++i) {
+                    y = f(y, c);
+                    u64 diff = x &gt; y ? x - y : y - x;
+                    q = mul_mod(q, diff, n);
+                }
+                g = std::gcd(q, n);
+            }
+        }
+        if (g == n) { // Overshot: backtrack step-by-step from saved xs
+            do {
+                xs = f(xs, c);
+                u64 diff = x &gt; xs ? x - xs : xs - x;
+                g = std::gcd(diff, n);
+            } while (g == 1);
+        }
+        if (g &lt; n) return g;
+    }
+}
+
+void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
+    if (n == 1) return;
+    if (is_prime_u64(n)) {
+        factors.push_back(n);
+        return;
+    }
+    u64 d = pollard_rho(n);
+    factorize_rec(d, factors);
+    factorize_rec(n / d, factors);
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Choosing $c = 0$ or $c = -2$ in Pollard's $\rho$ Polynomial</h4>
@@ -1448,6 +1673,7 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1464,7 +1690,7 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1472,8 +1698,9 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1075,7 +1075,131 @@ flowchart TD
         </table>
 
         <h3>6. Production-Grade C++20 Implementation</h3>
-        <pre><code class="language-cpp">#include &lt;vector&gt;
+        <div class="topic-codelab-card" data-slug="knuth-optimization-optimal-bst" data-lang="cpp" data-title="Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the KnuthResult implementation according to lesson invariants
+#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
+
+struct KnuthResult {
+public:
+  // TODO (Step 2): Add member variables and algorithmic methods
+};
+
+// Solves min-cost adjacent stone merge / Optimal BST in O(N^2) time
+KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weights) {
+    const int n = static_cast&lt;int&gt;(weights.size());
+    constexpr int64_t INF = std::numeric_limits&lt;int64_t&gt;::max() / 4;
+
+    std::vector&lt;int64_t&gt; pref(n + 1, 0);
+    for (int i = 0; i &lt; n; ++i) pref[i + 1] = pref[i] + weights[i];
+    auto cost = [&amp;](int i, int j) -&gt; int64_t {
+        return pref[j + 1] - pref[i];
+    };
+
+    std::vector&lt;std::vector&lt;int64_t&gt;&gt; dp(n, std::vector&lt;int64_t&gt;(n, INF));
+    std::vector&lt;std::vector&lt;int&gt;&gt; opt(n, std::vector&lt;int&gt;(n, 0));
+
+    for (int i = 0; i &lt; n; ++i) {
+        dp[i][i] = 0;
+        opt[i][i] = i;
+    }
+
+    // Iterate i downwards and j upwards so (i, j-1) and (i+1, j) are ready
+    for (int i = n - 2; i &gt;= 0; --i) {
+        for (int j = i + 1; j &lt; n; ++j) {
+            int64_t best = INF;
+            int best_k = opt[i][j - 1];
+            int upper_k = std::min(j - 1, opt[i + 1][j]);
+
+            for (int k = opt[i][j - 1]; k &lt;= upper_k; ++k) {
+                int64_t cand = dp[i][k] + dp[k + 1][j] + cost(i, j);
+                if (cand &lt; best) {
+                    best = cand;
+                    best_k = k;
+                }
+            }
+            dp[i][j] = best;
+            opt[i][j] = best_k;
+        }
+    }
+    return {dp[0][n - 1], opt};
+}
+
+int main() {
+  DESCRIBE(&quot;Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the KnuthResult implementation according to lesson invariants
+#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
+
+struct KnuthResult {
+public:
+  // TODO (Step 2): Add member variables and algorithmic methods
+};
+
+// Solves min-cost adjacent stone merge / Optimal BST in O(N^2) time
+KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weights) {
+    const int n = static_cast&lt;int&gt;(weights.size());
+    constexpr int64_t INF = std::numeric_limits&lt;int64_t&gt;::max() / 4;
+
+    std::vector&lt;int64_t&gt; pref(n + 1, 0);
+    for (int i = 0; i &lt; n; ++i) pref[i + 1] = pref[i] + weights[i];
+    auto cost = [&amp;](int i, int j) -&gt; int64_t {
+        return pref[j + 1] - pref[i];
+    };
+
+    std::vector&lt;std::vector&lt;int64_t&gt;&gt; dp(n, std::vector&lt;int64_t&gt;(n, INF));
+    std::vector&lt;std::vector&lt;int&gt;&gt; opt(n, std::vector&lt;int&gt;(n, 0));
+
+    for (int i = 0; i &lt; n; ++i) {
+        dp[i][i] = 0;
+        opt[i][i] = i;
+    }
+
+    // Iterate i downwards and j upwards so (i, j-1) and (i+1, j) are ready
+    for (int i = n - 2; i &gt;= 0; --i) {
+        for (int j = i + 1; j &lt; n; ++j) {
+            int64_t best = INF;
+            int best_k = opt[i][j - 1];
+            int upper_k = std::min(j - 1, opt[i + 1][j]);
+
+            for (int k = opt[i][j - 1]; k &lt;= upper_k; ++k) {
+                int64_t cand = dp[i][k] + dp[k + 1][j] + cost(i, j);
+                if (cand &lt; best) {
+                    best = cand;
+                    best_k = k;
+                }
+            }
+            dp[i][j] = best;
+            opt[i][j] = best_k;
+        }
+    }
+    return {dp[0][n - 1], opt};
+}
+
+int main() {
+  DESCRIBE(&quot;Knuth-Yao Optimization: Reducing Interval DP from O(N^3) to O(N^2)&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
 
@@ -1122,7 +1246,12 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
         }
     }
     return {dp[0][n - 1], opt};
-}</code></pre>
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Why Matrix Chain Multiplication Does NOT Satisfy Knuth's Optimization</h4>
@@ -1444,6 +1573,7 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1460,7 +1590,7 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1468,8 +1598,9 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

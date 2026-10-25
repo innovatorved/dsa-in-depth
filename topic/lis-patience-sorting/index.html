@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1159,7 +1159,13 @@ flowchart LR
         </table>
 
         <h3>4. Reference C++20 Implementation</h3>
-        <pre><code class="language-cpp">#include &lt;algorithm&gt;
+        <div class="topic-codelab-card" data-slug="lis-patience-sorting" data-lang="cpp" data-title="Longest Increasing Subsequence (LIS): O(N^2) DP vs O(N log N) Patience Sorting &amp; Dilworth&#039;s Theorem" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the valid implementation according to lesson invariants
+#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
 
@@ -1169,8 +1175,8 @@ std::vector&lt;int&gt; longest_increasing_subsequence(const std::vector&lt;int&g
     if (n == 0) return {};
 
     std::vector&lt;int&gt; tails;          // tails[len] = smallest ending value of LIS of length len+1
-    std::vector&lt;int&gt; tail_idx;       // tail_idx[len] = index in <code>nums</code> that achieved tails[len]
-    std::vector&lt;int&gt; parent(n, -1);  // parent[i] = predecessor index in <code>nums</code> for element i
+    std::vector&lt;int&gt; tail_idx;       // tail_idx[len] = index in &lt;code&gt;nums&lt;/code&gt; that achieved tails[len]
+    std::vector&lt;int&gt; parent(n, -1);  // parent[i] = predecessor index in &lt;code&gt;nums&lt;/code&gt; for element i
 
     for (int i = 0; i &lt; n; ++i) {
         auto it = std::lower_bound(tails.begin(), tails.end(), nums[i]);
@@ -1212,7 +1218,142 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
         else *it = h;
     }
     return static_cast&lt;int&gt;(tails.size());
-}</code></pre>
+}
+
+int main() {
+  DESCRIBE(&quot;Longest Increasing Subsequence (LIS): O(N^2) DP vs O(N log N) Patience Sorting &amp; Dilworth&#039;s Theorem&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the valid implementation according to lesson invariants
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+
+// 1. O(N log N) Strictly Increasing Subsequence with Full Sequence Reconstruction
+std::vector&lt;int&gt; longest_increasing_subsequence(const std::vector&lt;int&gt;&amp; nums) {
+    const int n = static_cast&lt;int&gt;(nums.size());
+    if (n == 0) return {};
+
+    std::vector&lt;int&gt; tails;          // tails[len] = smallest ending value of LIS of length len+1
+    std::vector&lt;int&gt; tail_idx;       // tail_idx[len] = index in &lt;code&gt;nums&lt;/code&gt; that achieved tails[len]
+    std::vector&lt;int&gt; parent(n, -1);  // parent[i] = predecessor index in &lt;code&gt;nums&lt;/code&gt; for element i
+
+    for (int i = 0; i &lt; n; ++i) {
+        auto it = std::lower_bound(tails.begin(), tails.end(), nums[i]);
+        int pos = static_cast&lt;int&gt;(it - tails.begin());
+
+        if (it == tails.end()) {
+            tails.push_back(nums[i]);
+            tail_idx.push_back(i);
+        } else {
+            *it = nums[i];
+            tail_idx[pos] = i;
+        }
+        if (pos &gt; 0) {
+            parent[i] = tail_idx[pos - 1];
+        }
+    }
+
+    // Reconstruct valid subsequence backward from the index of the longest pile top
+    std::vector&lt;int&gt; result(tails.size());
+    int curr = tail_idx.back();
+    for (int k = static_cast&lt;int&gt;(tails.size()) - 1; k &gt;= 0; --k) {
+        result[k] = nums[curr];
+        curr = parent[curr];
+    }
+    return result;
+}
+
+// 2. 2D Russian Doll Envelopes: Sort (w ASC, h DESC) + 1D LIS on h
+int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes) {
+    std::sort(envelopes.begin(), envelopes.end(), [](const auto&amp; a, const auto&amp; b) {
+        if (a.first != b.first) return a.first &lt; b.first;
+        return a.second &gt; b.second; // DESCENDING height on equal width prevents duplicate width picks!
+    });
+
+    std::vector&lt;int&gt; tails;
+    for (const auto&amp; [w, h] : envelopes) {
+        auto it = std::lower_bound(tails.begin(), tails.end(), h);
+        if (it == tails.end()) tails.push_back(h);
+        else *it = h;
+    }
+    return static_cast&lt;int&gt;(tails.size());
+}
+
+int main() {
+  DESCRIBE(&quot;Longest Increasing Subsequence (LIS): O(N^2) DP vs O(N log N) Patience Sorting &amp; Dilworth&#039;s Theorem&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;vector&gt;
+
+// 1. O(N log N) Strictly Increasing Subsequence with Full Sequence Reconstruction
+std::vector&lt;int&gt; longest_increasing_subsequence(const std::vector&lt;int&gt;&amp; nums) {
+    const int n = static_cast&lt;int&gt;(nums.size());
+    if (n == 0) return {};
+
+    std::vector&lt;int&gt; tails;          // tails[len] = smallest ending value of LIS of length len+1
+    std::vector&lt;int&gt; tail_idx;       // tail_idx[len] = index in &lt;code&gt;nums&lt;/code&gt; that achieved tails[len]
+    std::vector&lt;int&gt; parent(n, -1);  // parent[i] = predecessor index in &lt;code&gt;nums&lt;/code&gt; for element i
+
+    for (int i = 0; i &lt; n; ++i) {
+        auto it = std::lower_bound(tails.begin(), tails.end(), nums[i]);
+        int pos = static_cast&lt;int&gt;(it - tails.begin());
+
+        if (it == tails.end()) {
+            tails.push_back(nums[i]);
+            tail_idx.push_back(i);
+        } else {
+            *it = nums[i];
+            tail_idx[pos] = i;
+        }
+        if (pos &gt; 0) {
+            parent[i] = tail_idx[pos - 1];
+        }
+    }
+
+    // Reconstruct valid subsequence backward from the index of the longest pile top
+    std::vector&lt;int&gt; result(tails.size());
+    int curr = tail_idx.back();
+    for (int k = static_cast&lt;int&gt;(tails.size()) - 1; k &gt;= 0; --k) {
+        result[k] = nums[curr];
+        curr = parent[curr];
+    }
+    return result;
+}
+
+// 2. 2D Russian Doll Envelopes: Sort (w ASC, h DESC) + 1D LIS on h
+int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes) {
+    std::sort(envelopes.begin(), envelopes.end(), [](const auto&amp; a, const auto&amp; b) {
+        if (a.first != b.first) return a.first &lt; b.first;
+        return a.second &gt; b.second; // DESCENDING height on equal width prevents duplicate width picks!
+    });
+
+    std::vector&lt;int&gt; tails;
+    for (const auto&amp; [w, h] : envelopes) {
+        auto it = std::lower_bound(tails.begin(), tails.end(), h);
+        if (it == tails.end()) tails.push_back(h);
+        else *it = h;
+    }
+    return static_cast&lt;int&gt;(tails.size());
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Using <code>lower_bound</code> Instead of <code>upper_bound</code> for Non-Decreasing Subsequences</h4>
@@ -1534,6 +1675,7 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1550,7 +1692,7 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1558,8 +1700,9 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

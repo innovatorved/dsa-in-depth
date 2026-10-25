@@ -639,6 +639,9 @@ window.App = (() => {
         }
         
         initMermaid();
+        if (window.TopicCodeLab && typeof window.TopicCodeLab.init === 'function') {
+          window.TopicCodeLab.init(reader);
+        }
         if (window.setupAudioListeners) {
           window.setupAudioListeners(currentSlug);
         }

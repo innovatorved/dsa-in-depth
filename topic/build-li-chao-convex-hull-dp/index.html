@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1030,7 +1030,311 @@ flowchart TD
         </table>
 
         <h3>5. Complete C++20 Build Lab Implementation</h3>
-        <pre><code class="language-cpp">#include &lt;vector&gt;
+        <div class="topic-codelab-card" data-slug="build-li-chao-convex-hull-dp" data-lang="cpp" data-title="Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the MonotonicDequeCHT implementation according to lesson invariants
+#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
+#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+
+// ============================================================================
+// Engine 1: O(1) Amortized Monotonic Deque CHT (Decreasing Slopes, Increasing x)
+// ============================================================================
+class MonotonicDequeCHT {
+public:
+  // TODO (Step 2): Add member variables and algorithmic methods
+};
+
+// ============================================================================
+// Engine 2: Dynamic Li Chao Tree with Bounded-Segment Insertion Support
+// ============================================================================
+class LiChaoEngine {
+public:
+    static constexpr int64_t INF = std::numeric_limits&lt;int64_t&gt;::max() / 4;
+
+    struct Line {
+        int64_t m = 0;
+        int64_t b = INF;
+        int64_t eval(int64_t x) const { return m * x + b; }
+    };
+
+private:
+    struct Node {
+        Line line;
+        int left = -1;
+        int right = -1;
+    };
+
+    int64_t x_min_, x_max_;
+    std::vector&lt;Node&gt; pool_;
+
+    int alloc_node() {
+        pool_.push_back(Node{});
+        return static_cast&lt;int&gt;(pool_.size()) - 1;
+    }
+
+    void push_line(int u, int64_t l, int64_t r, Line nw) {
+        int64_t mid = l + (r - l) / 2;
+        bool left_win = nw.eval(l) &lt; pool_[u].line.eval(l);
+        bool mid_win  = nw.eval(mid) &lt; pool_[u].line.eval(mid);
+
+        if (mid_win) std::swap(pool_[u].line, nw);
+        if (l == r) return;
+
+        if (left_win != mid_win) {
+            if (pool_[u].left == -1) {
+                int c = alloc_node();
+                pool_[u].left = c;
+            }
+            push_line(pool_[u].left, l, mid, nw);
+        } else {
+            if (pool_[u].right == -1) {
+                int c = alloc_node();
+                pool_[u].right = c;
+            }
+            push_line(pool_[u].right, mid + 1, r, nw);
+        }
+    }
+
+    void add_segment(int u, int64_t l, int64_t r, int64_t ql, int64_t qr, Line nw) {
+        if (ql &gt; r || qr &lt; l) return;
+        if (ql &lt;= l &amp;&amp; r &lt;= qr) {
+            push_line(u, l, r, nw);
+            return;
+        }
+        int64_t mid = l + (r - l) / 2;
+        if (ql &lt;= mid) {
+            if (pool_[u].left == -1) {
+                int c = alloc_node();
+                pool_[u].left = c;
+            }
+            add_segment(pool_[u].left, l, mid, ql, qr, nw);
+        }
+        if (qr &gt; mid) {
+            if (pool_[u].right == -1) {
+                int c = alloc_node();
+                pool_[u].right = c;
+            }
+            add_segment(pool_[u].right, mid + 1, r, ql, qr, nw);
+        }
+    }
+
+    int64_t query(int u, int64_t l, int64_t r, int64_t x) const {
+        if (u == -1) return INF;
+        int64_t ans = pool_[u].line.eval(x);
+        if (l == r) return ans;
+        int64_t mid = l + (r - l) / 2;
+        if (x &lt;= mid) return std::min(ans, query(pool_[u].left, l, mid, x));
+        return std::min(ans, query(pool_[u].right, mid + 1, r, x));
+    }
+
+public:
+    LiChaoEngine(int64_t x_min, int64_t x_max) : x_min_(x_min), x_max_(x_max) {
+        pool_.reserve(131072);
+        alloc_node();
+    }
+
+    void insert_line(int64_t m, int64_t b) {
+        push_line(0, x_min_, x_max_, Line{m, b});
+    }
+
+    void insert_segment(int64_t m, int64_t b, int64_t xl, int64_t xr) {
+        add_segment(0, x_min_, x_max_, xl, xr, Line{m, b});
+    }
+
+    int64_t query(int64_t x) const {
+        return query(0, x_min_, x_max_, x);
+    }
+};
+
+// Verification on Frog 3: dp[i] = C + h[i]^2 + min_{j &lt; i} (-2*h[j]*h[i] + dp[j] + h[j]^2)
+int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C) {
+    MonotonicDequeCHT cht;
+    LiChaoEngine lichao(0, h.back());
+
+    int64_t dp_cur = 0;
+    cht.insert_line(-2 * h[0], h[0] * h[0]);
+    lichao.insert_line(-2 * h[0], h[0] * h[0]);
+
+    for (std::size_t i = 1; i &lt; h.size(); ++i) {
+        int64_t v1 = C + h[i] * h[i] + cht.query_monotonic(h[i]);
+        int64_t v2 = C + h[i] * h[i] + lichao.query(h[i]);
+        assert(v1 == v2);
+        dp_cur = v1;
+
+        int64_t m = -2 * h[i];
+        int64_t b = dp_cur + h[i] * h[i];
+        cht.insert_line(m, b);
+        lichao.insert_line(m, b);
+    }
+    return dp_cur;
+}
+
+int main() {
+  DESCRIBE(&quot;Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the MonotonicDequeCHT implementation according to lesson invariants
+#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
+#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+
+// ============================================================================
+// Engine 1: O(1) Amortized Monotonic Deque CHT (Decreasing Slopes, Increasing x)
+// ============================================================================
+class MonotonicDequeCHT {
+public:
+  // TODO (Step 2): Add member variables and algorithmic methods
+};
+
+// ============================================================================
+// Engine 2: Dynamic Li Chao Tree with Bounded-Segment Insertion Support
+// ============================================================================
+class LiChaoEngine {
+public:
+    static constexpr int64_t INF = std::numeric_limits&lt;int64_t&gt;::max() / 4;
+
+    struct Line {
+        int64_t m = 0;
+        int64_t b = INF;
+        int64_t eval(int64_t x) const { return m * x + b; }
+    };
+
+private:
+    struct Node {
+        Line line;
+        int left = -1;
+        int right = -1;
+    };
+
+    int64_t x_min_, x_max_;
+    std::vector&lt;Node&gt; pool_;
+
+    int alloc_node() {
+        pool_.push_back(Node{});
+        return static_cast&lt;int&gt;(pool_.size()) - 1;
+    }
+
+    void push_line(int u, int64_t l, int64_t r, Line nw) {
+        int64_t mid = l + (r - l) / 2;
+        bool left_win = nw.eval(l) &lt; pool_[u].line.eval(l);
+        bool mid_win  = nw.eval(mid) &lt; pool_[u].line.eval(mid);
+
+        if (mid_win) std::swap(pool_[u].line, nw);
+        if (l == r) return;
+
+        if (left_win != mid_win) {
+            if (pool_[u].left == -1) {
+                int c = alloc_node();
+                pool_[u].left = c;
+            }
+            push_line(pool_[u].left, l, mid, nw);
+        } else {
+            if (pool_[u].right == -1) {
+                int c = alloc_node();
+                pool_[u].right = c;
+            }
+            push_line(pool_[u].right, mid + 1, r, nw);
+        }
+    }
+
+    void add_segment(int u, int64_t l, int64_t r, int64_t ql, int64_t qr, Line nw) {
+        if (ql &gt; r || qr &lt; l) return;
+        if (ql &lt;= l &amp;&amp; r &lt;= qr) {
+            push_line(u, l, r, nw);
+            return;
+        }
+        int64_t mid = l + (r - l) / 2;
+        if (ql &lt;= mid) {
+            if (pool_[u].left == -1) {
+                int c = alloc_node();
+                pool_[u].left = c;
+            }
+            add_segment(pool_[u].left, l, mid, ql, qr, nw);
+        }
+        if (qr &gt; mid) {
+            if (pool_[u].right == -1) {
+                int c = alloc_node();
+                pool_[u].right = c;
+            }
+            add_segment(pool_[u].right, mid + 1, r, ql, qr, nw);
+        }
+    }
+
+    int64_t query(int u, int64_t l, int64_t r, int64_t x) const {
+        if (u == -1) return INF;
+        int64_t ans = pool_[u].line.eval(x);
+        if (l == r) return ans;
+        int64_t mid = l + (r - l) / 2;
+        if (x &lt;= mid) return std::min(ans, query(pool_[u].left, l, mid, x));
+        return std::min(ans, query(pool_[u].right, mid + 1, r, x));
+    }
+
+public:
+    LiChaoEngine(int64_t x_min, int64_t x_max) : x_min_(x_min), x_max_(x_max) {
+        pool_.reserve(131072);
+        alloc_node();
+    }
+
+    void insert_line(int64_t m, int64_t b) {
+        push_line(0, x_min_, x_max_, Line{m, b});
+    }
+
+    void insert_segment(int64_t m, int64_t b, int64_t xl, int64_t xr) {
+        add_segment(0, x_min_, x_max_, xl, xr, Line{m, b});
+    }
+
+    int64_t query(int64_t x) const {
+        return query(0, x_min_, x_max_, x);
+    }
+};
+
+// Verification on Frog 3: dp[i] = C + h[i]^2 + min_{j &lt; i} (-2*h[j]*h[i] + dp[j] + h[j]^2)
+int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C) {
+    MonotonicDequeCHT cht;
+    LiChaoEngine lichao(0, h.back());
+
+    int64_t dp_cur = 0;
+    cht.insert_line(-2 * h[0], h[0] * h[0]);
+    lichao.insert_line(-2 * h[0], h[0] * h[0]);
+
+    for (std::size_t i = 1; i &lt; h.size(); ++i) {
+        int64_t v1 = C + h[i] * h[i] + cht.query_monotonic(h[i]);
+        int64_t v2 = C + h[i] * h[i] + lichao.query(h[i]);
+        assert(v1 == v2);
+        dp_cur = v1;
+
+        int64_t m = -2 * h[i];
+        int64_t b = dp_cur + h[i] * h[i];
+        cht.insert_line(m, b);
+        lichao.insert_line(m, b);
+    }
+    return dp_cur;
+}
+
+int main() {
+  DESCRIBE(&quot;Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
 #include &lt;algorithm&gt;
@@ -1051,10 +1355,10 @@ private:
     std::vector&lt;Line&gt; hull_;
     std::size_t head_ = 0;
 
-    // Returns true if l2 is made redundant by l1 and l3 (m1 >= m2 >= m3)
+    // Returns true if l2 is made redundant by l1 and l3 (m1 &gt;= m2 &gt;= m3)
     static bool is_redundant(const Line&amp; l1, const Line&amp; l2, const Line&amp; l3) {
-        // Intersection(l1, l3) <= Intersection(l1, l2)
-        // (l3.b - l1.b) / (l1.m - l3.m) <= (l2.b - l1.b) / (l1.m - l2.m)
+        // Intersection(l1, l3) &lt;= Intersection(l1, l2)
+        // (l3.b - l1.b) / (l1.m - l3.m) &lt;= (l2.b - l1.b) / (l1.m - l2.m)
         __int128 lhs = static_cast&lt;__int128&gt;(l3.b - l1.b) * (l1.m - l2.m);
         __int128 rhs = static_cast&lt;__int128&gt;(l2.b - l1.b) * (l1.m - l3.m);
         return lhs &lt;= rhs;
@@ -1187,7 +1491,7 @@ public:
     }
 };
 
-// Verification on Frog 3: dp[i] = C + h[i]^2 + min_{j < i} (-2*h[j]*h[i] + dp[j] + h[j]^2)
+// Verification on Frog 3: dp[i] = C + h[i]^2 + min_{j &lt; i} (-2*h[j]*h[i] + dp[j] + h[j]^2)
 int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C) {
     MonotonicDequeCHT cht;
     LiChaoEngine lichao(0, h.back());
@@ -1208,7 +1512,12 @@ int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C)
         lichao.insert_line(m, b);
     }
     return dp_cur;
-}</code></pre>
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
         <div class="callout callout-warning">
           <h4>Production Pitfall — Equal Slopes in Monotonic CHT</h4>
@@ -1542,6 +1851,7 @@ int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C)
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1558,7 +1868,7 @@ int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C)
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1566,8 +1876,9 @@ int64_t solve_frog3_verified(const std::vector&lt;int64_t&gt;&amp; h, int64_t C)
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1114,70 +1114,222 @@
         </div>
 
       <h3>Production Implementation: Aligned 1.5× Vector with Strong Exception Guarantee</h3>
-      <pre><code class="language-cpp">#include &lt;cstdlib&gt;
-#include &lt;cstring&gt;
-#include &lt;memory&gt;
-#include &lt;new&gt;
-#include &lt;type_traits&gt;
-#include &lt;utility&gt;
+      <div class="topic-codelab-card" data-slug="dynamic-arrays-geometric-resizing" data-lang="cpp" data-title="Dynamic Array: 1.5× Geometric Growth &amp; Strong Exception Guarantee" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>C++20 (Clang WASI)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 3 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (C++20)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-cpp" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
 
 template &lt;typename T&gt;
 class FbStyleVector {
   T* data_ = nullptr;
-  std::size_t size_ = 0;
-  std::size_t cap_ = 0;
+  size_t size_ = 0;
+  size_t cap_ = 0;
 
-  static std::size_t next_capacity(std::size_t current) noexcept {
-    if (current == 0) return 4;
-    if (current &lt; 64) return current * 2;
-    // 1.5x growth (k = 1.5 &lt; phi) enables coalesced heap reuse
-    return current + (current &gt;&gt; 1);
+public:
+  FbStyleVector() = default;
+  ~FbStyleVector() { delete[] data_; }
+
+  size_t size() const noexcept { return size_; }
+  size_t capacity() const noexcept { return cap_; }
+  bool empty() const noexcept { return size_ == 0; }
+
+  static size_t next_capacity(size_t current) noexcept {
+    // TODO (Step 1): If current == 0 return 4; if current &lt; 64 return current * 2.
+    // Otherwise return 1.5x growth: current + (current &gt;&gt; 1)
+    return 4;
   }
 
-  void grow() {
-    const std::size_t new_cap = next_capacity(cap_);
-    T* new_data = static_cast&lt;T*&gt;(::operator new(new_cap * sizeof(T), std::align_val_t{alignof(T)}));
+  void push_back(const T&amp; val) {
+    // TODO (Step 2): Reallocate when size_ == cap_, move elements, insert val
+  }
 
-    if constexpr (std::is_trivially_copyable_v&lt;T&gt;) {
-      if (size_ &gt; 0) {
-        std::memcpy(new_data, data_, size_ * sizeof(T));
-      }
-    } else if constexpr (std::is_nothrow_move_constructible_v&lt;T&gt;) {
-      std::uninitialized_move_n(data_, size_, new_data);
-      std::destroy_n(data_, size_);
-    } else {
-      // Strong exception guarantee: copy first; if an exception is thrown,
-      // destroy already-copied elements in new_data and leave data_ intact.
-      std::size_t constructed = 0;
-      try {
-        for (; constructed &lt; size_; ++constructed) {
-          std::construct_at(new_data + constructed, data_[constructed]);
-        }
-      } catch (...) {
-        std::destroy_n(new_data, constructed);
-        ::operator delete(new_data, std::align_val_t{alignof(T)});
-        throw;
-      }
-      std::destroy_n(data_, size_);
-    }
+  T pop_back() {
+    // TODO (Step 3): Decrement size_ and return popped element
+    return T{};
+  }
 
-    if (data_) {
-      ::operator delete(data_, std::align_val_t{alignof(T)});
+  T&amp; operator[](size_t idx) { return data_[idx]; }
+  const T&amp; operator[](size_t idx) const { return data_[idx]; }
+};
+
+int main() {
+  DESCRIBE(&quot;Dynamic Array 1.5x Resizing&quot;, {
+    TEST(&quot;next_capacity computes 1.5x growth&quot;, {
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(0), 4);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(4), 8);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(64), 96);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(96), 144);
+    });
+
+    TEST(&quot;push_back and indexing&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      for (int i = 1; i &lt;= 10; ++i) v.push_back(i * 10);
+      ASSERT_EQ(v.size(), 10);
+      ASSERT_EQ(v[0], 10);
+      ASSERT_EQ(v[4], 50);
+      ASSERT_EQ(v[9], 100);
+    });
+
+    TEST(&quot;pop_back LIFO cleanup&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      v.push_back(42);
+      v.push_back(84);
+      ASSERT_EQ(v.pop_back(), 84);
+      ASSERT_EQ(v.size(), 1);
+      ASSERT_EQ(v.pop_back(), 42);
+      ASSERT_EQ(v.size(), 0);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+class FbStyleVector {
+  T* data_ = nullptr;
+  size_t size_ = 0;
+  size_t cap_ = 0;
+
+public:
+  FbStyleVector() = default;
+  ~FbStyleVector() { delete[] data_; }
+
+  size_t size() const noexcept { return size_; }
+  size_t capacity() const noexcept { return cap_; }
+  bool empty() const noexcept { return size_ == 0; }
+
+  static size_t next_capacity(size_t current) noexcept {
+    // TODO (Step 1): If current == 0 return 4; if current &lt; 64 return current * 2.
+    // Otherwise return 1.5x growth: current + (current &gt;&gt; 1)
+    return 4;
+  }
+
+  void push_back(const T&amp; val) {
+    // TODO (Step 2): Reallocate when size_ == cap_, move elements, insert val
+  }
+
+  T pop_back() {
+    // TODO (Step 3): Decrement size_ and return popped element
+    return T{};
+  }
+
+  T&amp; operator[](size_t idx) { return data_[idx]; }
+  const T&amp; operator[](size_t idx) const { return data_[idx]; }
+};
+
+int main() {
+  DESCRIBE(&quot;Dynamic Array 1.5x Resizing&quot;, {
+    TEST(&quot;next_capacity computes 1.5x growth&quot;, {
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(0), 4);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(4), 8);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(64), 96);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(96), 144);
+    });
+
+    TEST(&quot;push_back and indexing&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      for (int i = 1; i &lt;= 10; ++i) v.push_back(i * 10);
+      ASSERT_EQ(v.size(), 10);
+      ASSERT_EQ(v[0], 10);
+      ASSERT_EQ(v[4], 50);
+      ASSERT_EQ(v[9], 100);
+    });
+
+    TEST(&quot;pop_back LIFO cleanup&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      v.push_back(42);
+      v.push_back(84);
+      ASSERT_EQ(v.pop_back(), 84);
+      ASSERT_EQ(v.size(), 1);
+      ASSERT_EQ(v.pop_back(), 42);
+      ASSERT_EQ(v.size(), 0);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+class FbStyleVector {
+  T* data_ = nullptr;
+  size_t size_ = 0;
+  size_t cap_ = 0;
+
+  void reallocate(size_t new_cap) {
+    T* new_data = new T[new_cap];
+    for (size_t i = 0; i &lt; size_; ++i) {
+      new_data[i] = std::move(data_[i]);
     }
+    delete[] data_;
     data_ = new_data;
     cap_ = new_cap;
   }
 
 public:
-  void push_back(const T&amp; value) {
-    if (size_ == cap_) grow();
-    std::construct_at(data_ + size_, value);
-    ++size_;
+  FbStyleVector() = default;
+  ~FbStyleVector() { delete[] data_; }
+
+  size_t size() const noexcept { return size_; }
+  size_t capacity() const noexcept { return cap_; }
+  bool empty() const noexcept { return size_ == 0; }
+
+  static size_t next_capacity(size_t current) noexcept {
+    if (current == 0) return 4;
+    if (current &lt; 64) return current * 2;
+    // 1.5x growth factor (k = 1.5 &lt; phi ≈ 1.618) enables coalesced heap reuse
+    return current + (current &gt;&gt; 1);
   }
 
-  std::size_t size() const noexcept { return size_; }
-  std::size_t capacity() const noexcept { return cap_; }
-};</code></pre>
+  void push_back(const T&amp; val) {
+    if (size_ == cap_) {
+      reallocate(next_capacity(cap_));
+    }
+    data_[size_++] = val;
+  }
+
+  T pop_back() {
+    if (size_ == 0) throw std::underflow_error(&quot;Vector is empty&quot;);
+    return std::move(data_[--size_]);
+  }
+
+  T&amp; operator[](size_t idx) { return data_[idx]; }
+  const T&amp; operator[](size_t idx) const { return data_[idx]; }
+};
+
+int main() {
+  DESCRIBE(&quot;Dynamic Array 1.5x Resizing&quot;, {
+    TEST(&quot;next_capacity computes 1.5x growth&quot;, {
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(0), 4);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(4), 8);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(64), 96);
+      ASSERT_EQ(FbStyleVector&lt;int&gt;::next_capacity(96), 144);
+    });
+
+    TEST(&quot;push_back and indexing&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      for (int i = 1; i &lt;= 10; ++i) v.push_back(i * 10);
+      ASSERT_EQ(v.size(), 10);
+      ASSERT_EQ(v[0], 10);
+      ASSERT_EQ(v[4], 50);
+      ASSERT_EQ(v[9], 100);
+    });
+
+    TEST(&quot;pop_back LIFO cleanup&quot;, {
+      FbStyleVector&lt;int&gt; v;
+      v.push_back(42);
+      v.push_back(84);
+      ASSERT_EQ(v.pop_back(), 84);
+      ASSERT_EQ(v.size(), 1);
+      ASSERT_EQ(v.pop_back(), 42);
+      ASSERT_EQ(v.size(), 0);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (C++20 (Clang WASI))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
       <div class="callout callout-warning">
         <div class="callout-title">Production Pitfall: Missing <code>noexcept</code> on Move Constructors &amp; Reference Invalidation</div>
@@ -1524,6 +1676,7 @@ public:
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1540,7 +1693,7 @@ public:
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1548,8 +1701,9 @@ public:
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

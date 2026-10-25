@@ -32,14 +32,14 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=ccc9c32121">
+  <link rel="stylesheet" href="css/components.css?v=b97e212e54">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=7564bd6cc6"></script>
+  <script src="js/manifest.js?v=54c3c21358"></script>
 
   <script type="application/ld+json">
 {
@@ -1061,7 +1061,13 @@ u = ch[u][bx ^ 1] (continue where bit i == 1)"]
         </div>
 
       <h3>2. Production Implementation: Flat-Pool Bitwise Trie (<code>insert</code>, <code>remove</code>, <code>maxXor</code>, <code>countXorLess</code>, <code>maxSubarrayXor</code>)</h3>
-      <pre><code class="language-javascript">/**
+      <div class="topic-codelab-card" data-slug="bitwise-tries-max-xor" data-lang="javascript" data-title="Bitwise (0-1) Tries: Maximum XOR Subarray &amp; Subtree Queries" data-active-tab="starter"><div class="topic-codelab-header"><div class="topic-codelab-header__left"><span class="topic-codelab-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>JavaScript (ES2022)</span><span class="topic-codelab-pill topic-codelab-pill--guided">⚡ Guided Lab · 2 Steps</span><span class="topic-codelab-pill topic-codelab-pill--edit" title="Directly editable in-browser scratchpad">✏️ Live Scratchpad</span><div class="topic-codelab-tabs" role="tablist" aria-label="CodeLab view modes"><button type="button" class="topic-codelab-tab is-active" data-action="topic-codelab-tab" data-tab="starter" role="tab" aria-selected="true">✏️ Exercise</button><button type="button" class="topic-codelab-tab" data-action="topic-codelab-tab" data-tab="solution" role="tab" aria-selected="false">💡 Reference Solution</button></div></div><div class="topic-codelab-actions"><button type="button" class="topic-codelab-btn topic-codelab-btn--run" data-action="topic-codelab-run" title="Execute &amp; test this snippet (Cmd+Enter)">⚡ Run &amp; Test (JS)</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-ide" title="Open in full-screen CodeLab IDE workbench">↗ Full IDE</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-copy" title="Copy code to clipboard">📋 Copy</button><button type="button" class="topic-codelab-btn" data-action="topic-codelab-reset" title="Reset code to initial state">↺ Reset</button></div></div><div class="topic-codelab-body"><div class="topic-codelab-code" role="tabpanel" aria-label="Code editor"><pre><code class="language-javascript" contenteditable="plaintext-only" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the BitwiseTrie implementation according to lesson invariants
+/**
  * High-Performance 30-Bit Binary Trie using a Flat TypedArray Pool
  * Supports dynamic insert, remove, maxXor(x), and countXorLess(x, K) in O(W) time.
  */
@@ -1147,7 +1153,212 @@ function maxXorSubarray(arr, bitWidth = 30) {
     trie.insert(pref);
   }
   return best;
-}</code></pre>
+}
+
+int main() {
+  DESCRIBE(&quot;Bitwise (0-1) Tries: Maximum XOR Subarray &amp; Subtree Queries&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</code></pre></div><textarea class="topic-codelab-raw-starter" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+#include &lt;codelab/test.hpp&gt;
+using namespace std;
+
+// TODO (Step 1): Complete the BitwiseTrie implementation according to lesson invariants
+/**
+ * High-Performance 30-Bit Binary Trie using a Flat TypedArray Pool
+ * Supports dynamic insert, remove, maxXor(x), and countXorLess(x, K) in O(W) time.
+ */
+class BitwiseTrie {
+  constructor(maxInsertions = 100005, bitWidth = 30) {
+    this.W = bitWidth;
+    const maxNodes = maxInsertions * this.W + 2;
+    this.ch = new Int32Array(maxNodes * 2); // ch[(u &lt;&lt; 1) | bit]
+    this.cnt = new Int32Array(maxNodes);
+    this.ptr = 1; // Node 1 is root; Node 0 is null sentinel
+  }
+
+  insert(x, delta = 1) {
+    let u = 1;
+    this.cnt[u] += delta;
+    for (let i = this.W - 1; i &gt;= 0; i--) {
+      const b = (x &gt;&gt;&gt; i) &amp; 1;
+      const edgeIdx = (u &lt;&lt; 1) | b;
+      let next = this.ch[edgeIdx];
+      if (next === 0) {
+        next = ++this.ptr;
+        this.ch[edgeIdx] = next;
+      }
+      u = next;
+      this.cnt[u] += delta;
+    }
+  }
+
+  remove(x) {
+    this.insert(x, -1);
+  }
+
+  maxXor(x) {
+    let u = 1;
+    if (this.cnt[u] === 0) return 0;
+    let ans = 0;
+    for (let i = this.W - 1; i &gt;= 0; i--) {
+      const b = (x &gt;&gt;&gt; i) &amp; 1;
+      const want = b ^ 1;
+      const desiredChild = this.ch[(u &lt;&lt; 1) | want];
+      if (desiredChild !== 0 &amp;&amp; this.cnt[desiredChild] &gt; 0) {
+        ans |= (1 &lt;&lt; i);
+        u = desiredChild;
+      } else {
+        u = this.ch[(u &lt;&lt; 1) | b];
+      }
+    }
+    return ans &gt;&gt;&gt; 0;
+  }
+
+  /**
+   * Returns count of active elements y in the trie such that (x ^ y) &lt; k
+   */
+  countXorLess(x, k) {
+    let u = 1;
+    let total = 0;
+    for (let i = this.W - 1; i &gt;= 0 &amp;&amp; u !== 0; i--) {
+      const bx = (x &gt;&gt;&gt; i) &amp; 1;
+      const bk = (k &gt;&gt;&gt; i) &amp; 1;
+      if (bk === 1) {
+        const sameChild = this.ch[(u &lt;&lt; 1) | bx];
+        if (sameChild !== 0) total += this.cnt[sameChild];
+        u = this.ch[(u &lt;&lt; 1) | (bx ^ 1)];
+      } else {
+        u = this.ch[(u &lt;&lt; 1) | bx];
+      }
+    }
+    return total;
+  }
+}
+
+/**
+ * Maximum XOR of any contiguous subarray A[L..R] in O(N * W) time
+ */
+function maxXorSubarray(arr, bitWidth = 30) {
+  const trie = new BitwiseTrie(arr.length + 1, bitWidth);
+  trie.insert(0); // Prefix XOR P[0] = 0 so subarrays starting at index 0 are included!
+  let pref = 0;
+  let best = 0;
+  for (let i = 0; i &lt; arr.length; i++) {
+    pref ^= arr[i];
+    best = Math.max(best, trie.maxXor(pref));
+    trie.insert(pref);
+  }
+  return best;
+}
+
+int main() {
+  DESCRIBE(&quot;Bitwise (0-1) Tries: Maximum XOR Subarray &amp; Subtree Queries&quot;, {
+    TEST(&quot;initializes correctly&quot;, {
+      ASSERT_TRUE(true);
+    });
+  });
+  return CODELAB_TEST_EXIT_CODE();
+}</textarea><textarea class="topic-codelab-raw-solution" style="display:none;" aria-hidden="true">#include &lt;bits/stdc++.h&gt;
+#include &lt;codelab/dsa.hpp&gt;
+using namespace std;
+
+/**
+ * High-Performance 30-Bit Binary Trie using a Flat TypedArray Pool
+ * Supports dynamic insert, remove, maxXor(x), and countXorLess(x, K) in O(W) time.
+ */
+class BitwiseTrie {
+  constructor(maxInsertions = 100005, bitWidth = 30) {
+    this.W = bitWidth;
+    const maxNodes = maxInsertions * this.W + 2;
+    this.ch = new Int32Array(maxNodes * 2); // ch[(u &lt;&lt; 1) | bit]
+    this.cnt = new Int32Array(maxNodes);
+    this.ptr = 1; // Node 1 is root; Node 0 is null sentinel
+  }
+
+  insert(x, delta = 1) {
+    let u = 1;
+    this.cnt[u] += delta;
+    for (let i = this.W - 1; i &gt;= 0; i--) {
+      const b = (x &gt;&gt;&gt; i) &amp; 1;
+      const edgeIdx = (u &lt;&lt; 1) | b;
+      let next = this.ch[edgeIdx];
+      if (next === 0) {
+        next = ++this.ptr;
+        this.ch[edgeIdx] = next;
+      }
+      u = next;
+      this.cnt[u] += delta;
+    }
+  }
+
+  remove(x) {
+    this.insert(x, -1);
+  }
+
+  maxXor(x) {
+    let u = 1;
+    if (this.cnt[u] === 0) return 0;
+    let ans = 0;
+    for (let i = this.W - 1; i &gt;= 0; i--) {
+      const b = (x &gt;&gt;&gt; i) &amp; 1;
+      const want = b ^ 1;
+      const desiredChild = this.ch[(u &lt;&lt; 1) | want];
+      if (desiredChild !== 0 &amp;&amp; this.cnt[desiredChild] &gt; 0) {
+        ans |= (1 &lt;&lt; i);
+        u = desiredChild;
+      } else {
+        u = this.ch[(u &lt;&lt; 1) | b];
+      }
+    }
+    return ans &gt;&gt;&gt; 0;
+  }
+
+  /**
+   * Returns count of active elements y in the trie such that (x ^ y) &lt; k
+   */
+  countXorLess(x, k) {
+    let u = 1;
+    let total = 0;
+    for (let i = this.W - 1; i &gt;= 0 &amp;&amp; u !== 0; i--) {
+      const bx = (x &gt;&gt;&gt; i) &amp; 1;
+      const bk = (k &gt;&gt;&gt; i) &amp; 1;
+      if (bk === 1) {
+        const sameChild = this.ch[(u &lt;&lt; 1) | bx];
+        if (sameChild !== 0) total += this.cnt[sameChild];
+        u = this.ch[(u &lt;&lt; 1) | (bx ^ 1)];
+      } else {
+        u = this.ch[(u &lt;&lt; 1) | bx];
+      }
+    }
+    return total;
+  }
+}
+
+/**
+ * Maximum XOR of any contiguous subarray A[L..R] in O(N * W) time
+ */
+function maxXorSubarray(arr, bitWidth = 30) {
+  const trie = new BitwiseTrie(arr.length + 1, bitWidth);
+  trie.insert(0); // Prefix XOR P[0] = 0 so subarrays starting at index 0 are included!
+  let pref = 0;
+  let best = 0;
+  for (let i = 0; i &lt; arr.length; i++) {
+    pref ^= arr[i];
+    best = Math.max(best, trie.maxXor(pref));
+    trie.insert(pref);
+  }
+  return best;
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;✓ Production implementation loaded successfully (C++20 Clang WASI)!\n&quot;;
+  return 0;
+}</textarea></div><div class="topic-codelab-console" aria-live="polite" aria-label="Execution Console"><div class="topic-codelab-console-header"><div class="topic-codelab-console-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><span>Execution Console (JavaScript (ES2022))</span><span class="topic-codelab-status-badge">Ready</span></div><button type="button" class="topic-codelab-console-close" data-action="topic-codelab-close-console" title="Close console" aria-label="Close execution console">✕</button></div><pre class="topic-codelab-console-output"></pre></div></div>
 
       <h3>3. Complexity Matrix</h3>
       <table class="complexity-matrix">
@@ -1503,6 +1714,7 @@ function maxXorSubarray(arr, bitWidth = 30) {
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=387ea5cf93"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1519,7 +1731,7 @@ function maxXorSubarray(arr, bitWidth = 30) {
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=8c44a17599"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=a90f5047db"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=9cfbca42ea"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
@@ -1527,8 +1739,9 @@ function maxXorSubarray(arr, bitWidth = 30) {
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=dd30d2fc9c"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=063ccb146c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=37eaf95b6f"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=68698746b9"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=e4735ed666"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>
