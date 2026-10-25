@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '20.x'
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Validate curriculum and asset stamps
         run: node tools/validate.js
 
