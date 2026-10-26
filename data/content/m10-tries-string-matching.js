@@ -14,7 +14,7 @@ window.MODULE_CONTENT["m10"] = {
     intuition: `<p>A balanced binary search tree comparing string keys of length $L$ across $N$ entries requires $O(L \\log N)$ character comparisons because each of the $O(\\log N)$ node visits re-scans shared prefixes. A <strong>Prefix Trie</strong> (named by Edward Fredkin from Info<em>trie</em>val) eliminates key-to-key comparisons entirely: edges are labeled by alphabet symbols $\\Sigma$, so looking up a string of length $L$ walks a path of length $L$ in <strong>$O(L)$ time independent of $N$</strong>, while automatically clustering all keys that share a common prefix into a single subtree.</p>
     <p>However, a naive pointer-per-character Trie has two fatal flaws in production: (1) a long unique suffix of length $L$ creates $L$ unary (single-child) nodes, and (2) an alphabet of size $|\\Sigma| = 256$ wastes $256 \\times 8 = 2\\text{ KB}$ per node even when only 1 child pointer is non-null. <strong>Compressed Radix Trees</strong> coalesce every chain of single-child nodes into a single edge labeled with a substring slice; Donald Morrison's <strong>PATRICIA Tree</strong> stores only the <em>index of the first differing bit/byte</em> at each internal node, bounding internal nodes to <strong>exact $N - 1$</strong> regardless of key length $L$; and Viktor Leis's <strong>Adaptive Radix Tree (ART)</strong> dynamically resizes node fanout across 4 compact classes (<code>Node4</code>, <code>Node16</code>, <code>Node48</code>, <code>Node256</code>) to match L1 cache lines and SIMD registers.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. From Uncompressed Tries to Compressed Radix Trees &amp; PATRICIA</h3>
+      <h2>1. From Uncompressed Tries to Compressed Radix Trees &amp; PATRICIA</h2>
       <p>Let $\\mathcal{S} = \\{s_1, s_2, \\dots, s_N\\}$ be a set of $N$ distinct strings of total length $M = \\sum |s_i|$. Compare the three structural representations:</p>
       <ul>
         <li><strong>Uncompressed Trie:</strong> Up to $M + 1$ nodes. Every character transition is an explicit node. Long unique keys create deep chains of degree-1 nodes that cause $L$ sequential L3/DRAM cache misses.</li>
@@ -95,7 +95,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-trie-radix-bitwise"></div>
 
-      <h3>2. Production Implementation: Compressed Radix Tree (Insert, Exact Lookup &amp; Prefix Enumeration)</h3>
+      <h2>2. Production Implementation: Compressed Radix Tree (Insert, Exact Lookup &amp; Prefix Enumeration)</h2>
       <pre><code class="language-javascript">class RadixNode {
   constructor(edgeLabel = "", value = undefined) {
     this.edgeLabel = edgeLabel;
@@ -202,8 +202,82 @@ class RadixTree {
     return results;
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;unordered_map&gt;
+#include &lt;memory&gt;
+#include &lt;optional&gt;
+#include &lt;algorithm&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Compressed Radix Tree (Compact Prefix Tree) guaranteeing &lt;= 2N nodes (C++20)
+template &lt;typename V&gt;
+class RadixTree {
+    struct Node {
+        std::string edge;
+        std::optional&lt;V&gt; value;
+        std::unordered_map&lt;char, std::unique_ptr&lt;Node&gt;&gt; children;
+        explicit Node(std::string_view e = "", std::optional&lt;V&gt; v = std::nullopt)
+            : edge(e), value(v) {}
+    };
+    std::unique_ptr&lt;Node&gt; root = std::make_unique&lt;Node&gt;();
+
+    static size_t lcp_len(std::string_view a, std::string_view b) noexcept {
+        size_t len = std::min(a.size(), b.size()), i = 0;
+        while (i &lt; len &amp;&amp; a[i] == b[i]) ++i;
+        return i;
+    }
+public:
+    void insert(std::string_view key, V val) {
+        Node* curr = root.get();
+        size_t i = 0;
+        while (i &lt; key.size()) {
+            char ch = key[i];
+            auto it = curr-&gt;children.find(ch);
+            if (it == curr-&gt;children.end()) {
+                curr-&gt;children[ch] = std::make_unique&lt;Node&gt;(key.substr(i), val);
+                return;
+            }
+            Node* child = it-&gt;second.get();
+            std::string_view rem = key.substr(i);
+            size_t lcp = lcp_len(rem, child-&gt;edge);
+            if (lcp == child-&gt;edge.size()) {
+                curr = child;
+                i += lcp;
+            } else {
+                auto split = std::make_unique&lt;Node&gt;(std::string_view(child-&gt;edge).substr(0, lcp));
+                child-&gt;edge.erase(0, lcp);
+                char old_first = child-&gt;edge[0];
+                split-&gt;children[old_first] = std::move(it-&gt;second);
+                if (lcp == rem.size()) {
+                    split-&gt;value = val;
+                } else {
+                    std::string_view new_rem = rem.substr(lcp);
+                    split-&gt;children[new_rem[0]] = std::make_unique&lt;Node&gt;(new_rem, val);
+                }
+                curr-&gt;children[ch] = std::move(split);
+                return;
+            }
+        }
+        curr-&gt;value = val;
+    }
+
+    std::optional&lt;V&gt; get(std::string_view key) const {
+        const Node* curr = root.get();
+        size_t i = 0;
+        while (i &lt; key.size()) {
+            auto it = curr-&gt;children.find(key[i]);
+            if (it == curr-&gt;children.end()) return std::nullopt;
+            const Node* child = it-&gt;second.get();
+            if (key.substr(i).compare(0, child-&gt;edge.size(), child-&gt;edge) != 0)
+                return std::nullopt;
+            curr = child;
+            i += child-&gt;edge.size();
+        }
+        return curr-&gt;value;
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -284,7 +358,7 @@ class RadixTree {
     intuition: `<p>When keys are fixed-width $W$-bit integers (e.g., $W = 30$ or $64$), viewing each integer as a binary string from <strong>Most Significant Bit (MSB, bit $W-1$) down to Least Significant Bit (LSB, bit $0$)</strong> turns a Prefix Trie into a <strong>Bitwise (0-1) Trie</strong> of fixed depth $W$. Because $2^{k} > \\sum_{j=0}^{k-1} 2^{j}$, gaining a $1$ at bit position $k$ is strictly more valuable than gaining $1$s at <em>all lower bit positions combined</em>!</p>
     <p>This greedy dominance makes Bitwise Tries the natural engine for XOR problems: to maximize $x \\oplus y$ for a query $x$ over a set $S$, walk down the trie from bit $W-1$ to $0$, and at each bit $b = (x \\gg i) \\mathrel{\\&} 1$, greedily take the <strong>opposite child $b \\oplus 1$</strong> if it exists (setting bit $i$ of the XOR result to $1$), or fall back to child $b$ otherwise. Combining this $O(W)$ query with the prefix-XOR identity $\\text{XOR}(L..R) = P[R] \\oplus P[L-1]$ solves Maximum XOR Subarray in $O(N \\cdot W)$ time; adding a <code> + "</code>cnt<code>" + </code> field supports dynamic deletions; and storing the maximum insertion index <code> + "</code>maxIdx[u]<code>" + </code> at each trie node answers offline subarray XOR queries $[L, R]$ without even needing persistence!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. MSB-to-LSB Greedy Dominance &amp; Dynamic Deletion via <code>cnt[u]</code></h3>
+      <h2>1. MSB-to-LSB Greedy Dominance &amp; Dynamic Deletion via <code>cnt[u]</code></h2>
       <p>Why must a Bitwise Trie for XOR maximization or order-statistic comparison be rooted at the <strong>Most Significant Bit ($W - 1$)</strong> rather than bit $0$? Because binary value order is lexicographical from MSB to LSB: every number in the <code>1</code>-branch at depth $k$ is strictly greater than every number in the <code>0</code>-branch, since $2^k > 2^k - 1 = \\sum_{j=0}^{k-1} 2^j$.</p>
       <p>To support dynamic <code>insert(x)</code> and <code>remove(x)</code> (such as sliding-window XOR or multiset queries), we store an integer counter <code>cnt[u]</code> at every trie node recording how many active numbers pass through node $u$. Instead of physically freeing nodes on <code>remove(x)</code>, we simply decrement <code>cnt[u]--</code> along $x$'s path, and treat any child $c$ with <code>c === 0 || cnt[c] === 0</code> as empty!</p>
 
@@ -352,7 +426,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-trie-radix-bitwise"></div>
 
-      <h3>2. Production Implementation: Flat-Pool Bitwise Trie (<code>insert</code>, <code>remove</code>, <code>maxXor</code>, <code>countXorLess</code>, <code>maxSubarrayXor</code>)</h3>
+      <h2>2. Production Implementation: Flat-Pool Bitwise Trie (<code>insert</code>, <code>remove</code>, <code>maxXor</code>, <code>countXorLess</code>, <code>maxSubarrayXor</code>)</h2>
       <pre><code class="language-javascript">/**
  * High-Performance 30-Bit Binary Trie using a Flat TypedArray Pool
  * Supports dynamic insert, remove, maxXor(x), and countXorLess(x, K) in O(W) time.
@@ -440,8 +514,75 @@ function maxXorSubarray(arr, bitWidth = 30) {
   }
   return best;
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;array&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Flat-Pool 30-Bit Binary Trie for O(W) Max-XOR &amp; Count-XOR-Less-Than-K (C++20)
+class BitwiseTrie {
+    static constexpr int W = 30;
+    std::vector&lt;std::array&lt;int, 2&gt;&gt; ch;
+    std::vector&lt;int&gt; cnt;
+public:
+    explicit BitwiseTrie(int max_insertions = 100005) {
+        ch.reserve(max_insertions * W + 2);
+        cnt.reserve(max_insertions * W + 2);
+        ch.push_back({0, 0}); cnt.push_back(0); // 0 = null sentinel
+        ch.push_back({0, 0}); cnt.push_back(0); // 1 = root
+    }
+
+    void insert(uint32_t x, int delta = 1) {
+        int u = 1;
+        cnt[u] += delta;
+        for (int i = W - 1; i &gt;= 0; --i) {
+            int b = (x &gt;&gt; i) &amp; 1;
+            if (ch[u][b] == 0) {
+                ch[u][b] = static_cast&lt;int&gt;(ch.size());
+                ch.push_back({0, 0});
+                cnt.push_back(0);
+            }
+            u = ch[u][b];
+            cnt[u] += delta;
+        }
+    }
+
+    uint32_t max_xor(uint32_t x) const noexcept {
+        int u = 1;
+        if (cnt[u] == 0) return 0;
+        uint32_t ans = 0;
+        for (int i = W - 1; i &gt;= 0; --i) {
+            int b = (x &gt;&gt; i) &amp; 1;
+            int want = b ^ 1;
+            int nxt = ch[u][want];
+            if (nxt != 0 &amp;&amp; cnt[nxt] &gt; 0) {
+                ans |= (1u &lt;&lt; i);
+                u = nxt;
+            } else {
+                u = ch[u][b];
+            }
+        }
+        return ans;
+    }
+
+    int count_xor_less(uint32_t x, uint32_t k) const noexcept {
+        int u = 1, total = 0;
+        for (int i = W - 1; i &gt;= 0 &amp;&amp; u != 0; --i) {
+            int bx = (x &gt;&gt; i) &amp; 1;
+            int bk = (k &gt;&gt; i) &amp; 1;
+            if (bk == 1) {
+                int same = ch[u][bx];
+                if (same != 0) total += cnt[same];
+                u = ch[u][bx ^ 1];
+            } else {
+                u = ch[u][bx];
+            }
+        }
+        return total;
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -515,7 +656,7 @@ function maxXorSubarray(arr, bitWidth = 30) {
     intuition: `<p>Karp and Rabin (1987) turned string comparison into modular arithmetic by treating a string $S[0..N-1]$ as a polynomial evaluated at a random base $B$ modulo a prime $M$: $H(S) = \\left(\\sum_{i=0}^{N-1} S[i] \\cdot B^{N-1-i}\\right) \\bmod M$. By precomputing prefix hashes $P[i] = (P[i-1] \\cdot B + S[i]) \\bmod M$ and base powers $B^k \\bmod M$ in $O(N)$ time, the hash of <strong>any arbitrary substring $S[L..R]$</strong> can be extracted in <strong>$O(1)$ time</strong> via $(P[R+1] - P[L] \\cdot B^{R - L + 1}) \\bmod M$! This unlocks algorithms that deterministic automata cannot easily express, such as $O(\\log N)$ Longest Common Prefix (LCP) of any two substrings via binary search, or $O(N \\log N)$ Longest Duplicate Substring.</p>
     <p>However, naive 32-bit rolling hashes (<code> + "</code>M = 10^9 + 7<code>" + </code>) fail catastrophically whenever a problem compares $\\Theta(N)$ substring hashes: by the <strong>Birthday Paradox</strong>, comparing $K = 10^5$ hashes has collision probability $\\approx 1 - e^{-K^2 / (2M)} \\approx 99.3\\%$! Using the 61-bit <strong>Mersenne prime $M = 2^{61} - 1$</strong> with fast bit-shift modular reduction (<code> + "</code>(x & M) + (x >> 61)<code>" + </code>) and a runtime-randomized base $B$ shrinks the collision probability for $10^5$ substrings down to $\\approx 2 \\times 10^{-9}$.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Polynomial Prefix Hashing &amp; $O(1)$ Substring Extraction</h3>
+      <h2>1. Polynomial Prefix Hashing &amp; $O(1)$ Substring Extraction</h2>
       <p>Define the 1-indexed prefix hash array $P[0..N]$ with $P[0] = 0$ and recurrence $P[i] = (P[i-1] \\cdot B + S[i-1]) \\bmod M$, alongside power table $\\text{powB}[k] = B^k \\bmod M$. Notice that $P[R+1]$ contains $P[L]$ shifted left by $R - L + 1$ powers of $B$, plus the polynomial of $S[L..R]$:</p>
       <p>$$P[R+1] = P[L] \\cdot B^{R - L + 1} + \\sum_{j=L}^{R} S[j] \\cdot B^{R - j} \\pmod M$$</p>
       <p>Subtracting $P[L] \\cdot \\text{powB}[R - L + 1]$ modulo $M$ isolates the exact canonical hash of $S[L..R]$ in $O(1)$ time!</p>
@@ -575,7 +716,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-rabin-karp-rolling-hash"></div>
 
-      <h3>2. Production Implementation: Mersenne $2^{61}-1$ Rolling Hash with $O(1)$ Substring Hash &amp; $O(\\log N)$ LCP</h3>
+      <h2>2. Production Implementation: Mersenne $2^{61}-1$ Rolling Hash with $O(1)$ Substring Hash &amp; $O(\\log N)$ LCP</h2>
       <pre><code class="language-javascript">const MOD61 = (1n &lt;&lt; 61n) - 1n;
 // Random odd base chosen per process startup in [257 .. 10^9] to defeat adversarial inputs
 const RANDOM_BASE = BigInt(257 + Math.floor(Math.random() * 1000000000));
@@ -638,8 +779,52 @@ class RollingHash61 {
     return this.str.charCodeAt(l1 + common) - this.str.charCodeAt(l2 + common);
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;algorithm&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Mersenne Prime 2^61 - 1 Polynomial Rolling Hash with __uint128_t (C++20)
+class RollingHash61 {
+    static constexpr uint64_t MOD = (1ULL &lt;&lt; 61) - 1;
+    std::string s;
+    std::vector&lt;uint64_t&gt; pref, pw;
+
+    static constexpr uint64_t mod61(__uint128_t x) noexcept {
+        uint64_t res = static_cast&lt;uint64_t&gt;(x &amp; MOD) + static_cast&lt;uint64_t&gt;(x &gt;&gt; 61);
+        return res &gt;= MOD ? res - MOD : res;
+    }
+    static constexpr uint64_t mul61(uint64_t a, uint64_t b) noexcept {
+        return mod61(static_cast&lt;__uint128_t&gt;(a) * b);
+    }
+public:
+    explicit RollingHash61(std::string_view str, uint64_t base = 911382323ULL)
+        : s(str), pref(str.size() + 1, 0), pw(str.size() + 1, 1) {
+        for (size_t i = 0; i &lt; s.size(); ++i) {
+            pref[i + 1] = mod61(static_cast&lt;__uint128_t&gt;(pref[i]) * base + static_cast&lt;unsigned char&gt;(s[i]));
+            pw[i + 1] = mul61(pw[i], base);
+        }
+    }
+
+    uint64_t get_hash(int l, int r) const noexcept {
+        if (l &gt; r) return 0;
+        uint64_t sub = pref[r + 1] + MOD - mul61(pref[l], pw[r - l + 1]);
+        return sub &gt;= MOD ? sub - MOD : sub;
+    }
+
+    int lcp(int i, int j) const noexcept {
+        int lo = 0, hi = static_cast&lt;int&gt;(s.size()) - std::max(i, j);
+        while (lo &lt; hi) {
+            int mid = (lo + hi + 1) &gt;&gt; 1;
+            if (get_hash(i, i + mid - 1) == get_hash(j, j + mid - 1)) lo = mid;
+            else hi = mid - 1;
+        }
+        return lo;
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -713,7 +898,7 @@ class RollingHash61 {
     intuition: `<p>When a naive substring search matches the first $j$ characters of pattern $P[0..M-1]$ against text $T$ and then mismatches at $T[i] \\neq P[j]$, shifting the pattern by 1 and restarting at $T[i - j + 1]$ discards something we already know! We <em>know</em> that the last $j$ characters of the text just before $T[i]$ are literally equal to the pattern prefix $P[0..j-1]$. Therefore, the longest shift that could possibly remain aligned at $T[i]$ is the <strong>longest proper prefix of $P[0..j-1]$ that is also a suffix of $P[0..j-1]$</strong>!</p>
     <p>Knuth, Morris, and Pratt (1977) formalized this as the <strong>Prefix Function $\\pi[i]$</strong> (often called the LPS array): $\\pi[i] = \\max\\{k < i + 1 : P[0..k-1] = P[i-k+1..i]\\}$. Because the second-longest border of a string $X$ is simply the longest border of the longest border of $X$ ($\\pi[\\pi[i]-1]$), $\\pi$ forms a failure tree where we can compute all $\\pi[0..M-1]$ in <strong>exact $\\Theta(M)$ time</strong>: the current border length $j$ increases by at most $+1$ per outer loop iteration, so the inner <code> + "</code>while (j > 0 && P[i] !== P[j]) j = pi[j - 1]<code>" + </code> loop can decrease $j$ at most $M$ times across the entire algorithm!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. The Prefix Function $\\pi[i]$ &amp; Potential-Function Proof of $\\Theta(N)$ Linearity</h3>
+      <h2>1. The Prefix Function $\\pi[i]$ &amp; Potential-Function Proof of $\\Theta(N)$ Linearity</h2>
       <p>For a string $S[0..n-1]$, a <strong>border</strong> of prefix $S[0..i]$ is any proper substring (length $k \\le i$) that is simultaneously a prefix and a suffix of $S[0..i]$. The prefix function $\\pi[i]$ stores the length of the longest border of $S[0..i]$.</p>
 
       <div class="invariant-box">
@@ -752,7 +937,7 @@ class RollingHash61 {
         <text x="390" y="196" text-anchor="middle" class="kmp-txt" fill="#facc15">Now P[0..2]="ABA" is already matched, and T[i]='B' == P[3]='B' -&gt; j becomes 4!</text>
       </svg>
 
-      <h3>2. Building the Explicit KMP Automaton (DFA) for Worst-Case $O(1)$ Per-Character Streaming</h3>
+      <h2>2. Building the Explicit KMP Automaton (DFA) for Worst-Case $O(1)$ Per-Character Streaming</h2>
       <p>In standard KMP, a single character step can take up to $O(M)$ <code>while</code>-loop hops in the worst case (e.g., on <code>"aaaaab"</code>), even though it is $O(1)$ <em>amortized</em>. What if we are building a real-time network packet scanner, or running Dynamic Programming over strings where we branch into multiple states and <em>cannot</em> rely on amortization? We can precompute the <strong>KMP Deterministic Finite Automaton $\\text{aut}[j][c]$</strong> in $O(M \\cdot |\\Sigma|)$ time using a single line:</p>
       <p>$$\\text{aut}[j][c] = \\begin{cases} j + 1 & \\text{if } j < M \\text{ and } P[j] = c \\\\ \\text{aut}[\\pi[j - 1]][c] & \\text{if } j > 0 \\text{ and } P[j] \\neq c \\\\ 0 & \\text{if } j = 0 \\text{ and } P[0] \\neq c \\end{cases}$$</p>
       <p>Notice that because $\\pi[j - 1] < j$, row $\\text{aut}[\\pi[j - 1]]$ has <em>already been computed</em>! This eliminates the <code>while</code> loop completely and gives <strong>strict worst-case $O(1)$ per character</strong>!</p>
@@ -775,7 +960,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-kmp-z-automaton"></div>
 
-      <h3>3. Production Implementation: Prefix Function, KMP Stream Matcher, Smallest Period &amp; KMP Automaton</h3>
+      <h2>3. Production Implementation: Prefix Function, KMP Stream Matcher, Smallest Period &amp; KMP Automaton</h2>
       <pre><code class="language-javascript">/**
  * Computes the KMP Prefix Function pi[0..M-1] in exact Theta(M) time and space.
  * pi[i] = length of longest proper prefix of P[0..i] that is also a suffix of P[0..i].
@@ -853,8 +1038,53 @@ function buildKmpAutomaton(pattern, alphabetSize = 26, baseCharCode = 97) {
   }
   return aut;
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &lt;array&gt;
 
-      <h3>4. Complexity Matrix</h3>
+// KMP Prefix Function pi[0..M-1], Linear Search &amp; Explicit DFA Automaton (C++20)
+std::vector&lt;int&gt; compute_prefix_function(std::string_view p) {
+    int m = static_cast&lt;int&gt;(p.size());
+    std::vector&lt;int&gt; pi(m, 0);
+    for (int i = 1, j = 0; i &lt; m; ++i) {
+        while (j &gt; 0 &amp;&amp; p[i] != p[j]) j = pi[j - 1];
+        if (p[i] == p[j]) ++j;
+        pi[i] = j;
+    }
+    return pi;
+}
+
+std::vector&lt;int&gt; kmp_search(std::string_view text, std::string_view pattern) {
+    if (pattern.empty()) return {};
+    std::vector&lt;int&gt; pi = compute_prefix_function(pattern);
+    std::vector&lt;int&gt; matches;
+    int m = static_cast&lt;int&gt;(pattern.size());
+    for (int i = 0, j = 0; i &lt; static_cast&lt;int&gt;(text.size()); ++i) {
+        while (j &gt; 0 &amp;&amp; text[i] != pattern[j]) j = pi[j - 1];
+        if (text[i] == pattern[j]) ++j;
+        if (j == m) {
+            matches.push_back(i - m + 1);
+            j = pi[j - 1];
+        }
+    }
+    return matches;
+}
+
+std::vector&lt;std::array&lt;int, 26&gt;&gt; build_kmp_automaton(std::string_view p) {
+    int m = static_cast&lt;int&gt;(p.size());
+    std::vector&lt;int&gt; pi = compute_prefix_function(p);
+    std::vector&lt;std::array&lt;int, 26&gt;&gt; aut(m + 1);
+    for (int state = 0; state &lt;= m; ++state) {
+        for (int c = 0; c &lt; 26; ++c) {
+            if (state &lt; m &amp;&amp; (p[state] - 'a') == c) aut[state][c] = state + 1;
+            else if (state &gt; 0) aut[state][c] = aut[pi[state - 1]][c];
+            else aut[state][c] = 0;
+        }
+    }
+    return aut;
+}</code></pre>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -926,7 +1156,7 @@ function buildKmpAutomaton(pattern, alphabetSize = 26, baseCharCode = 97) {
     intuition: `<p>Whereas KMP's prefix function $\\pi[i]$ asks <em>"what is the longest prefix of $S$ that ends at $i$?"</em>, Gusfield's <strong>Z-Array $Z[i]$</strong> asks the dual question: <em>"what is the length of the longest substring starting at $i$ that matches a prefix of $S$?"</em>—that is, $Z[i] = \\text{LCP}(S[0..], S[i..])$. For many string problems (finding all occurrences of $P$ in $T$ via $P + \\text{'\\$'} + T$, finding all tandem repeats, or matching with wildcards), $Z[i]$ is far more direct to reason about than $\\pi[i]$.</p>
     <p>How do we compute $Z[1..N-1]$ in $\\Theta(N)$ time without $O(N^2)$ character comparisons? Maintain the interval <strong>$[L, R]$ (the Z-Box)</strong> with the maximum right endpoint $R$ among all prefix-matching intervals $[k, k + Z[k] - 1]$ discovered so far. Because $S[L..R] = S[0..R-L]$, whenever the current index $i$ lies inside $[L, R]$, the substring starting at $i$ is an exact copy of the substring starting at the <strong>mirror index $k = i - L$</strong>! If $Z[i - L]$ is strictly shorter than the remaining box length $R - i + 1$, then $Z[i] = Z[i - L]$ immediately with <strong>zero character comparisons</strong>; otherwise we start comparing from $R + 1$ onward, advancing $R$ monotonically at most $N$ times across the entire algorithm!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. The $[L, R]$ Z-Box Invariant &amp; Mirror Index $k = i - L$</h3>
+      <h2>1. The $[L, R]$ Z-Box Invariant &amp; Mirror Index $k = i - L$</h2>
       <p>At iteration $i \\in [1, N-1]$, let $[L, R]$ be the rightmost interval discovered so far ($L < i$) such that $S[L..R] = S[0..R-L]$. There are two possibilities for $i$:</p>
       <ol>
         <li><strong>Case 1 ($i > R$):</strong> Index $i$ lies strictly outside the current Z-Box. We have no prior information about $S[i]$, so we compare $S[0..]$ with $S[i..]$ character by character to find $Z[i]$, and if $Z[i] > 0$, set $L = i, R = i + Z[i] - 1$.</li>
@@ -997,7 +1227,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-kmp-z-automaton"></div>
 
-      <h3>2. Production Implementation: Z-Algorithm &amp; $O(N + M)$ Pattern Matching</h3>
+      <h2>2. Production Implementation: Z-Algorithm &amp; $O(N + M)$ Pattern Matching</h2>
       <pre><code class="language-javascript">/**
  * Computes the Z-Array z[0..N-1] in exact Theta(N) time and space.
  * z[i] = length of the longest common prefix between S and the suffix S[i..N-1].
@@ -1061,8 +1291,47 @@ function zPatternSearch(text, pattern) {
   }
   return matches;
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;string_view&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Z-Algorithm Linear-Time Z-Box Computation &amp; O(M)-Space Pattern Search (C++20)
+std::vector&lt;int&gt; compute_z_array(std::string_view s) {
+    int n = static_cast&lt;int&gt;(s.size());
+    std::vector&lt;int&gt; z(n, 0);
+    if (n == 0) return z;
+    z[0] = n;
+    for (int i = 1, l = 0, r = 0; i &lt; n; ++i) {
+        if (i &lt;= r) z[i] = std::min(r - i + 1, z[i - l]);
+        while (i + z[i] &lt; n &amp;&amp; s[z[i]] == s[i + z[i]]) ++z[i];
+        if (i + z[i] - 1 &gt; r) {
+            l = i;
+            r = i + z[i] - 1;
+        }
+    }
+    return z;
+}
+
+std::vector&lt;int&gt; z_pattern_search(std::string_view text, std::string_view pattern) {
+    int n = static_cast&lt;int&gt;(text.size()), m = static_cast&lt;int&gt;(pattern.size());
+    if (m == 0) return {};
+    std::vector&lt;int&gt; z_pat = compute_z_array(pattern);
+    std::vector&lt;int&gt; matches;
+    for (int i = 0, l = -1, r = -1; i &lt; n; ++i) {
+        int match_len = (i &lt;= r) ? std::min(r - i + 1, z_pat[i - l]) : 0;
+        while (match_len &lt; m &amp;&amp; i + match_len &lt; n &amp;&amp; pattern[match_len] == text[i + match_len]) {
+            ++match_len;
+        }
+        if (i + match_len - 1 &gt; r) {
+            l = i;
+            r = i + match_len - 1;
+        }
+        if (match_len == m) matches.push_back(i);
+    }
+    return matches;
+}</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1127,7 +1396,7 @@ function zPatternSearch(text, pattern) {
     },
     "intuition": "<p>Both KMP and the Z-algorithm inspect every single text byte at least once because they scan the pattern from left to right; if the last byte of an $M$-byte window does not even appear in the pattern, they still must read the preceding $M - 1$ bytes before discovering that fact. Boyer-Moore (1977) flips the inner comparison direction: it aligns the pattern at text offset $s$, compares characters from right to left ($j = M - 1$ down to $0$), and uses a mismatch at the rightmost end to leap the entire alignment window forward by up to $M$ bytes at once, achieving sublinear $O(N / M)$ average-case work on large alphabets.</p><p>In modern production code, full Boyer-Moore's complex Good-Suffix table is rarely worth its branch overhead. Instead, Boyer-Moore-Horspool (1980) drops the Good-Suffix table and indexes the Bad-Character shift exclusively by the text byte aligned with the last character of the pattern ($T[s + M - 1]$), which in turn enables vectorized SIMD pre-filters (<code>memchr</code> / AVX2 rare-byte scanning) that check 32 alignments per clock cycle.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Right-to-Left Comparison &amp; The Two Shift Rules</h3>
+<h2>1. Right-to-Left Comparison &amp; The Two Shift Rules</h2>
 <p>Suppose pattern $P[0..M-1]$ is aligned at text offset $s$, so $P[j]$ sits above $T[s + j]$. We compare from $j = M - 1$ down to $0$. When a mismatch occurs at pattern index $j$ ($P[j] \\neq T[s + j]$), we have already verified that the suffix $P[j+1..M-1]$ matches $T[s+j+1..s+M-1]$. Boyer-Moore takes the maximum shift proposed by two independent rules:</p>
 <ul>
   <li><strong>Bad-Character Rule:</strong> Let $c = T[s + j]$ be the mismatched text byte, and let $\\text{last}[c]$ be the rightmost index in $P[0..M-2]$ where byte $c$ appears ($-1$ if absent). To align $T[s + j]$ with that occurrence in $P$, we shift the window right by $\\Delta_{\\text{bad}} = \\max(1,\\; j - \\text{last}[c])$. If $c$ does not appear in $P$ at all, $\\Delta_{\\text{bad}} = j - (-1) = j + 1$; when the mismatch happens immediately at $j = M - 1$, the window leaps by a full $M$ bytes!</li>
@@ -1135,7 +1404,7 @@ function zPatternSearch(text, pattern) {
 </ul>
 <p>Combined with the Galil rule (which remembers matched prefixes across shifts so characters are never re-compared), full Boyer-Moore runs in $O(N + M)$ worst-case time (at most $3N$ comparisons on non-periodic patterns) and $O(N / M)$ average time.</p>
 
-<h3>2. Boyer-Moore-Horspool (BMH): Simplifying the Inner Loop</h3>
+<h2>2. Boyer-Moore-Horspool (BMH): Simplifying the Inner Loop</h2>
 <p>Nigel Horspool observed in 1980 that on natural alphabets ($|\\Sigma| = 256$), the Bad-Character shift dominates the Good-Suffix shift almost everywhere, while computing and branching on two tables slows down the CPU pipeline. Horspool's algorithm always computes the shift using the text byte aligned with the <em>last</em> position of the pattern, $c_{\\text{end}} = T[s + M - 1]$, regardless of where the mismatch occurred inside the window:</p>
 $$\\text{shift}[c] = \\begin{cases} M & \\text{if } c \\notin P[0..M-2] \\\\ M - 1 - \\max\\{k < M - 1 : P[k] = c\\} & \\text{otherwise} \\end{cases}$$
 <p>Note that $P[M - 1]$ itself is deliberately excluded when building $\\text{shift}[c]$ so that $\\text{shift}[c] \\ge 1$ is strictly guaranteed, preventing zero-length infinite loops.</p>
@@ -1185,7 +1454,7 @@ $$\\text{shift}[c] = \\begin{cases} M & \\text{if } c \\notin P[0..M-2] \\\\ M -
   <p>Even Horspool's $O(N / M)$ scalar skip loop suffers from a data-dependent branch and unpredicted memory load <code>s += shift[T[s + M - 1]]</code> every iteration. Modern standard libraries (<code>glibc memmem</code>, Rust <code>memchr::memmem</code>) select the two rarest bytes in $P$ at offsets $k_1, k_2$ (based on an empirical frequency table of English/UTF-8 bytes) and load 32 bytes at $T[i + k_1..i + k_1 + 31]$ and $T[i + k_2..i + k_2 + 31]$ into AVX2 registers. A single <code>_mm256_cmpeq_epi8</code> + bitwise AND + <code>_mm256_movemask_epi8</code> checks 32 candidate alignments simultaneously without branches, calling <code>memcmp</code> only when both rare bytes match.</p>
 </div>
 
-<h3>3. Visual Trace: BMH Shift Table &amp; Window Leaps</h3>
+<h2>3. Visual Trace: BMH Shift Table &amp; Window Leaps</h2>
 <p>Below we search for $P = \\texttt{\"NEEDLE\"}$ ($M = 6$). Notice that $P[0..4] = \\texttt{\"NEEDL\"}$ has rightmost indices $\\text{last}[\\texttt{'N'}] = 0$, $\\text{last}[\\texttt{'E'}] = 2$, $\\text{last}[\\texttt{'D'}] = 3$, $\\text{last}[\\texttt{'L'}] = 4$, giving shifts $M - 1 - \\text{last}[c]$: $\\text{shift}[\\texttt{'N'}] = 5$, $\\text{shift}[\\texttt{'E'}] = 3$, $\\text{shift}[\\texttt{'D'}] = 2$, $\\text{shift}[\\texttt{'L'}] = 1$, and $\\text{shift}[\\text{other}] = 6$ (including $\\texttt{'E'}$ at $P[5]$ being ignored so $\\text{shift}[\\texttt{'E'}] = 3$, not $0$).</p>
 
 <svg viewBox="0 0 760 220" width="100%" height="220" role="img" aria-label="Boyer-Moore-Horspool window leaps on pattern NEEDLE">
@@ -1253,7 +1522,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-rabin-karp-rolling-hash"></div>
 
-<h3>4. Production Implementation: BMH with Rare-Byte Guard</h3>
+<h2>4. Production Implementation: BMH with Rare-Byte Guard</h2>
 <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;cstring&gt;
@@ -1328,7 +1597,7 @@ std::vector&lt;size_t&gt; bmh_search(std::string_view text, std::string_view pat
     },
     "intuition": "<p>Running KMP separately for $K$ patterns of total length $M = \\sum |P_i|$ over a text of length $N$ costs $O(K \\cdot N + M)$ time—unacceptable when a virus scanner, intrusion detection system (Snort/Suricata), or log filter holds $K = 50{,}000$ signatures. Alfred Aho and Margaret Corasick (1975) generalized KMP's prefix function from a single string to an entire Trie of patterns, processing the text in a single pass in $O(N + M + Z)$ time (where $Z$ is the number of matches) completely independent of $K$.</p><p>Just as KMP's $\\pi[i]$ points to the longest proper prefix of the pattern that is a suffix of the current match, each state $u$ in an Aho-Corasick Trie represents a prefix string $S(u)$ and maintains a <strong>failure link</strong> $\\text{fail}[u]$ pointing to the deepest node in the Trie whose string is a proper suffix of $S(u)$. By wiring missing Trie edges directly to $\\text{go}[\\text{fail}[u]][c]$ during a breadth-first traversal, the entire Trie becomes a deterministic finite automaton (DFA) that processes one text byte per array lookup with zero backtracking loops.</p>",
     "content": `<div class="lesson-content">
-<h3>1. The Three Structural Pillars of Aho-Corasick</h3>
+<h2>1. The Three Structural Pillars of Aho-Corasick</h2>
 <p>Given a dictionary $\\mathcal{P} = \\{P_1, P_2, \\dots, P_K\\}$ of total length $M = \\sum_{i=1}^K |P_i|$, we first insert all $P_i$ into a standard rooted Trie where the root is state $0$. Each node $u$ corresponds to a unique prefix string $S(u)$ of one or more patterns. We augment the Trie with three structures computed in a single Breadth-First Search (BFS) over the nodes by depth:</p>
 <ol>
   <li><strong>Failure Link ($\\text{fail}[u]$):</strong> The unique Trie node $v \\neq u$ maximizing $|S(v)|$ such that $S(v)$ is a proper suffix of $S(u)$. For the root and all depth-1 children of the root, $\\text{fail}[u] = 0$.</li>
@@ -1381,7 +1650,7 @@ std::vector&lt;size_t&gt; bmh_search(std::string_view text, std::string_view pat
   <p>Representing each Aho-Corasick state as a struct inside a single contiguous <code>std::vector&lt;Node&gt;</code> arena indexed by <code>int32_t</code> state IDs ensures that <code>go[u][c]</code> is a single base+offset calculation <code>arena[u].go[c]</code>. For ASCII alphabets ($|\\Sigma| = 256$), a node with <code>int32_t go[256]</code> occupies 1 KB; if only lowercase English letters ($|\\Sigma| = 26$) are needed, <code>int32_t go[26]</code> + <code>fail</code> + <code>exit</code> fits inside 128 bytes (exactly two 64-byte cache lines), allowing hot states near the root to stay permanently resident in L1d cache.</p>
 </div>
 
-<h3>2. Visual Trace: Dictionary $\\{\\texttt{\"he\"}, \\texttt{\"she\"}, \\texttt{\"his\"}, \\texttt{\"hers\"}\\}$</h3>
+<h2>2. Visual Trace: Dictionary $\\{\\texttt{\"he\"}, \\texttt{\"she\"}, \\texttt{\"his\"}, \\texttt{\"hers\"}\\}$</h2>
 <p>In the classic Aho-Corasick paper example below, solid arrows show Trie edges, dashed red arrows show non-root failure links $\\text{fail}[u]$, and green double-bordered circles denote terminal states. Notice that state $5$ ($\\texttt{\"she\"}$) has $\\text{fail}[5] = 2$ ($\\texttt{\"he\"}$), which is itself terminal, so $\\text{exit}[5] = 2$: matching $\\texttt{\"she\"}$ immediately emits both $\\texttt{\"she\"}$ and $\\texttt{\"he\"}$.</p>
 
 <svg viewBox="0 0 760 280" width="100%" height="280" role="img" aria-label="Aho-Corasick Trie with BFS failure links and terminal exit links">
@@ -1487,7 +1756,7 @@ flowchart TD
 
 <div class="simulator-mount" data-sim="sim-aho-corasick-trie"></div>
 
-<h3>3. Production Implementation: Completed-DFA Aho-Corasick</h3>
+<h2>3. Production Implementation: Completed-DFA Aho-Corasick</h2>
 <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;queue&gt;
 #include &lt;string&gt;
@@ -1604,7 +1873,7 @@ private:
     },
     "intuition": "<p>Expanding around every possible palindrome center in a string of length $N$ takes $O(N^2)$ time on inputs like $\\texttt{\"aaaa...a\"}$ because each center re-discovers symmetry that was already proved by an enclosing palindrome. Glenn Manacher (1975) noticed that if you maintain the palindrome $[L, R]$ with the rightmost right boundary $R$ seen so far, any new center $i < R$ has a mirror center $i' = L + (R - i)$ across the midpoint of $[L, R]$. Exactly like the Z-algorithm's $[L, R]$ Z-box, you can copy $P[i']$ as a free lower bound for $P[i]$ and only perform character comparisons when the palindrome around $i$ pushes strictly past $R$.</p><p>When a problem asks not just for the longest palindrome at each center, but for the <em>distinct</em> palindromic substrings, their occurrence frequencies, or palindromic factorizations, Mikhail Rubinchik and Arseny Shur's <strong>Eertree (Palindromic Tree / Palindromic Automaton, 2015)</strong> provides the exact structural dual of a Trie: a graph with two roots (lengths $-1$ and $0$) where every edge $u \\xrightarrow{c} c\\,S(u)\\,c$ wraps a character symmetrically around both ends of a palindrome, proving constructively that a string of length $N$ contains at most $N$ distinct non-empty palindromic substrings.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Manacher's Algorithm: Odd/Even Unification &amp; Mirror Reflection</h3>
+<h2>1. Manacher's Algorithm: Odd/Even Unification &amp; Mirror Reflection</h2>
 <p>Palindromes come in two parities: odd-length (centered on a character, like $\\texttt{\"aba\"}$) and even-length (centered between two characters, like $\\texttt{\"abba\"}$). To avoid writing two separate passes, we transform $S[0..N-1]$ into $T[0..2N]$ of length $2N + 1$ by interleaving a separator $\\texttt{'\\#'}$: for $S = \\texttt{\"abba\"}$, $T = \\texttt{\"\\#a\\#b\\#b\\#a\\#\"}$. Every odd or even palindrome in $S$ now maps bijectively to an <strong>odd-length</strong> palindrome in $T$, and the radius $p[i]$ (number of matching characters strictly to one side of $T[i]$) equals the exact length of the corresponding palindrome in $S$!</p>
 <p>We maintain the active palindrome interval $[L, R] = [c - p[c],\\; c + p[c]]$ with maximum right endpoint $R$. For index $i$ from $0$ to $2N$:</p>
 <ol>
@@ -1614,7 +1883,7 @@ private:
   <li>Whenever $i + p[i] > R$, we update $(L, R) \\leftarrow (i - p[i],\\; i + p[i])$. Since every successful character comparison increments $R$, and $R \\le 2N$, Manacher's algorithm performs at most $2N + 1$ successful comparisons in total: $O(N)$ worst-case time.</li>
 </ol>
 
-<h3>2. Eertree (Palindromic Automaton): At Most $N$ Distinct Palindromes</h3>
+<h2>2. Eertree (Palindromic Automaton): At Most $N$ Distinct Palindromes</h2>
 <p>How many distinct palindromic substrings can $S[0..N-1]$ contain? Consider appending $c = S[i]$ to prefix $S[0..i-1]$. Suppose two new palindromes $P_{\\text{long}}$ and $P_{\\text{short}}$ both end at index $i$ ($|P_{\\text{short}}| < |P_{\\text{long}}|$). Because $P_{\\text{short}}$ is a suffix of $P_{\\text{long}}$ and $P_{\\text{long}}$ is a palindrome, $P_{\\text{short}}$ must also appear as a <em>prefix</em> of $P_{\\text{long}}$—meaning $P_{\\text{short}}$ already occurred earlier inside $S[0..i-1]$! Thus appending $S[i]$ can create <strong>at most one</strong> new distinct palindrome (the longest palindromic suffix of $S[0..i]$), so a string of length $N$ has $\\le N$ distinct non-empty palindromes.</p>
 <p>An <strong>Eertree</strong> stores each distinct palindrome as a node $u$ with length $\\text{len}[u]$, transition $\\text{next}[u][c]$ representing the palindrome $c + S(u) + c$ of length $\\text{len}[u] + 2$, and suffix link $\\text{link}[u]$ pointing to the longest proper palindromic suffix of $S(u)$:</p>
 <ul>
@@ -1657,7 +1926,7 @@ private:
   <p>Adding distinct sentinel characters at both ends of the transformed string—e.g., $T = \\texttt{\"^\\#a\\#b\\#a\\#\\$\"}$ where $\\texttt{'^'}$, $\\texttt{'\\$'}$, and $\\texttt{'\\#'}$ do not appear in $S$—eliminates the bounds checks <code>i - p[i] - 1 &gt;= 0 &amp;&amp; i + p[i] + 1 &lt; m</code> from the inner expansion loop. The loop condition simplifies to a single character comparison <code>T[i - p[i] - 1] == T[i + p[i] + 1]</code>, cutting inner-loop branch instructions in half.</p>
 </div>
 
-<h3>3. Visual Trace: Manacher Mirror Reflection Across $[L, R]$</h3>
+<h2>3. Visual Trace: Manacher Mirror Reflection Across $[L, R]$</h2>
 <svg viewBox="0 0 760 200" width="100%" height="200" role="img" aria-label="Manacher mirror reflection of i across center c inside palindrome L..R">
   <style>
     .mn-lbl { font-family: 'JetBrains Mono', monospace; font-size: 12px; fill: #e2e8f0; text-anchor: middle; }
@@ -1710,7 +1979,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-aho-corasick-trie"></div>
 
-<h3>4. Production Implementation: Manacher + Online Eertree</h3>
+<h2>4. Production Implementation: Manacher + Online Eertree</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;array&gt;
 #include &lt;string&gt;
@@ -1841,7 +2110,7 @@ struct Eertree {
     },
     "intuition": "<p>When you run <code>rg \"(ERR|WARN|FATAL)_SOCKET_[0-9]{4}\"</code> over a 10 GB log directory, why does Andrew Gallant's <code>ripgrep</code> finish in 80 milliseconds while naive regular expression engines take several seconds? Because <code>ripgrep</code> refuses to feed 10 GB of raw bytes through a finite automaton one byte at a time. Instead, its regex compiler parses the abstract syntax tree (AST), extracts required literal prefixes ($\\{\\texttt{\"ERR\\_SOCKET\\_\"}, \\texttt{\"WARN\\_SOCKET\\_\"}, \\texttt{\"FATAL\\_SOCKET\\_\"}\\}$), and hands those literals to a vectorized SIMD prefilter that rejects 99.99% of the file at memory-bandwidth speeds ($> 15\\text{ GB/s}$ per core).</p><p>Depending on whether the literal set contains one string, a small set of 2–64 strings, or thousands of strings, <code>ripgrep</code> dynamically selects between Packed-Pair SIMD (<code>memchr::memmem</code>), the <strong>SIMD Teddy</strong> nibble-lookup multi-pattern algorithm (originally invented for Intel's Hyperscan), or a contiguous DFA Aho-Corasick automaton— invoking the full Thompson/DFA regex verifier only on the rare lines where a literal candidate hits.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Architecture of a High-Throughput Search Pipeline</h3>
+<h2>1. Architecture of a High-Throughput Search Pipeline</h2>
 <p>A production code/log search tool (<code>ripgrep</code>, <code>GNU grep</code>, Intel <code>Hyperscan</code>) is structured as a multi-stage funnel designed to keep the inner loop purely vectorized and branch-free:</p>
 <ol>
   <li><strong>AST Literal Extraction:</strong> Given a regex $R$, the compiler analyzes the syntax tree to extract a small set of required prefix or inner literals $L(R)$. For example, <code>\\b(?:foo|bar)_baz\\d+</code> yields the exact prefix set $\\{\\texttt{\"foo\\_baz\"}, \\texttt{\"bar\\_baz\"}\\}$ (or their common suffix $\\texttt{\"\\_baz\"}$).</li>
@@ -1855,7 +2124,7 @@ struct Eertree {
   <li><strong>Line-Boundary Expansion &amp; Regex Verification:</strong> Only when the SIMD prefilter flags a match at byte offset $k$ does <code>ripgrep</code> scan backward/forward for the enclosing <code>'\\n'</code> bytes and run the full lazy-DFA / Thompson NFA on that single line.</li>
 </ol>
 
-<h3>2. Inside SIMD Teddy: Nibble Bitmasks via <code>vpshufb</code></h3>
+<h2>2. Inside SIMD Teddy: Nibble Bitmasks via <code>vpshufb</code></h2>
 <p>How can a CPU test whether 32 text bytes match <em>any</em> of 8 arbitrary characters in just a few instructions? An AVX2 <code>_mm256_cmpeq_epi8</code> only compares against <em>one</em> broadcast byte. Teddy exploits the fact that <code>_mm256_shuffle_epi8(table, index)</code> treats each half of a 256-bit register as a 16-entry lookup table indexed by the lower 4 bits ($0..15$) of each byte in <code>index</code>!</p>
 <ul>
   <li>Each byte $b \\in [0, 255]$ is split into its low nibble $b_{\\text{lo}} = b \\mathbin{\\&} \\text{0x0F} \\in [0, 15]$ and high nibble $b_{\\text{hi}} = (b \\gg 4) \\mathbin{\\&} \\text{0x0F} \\in [0, 15]$.</li>
@@ -1904,7 +2173,7 @@ struct Eertree {
   <p>Wait—doesn't Boyer-Moore skip $M$ bytes at a time? On a 6-character pattern ($M = 6$), scalar Boyer-Moore skips ~5 bytes per iteration, but each iteration executes a data-dependent memory load and branch (<code>s += shift[T[s + M - 1]]</code>), limiting throughput to ~1 iteration per 2–3 clock cycles (~2 bytes/cycle). AVX2 Packed-Pair or Teddy inspects <strong>32 bytes every 1–2 cycles</strong> (~16–32 bytes/cycle) with predictable linear hardware prefetching and zero data-dependent branches until a match occurs. Scalar Boyer-Moore only beats SIMD when $M$ is very large ($M > 64$) and the rare guard bytes occur frequently.</p>
 </div>
 
-<h3>3. Visual Trace: SIMD Teddy Nibble-Mask Lookup (<code>vpshufb</code>)</h3>
+<h2>3. Visual Trace: SIMD Teddy Nibble-Mask Lookup (<code>vpshufb</code>)</h2>
 <svg viewBox="0 0 760 215" width="100%" height="215" role="img" aria-label="SIMD Teddy low and high nibble parallel lookup via vpshufb">
   <style>
     .td-box { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -1966,7 +2235,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-rabin-karp-rolling-hash"></div>
 
-<h3>4. Reference Implementation: Teddy Nibble-Mask Matcher</h3>
+<h2>4. Reference Implementation: Teddy Nibble-Mask Matcher</h2>
 <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;cstring&gt;
@@ -2067,7 +2336,7 @@ private:
     },
     "intuition": "<p>In this Build Lab, we assemble a production-grade, streaming <strong>Multi-Pattern Aho-Corasick Scanner</strong> capable of ingesting arbitrary 64 KB network chunks or log buffers and emitting every overlapping match $(i_{\\text{start}},\\; i_{\\text{end}},\\; \\text{pattern\\_id})$ in strict $O(N + Z)$ worst-case time. Unlike textbook snippets that require the entire text to sit in a single contiguous string or restrict the alphabet to 26 lowercase letters, a real scanner must preserve automaton state $u$ and global byte offset across chunk boundaries.</p><p>We will also solve the <strong>duplicate-pattern and substring-shadowing problem</strong>: when a ruleset contains identical patterns with different rule IDs or patterns that are suffixes of longer patterns (such as $\\texttt{\"sql\"}$, $\\texttt{\"psql\"}$, and $\\texttt{\"mysql\"}$), we chain same-node pattern IDs via a compact linked list inside the pattern table so each node stores only three 32-bit integers alongside its transition table.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Engineering Specifications for a Streaming Scanner</h3>
+<h2>1. Engineering Specifications for a Streaming Scanner</h2>
 <p>To make our Aho-Corasick engine suitable for intrusion detection, log redaction, or DLP (Data Loss Prevention) pipelines, we enforce four architectural invariants:</p>
 <ol>
   <li><strong>Zero-Allocation Streaming State (<code>ScannerCursor</code>):</strong> The compiled <code>AhoCorasickAutomaton</code> is immutable and thread-safe (<code>const</code>), so 64 worker threads can share a single compiled dictionary while each stream maintains a tiny 16-byte <code>ScannerCursor { int32_t state; uint64_t bytes_seen; }</code>.</li>
@@ -2117,7 +2386,7 @@ private:
   <p>A <code>std::vector&lt;int&gt;</code> inside every <code>Node</code> adds 24 bytes of struct overhead plus a separate heap allocation for every terminal state, scattering terminal pattern lists across memory pages. Storing <code>int32_t first_pat</code> in <code>Node</code> (4 bytes) and <code>int32_t next_pat[K]</code> in a single flat array of length $K$ eliminates all per-node heap allocations and cuts terminal match traversal to sequential array reads.</p>
 </div>
 
-<h3>2. Architecture Diagram: Immutable DFA + Streaming Cursor</h3>
+<h2>2. Architecture Diagram: Immutable DFA + Streaming Cursor</h2>
 <svg viewBox="0 0 760 195" width="100%" height="195" role="img" aria-label="Streaming Aho-Corasick architecture across chunk boundaries">
   <style>
     .sc-box { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -2164,7 +2433,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-aho-corasick-trie"></div>
 
-<h3>3. Complete Build Implementation: Streaming Aho-Corasick Engine</h3>
+<h2>3. Complete Build Implementation: Streaming Aho-Corasick Engine</h2>
 <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;queue&gt;

@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -861,7 +861,7 @@
         <audio id="audio-backtracking-state-space-trees" src="audio/backtracking-state-space-trees.mp3" preload="metadata"></audio>
       </div><article class="prose">
       <div class="lesson-content">
-        <h3>1. The Choice–Constraint–Undo Architecture & Knuth's Monte Carlo Tree Size Estimator</h3>
+        <h2>1. The Choice–Constraint–Undo Architecture & Knuth's Monte Carlo Tree Size Estimator</h2>
         <p>Every backtracking solver traverses an implicit state-space tree of depth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span>. If the branching factor at depth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">b_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, a naive exhaustive search visits <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∏</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>d</mi><mo>−</mo><mn>1</mn></mrow></msubsup><msub><mi>b</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\prod_{k=0}^{d-1} b_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.2887em;vertical-align:-0.2997em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.989em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> leaves. Pruning predicates <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> cut off invalid partial states at depth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, eliminating the entire subtree of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mi>k</mi></mrow><mrow><mi>d</mi><mo>−</mo><mn>1</mn></mrow></msubsup><msub><mi>b</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\prod_{j=k}^{d-1} b_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.4248em;vertical-align:-0.4358em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.989em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mrel mtight">=</span><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4358em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> beneath them.</p>
 
         <div class="invariant-box">
@@ -871,7 +871,7 @@
 
         <p>How do we know whether a backtracking search will finish in 10 milliseconds or 10 years? <strong>Knuth's Random Walk Estimator (1975)</strong> samples random root-to-leaf paths: at depth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, if there are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">d_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> valid children, pick one uniformly at random. The quantity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mn>1</mn><mo>+</mo><msub><mi>d</mi><mn>0</mn></msub><mo>+</mo><msub><mi>d</mi><mn>0</mn></msub><msub><mi>d</mi><mn>1</mn></msub><mo>+</mo><msub><mi>d</mi><mn>0</mn></msub><msub><mi>d</mi><mn>1</mn></msub><msub><mi>d</mi><mn>2</mn></msub><mo>+</mo><mo>…</mo></mrow><annotation encoding="application/x-tex">X = 1 + d_0 + d_0 d_1 + d_0 d_1 d_2 + \dots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.123em;"></span><span class="minner">…</span></span></span></span> is an unbiased estimator (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo><mo>=</mo><mi mathvariant="normal">∣</mi><mi>T</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">\mathbb{E}[X] = |T|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbb">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord">∣</span></span></span></span>) of the exact number of nodes in the pruned state-space tree!</p>
 
-        <h3>2. Variable Ordering (MRV) & Symmetry-Breaking Pruning</h3>
+        <h2>2. Variable Ordering (MRV) & Symmetry-Breaking Pruning</h2>
         <p>Two orthogonal techniques routinely compress a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>15</mn></msup></mrow><annotation encoding="application/x-tex">10^{15}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">15</span></span></span></span></span></span></span></span></span></span></span></span>-node search tree into <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">10^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span> nodes:</p>
         <ol>
           <li><strong>Fail-First / Minimum Remaining Values (MRV):</strong> When choosing <em>which</em> variable (e.g., Sudoku cell or graph vertex) to assign next, always pick the unassigned variable with the <strong>fewest legal choices</strong> remaining. If a variable has <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> legal choices, we backtrack immediately (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">b_k = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>); if it has <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> choice, we avoid branching (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b_k = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>). Minimizing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">b_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> near the root shrinks the multiplier on all deeper levels.</li>
@@ -997,7 +997,7 @@ flowchart TD
           <p>In the classic <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span>-Queens problem (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">N \le 32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">32</span></span></span></span>), storing board attacks in a 2D boolean array requires <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> memory reads per conflict check. Instead, pass three 32-bit integers by value down the recursion stack: <code>cols</code>, <code>diag1</code> (shifted left each row), and <code>diag2</code> (shifted right each row). Available safe columns in the current row are computed in 1 cycle via <code>avail = ((1U &lt;&lt; n) - 1) &amp; ~(cols | diag1 | diag2)</code>, iterated via <code>bit = avail &amp; -avail</code>, and because the masks are passed in CPU registers by value, <strong>undo costs 0 instructions</strong> upon function return!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -1040,7 +1040,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">55 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1113,11 +1113,11 @@ flowchart TD
           
       <div class="check-slider__tabs" role="tablist" aria-label="Question categories">
         <button type="button" class="check-slider__tab is-active" data-jump-index="0" data-tab-type="mcq">Concept (3)</button>
-        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Napkin Math</button>
+        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Bounds Math</button>
         
       </div>
     
-          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Minimum Remaining Values (MRV) Heuristic" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Napkin Math: Knuth&#039;s Monte Carlo Tree Size Estimator" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Symmetry Breaking in K-Subset Partitioning" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Bitmask N-Queens Diagonal Shift Invariant" aria-label="Go to question 4"></button></span>
+          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Minimum Remaining Values (MRV) Heuristic" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Bounds Math: Knuth&#039;s Monte Carlo Tree Size Estimator" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Symmetry Breaking in K-Subset Partitioning" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Bitmask N-Queens Diagonal Shift Invariant" aria-label="Go to question 4"></button></span>
         </div>
         <div class="check-slider__track">
       <div class="quiz-card check-slider__slide" id="quiz-m15-q05" data-type="mcq" data-slug="backtracking-state-space-trees" data-index="0">
@@ -1163,7 +1163,7 @@ flowchart TD
       </div>
       <div class="quiz-card check-slider__slide" id="quiz-m15-q06" data-type="numeric" data-slug="backtracking-state-space-trees" data-index="1" hidden>
         <div class="check-slider__meta">
-          <span class="check-slider__type-badge is-numeric">Napkin Math · Capacity</span>
+          <span class="check-slider__type-badge is-numeric">Complexity &amp; Bounds Math</span>
           <span class="check-slider__title">Knuth&#039;s Monte Carlo Tree Size Estimator</span>
           <span class="check-slider__level">apply</span>
         </div>
@@ -1285,24 +1285,29 @@ flowchart TD
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-backtracking-state-space-trees" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">Backtracking Architecture: Choice, Constraint, Undo &amp; Symmetry-Breaking Pruning</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">Backtracking Architecture: Choice, Constraint, Undo &amp; Symmetry-Breaking Pruning — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">Backtracking is just depth-first search on an implicit tree where we refuse to allocate child nodes—instead mutating one global state in-place, checking feasibility before recursing, and undoing the mutation on return. T</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(N)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(C(N^2, N)</code></span>
+              <span class="badge">🧭 Pattern: Recursion, Backtracking, Pruning &amp; Greedy Exchange Arguments</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1310,70 +1315,96 @@ flowchart TD
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Backtracking mutates a single shared state via Choice -&gt; Feasibility Check -&gt; Recurse -&gt; Undo, requiring O(dep</span>
+                  </div>
+                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (can_partition_k_subsets)</div>
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at `TODO (Step 1)` inside `can_partition_k_subsets(std::vector&lt;int&gt; nums, int k)`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>long long total = std::accumulate(nums.begin(), nums.end(), 0LL);
+if (total % k != 0) return false;
+const int target = static_cast&lt;int&gt;(total / k);
+std::sort(nums.begin(), nums.end(), std::greater&lt;int&gt;());
+if (nums[0] &gt; target) return false;
+std::vector&lt;int&gt; bins(k, 0);
+const int n = static_cast&lt;int&gt;(nums.size());</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Minimum Remaining Values (MRV) dynamically selects the most constrained variable next, minimizing the branchin</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at `TODO (Step 2)` inside `can_partition_k_subsets`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>auto dfs = [&amp;](auto&amp; self, int idx) -&gt; bool {
+if (idx == n) return true;
+const int val = nums[idx];
+for (int b = 0; b &lt; k; ++b) {
+if (bins[b] + val &gt; target) continue;
+if (b &gt; 0 &amp;&amp; bins[b] == bins[b - 1]) continue;
+bins[b] += val;                  // CHOICE</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Symmetry breaking (skipping identical sibling values or identical empty bins, and sorting items descending) pr</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
+                  <div class="build-lab-step-card__concept">Complete `TODO (Step 3)` to finalize the output of `can_partition_k_subsets` and pass all C++20 unit assertions.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (self(self, idx + 1)) return true;
+bins[b] -= val;                  // UNDO
+if (bins[b] == 0) break;
+}
+return false;
+};
+return dfs(dfs, 0);</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="backtracking-state-space-trees" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-backtracking-state-space-trees">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">In the register-based bitmask <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span>-Queens solver `dfs(cols, diag1, diag2)`, when transitioning from row <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> to row <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> after placing a queen at column bit `bit`, we pass `(diag1 | bit) << 1` and `(diag2 | bit) >> 1`. Why does this eliminate all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> diagonal array updates and undo steps?</p>
-        <div class="exercise-card__options" id="exercise-options-backtracking-state-space-trees">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="backtracking-state-space-trees" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Each diagonal ray steps 1 column left or 1 column right per row downward; shifting the accumulated bitmasks by 1 bit projects all prior queens' diagonal attacks onto row <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, and passing by value restores the caller's registers on return</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="backtracking-state-space-trees" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">Shifting left and right hashes the queen coordinates into a Zobrist table of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span></span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="backtracking-state-space-trees" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">It encodes the row index in the upper 16 bits and the column index in the lower 16 bits</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="backtracking-state-space-trees" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">It relies on C++ unsigned integer overflow to clear attacks that wrap around the board edges</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-backtracking-state-space-trees" style="display:none;">
-          <div class="exercise-card__explanation">An anti-diagonal attack <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><mo>+</mo><mi>c</mi><mo>=</mo><mtext>const</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(r + c = \text{const})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">const</span></span><span class="mclose">)</span></span></span></span> moves one column left (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">c - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>) each time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> increments by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, and a main-diagonal attack <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><mo>−</mo><mi>c</mi><mo>=</mo><mtext>const</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(r - c = \text{const})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">const</span></span><span class="mclose">)</span></span></span></span> moves one column right (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">c + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>). Bit-shifting the masks by 1 bit per row step projects every ancestor queen's diagonal ray onto the current row in 1 ALU cycle, and pass-by-value semantics make backtracking free.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1475,7 +1506,7 @@ flowchart TD
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1494,17 +1525,17 @@ flowchart TD
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

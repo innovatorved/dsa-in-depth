@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -861,7 +861,7 @@
         <audio id="audio-convex-hull-graham-andrew" src="audio/convex-hull-graham-andrew.mp3" preload="metadata"></audio>
       </div><article class="prose">
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Monotone Chain Stack Convexity &amp; Antipodal Pairs</h3>
+        <h2>1. Formal Invariant — Monotone Chain Stack Convexity &amp; Antipodal Pairs</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Andrew's Monotone Chain Stack Property</h4>
           <p>After sorting distinct points <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>0</mn></msub><mo>&lt;</mo><msub><mi>P</mi><mn>1</mn></msub><mo>&lt;</mo><mo>⋯</mo><mo>&lt;</mo><msub><mi>P</mi><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">P_0 &lt; P_1 &lt; \dots &lt; P_{N-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span> lexicographically by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span></span></span></span>, both the Lower Hull and Upper Hull stacks satisfy the strict CCW invariant on every consecutive triple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>H</mi><mrow><mi>k</mi><mo>−</mo><mn>2</mn></mrow></msub><mo separator="true">,</mo><msub><mi>H</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>H</mi><mi>k</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(H_{k-2}, H_{k-1}, H_k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>:</p>
@@ -989,7 +989,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
           </div>
         </div>
 
-        <h3>2. Andrew's Monotone Chain &amp; Rotating Calipers Pipeline</h3>
+        <h2>2. Andrew's Monotone Chain &amp; Rotating Calipers Pipeline</h2>
         <div class="mermaid">
 flowchart LR
     Input["N Points in 2D"] --> SortLex["Sort Lexicographically by (x, y)<br/>&amp; Deduplicate O(N log N)"]
@@ -1000,19 +1000,19 @@ flowchart LR
     Concat --> Calipers["Rotating Calipers Two-Pointer:<br/>Advance j while cross(e_i, H_{j+1}-H_j) > 0<br/>O(H) Diameter"]
         </div>
 
-        <h3>3. Why Andrew's Monotone Chain Beats Graham Scan in Practice</h3>
+        <h2>3. Why Andrew's Monotone Chain Beats Graham Scan in Practice</h2>
         <ul>
           <li><strong>Faster Sorting Key:</strong> Comparing two integers <code>a.x < b.x || (a.x == b.x && a.y < b.y)</code> takes 1–2 CPU cycles and branches predictably, whereas Graham Scan's polar comparator requires a 64-bit cross product + distance tie-breaker on every <code>std::sort</code> comparison (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N \log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> multiplications).</li>
           <li><strong>Clean Collinear Handling:</strong> In Graham Scan, collinear points along the final closing ray back to the pivot require reversing the suffix of the sorted array if you want all boundary points. In Andrew's Monotone Chain, simply changing <code>< 0</code> vs <code><= 0</code> in the <code>while</code> loop toggles between keeping or discarding collinear boundary vertices!</li>
         </ul>
 
-        <h3>4. Hardware &amp; Cache Reality</h3>
+        <h2>4. Hardware &amp; Cache Reality</h2>
         <div class="hardware-box">
           <h4>Amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> Stack Scans &amp; SIMD Sorting</h4>
           <p>After the initial <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N \log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> sort, the lower and upper hull construction loops stream sequentially through <code>pts[0..N-1]</code> and push/pop at the tail of a single contiguous <code>std::vector&lt;Point&gt;</code>. Each point is pushed twice and popped at most twice (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>4</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">\le 4N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">4</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> stack ops total), executing in sub-millisecond L1 cache time.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -1056,7 +1056,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Monotone Chain + Rotating Calipers Diameter)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Monotone Chain + Rotating Calipers Diameter)</h2>
         <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">70 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1144,11 +1144,11 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           
       <div class="check-slider__tabs" role="tablist" aria-label="Question categories">
         <button type="button" class="check-slider__tab is-active" data-jump-index="0" data-tab-type="mcq">Concept (3)</button>
-        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Napkin Math</button>
+        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Bounds Math</button>
         
       </div>
     
-          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Core Invariant Check" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Napkin Math: Exact Algorithmic Calculation" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Core Invariant Check" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Staff Systems &amp; Proof Analysis" aria-label="Go to question 4"></button></span>
+          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Core Invariant Check" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Bounds Math: Exact Algorithmic Calculation" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Core Invariant Check" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Staff Systems &amp; Proof Analysis" aria-label="Go to question 4"></button></span>
         </div>
         <div class="check-slider__track">
       <div class="quiz-card check-slider__slide" id="quiz-m18-q05" data-type="mcq" data-slug="convex-hull-graham-andrew" data-index="0">
@@ -1194,7 +1194,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
       </div>
       <div class="quiz-card check-slider__slide" id="quiz-m18-q06" data-type="numeric" data-slug="convex-hull-graham-andrew" data-index="1" hidden>
         <div class="check-slider__meta">
-          <span class="check-slider__type-badge is-numeric">Napkin Math · Capacity</span>
+          <span class="check-slider__type-badge is-numeric">Complexity &amp; Bounds Math</span>
           <span class="check-slider__title">Exact Algorithmic Calculation</span>
           <span class="check-slider__level">apply</span>
         </div>
@@ -1316,24 +1316,29 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-convex-hull-graham-andrew" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">2D Convex Hull: Graham Scan vs Andrew&#039;s Monotone Chain &amp; Rotating Calipers</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">2D Convex Hull: Graham Scan vs Andrew&#039;s Monotone Chain &amp; Rotating Calipers — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">Stretch a rubber band around a scatter of nails on a board and let go—the polygon it snaps into is the **Convex Hull**. While Graham Scan (1972) sorts points by polar angle around the lowest pivot, **Andrew&#039;s Monotone Ch</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(M)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(N log N)</code></span>
+              <span class="badge">🧭 Pattern: Computational Geometry, Number Theory, Randomized &amp; Approximation Algorithms</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1341,70 +1346,85 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Andrew&#039;s Monotone Chain sorts points lexicographically by (x, y) in O(N log N) and constructs the lower and up...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement dist_sq()</div>
+                  <div class="build-lab-step-card__concept">Complete `dist_sq(const Pt&amp; a, const Pt&amp; b)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int64_t dx = a.x - b.x, dy = a.y - b.y;
+return dx * dx + dy * dy;</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Using cross(...) &lt;= 0 pops collinear boundary points to yield a minimal vertex hull, whereas cross(...) &lt; 0 re...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement monotone_chain_hull()</div>
+                  <div class="build-lab-step-card__concept">Complete `monotone_chain_hull(std::vector&lt;Pt&gt; pts)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>std::sort(pts.begin(), pts.end());
+pts.erase(std::unique(pts.begin(), pts.end()), pts.end());
+const int n = static_cast&lt;int&gt;(pts.size());
+if (n &lt;= 1) return pts;</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Rotating Calipers finds the diameter (farthest pair of points) of a convex hull in O(H) time by sweeping antip...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement rotating_calipers_diameter_sq()</div>
+                  <div class="build-lab-step-card__concept">Complete `rotating_calipers_diameter_sq(const std::vector&lt;Pt&gt;&amp; hull)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>const int h = static_cast&lt;int&gt;(hull.size());
+if (h &lt;= 1) return 0;
+if (h == 2) return dist_sq(hull[0], hull[1]);
+int64_t max_d2 = 0;</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-convex-hull-graham-andrew">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">In Andrew's Monotone Chain, suppose you want to retain **all** points that lie on the boundary of the convex hull (including collinear intermediate points on hull edges) by changing the pop condition from `cross(...) <= 0` to `cross(...) < 0`. What edge case arises when all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> input points are collinear on a single line, and how do you handle it?</p>
-        <div class="exercise-card__options" id="exercise-options-convex-hull-graham-andrew">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="convex-hull-graham-andrew" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Without adjustment, both the lower hull sweep and upper hull sweep push all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> collinear points, duplicating the interior points twice; detect when `cross` is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> across all points (or reverse the collinear suffix / return the sorted deduplicated segment directly)</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="convex-hull-graham-andrew" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">The `while` loop enters an infinite loop when `cross(...) < 0`</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="convex-hull-graham-andrew" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">The algorithm crashes with division by zero</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="convex-hull-graham-andrew" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">The complexity degrades from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N \log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-convex-hull-graham-andrew" style="display:none;">
-          <div class="exercise-card__explanation">When all points lie on a single line segment and only strict right turns (`< 0`) are popped, the left-to-right pass keeps all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> points and the right-to-left pass also keeps all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> points, producing a degenerate <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2N - 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> polygon that retraces the line. Checking if all points are collinear (or only keeping endpoints on the return pass) avoids duplicate interior vertices.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1413,7 +1433,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           </div>
         </div>
       <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Build it from scratch — Interactive Lab &amp; Guide</h3>
+        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
         
           <a class="lesson-builds__item" href="/build/build-li-chao-convex-hull-dp/" data-action="navigate-build" data-build-id="build-li-chao-convex-hull-dp">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -1421,7 +1441,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
               
             </div>
             <span class="lesson-builds__summary">A dynamically allocated Li Chao Segment Tree and a Monotonic Convex Hull Trick queue for optimizing O(n^2) dynamic programming recurrences of the form dp[i] = min_j (m_j * x_i + b_j) to O(n log X) and O(n).</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Build Guide &amp; Interactive Lab (JS, TS &amp; C++20) →</span>
+            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
           </a>
       </div>
         <div class="further-reading">
@@ -1518,7 +1538,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1537,17 +1557,17 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

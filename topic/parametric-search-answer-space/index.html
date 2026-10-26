@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -1447,24 +1447,29 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-parametric-search-answer-space" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">Parametric Search: Binary Searching the Answer Space &amp; Feasibility Predicates</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">Parametric Search: Binary Searching the Answer Space &amp; Feasibility Predicates — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">When a problem asks to minimize the maximum resource <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span> (or maximize the minimum separation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span>) and computing the optimal <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span> directly feels intractable, flip the question on its head: &#039;If someone hands me a fixed budg</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(N^2 K)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(N)</code></span>
+              <span class="badge">🧭 Pattern: Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1472,70 +1477,96 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Parametric Search transforms min-max or max-min optimization problems into a binary search over candidate answ</span>
+                  </div>
+                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (maximize_ratio_subset)</div>
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at `TODO (Step 1)` inside `maximize_ratio_subset(const std::vector&lt;double&gt;&amp; a,
+                             const std::vector&lt;double&gt;&amp; b,
+                             std::size_t k)`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>const std::size_t n = a.size();
+double lo = 0.0, hi = 0.0;
+for (std::size_t i = 0; i &lt; n; ++i) hi = std::max(hi, a[i] / b[i]);
+std::vector&lt;double&gt; residuals(n);
+for (int iter = 0; iter &lt; 64; ++iter) {
+const double mid = lo + 0.5 * (hi - lo);
+for (std::size_t i = 0; i &lt; n; ++i) {</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">In 0-1 Fractional Programming, testing whether (∑ a_i) / (∑ b_i) &gt;= λ reduces to checking whether the top-k la</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at `TODO (Step 2)` inside `maximize_ratio_subset`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>residuals[i] = a[i] - mid * b[i];
+}
+std::nth_element(residuals.begin(),
+residuals.begin() + static_cast&lt;std::ptrdiff_t&gt;(k),
+residuals.end(),
+std::greater&lt;double&gt;{});
+double top_k_sum = 0.0;</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">For floating-point binary search, always run a fixed number of iterations (60–80) rather than while (hi - lo &gt;</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
+                  <div class="build-lab-step-card__concept">Complete `TODO (Step 3)` to finalize the output of `maximize_ratio_subset` and pass all C++20 unit assertions.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>for (std::size_t i = 0; i &lt; k; ++i) top_k_sum += residuals[i];
+if (top_k_sum &gt;= 0.0) lo = mid;
+else                  hi = mid;
+}
+return lo;</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="parametric-search-answer-space" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-parametric-search-answer-space">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">What causes the infinite loop, and what is the mathematically sound fix?</p>
-        <div class="exercise-card__options" id="exercise-options-parametric-search-answer-space">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="parametric-search-answer-space" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Near 10^9, an IEEE-754 double (53-bit significand) has a unit-in-the-last-place (ULP) spacing of 10^9 * 2^{-52} ~= 2.22 * 10^{-7} > 10^{-9}; mid rounds to exact lo or hi when they are adjacent floats. Fix by using a fixed iteration loop (e.g., 64–80 iterations) or std::midpoint.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="parametric-search-answer-space" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">0.5 * (lo + hi) overflows the 11-bit exponent of IEEE-754 double when hi = 10^9.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="parametric-search-answer-space" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">The CPU FPU flushes subnormal numbers to zero whenever hi - lo < 10^{-9}.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="parametric-search-answer-space" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">Floating-point comparisons with > 1e-9 trigger a signaling NaN exception that restarts the loop.</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-parametric-search-answer-space" style="display:none;">
-          <div class="exercise-card__explanation">IEEE-754 double has 53 bits of mantissa (~15-17 significant decimal digits). At magnitude 10^9, adjacent representable doubles differ by ~2.22e-7, so `hi - lo` can never shrink below 1e-9 without becoming 0. Running a fixed number of iterations (e.g., 70 iterations) halves the interval 2^70 times and always terminates.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1649,7 +1680,7 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1668,17 +1699,17 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

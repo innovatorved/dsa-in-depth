@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -860,7 +860,7 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="two-pointers-invariant-proofs" id="audio-speed-two-pointers-invariant-proofs" title="Playback speed">1x</button>
         <audio id="audio-two-pointers-invariant-proofs" src="audio/two-pointers-invariant-proofs.mp3" preload="metadata"></audio>
       </div><article class="prose">
-      <h3>Eliminating Rows and Columns in the Pair Search Matrix</h3>
+      <h2>Eliminating Rows and Columns in the Pair Search Matrix</h2>
       <p>Why does the converging two-pointer algorithm for sorted 2-Sum (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mo stretchy="false">]</mo><mo>+</mo><mi>A</mi><mo stretchy="false">[</mo><mi>R</mi><mo stretchy="false">]</mo><mo>=</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">A[L] + A[R] = T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span>) never miss a valid pair? Visualize all possible index pairs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(L, R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">)</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>L</mi><mo>&lt;</mo><mi>R</mi><mo>&lt;</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">0 \le L &lt; R &lt; N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> as an upper-triangular grid inside an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">N \times N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> matrix, starting at the top-right corner <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>L</mi><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mi>R</mi><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(L = 0, R = N - 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>:</p>
       <ul>
         <li>If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mo stretchy="false">]</mo><mo>+</mo><mi>A</mi><mo stretchy="false">[</mo><mi>R</mi><mo stretchy="false">]</mo><mo>&lt;</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">A[L] + A[R] &lt; T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span>, since the array is sorted (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>A</mi><mo stretchy="false">[</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[k] \le A[R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span> for all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>&lt;</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">k &lt; R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span></span></span></span>), pairing the current <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span></span></span></span> with <em>any</em> smaller right index <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>&lt;</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">k &lt; R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span></span></span></span> yields <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mo stretchy="false">]</mo><mo>+</mo><mi>A</mi><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mo stretchy="false">]</mo><mo>+</mo><mi>A</mi><mo stretchy="false">[</mo><mi>R</mi><mo stretchy="false">]</mo><mo>&lt;</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">A[L] + A[k] \le A[L] + A[R] &lt; T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span>. Thus the <strong>entire row <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span></span></span></span></strong> is provably invalid, and incrementing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>←</mo><mi>L</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">L \leftarrow L + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> safely discards <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>−</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">R - L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span></span></span></span> pairs in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time.</li>
@@ -880,7 +880,7 @@
         <p><strong>Potential Function (Termination Proof):</strong> Define <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>=</mo><mtext>high</mtext><mo>−</mo><mtext>mid</mtext><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\Phi = \text{high} - \text{mid} + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Φ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">high</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">mid</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, the size of the unclassified region. Initially <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>low</mtext><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mtext>mid</mtext><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mtext>high</mtext><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{low} = 0, \text{mid} = 0, \text{high} = N - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">low</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">mid</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">high</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>=</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">\Phi = N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Φ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> and regions 1, 2, and 4 are vacuously empty. Each step inspects <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mtext>mid</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[\text{mid}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord text"><span class="mord">mid</span></span><span class="mclose">]</span></span></span></span> and either increments <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>mid</mtext></mrow><annotation encoding="application/x-tex">\text{mid}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">mid</span></span></span></span></span> or decrements <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>high</mtext></mrow><annotation encoding="application/x-tex">\text{high}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">high</span></span></span></span></span>, strictly decreasing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi></mrow><annotation encoding="application/x-tex">\Phi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Φ</span></span></span></span> by 1 until <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Phi = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Φ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>mid</mtext><mo>&gt;</mo><mtext>high</mtext></mrow><annotation encoding="application/x-tex">\text{mid} &gt; \text{high}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord text"><span class="mord">mid</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">high</span></span></span></span></span>), terminating in exactly <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> comparisons.</p>
       </div>
 
-      <h3>Taxonomy of Multi-Pointer Paradigms</h3>
+      <h2>Taxonomy of Multi-Pointer Paradigms</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -916,7 +916,7 @@
         </tbody>
       </table>
 
-      <h3>Visualizing Dijkstra's 4-Region Dutch National Flag State</h3>
+      <h2>Visualizing Dijkstra's 4-Region Dutch National Flag State</h2>
       <svg viewBox="0 0 760 175" width="100%" height="auto" role="img" aria-label="Dutch National Flag 4-region loop invariant diagram">
         <style>
           .dnf-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -953,7 +953,7 @@
         <text x="15" y="152" class="dnf-txt">Why mid++ on swap(low, mid) but NOT on swap(mid, high)? Because A[low] is known (== pivot), whereas A[high] was unclassified!</text>
       </svg>
 
-      <h3>Dutch National Flag State Transitions</h3>
+      <h2>Dutch National Flag State Transitions</h2>
       <div class="mermaid">
       flowchart TD
         A["Inspect A[mid]<br/>while mid <= high"] --> B{"Compare A[mid]<br/>with pivot p"}
@@ -1172,7 +1172,7 @@
           </div>
         </div>
 
-      <h3>Production Implementation: Dijkstra's 3-Way Partition &amp; O(1)-Space Trapping Rain Water</h3>
+      <h2>Production Implementation: Dijkstra's 3-Way Partition &amp; O(1)-Space Trapping Rain Water</h2>
       <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">52 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1411,24 +1411,29 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-two-pointers-invariant-proofs" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">Two-Pointer Invariants: Converging, Fast-Slow &amp; Dutch National Flag</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">Two-Pointer Invariants: Converging, Fast-Slow &amp; Dutch National Flag — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">A two-pointer algorithm replaces an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> nested loop over index pairs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(i, j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mclose">)</span></span></span></span> with an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> linear progression by exploiting a monotonicity or partitioning invariant: every time a pointer advances by 1 step, it eli</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(1)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(1)</code></span>
+              <span class="badge">🧭 Pattern: Contiguous Arrays, Bit Manipulation &amp; Pointer Idioms</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1436,70 +1441,92 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Converging two-pointer algorithms run in O(N) by proving that each step eliminates an entire row or column of </span>
+                  </div>
+                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (dutch_flag_partition)</div>
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at `TODO (Step 1)` inside `dutch_flag_partition(std::vector&lt;T&gt;&amp; a, const T&amp; pivot)`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (a.empty()) return {0, 0};
+std::size_t low = 0;
+std::size_t mid = 0;
+std::size_t high = a.size(); // Use half-open [mid, high) to avoid unsigned underflow!
+while (mid &lt; high) {
+if (a[mid] &lt; pivot) {</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Dijkstra&#039;s 3-way Dutch National Flag partition maintains four contiguous regions: [0..low) p.</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at `TODO (Step 2)` inside `dutch_flag_partition`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>std::swap(a[low], a[mid]);
+++low;
+++mid;
+} else if (a[mid] == pivot) {
+++mid;
+} else {</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">When swapping A[mid] with the unclassified element at the high boundary, never increment mid—the incoming elem</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
+                  <div class="build-lab-step-card__concept">Complete `TODO (Step 3)` to finalize the output of `dutch_flag_partition` and pass all C++20 unit assertions.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>--high;
+std::swap(a[mid], a[high]);
+}
+}
+return {low, high};</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="two-pointers-invariant-proofs" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-two-pointers-invariant-proofs">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">What causes the pipeline flushes in standard 2-way/3-way partitioning, and how does BlockQuicksort (used in Rust's `pdqsort`) eliminate them?</p>
-        <div class="exercise-card__options" id="exercise-options-two-pointers-invariant-proofs">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="two-pointers-invariant-proofs" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Data-dependent branches (`if (a[mid] < pivot)`) on random inputs mispredict ~50% of the time (costing 15–20 cycles each); BlockQuicksort evaluates predicate results into small byte buffers using branchless `cmov`/`setcc` instructions and then executes an unbranched permutation loop.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="two-pointers-invariant-proofs" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">Swapping 64-bit integers invalidates the L1 instruction cache (`L1i`) via self-modifying code detection.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="two-pointers-invariant-proofs" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">The `std::swap` function issues full memory fences (`MFENCE`) on x86-64.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="two-pointers-invariant-proofs" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">Converging pointers on the same 4 KB page trigger hardware false sharing across a single thread's ALU ports.</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-two-pointers-invariant-proofs" style="display:none;">
-          <div class="exercise-card__explanation">On uniformly distributed keys, comparing each element to the pivot is a coin flip for the hardware branch predictor. Edelkamp and Weiß's BlockQuicksort (integrated into Orson Peters' `pdqsort`) decouples comparison from element movement: it stores branchless comparison results (`a[i] < pivot`) into small 64-element offset buffers, completely eliminating branch mispredictions.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1601,7 +1628,7 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1620,17 +1647,17 @@ std<span class="tok-op">::</span><span class="tok-type">int64_t</span> <span cla
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

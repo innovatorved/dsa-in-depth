@@ -14,7 +14,7 @@ window.MODULE_CONTENT["m09"] = {
     intuition: `<p>Every binary integer can be decomposed into a sum of powers of two, which lets us answer any range query over a static array in $O(\\log N)$ time by stitching together precomputed power-of-two blocks. When the combine operation is <strong>idempotent</strong> ($a \\oplus a = a$, such as $\\min$, $\\max$, $\\gcd$, bitwise OR/AND), we do not even need disjoint blocks: two potentially overlapping blocks of length $2^k$ where $k = \\lfloor \\log_2(R - L + 1) \\rfloor$—one anchored at $L$ and one ending at $R$—completely cover $[L, R]$ in $O(1)$ time with two array reads.</p>
     <p>What if the operation is an associative <strong>non-idempotent</strong> semigroup like range sum, matrix multiplication, or modular product where overlapping elements would be double-counted? A <strong>Disjoint Sparse Table (DST)</strong> solves this in $O(N \\log N)$ preprocessing and $O(1)$ query time by building a divide-and-conquer tree of height $\\lceil \\log_2 N \\rceil$ where each level stores prefix and suffix accumulations radiating outward from the midpoint of each block. Any query $[L, R]$ is answered in $O(1)$ by finding the unique level where $L$ and $R$ straddle a midpoint—computable via the highest set bit of $L \\oplus R$ (<code> + "</code>__builtin_clz(L ^ R)<code>" + </code>)—and combining one precomputed suffix with one precomputed prefix.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. The Algebra of Range Queries: Semigroups, Monoids, Groups, and Idempotence</h3>
+      <h2>1. The Algebra of Range Queries: Semigroups, Monoids, Groups, and Idempotence</h2>
       <p>Before selecting a range query structure, classify the binary operator $\\oplus: S \\times S \\to S$:</p>
       <ul>
         <li><strong>Group (Invertible Associative Operation)</strong> — e.g., $+, \\oplus(\\text{XOR}), \\times \\pmod p$. Because every element has an inverse $a^{-1}$, any static range query $A[L \\dots R]$ reduces to a 1D prefix array $P[i] = P[i-1] \\oplus A[i]$ via $P[R] \\oplus P[L-1]^{-1}$ in $O(N)$ build and $O(1)$ query time.</li>
@@ -27,7 +27,7 @@ window.MODULE_CONTENT["m09"] = {
         $$\\bigoplus_{i=L}^{R} A[i] = \\text{st}[k][L] \\oplus \\text{st}[k][R - 2^k + 1]$$
       </div>
 
-      <h3>2. Standard Sparse Table Construction &amp; Disjoint Sparse Table (DST)</h3>
+      <h2>2. Standard Sparse Table Construction &amp; Disjoint Sparse Table (DST)</h2>
       <p>The Standard Sparse Table builds a 2D table $\\text{st}[k][i]$ of size $(\\lfloor \\log_2 N \\rfloor + 1) \\times N$, where $\\text{st}[k][i]$ stores the range aggregate over $[i, i + 2^k - 1]$. Level $0$ is just $\\text{st}[0][i] = A[i]$, and each subsequent level is built by combining two adjacent intervals of length $2^{k-1}$:</p>
       <p>$$\\text{st}[k][i] = \\text{st}[k-1][i] \\oplus \\text{st}[k-1][i + 2^{k-1}]$$</p>
       <p>In contrast, a <strong>Disjoint Sparse Table (DST)</strong> pads $N$ to a power of two $2^H$ and considers blocks of size $2^{H - h}$ at depth $h \\in [0, H-1]$. Around the midpoint $M$ of each block, DST computes suffixes moving left from $M-1$ down to the block start, and prefixes moving right from $M$ up to the block end. For any query $L < R$, let $b = \\lfloor \\log_2(L \\oplus R) \\rfloor$ be the most significant bit where $L$ and $R$ differ. At level $h = H - 1 - b$, indices $L$ and $R$ fall into the left and right halves of the same block separated by midpoint $M$, so $\\text{dst}[h][L] \\oplus \\text{dst}[h][R]$ combines $[L, M-1]$ and $[M, R]$ with <em>zero overlap</em> in $O(1)$ time!</p>
@@ -97,7 +97,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-sparse-table-lca-rmq"></div>
 
-      <h3>3. Production Implementation: Standard RMQ &amp; Disjoint Sparse Table</h3>
+      <h2>3. Production Implementation: Standard RMQ &amp; Disjoint Sparse Table</h2>
       <pre><code class="language-javascript">/**
  * 1. Standard Sparse Table for O(1) Idempotent Range Minimum Query (RMQ)
  * Build: O(N log N) time &amp; space | Query: O(1) time (2 table lookups + 1 clz32)
@@ -172,8 +172,76 @@ class DisjointSparseTable {
     return this.combine(this.table[h][l], this.table[h][r]);
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;bit&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
 
-      <h3>4. Complexity Matrix</h3>
+// Standard O(1) Idempotent RMQ Sparse Table + O(1) Disjoint Sparse Table (C++20)
+class SparseTableRMQ {
+    int n, max_k;
+    std::vector&lt;std::vector&lt;int&gt;&gt; st;
+public:
+    explicit SparseTableRMQ(const std::vector&lt;int&gt;&amp; arr)
+        : n(static_cast&lt;int&gt;(arr.size())),
+          max_k(std::bit_width(static_cast&lt;uint32_t&gt;(n)) - 1),
+          st(max_k + 1, std::vector&lt;int&gt;(n)) {
+        st[0] = arr;
+        for (int k = 1; k &lt;= max_k; ++k) {
+            int half = 1 &lt;&lt; (k - 1);
+            int limit = n - (1 &lt;&lt; k);
+            for (int i = 0; i &lt;= limit; ++i) {
+                st[k][i] = std::min(st[k - 1][i], st[k - 1][i + half]);
+            }
+        }
+    }
+
+    int query(int l, int r) const noexcept {
+        int k = std::bit_width(static_cast&lt;uint32_t&gt;(r - l + 1)) - 1;
+        return std::min(st[k][l], st[k][r - (1 &lt;&lt; k) + 1]);
+    }
+};
+
+template &lt;typename T, typename Op&gt;
+class DisjointSparseTable {
+    int n, levels;
+    Op op;
+    std::vector&lt;std::vector&lt;T&gt;&gt; table;
+public:
+    DisjointSparseTable(const std::vector&lt;T&gt;&amp; arr, Op combine = Op{})
+        : n(static_cast&lt;int&gt;(arr.size())),
+          levels(n &lt;= 1 ? 1 : std::bit_width(static_cast&lt;uint32_t&gt;(n - 1))),
+          op(combine),
+          table(levels, std::vector&lt;T&gt;(1 &lt;&lt; levels)) {
+        for (int h = 0; h &lt; levels; ++h) {
+            int block_len = 1 &lt;&lt; (levels - h);
+            int half = block_len &gt;&gt; 1;
+            for (int start = 0; start &lt; n; start += block_len) {
+                int mid = std::min(start + half, n);
+                int end = std::min(start + block_len, n);
+                if (mid - 1 &lt; n) {
+                    table[h][mid - 1] = arr[mid - 1];
+                    for (int i = mid - 2; i &gt;= start; --i)
+                        table[h][i] = op(arr[i], table[h][i + 1]);
+                }
+                if (mid &lt; n) {
+                    table[h][mid] = arr[mid];
+                    for (int i = mid + 1; i &lt; end; ++i)
+                        table[h][i] = op(table[h][i - 1], arr[i]);
+                }
+            }
+        }
+    }
+
+    T query(int l, int r) const noexcept {
+        if (l == r) return table[levels - 1][l];
+        int msb_diff = std::bit_width(static_cast&lt;uint32_t&gt;(l ^ r)) - 1;
+        int h = levels - 1 - msb_diff;
+        return op(table[h][l], table[h][r]);
+    }
+};</code></pre>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -256,7 +324,7 @@ class DisjointSparseTable {
     intuition: `<p>A Segment Tree over an array of $N$ elements requires at least $2N$ (or $4N$) nodes because it stores both left and right children at every internal node. Peter Fenwick observed in 1994 that if our operation is an <strong>invertible group</strong> (like addition), we can discard every right child in a segment tree! If a parent node knows the sum of $[1..8]$ and its left child knows $[1..4]$, the right child $[5..8]$ is redundant because $\\text{sum}(5..8) = \\text{sum}(1..8) - \\text{sum}(1..4)$. Deleting every right child leaves exactly $N$ nodes that map 1-to-1 onto a 1-based array $T[1..N]$.</p>
     <p>In this 1-based array, the length of the interval that cell $T[i]$ is responsible for equals the value of the lowest set bit of $i$: $\\text{lowbit}(i) = i \\mathrel{\\&} (-i)$ in two's complement arithmetic. Stripping the lowest set bit ($i \\leftarrow i - (i \\mathrel{\\&} -i)$) walks down prefix blocks to accumulate $\\text{prefixSum}(i)$ in at most $\\text{popcount}(i) \\le \\lceil \\log_2 N \\rceil$ steps; adding the lowest set bit ($i \\leftarrow i + (i \\mathrel{\\&} -i)$) climbs upward through all enclosing ancestor intervals to apply a point update.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Two's Complement Geometry &amp; The Responsibility Interval</h3>
+      <h2>1. Two's Complement Geometry &amp; The Responsibility Interval</h2>
       <p>In a 1-indexed Fenwick Tree $T[1 \\dots N]$, let $\\text{lowbit}(i) = i \\mathrel{\\&} (-i)$ denote the largest power of two $2^k$ that divides $i$. Because $-i = \\sim i + 1$ in two's complement binary representation, all bits below $2^k$ flip from $0 \\to 1$ and carry into position $k$, while all bits above $k$ are inverted and masked out by the bitwise AND.</p>
 
       <div class="invariant-box">
@@ -316,7 +384,7 @@ class DisjointSparseTable {
         </g>
       </svg>
 
-      <h3>2. $O(N)$ Linear-Time Construction &amp; $O(\\log N)$ Binary Lifting (<code>lowerBound</code>)</h3>
+      <h2>2. $O(N)$ Linear-Time Construction &amp; $O(\\log N)$ Binary Lifting (<code>lowerBound</code>)</h2>
       <p>Calling <code>add(i, A[i])</code> $N$ times builds a Fenwick tree in $O(N \\log N)$ time. We can instead build it in <strong>exact $\\Theta(N)$ time</strong> by propagating each node $T[i]$ directly to its immediate update parent $j = i + (i \\mathrel{\\&} -i)$ in a single forward loop:</p>
       <p>$$\\text{For } i = 1 \\dots N: \\quad j = i + (i \\mathrel{\\&} -i); \\quad \\text{if } j \\le N \\text{ then } T[j] \\mathrel{+}= T[i]$$</p>
       <p>Furthermore, if all array elements are non-negative ($A[i] \\ge 0$), the prefix sums are monotonically non-decreasing. Instead of binary searching over <code>prefixSum(mid)</code> in $O(\\log^2 N)$ time, we can find the smallest index $i$ with $\\text{prefixSum}(i) \\ge k$ in <strong>single-pass $O(\\log N)$ time via Binary Lifting</strong>: test bit steps $p = 2^{\\lfloor \\log_2 N \\rfloor}, \\dots, 2, 1$; if $T[\\text{idx} + p] < k$, advance $\\text{idx} \\mathrel{+}= p$ and subtract $k \\mathrel{-}= T[\\text{idx}]$ because $T[\\text{idx} + p]$ stores the exact sum of the next $p$ elements!</p>
@@ -339,7 +407,7 @@ flowchart LR
   end
       </div>
 
-      <h3>3. Range Add &amp; Range Sum Using Two Dual Fenwick Trees</h3>
+      <h2>3. Range Add &amp; Range Sum Using Two Dual Fenwick Trees</h2>
       <p>Let $D[i] = A[i] - A[i-1]$ be the difference array of $A$, so adding $+\\Delta$ to $A[l \\dots r]$ only requires two point updates: $D[l] \\mathrel{+}= \\Delta$ and $D[r+1] \\mathrel{-}= \\Delta$. How do we recover the prefix sum $\\sum_{i=1}^{x} A[i]$ from $D$? Using summation by parts:</p>
       <p>$$\\sum_{i=1}^{x} A[i] = \\sum_{i=1}^{x} \\sum_{j=1}^{i} D[j] = \\sum_{j=1}^{x} D[j] \\cdot (x - j + 1) = (x + 1)\\sum_{j=1}^{x} D[j] - \\sum_{j=1}^{x} j \\cdot D[j]$$</p>
       <p>By maintaining two Fenwick trees—$B_1$ storing $D[j]$ and $B_2$ storing $j \\cdot D[j]$—both <code>rangeAdd(l, r, delta)</code> and <code>rangeSum(l, r)</code> execute in $O(\\log N)$ time with only $2N$ words of memory!</p>
@@ -350,7 +418,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-fenwick-bit-tree"></div>
 
-      <h3>4. Production Implementation: Fenwick Tree with $O(N)$ Build, Binary Lifting &amp; Range Add/Sum</h3>
+      <h2>4. Production Implementation: Fenwick Tree with $O(N)$ Build, Binary Lifting &amp; Range Add/Sum</h2>
       <pre><code class="language-javascript">class FenwickTree {
   /**
    * O(N) linear-time construction from 0-indexed input array
@@ -433,8 +501,78 @@ class RangeFenwickTree {
     return this.prefixSum(r) - this.prefixSum(l - 1);
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;bit&gt;
+#include &lt;cstdint&gt;
 
-      <h3>5. Complexity Matrix</h3>
+// O(N) Build Fenwick Tree + O(log N) Binary Lifting + Dual Range-Add/Range-Sum BIT (C++20)
+class FenwickTree {
+    int n;
+    std::vector&lt;int64_t&gt; tree;
+public:
+    explicit FenwickTree(int size) : n(size), tree(size + 1, 0) {}
+
+    explicit FenwickTree(const std::vector&lt;int64_t&gt;&amp; arr)
+        : n(static_cast&lt;int&gt;(arr.size())), tree(n + 1, 0) {
+        for (int i = 1; i &lt;= n; ++i) {
+            tree[i] += arr[i - 1];
+            int parent = i + (i &amp; -i);
+            if (parent &lt;= n) tree[parent] += tree[i];
+        }
+    }
+
+    void add(int idx, int64_t delta) noexcept {
+        for (int i = idx; i &lt;= n; i += i &amp; -i) tree[i] += delta;
+    }
+
+    int64_t prefix_sum(int idx) const noexcept {
+        int64_t sum = 0;
+        for (int i = idx; i &gt; 0; i -= i &amp; -i) sum += tree[i];
+        return sum;
+    }
+
+    int64_t range_sum(int l, int r) const noexcept {
+        return prefix_sum(r) - prefix_sum(l - 1);
+    }
+
+    // Smallest 1-based index idx such that prefix_sum(idx) &gt;= target_sum
+    int lower_bound(int64_t target_sum) const noexcept {
+        int idx = 0;
+        int bit_mask = 1 &lt;&lt; (std::bit_width(static_cast&lt;uint32_t&gt;(n)) - 1);
+        for (; bit_mask &gt; 0; bit_mask &gt;&gt;= 1) {
+            int next = idx + bit_mask;
+            if (next &lt;= n &amp;&amp; tree[next] &lt; target_sum) {
+                idx = next;
+                target_sum -= tree[next];
+            }
+        }
+        return idx + 1;
+    }
+};
+
+class RangeFenwickTree {
+    int n;
+    FenwickTree b1, b2;
+public:
+    explicit RangeFenwickTree(int size) : n(size), b1(size), b2(size) {}
+
+    void range_add(int l, int r, int64_t delta) noexcept {
+        b1.add(l, delta);
+        if (r + 1 &lt;= n) b1.add(r + 1, -delta);
+        b2.add(l, delta * l);
+        if (r + 1 &lt;= n) b2.add(r + 1, -delta * (r + 1));
+    }
+
+    int64_t prefix_sum(int x) const noexcept {
+        return (x + 1) * b1.prefix_sum(x) - b2.prefix_sum(x);
+    }
+
+    int64_t range_sum(int l, int r) const noexcept {
+        return prefix_sum(r) - prefix_sum(l - 1);
+    }
+};</code></pre>
+
+      <h2>5. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -514,7 +652,7 @@ class RangeFenwickTree {
     intuition: `<p>While a Fenwick tree requires an invertible operation (like addition) to recover $[L, R]$ from two prefixes, a <strong>Segment Tree</strong> only requires a <strong>Monoid</strong> $(M, \\oplus, e)$: an associative binary operation $\\oplus$ with an identity element $e$. That single abstraction covers everything from $\\min/\\max$, $\\gcd$, and matrix multiplication to maximum subarray sum (Kadane's 4-tuple) and balanced parenthesis matching.</p>
     <p>In competitive programming and high-performance systems, there are two ways to lay out a Segment Tree in memory. The classic <strong>Recursive Top-Down</strong> tree splits $[tl, tr]$ at $tm = \\lfloor(tl+tr)/2\\rfloor$ and requires an array of size $4N$ when $N$ is not a power of two. The <strong>Iterative Bottom-Up (ZKW) Segment Tree</strong> places the $N$ leaves directly at indices $[N \\dots 2N-1]$ and computes internal nodes $[1 \\dots N-1]$ via $\\text{tree}[i] = \\text{tree}[2i] \\oplus \\text{tree}[2i+1]$ in an array of size <strong>exact $2N$</strong>, answering queries with a branch-free bottom-up loop that runs 3x–4x faster than recursion.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Why Recursive Segment Trees Need $4N$ Space While Iterative Needs $2N$</h3>
+      <h2>1. Why Recursive Segment Trees Need $4N$ Space While Iterative Needs $2N$</h2>
       <p>In a top-down recursive segment tree using 1-based heap indexing ($\\text{left} = 2v$, $\\text{right} = 2v+1$), if $N = 2^k + 1$ (just over a power of two), the tree has height $k + 2$, and the rightmost leaves at the deepest level can reach index $\\approx 4N - 5$. Hence recursive implementations must allocate $4N$ entries.</p>
       <p>In an <strong>Iterative (ZKW) Segment Tree</strong>, we bypass top-down midpoint splitting entirely: we place element $A[i]$ at index $N + i$ (for $0 \\le i < N$) and populate internal nodes from $i = N - 1$ down to $1$ using $\\text{tree}[i] = \\text{tree}[2i] \\oplus \\text{tree}[2i + 1]$. Every internal node $i \\in [1, N-1]$ has two valid children $2i$ and $2i+1$ in $[2, 2N-1]$, requiring <strong>exactly $2N$ elements</strong> for any $N$ (even when $N$ is not a power of two!).</p>
 
@@ -578,7 +716,7 @@ class RangeFenwickTree {
         <text x="380" y="238" text-anchor="middle" class="seg-txt" fill="#facc15">resL = tree[9] op tree[5] | resR = tree[6] op tree[14] | ans = resL op resR</text>
       </svg>
 
-      <h3>2. Designing Non-Trivial Monoids: Dynamic Range Maximum Subarray Sum</h3>
+      <h2>2. Designing Non-Trivial Monoids: Dynamic Range Maximum Subarray Sum</h2>
       <p>How do we answer "what is the maximum contiguous subarray sum inside $A[L..R]$" under point updates? A single scalar is not closed under concatenation because the optimal subarray across $L \\cup R$ might straddle the boundary between the left child and the right child. We lift each node to a 4-tuple monoid state $(S, P, Q, M)$:</p>
       <ul>
         <li>$S$: Total sum of the segment ($S = S_L + S_R$)</li>
@@ -600,7 +738,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-segment-tree-lazy"></div>
 
-      <h3>3. Production Implementation: Generic Non-Commutative Iterative Segment Tree &amp; Max Subarray Monoid</h3>
+      <h2>3. Production Implementation: Generic Non-Commutative Iterative Segment Tree &amp; Max Subarray Monoid</h2>
       <pre><code class="language-javascript">/**
  * Generic Iterative (ZKW) Segment Tree over any Monoid (M, combine, identity)
  * Space: Exact 2N | Build: O(N) | Point Update &amp; Range Query: O(log N)
@@ -657,8 +795,64 @@ const KadaneMonoid = {
     };
   }
 };</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
 
-      <h3>4. Complexity Matrix</h3>
+// Generic Iterative 2N (ZKW) Segment Tree over any Non-Commutative Monoid (C++20)
+template &lt;typename Monoid, typename Op&gt;
+class MonoidSegmentTree {
+    int n;
+    Monoid identity;
+    Op combine;
+    std::vector&lt;Monoid&gt; tree;
+public:
+    MonoidSegmentTree(const std::vector&lt;Monoid&gt;&amp; leaves, Monoid id, Op op = Op{})
+        : n(static_cast&lt;int&gt;(leaves.size())), identity(id), combine(op), tree(2 * n, id) {
+        for (int i = 0; i &lt; n; ++i) tree[n + i] = leaves[i];
+        for (int i = n - 1; i &gt;= 1; --i) {
+            tree[i] = combine(tree[i &lt;&lt; 1], tree[(i &lt;&lt; 1) | 1]);
+        }
+    }
+
+    void set(int idx, const Monoid&amp; val) noexcept {
+        int p = idx + n;
+        tree[p] = val;
+        for (p &gt;&gt;= 1; p &gt;= 1; p &gt;&gt;= 1) {
+            tree[p] = combine(tree[p &lt;&lt; 1], tree[(p &lt;&lt; 1) | 1]);
+        }
+    }
+
+    // Closed range [l, r] preserving exact non-commutative left-to-right order
+    Monoid query(int l, int r) const noexcept {
+        Monoid resL = identity, resR = identity;
+        for (int a = l + n, b = r + n + 1; a &lt; b; a &gt;&gt;= 1, b &gt;&gt;= 1) {
+            if (a &amp; 1) resL = combine(resL, tree[a++]);
+            if (b &amp; 1) resR = combine(tree[--b], resR);
+        }
+        return combine(resL, resR);
+    }
+};
+
+struct KadaneNode {
+    int64_t sum, pref, suff, best;
+    static constexpr int64_t NEG_INF = std::numeric_limits&lt;int64_t&gt;::min() / 4;
+    static KadaneNode identity() noexcept { return {0, NEG_INF, NEG_INF, NEG_INF}; }
+    static KadaneNode leaf(int64_t x) noexcept { return {x, x, x, x}; }
+    static KadaneNode merge(const KadaneNode&amp; L, const KadaneNode&amp; R) noexcept {
+        if (L.best == NEG_INF) return R;
+        if (R.best == NEG_INF) return L;
+        return {
+            L.sum + R.sum,
+            std::max(L.pref, L.sum + R.pref),
+            std::max(R.suff, L.suff + R.sum),
+            std::max({L.best, R.best, L.suff + R.pref})
+        };
+    }
+};</code></pre>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -730,7 +924,7 @@ const KadaneMonoid = {
     intuition: `<p>If we apply a range update (such as adding $+\\Delta$ to every element in $A[L..R]$) by updating every leaf in $[L, R]$, a single range update degrades to $\\Theta(N)$ time. <strong>Lazy Propagation</strong> restores $O(\\log N)$ time by halting the recursion as soon as a segment tree node's interval $[tl, tr]$ is completely contained inside $[L, R]$: we update that node's aggregate summary immediately and attach a <strong>lazy tag</strong> recording the pending transformation for its descendants, pushing the tag down one level only when a subsequent update or query actually needs to inspect its children.</p>
     <p>What if the range update is non-linear with respect to range sum—such as clamping every element $A[i] \\leftarrow \\min(A[i], x)$ (<strong>Range Chmin</strong>) while querying <strong>Range Sum</strong>? Standard lazy propagation fails because knowing the sum of $[tl, tr]$ and $x$ does not tell us how many elements in $[tl, tr]$ exceed $x$. Runze Ji's <strong>Segment Tree Beats</strong> (2016) solves this by storing at each node the <em>strict maximum</em> $\\text{max}_1$, the <em>count of maximums</em> $\\text{cntMax}$, and the <em>strictly second-largest value</em> $\\text{max}_2$. Whenever $\\text{max}_2 < x < \\text{max}_1$, only the $\\text{cntMax}$ copies of $\\text{max}_1$ change, so we can update the range sum in $O(1)$ time via $\\text{sum} \\mathrel{-}= (\\text{max}_1 - x) \\cdot \\text{cntMax}$! Potential function analysis proves this achieves $O(N \\log N)$ (or $O(N \\log^2 N)$ with range additions) amortized time.</p>`,
     content: `<div class="lesson-content">
-      <h3>1. The Algebraic Axioms of Lazy Propagation (Monoid Action)</h3>
+      <h2>1. The Algebraic Axioms of Lazy Propagation (Monoid Action)</h2>
       <p>Formally, a Lazy Segment Tree requires two monoids and a distributive action:</p>
       <ol>
         <li><strong>Data Monoid $(S, \\oplus, e_S)$</strong>: Combines left and right child summaries (<code>pull</code> / <code>pushUp</code>), e.g., $(S_L + S_R, \\text{len}_L + \\text{len}_R)$.</li>
@@ -799,7 +993,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-segment-tree-lazy"></div>
 
-      <h3>2. Production Implementation: Segment Tree Beats (Range Chmin + Range Sum)</h3>
+      <h2>2. Production Implementation: Segment Tree Beats (Range Chmin + Range Sum)</h2>
       <pre><code class="language-javascript">/**
  * Ji Driver Segment Tree (Segment Tree Beats)
  * Supports:
@@ -886,8 +1080,92 @@ class SegmentTreeBeats {
     );
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Ji Driver Segment Tree Beats (Range Chmin + Range Sum in O(log N) amortized)
+class SegmentTreeBeats {
+    int n;
+    static constexpr int64_t NEG_INF = std::numeric_limits&lt;int64_t&gt;::min() / 4;
+    std::vector&lt;int64_t&gt; sum, max1, max2;
+    std::vector&lt;int&gt; cnt_max;
+
+    void pull(int v) noexcept {
+        int L = v &lt;&lt; 1, R = L | 1;
+        sum[v] = sum[L] + sum[R];
+        if (max1[L] == max1[R]) {
+            max1[v] = max1[L];
+            max2[v] = std::max(max2[L], max2[R]);
+            cnt_max[v] = cnt_max[L] + cnt_max[R];
+        } else if (max1[L] &gt; max1[R]) {
+            max1[v] = max1[L];
+            max2[v] = std::max(max2[L], max1[R]);
+            cnt_max[v] = cnt_max[L];
+        } else {
+            max1[v] = max1[R];
+            max2[v] = std::max(max1[L], max2[R]);
+            cnt_max[v] = cnt_max[R];
+        }
+    }
+
+    void apply_chmin(int v, int64_t x) noexcept {
+        if (x &gt;= max1[v]) return;
+        sum[v] -= (max1[v] - x) * cnt_max[v];
+        max1[v] = x;
+    }
+
+    void push_down(int v) noexcept {
+        apply_chmin(v &lt;&lt; 1, max1[v]);
+        apply_chmin((v &lt;&lt; 1) | 1, max1[v]);
+    }
+
+    void build(int v, int tl, int tr, const std::vector&lt;int64_t&gt;&amp; arr) {
+        if (tl == tr) {
+            sum[v] = max1[v] = arr[tl];
+            max2[v] = NEG_INF;
+            cnt_max[v] = 1;
+            return;
+        }
+        int tm = (tl + tr) &gt;&gt; 1;
+        build(v &lt;&lt; 1, tl, tm, arr);
+        build((v &lt;&lt; 1) | 1, tm + 1, tr, arr);
+        pull(v);
+    }
+public:
+    explicit SegmentTreeBeats(const std::vector&lt;int64_t&gt;&amp; arr)
+        : n(static_cast&lt;int&gt;(arr.size())),
+          sum(4 * n), max1(4 * n), max2(4 * n), cnt_max(4 * n) {
+        if (n &gt; 0) build(1, 0, n - 1, arr);
+    }
+
+    void range_chmin(int ql, int qr, int64_t x, int v = 1, int tl = 0, int tr = -1) {
+        if (tr == -1) tr = n - 1;
+        if (ql &gt; tr || qr &lt; tl || x &gt;= max1[v]) return; // Break condition
+        if (ql &lt;= tl &amp;&amp; tr &lt;= qr &amp;&amp; x &gt; max2[v]) {     // Tag condition
+            apply_chmin(v, x);
+            return;
+        }
+        push_down(v);                                   // Recurse condition
+        int tm = (tl + tr) &gt;&gt; 1;
+        range_chmin(ql, qr, x, v &lt;&lt; 1, tl, tm);
+        range_chmin(ql, qr, x, (v &lt;&lt; 1) | 1, tm + 1, tr);
+        pull(v);
+    }
+
+    int64_t range_sum(int ql, int qr, int v = 1, int tl = 0, int tr = -1) {
+        if (tr == -1) tr = n - 1;
+        if (ql &gt; tr || qr &lt; tl) return 0;
+        if (ql &lt;= tl &amp;&amp; tr &lt;= qr) return sum[v];
+        push_down(v);
+        int tm = (tl + tr) &gt;&gt; 1;
+        return range_sum(ql, qr, v &lt;&lt; 1, tl, tm) +
+               range_sum(ql, qr, (v &lt;&lt; 1) | 1, tm + 1, tr);
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -957,7 +1235,7 @@ class SegmentTreeBeats {
     intuition: `<p>What if the index universe is $U = [0, 10^{18}]$ (too huge to allocate a $4U$ array), or we need to preserve all $N$ historical versions of a segment tree after $N$ point updates? Both problems are solved by replacing implicit heap indexing ($2v, 2v+1$) with explicit child indices <code> + "</code>left[v]<code>" + </code> and <code> + "</code>right[v]<code>" + </code> allocated from a flat node pool.</p>
     <p>In a <strong>Dynamic (Sparse) Segment Tree</strong>, we start with a single root node covering $[0, U-1]$ and allocate child nodes lazily only when a point update visits them; $Q$ updates over $[0, 10^{18}]$ allocate at most $Q \\lceil \\log_2 U \\rceil$ nodes. In a <strong>Persistent Segment Tree (Chairman Tree)</strong>, each point update path-copies only the $\\lceil \\log_2 N \\rceil + 1$ nodes on the root-to-leaf path while sharing all unmodified sibling subtrees. By inserting array elements $A[1], A[2], \\dots, A[N]$ one by one into a value-indexed Persistent Segment Tree, root $R_i$ represents the frequency histogram of prefix $A[1..i]$. Because segment tree structures are identical across all roots, the virtual tree $R_r - R_{l-1}$ gives the exact frequency histogram of subarray $A[l..r]$, letting us walk down both roots in lockstep to find the <strong>$k$-th smallest element in $A[l..r]$ in $O(\\log N)$ time</strong>!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Dynamic (Sparse) Segment Trees vs Persistent Segment Trees</h3>
+      <h2>1. Dynamic (Sparse) Segment Trees vs Persistent Segment Trees</h2>
       <p>Both structures abandon the fixed $4N$ array layout in favor of an arena pool of nodes <code>(leftChild, rightChild, sum)</code>:</p>
       <ul>
         <li><strong>Dynamic (Sparse) Segment Tree</strong>: Used when the coordinate range $[0, U]$ is up to $10^{18}$ and online queries forbid offline coordinate compression. Unvisited children stay <code>0</code> (the null sentinel with sum <code>0</code>).</li>
@@ -1023,7 +1301,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-segment-tree-lazy"></div>
 
-      <h3>2. Production Implementation: Persistent Segment Tree for $O(\\log N)$ Range $k$-th Smallest</h3>
+      <h2>2. Production Implementation: Persistent Segment Tree for $O(\\log N)$ Range $k$-th Smallest</h2>
       <pre><code class="language-javascript">/**
  * Persistent Segment Tree (Chairman Tree) using a Flat TypedArray Arena Pool
  * Answers: k-th smallest element (1-indexed k) in subarray A[l..r] (0-indexed) in O(log N) time.
@@ -1101,8 +1379,70 @@ class PersistentKthSegmentTree {
     return this.sortedVals[vl];
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Persistent Segment Tree (Chairman Tree) for O(log N) Subarray K-th Smallest (C++20)
+class PersistentKthSegmentTree {
+    int n, m;
+    std::vector&lt;int&gt; sorted_vals, roots, lc, rc, cnt;
+
+    int insert(int prev_node, int vl, int vr, int target_rank) {
+        int curr = static_cast&lt;int&gt;(lc.size());
+        lc.push_back(lc[prev_node]);
+        rc.push_back(rc[prev_node]);
+        cnt.push_back(cnt[prev_node] + 1);
+        if (vl == vr) return curr;
+        int vm = (vl + vr) &gt;&gt; 1;
+        if (target_rank &lt;= vm) {
+            int left_child = insert(lc[prev_node], vl, vm, target_rank);
+            lc[curr] = left_child;
+        } else {
+            int right_child = insert(rc[prev_node], vm + 1, vr, target_rank);
+            rc[curr] = right_child;
+        }
+        return curr;
+    }
+public:
+    explicit PersistentKthSegmentTree(const std::vector&lt;int&gt;&amp; arr)
+        : n(static_cast&lt;int&gt;(arr.size())), sorted_vals(arr), roots(n + 1, 0) {
+        std::sort(sorted_vals.begin(), sorted_vals.end());
+        sorted_vals.erase(std::unique(sorted_vals.begin(), sorted_vals.end()), sorted_vals.end());
+        m = static_cast&lt;int&gt;(sorted_vals.size());
+
+        lc.reserve((n + 1) * 20);
+        rc.reserve((n + 1) * 20);
+        cnt.reserve((n + 1) * 20);
+        lc.push_back(0); rc.push_back(0); cnt.push_back(0); // Sentinel 0
+
+        for (int i = 0; i &lt; n; ++i) {
+            int rank = static_cast&lt;int&gt;(
+                std::lower_bound(sorted_vals.begin(), sorted_vals.end(), arr[i]) - sorted_vals.begin()
+            );
+            roots[i + 1] = insert(roots[i], 0, m - 1, rank);
+        }
+    }
+
+    int kth_smallest(int l, int r, int k) const noexcept {
+        int u_prev = roots[l], u_curr = roots[r + 1];
+        int vl = 0, vr = m - 1;
+        while (vl &lt; vr) {
+            int vm = (vl + vr) &gt;&gt; 1;
+            int left_count = cnt[lc[u_curr]] - cnt[lc[u_prev]];
+            if (k &lt;= left_count) {
+                u_prev = lc[u_prev]; u_curr = lc[u_curr];
+                vr = vm;
+            } else {
+                k -= left_count;
+                u_prev = rc[u_prev]; u_curr = rc[u_curr];
+                vl = vm + 1;
+            }
+        }
+        return sorted_vals[vl];
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1181,7 +1521,7 @@ class PersistentKthSegmentTree {
     intuition: `<p>Not every range query forms a clean monoid! Consider counting the number of distinct elements in $A[L..R]$, finding the mode (most frequent element) in $A[L..R]$, or counting pairs $(i, j) \\in [L, R]$ with $A[i] \\oplus A[j] = K$. Merging two halves $[L, M]$ and $[M+1, R]$ in $O(1)$ or $O(\\log N)$ time is impossible because frequency interactions cross the midpoint. However, incrementing or decrementing a single boundary pointer (<code>L--</code>, <code>L++</code>, <code>R++</code>, <code>R--</code>) updates a frequency table in $O(1)$ time!</p>
     <p><strong>Mo's Algorithm</strong> exploits this $O(1)$ sliding-window transition for offline queries: divide the array into blocks of size $B = \\max(1, \\lfloor N / \\sqrt{Q} \\rfloor)$ and sort all $Q$ queries primarily by the left endpoint's block $\\lfloor L / B \\rfloor$, and secondarily by $R$ (alternating ascending and descending $R$ on odd/even blocks—the <strong>boustrophedon / snake order</strong>). Within a single block of width $B$, the right pointer $R$ sweeps monotonically across $[0, N-1]$ in at most $N$ steps; across all $N/B$ blocks, $R$ moves at most $N \\cdot (N/B) = N^2 / B$ times, while $L$ oscillates inside a block of width $B$ at most $Q \\cdot B$ times. Choosing $B = N / \\sqrt{Q}$ balances both terms to $O(N \\sqrt{Q})$!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Online $\\sqrt{N}$ Block Decomposition vs Offline Mo's Algorithm</h3>
+      <h2>1. Online $\\sqrt{N}$ Block Decomposition vs Offline Mo's Algorithm</h2>
       <p>There are two primary ways to apply square-root decomposition to array range queries:</p>
       <ul>
         <li><strong>Online $\\sqrt{N}$ Block Decomposition:</strong> Partition $A[0..N-1]$ into $\\lceil N / B \\rceil$ blocks of size $B \\approx \\sqrt{N}$. Each block maintains a summary (or sorted copy / frequency bucket). A range query $[L, R]$ inspects at most $\\lceil N / B \\rceil$ full blocks in the interior plus at most $2B$ individual elements in the two partial boundary blocks ($\\lfloor L/B \\rfloor$ and $\\lfloor R/B \\rfloor$), taking $O(B + N/B) = O(\\sqrt{N})$ time.</li>
@@ -1237,7 +1577,7 @@ class PersistentKthSegmentTree {
         <circle cx="610" cy="175" r="5" class="mo-pt"/>
       </svg>
 
-      <h3>2. Critical Implementation Rule: Expand Window Before Contracting!</h3>
+      <h2>2. Critical Implementation Rule: Expand Window Before Contracting!</h2>
       <p>When transitioning the active window $[\\text{curL}, \\text{curR}]$ to target $[L, R]$, the order of the four <code>while</code> loops is critical! If you execute <code>remove(curL++)</code> or <code>remove(curR--)</code> <em>before</em> expanding <code>add(--curL)</code> and <code>add(++curR)</code>, and the new query $[L, R]$ is disjoint from $[\\text{curL}, \\text{curR}]$, the intermediate window transiently becomes inverted ($\\text{curL} > \\text{curR} + 1$) with negative element counts! Always run the two <strong>expansion loops (<code>--curL</code>, <code>++curR</code>) first</strong>, and the two <strong>contraction loops (<code>curL++</code>, <code>curR--</code>) second</strong>.</p>
 
       <div class="mermaid">
@@ -1255,7 +1595,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-mos-sqrt-decomposition"></div>
 
-      <h3>3. Production Implementation: Online $\\sqrt{N}$ Decomposition &amp; Offline Mo's Algorithm</h3>
+      <h2>3. Production Implementation: Online $\\sqrt{N}$ Decomposition &amp; Offline Mo's Algorithm</h2>
       <pre><code class="language-javascript">/**
  * 1. Online Sqrt Block Decomposition for Range Sum + Point Update
  * Block size B = ceil(sqrt(N)) | Point Update: O(1) | Range Query: O(sqrt(N))
@@ -1347,8 +1687,53 @@ function mosDistinctQueries(arr, queries) {
   }
   return answers;
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;algorithm&gt;
 
-      <h3>4. Complexity Matrix</h3>
+// Offline Mo's Algorithm with Boustrophedon (Snake) Block Ordering (C++20)
+struct MoQuery {
+    int l, r, idx, block;
+    bool operator&lt;(const MoQuery&amp; o) const noexcept {
+        if (block != o.block) return block &lt; o.block;
+        return (block &amp; 1) ? (r &gt; o.r) : (r &lt; o.r);
+    }
+};
+
+std::vector&lt;int&gt; mos_distinct_queries(const std::vector&lt;int&gt;&amp; arr,
+                                      const std::vector&lt;std::pair&lt;int, int&gt;&gt;&amp; queries) {
+    int n = static_cast&lt;int&gt;(arr.size());
+    int q = static_cast&lt;int&gt;(queries.size());
+    int B = std::max(1, static_cast&lt;int&gt;(n / std::sqrt(std::max(1, q))));
+
+    std::vector&lt;int&gt; vals = arr;
+    std::sort(vals.begin(), vals.end());
+    vals.erase(std::unique(vals.begin(), vals.end()), vals.end());
+
+    std::vector&lt;int&gt; a(n);
+    for (int i = 0; i &lt; n; ++i) {
+        a[i] = static_cast&lt;int&gt;(std::lower_bound(vals.begin(), vals.end(), arr[i]) - vals.begin());
+    }
+
+    std::vector&lt;MoQuery&gt; qs(q);
+    for (int i = 0; i &lt; q; ++i) {
+        qs[i] = {queries[i].first, queries[i].second, i, queries[i].first / B};
+    }
+    std::sort(qs.begin(), qs.end());
+
+    std::vector&lt;int&gt; freq(vals.size(), 0), ans(q);
+    int distinct = 0, cur_l = 0, cur_r = -1;
+    for (const auto&amp; qr : qs) {
+        while (cur_l &gt; qr.l) if (++freq[a[--cur_l]] == 1) ++distinct;
+        while (cur_r &lt; qr.r) if (++freq[a[++cur_r]] == 1) ++distinct;
+        while (cur_l &lt; qr.l) if (--freq[a[cur_l++]] == 0) --distinct;
+        while (cur_r &gt; qr.r) if (--freq[a[cur_r--]] == 0) --distinct;
+        ans[qr.idx] = distinct;
+    }
+    return ans;
+}</code></pre>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1422,7 +1807,7 @@ function mosDistinctQueries(arr, queries) {
     intuition: `<p>Given a rooted tree $T$ with $N$ vertices, the <strong>Lowest Common Ancestor $\\text{LCA}(u, v)$</strong> is the deepest node that is an ancestor of both $u$ and $v$. LCA is the key to computing the distance between any two tree vertices in fast time via $\\text{dist}(u, v) = \\text{depth}[u] + \\text{depth}[v] - 2 \\cdot \\text{depth}[\\text{LCA}(u, v)]$, as well as aggregating paths and building virtual trees.</p>
     <p>Two paradigms dominate production and algorithmic practice. <strong>Binary Lifting</strong> precomputes $\\text{up}[k][u]$—the $2^k$-th ancestor of $u$—using the recurrence $\\text{up}[k][u] = \\text{up}[k-1][\\text{up}[k-1][u]]$, answering both $\\text{LCA}(u, v)$ and $k$-th ancestor queries (<code> + "</code>kthAncestor(u, k)<code>" + </code>) in $O(\\log N)$ time. Alternatively, <strong>Bender &amp; Farach-Colton's Euler Tour Reduction</strong> records every vertex visit (including return visits after each child subtree) in an array $E[0 \\dots 2N-2]$. Because the DFS must climb up to $\\text{LCA}(u, v)$ to pass from $u$'s subtree to $v$'s subtree and never climbs above $\\text{LCA}(u, v)$ in between, $\\text{LCA}(u, v)$ is simply the <strong>shallowest node in the Euler Tour subarray between $\\text{first}[u]$ and $\\text{first}[v]$</strong>—reducing LCA to an $O(1)$ Sparse Table RMQ!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Paradigm A: Binary Lifting ($2^k$ Jump Pointers &amp; Path Aggregates)</h3>
+      <h2>1. Paradigm A: Binary Lifting ($2^k$ Jump Pointers &amp; Path Aggregates)</h2>
       <p>Binary Lifting stores a table $\\text{up}[k][u]$ for $0 \\le k \\le \\lfloor \\log_2 N \\rfloor$, where $\\text{up}[0][u] = \\text{parent}[u]$ and $\\text{up}[k][u] = \\text{up}[k-1][\\text{up}[k-1][u]]$. Combined with entry/exit timestamps ($\\text{tin}[u], \\text{tout}[u]$), we can test whether $u$ is an ancestor of $v$ in $O(1)$ time:</p>
       <p>$$\\text{isAncestor}(u, v) \\iff \\text{tin}[u] \\le \\text{tin}[v] \\;\\land\\; \\text{tout}[v] \\le \\text{tout}[u]$$</p>
       <p>To find $\\text{LCA}(u, v)$ when neither is an ancestor of the other, iterate $k$ from $\\lfloor \\log_2 N \\rfloor$ down to $0$: if $\\text{up}[k][u]$ is <em>not</em> an ancestor of $v$, jump $u \\leftarrow \\text{up}[k][u]$. After the loop, $u$ is the immediate child of $\\text{LCA}(u, v)$ along the path, so $\\text{up}[0][u]$ is the exact LCA!</p>
@@ -1492,7 +1877,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-sparse-table-lca-rmq"></div>
 
-      <h3>2. Production Implementation: Binary Lifting (<code>lca</code>, <code>kthAncestor</code>, <code>dist</code>) &amp; $O(1)$ Euler Tour RMQ</h3>
+      <h2>2. Production Implementation: Binary Lifting (<code>lca</code>, <code>kthAncestor</code>, <code>dist</code>) &amp; $O(1)$ Euler Tour RMQ</h2>
       <pre><code class="language-javascript">/**
  * 1. Binary Lifting LCA + K-th Ancestor + Tree Distance
  * Build: O(N log N) | Query LCA / kthAncestor / dist: O(log N)
@@ -1565,8 +1950,67 @@ class BinaryLiftingLCA {
     return this.depth[u] + this.depth[v] - 2 * this.depth[w];
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;bit&gt;
+#include &lt;cstdint&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Binary Lifting LCA + K-th Ancestor + Tree Distance (C++20)
+class BinaryLiftingLCA {
+    int n, log_n, timer = 0;
+    std::vector&lt;std::vector&lt;int&gt;&gt; up;
+    std::vector&lt;int&gt; depth, tin, tout;
+
+    void dfs(int u, int p, const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; adj) {
+        tin[u] = ++timer;
+        up[0][u] = p;
+        for (int k = 1; k &lt; log_n; ++k) {
+            up[k][u] = up[k - 1][up[k - 1][u]];
+        }
+        for (int v : adj[u]) {
+            if (v != p) {
+                depth[v] = depth[u] + 1;
+                dfs(v, u, adj);
+            }
+        }
+        tout[u] = ++timer;
+    }
+public:
+    BinaryLiftingLCA(int n_, const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; adj, int root = 0)
+        : n(n_),
+          log_n(std::bit_width(static_cast&lt;uint32_t&gt;(n_)) + 1),
+          up(log_n, std::vector&lt;int&gt;(n_)),
+          depth(n_, 0), tin(n_, 0), tout(n_, 0) {
+        dfs(root, root, adj);
+    }
+
+    bool is_ancestor(int u, int v) const noexcept {
+        return tin[u] &lt;= tin[v] &amp;&amp; tout[v] &lt;= tout[u];
+    }
+
+    int kth_ancestor(int u, int k) const noexcept {
+        if (k &gt; depth[u]) return -1;
+        for (int b = 0; k &gt; 0; ++b, k &gt;&gt;= 1) {
+            if (k &amp; 1) u = up[b][u];
+        }
+        return u;
+    }
+
+    int lca(int u, int v) const noexcept {
+        if (is_ancestor(u, v)) return u;
+        if (is_ancestor(v, u)) return v;
+        for (int k = log_n - 1; k &gt;= 0; --k) {
+            if (!is_ancestor(up[k][u], v)) u = up[k][u];
+        }
+        return up[0][u];
+    }
+
+    int dist(int u, int v) const noexcept {
+        int w = lca(u, v);
+        return depth[u] + depth[v] - 2 * depth[w];
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1648,7 +2092,7 @@ class BinaryLiftingLCA {
     intuition: `<p>How do we support dynamic updates and range queries (sum, max, affine transformations) along the <strong>simple path between any two vertices $u$ and $v$</strong> in an arbitrary tree, AND simultaneously across any <strong>subtree $T_u$</strong>? If the tree is a single line, a Segment Tree solves it in $O(\\log N)$; if the tree branches arbitrarily, a naive DFS ordering keeps subtrees contiguous but shatters root-to-node paths into $O(N)$ disconnected pieces.</p>
     <p>Sleator and Tarjan's <strong>Heavy-Light Decomposition (HLD)</strong> bridges the two: at every internal vertex $u$, classify the edge to the child $c$ with the largest subtree size $\\text{sz}[c]$ as <strong>heavy</strong>, and the edges to all other children as <strong>light</strong>. Whenever you step down a light edge $(u, v)$, the subtree size at least halves ($\\text{sz}[v] \\le \\text{sz}[u] / 2$)—for if $\\text{sz}[v] > \\text{sz}[u] / 2$, $v$ would be the heaviest child! Consequently, any path from a node to the root traverses <strong>at most $\\lfloor \\log_2 N \\rfloor$ light edges</strong> and therefore intersects <strong>at most $\\lfloor \\log_2 N \\rfloor + 1$ disjoint heavy paths</strong>. By visiting the heavy child <em>first</em> during DFS (the <code> + "</code>swap-to-front<code>" + </code> trick), every heavy chain AND every subtree simultaneously map to contiguous intervals in a single flat array <code> + "</code>pos[0..N-1]<code>" + </code>!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Heavy vs Light Edges &amp; The $\\lfloor \\log_2 N \\rfloor$ Path-Partition Bound</h3>
+      <h2>1. Heavy vs Light Edges &amp; The $\\lfloor \\log_2 N \\rfloor$ Path-Partition Bound</h2>
       <p>For each node $u$ with children $c_1, c_2, \\dots, c_k$, pick a child $c^*$ maximizing $\\text{sz}[c^*]$. Call $(u, c^*)$ the <strong>heavy edge</strong> out of $u$, and all other edges $(u, c_i)$ ($c_i \\neq c^*$) <strong>light edges</strong>.</p>
 
       <div class="invariant-box">
@@ -1723,7 +2167,7 @@ class BinaryLiftingLCA {
         </g>
       </svg>
 
-      <h3>2. Climbing Chains in <code>queryPath(u, v)</code> &amp; Handling Edge Weights vs Vertex Weights</h3>
+      <h2>2. Climbing Chains in <code>queryPath(u, v)</code> &amp; Handling Edge Weights vs Vertex Weights</h2>
       <p>To query or update the path between $u$ and $v$, compare the chain heads $\\text{head}[u]$ and $\\text{head}[v]$:</p>
       <ul>
         <li>While $\\text{head}[u] \\neq \\text{head}[v]$, pick whichever chain head is deeper (say $\\text{depth}[\\text{head}[u]] > \\text{depth}[\\text{head}[v]]$), query the contiguous segment $[\\text{pos}[\\text{head}[u]], \\text{pos}[u]]$ in the Segment Tree, and jump $u \\leftarrow \\text{parent}[\\text{head}[u]]$ across the light edge into the upper chain.</li>
@@ -1745,7 +2189,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-mos-sqrt-decomposition"></div>
 
-      <h3>3. Production Implementation: Heavy-Light Decomposition with Iterative Segment Tree</h3>
+      <h2>3. Production Implementation: Heavy-Light Decomposition with Iterative Segment Tree</h2>
       <pre><code class="language-javascript">/**
  * Heavy-Light Decomposition (HLD) supporting:
  *  - Point update on vertex u: O(log N)
@@ -1865,8 +2309,86 @@ class HeavyLightDecomposition {
     return this._segQuery(this.pos[u], this.pos[u] + this.sz[u] - 1);
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
 
-      <h3>4. Complexity Matrix</h3>
+// Heavy-Light Decomposition (HLD) with Heavy-Child-First Preorder &amp; 2N Segment Tree (C++20)
+class HeavyLightDecomposition {
+    int n, cur_pos = 0;
+    std::vector&lt;int&gt; parent, depth, sz, heavy, head, pos;
+    std::vector&lt;int64_t&gt; tree;
+
+    int dfs_size(int u, int p, std::vector&lt;std::vector&lt;int&gt;&gt;&amp; adj) {
+        parent[u] = p;
+        sz[u] = 1;
+        int max_sub = 0;
+        for (int&amp; v : adj[u]) {
+            if (v == p) continue;
+            depth[v] = depth[u] + 1;
+            int sub = dfs_size(v, u, adj);
+            sz[u] += sub;
+            if (sub &gt; max_sub) {
+                max_sub = sub;
+                heavy[u] = v;
+                std::swap(adj[u][0], v); // Heavy child moved to front!
+            }
+        }
+        return sz[u];
+    }
+
+    void dfs_hld(int u, int h, const std::vector&lt;std::vector&lt;int&gt;&gt;&amp; adj) {
+        head[u] = h;
+        pos[u] = cur_pos++;
+        for (int v : adj[u]) {
+            if (v != parent[u]) {
+                dfs_hld(v, v == heavy[u] ? h : v, adj);
+            }
+        }
+    }
+
+    int64_t seg_query(int l, int r) const noexcept {
+        int64_t res = 0;
+        for (int a = l + n, b = r + n + 1; a &lt; b; a &gt;&gt;= 1, b &gt;&gt;= 1) {
+            if (a &amp; 1) res += tree[a++];
+            if (b &amp; 1) res += tree[--b];
+        }
+        return res;
+    }
+public:
+    HeavyLightDecomposition(int n_, std::vector&lt;std::vector&lt;int&gt;&gt; adj,
+                            const std::vector&lt;int64_t&gt;&amp; vals, int root = 0)
+        : n(n_), parent(n_, -1), depth(n_, 0), sz(n_, 0),
+          heavy(n_, -1), head(n_, 0), pos(n_, 0), tree(2 * n_, 0) {
+        dfs_size(root, -1, adj);
+        dfs_hld(root, root, adj);
+        for (int u = 0; u &lt; n; ++u) tree[n + pos[u]] = vals[u];
+        for (int i = n - 1; i &gt;= 1; --i) tree[i] = tree[i &lt;&lt; 1] + tree[(i &lt;&lt; 1) | 1];
+    }
+
+    void set_vertex(int u, int64_t val) noexcept {
+        int p = pos[u] + n;
+        tree[p] = val;
+        for (p &gt;&gt;= 1; p &gt;= 1; p &gt;&gt;= 1) tree[p] = tree[p &lt;&lt; 1] + tree[(p &lt;&lt; 1) | 1];
+    }
+
+    int64_t query_path(int u, int v) const noexcept {
+        int64_t res = 0;
+        while (head[u] != head[v]) {
+            if (depth[head[u]] &lt; depth[head[v]]) std::swap(u, v);
+            res += seg_query(pos[head[u]], pos[u]);
+            u = parent[head[u]];
+        }
+        if (depth[u] &gt; depth[v]) std::swap(u, v);
+        return res + seg_query(pos[u], pos[v]);
+    }
+
+    int64_t query_subtree(int u) const noexcept {
+        return seg_query(pos[u], pos[u] + sz[u] - 1);
+    }
+};</code></pre>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1942,7 +2464,7 @@ class HeavyLightDecomposition {
     intuition: `<p>Given an array $A[0..N-1]$, its <strong>Min-Cartesian Tree</strong> (introduced by Jean Vuillemin in 1980) is the unique binary tree whose <strong>inorder traversal reproduces the array indices $0, 1, \\dots, N-1$</strong> and whose nodes satisfy the <strong>min-heap property on values $A[i]$</strong> ($A[\\text{parent}] \\le A[\\text{child}]$). Equivalently, the root of the Cartesian tree for $A[L..R]$ is the index $m = \\arg\\min_{i \\in [L, R]} A[i]$, its left subtree is the Cartesian tree of $A[L..m-1]$, and its right subtree is the Cartesian tree of $A[m+1..R]$.</p>
     <p>Two remarkable consequences follow immediately. First, for any range $[L, R]$, the Lowest Common Ancestor $\\text{LCA}(L, R)$ in the Cartesian tree is the unique ancestor falling between $L$ and $R$ in inorder traversal—which is <strong>literally $\\arg\\min_{i \\in [L, R]} A[i]$</strong>! Thus <em>any</em> static Range Minimum Query (RMQ) reduces in $\\Theta(N)$ time to LCA on a Cartesian tree, and conversely LCA reduces to $\\pm 1$ RMQ via Euler Tour (<strong>RMQ-LCA Duality</strong>). Second, we can construct the Cartesian tree in <strong>strict $\\Theta(N)$ time</strong> by inserting indices $i = 0, 1, \\dots, N-1$ from left to right while maintaining the tree's <strong>right spine</strong> on a monotonic increasing stack!</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Linear-Time $\\Theta(N)$ Right-Spine Construction via Monotonic Stack</h3>
+      <h2>1. Linear-Time $\\Theta(N)$ Right-Spine Construction via Monotonic Stack</h2>
       <p>Suppose we have already built the Cartesian tree for prefix $A[0..i-1]$. Because index $i$ is larger than every index in $\{0, \\dots, i-1\}$, node $i$ <strong>must be placed somewhere along the rightmost spine</strong> of the current tree (and cannot have a right child yet). As we climb up the right spine from the bottommost node, any spine node $s$ with $A[s] > A[i]$ violates the min-heap invariant if $s$ remains above $i$. Therefore:</p>
       <ol>
         <li>Pop all nodes $s$ from the right-spine stack that have $A[s] > A[i]$; let $last$ be the last node popped (the shallowest popped node with $A[last] > A[i]$).</li>
@@ -2015,7 +2537,7 @@ flowchart LR
 
       <div class="simulator-mount" data-sim="sim-mos-sqrt-decomposition"></div>
 
-      <h3>2. Production Implementation: $\\Theta(N)$ Cartesian Tree &amp; All-Subarray-Minimums Summation</h3>
+      <h2>2. Production Implementation: $\\Theta(N)$ Cartesian Tree &amp; All-Subarray-Minimums Summation</h2>
       <pre><code class="language-javascript">/**
  * Constructs the Min-Cartesian Tree of arr[0..N-1] in exact Theta(N) time
  * using a monotonic right-spine stack.
@@ -2083,8 +2605,67 @@ function sumOfSubarrayMinimums(arr) {
   }
   return totalSum;
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;cstdint&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Linear-Time Theta(N) Right-Spine Monotonic Stack Cartesian Tree (C++20)
+struct CartesianTree {
+    int root = -1;
+    std::vector&lt;int&gt; parent, left, right;
+};
+
+CartesianTree build_cartesian_tree(const std::vector&lt;int64_t&gt;&amp; arr) {
+    int n = static_cast&lt;int&gt;(arr.size());
+    CartesianTree ct{ -1, std::vector&lt;int&gt;(n, -1), std::vector&lt;int&gt;(n, -1), std::vector&lt;int&gt;(n, -1) };
+    std::vector&lt;int&gt; stack;
+    stack.reserve(n);
+
+    for (int i = 0; i &lt; n; ++i) {
+        int last_popped = -1;
+        while (!stack.empty() &amp;&amp; arr[stack.back()] &gt; arr[i]) {
+            last_popped = stack.back();
+            stack.pop_back();
+        }
+        if (last_popped != -1) {
+            ct.left[i] = last_popped;
+            ct.parent[last_popped] = i;
+        }
+        if (!stack.empty()) {
+            ct.right[stack.back()] = i;
+            ct.parent[i] = stack.back();
+        }
+        stack.push_back(i);
+    }
+    if (!stack.empty()) ct.root = stack.front();
+    return ct;
+}
+
+int64_t sum_of_subarray_minimums(const std::vector&lt;int64_t&gt;&amp; arr) {
+    int n = static_cast&lt;int&gt;(arr.size());
+    if (n == 0) return 0;
+    auto ct = build_cartesian_tree(arr);
+    std::vector&lt;int&gt; order;
+    order.reserve(n);
+    std::vector&lt;int&gt; st = {ct.root};
+    while (!st.empty()) {
+        int u = st.back(); st.pop_back();
+        order.push_back(u);
+        if (ct.left[u] != -1) st.push_back(ct.left[u]);
+        if (ct.right[u] != -1) st.push_back(ct.right[u]);
+    }
+    std::vector&lt;int64_t&gt; sz(n, 0);
+    int64_t total = 0;
+    for (int idx = n - 1; idx &gt;= 0; --idx) {
+        int u = order[idx];
+        int64_t sz_l = ct.left[u] != -1 ? sz[ct.left[u]] : 0;
+        int64_t sz_r = ct.right[u] != -1 ? sz[ct.right[u]] : 0;
+        sz[u] = 1 + sz_l + sz_r;
+        total += arr[u] * (sz_l + 1) * (sz_r + 1);
+    }
+    return total;
+}</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -2162,7 +2743,7 @@ function sumOfSubarrayMinimums(arr) {
     </ul>
     Composing a new tag $f_{\\text{new}}(x) = a_2 x + b_2$ onto an existing pending tag $f_{\\text{old}}(x) = a_1 x + b_1$ is simply $f_{\\text{new}}(f_{\\text{old}}(x)) = (a_2 a_1)x + (a_2 b_1 + b_2)$, with identity tag $(1, 0)$! In this Build Lab, we engineer both an specialized SoA <strong>Range Affine Lazy Segment Tree</strong> and a generic AtCoder-style <strong>Monoid + Homomorphism Lazy Segment Tree</strong> supporting $O(\\log N)$ binary search (<code> + "</code>maxRight<code>" + </code>).</p>`,
     content: `<div class="lesson-content">
-      <h3>1. Algebraic Specification of the Range Affine Lazy Segment Tree</h3>
+      <h2>1. Algebraic Specification of the Range Affine Lazy Segment Tree</h2>
       <p>Let each node $v$ covering $[tl, tr]$ of length $\\text{len} = tr - tl + 1$ store:</p>
       <ul>
         <li><strong>Data Summary:</strong> $\\text{sum}[v] = \\sum_{i=tl}^{tr} A[i]$.</li>
@@ -2234,7 +2815,7 @@ flowchart TD
 
       <div class="simulator-mount" data-sim="sim-segment-tree-lazy"></div>
 
-      <h3>2. Complete Production Implementation: Range Affine Lazy Segment Tree + Verification Suite</h3>
+      <h2>2. Complete Production Implementation: Range Affine Lazy Segment Tree + Verification Suite</h2>
       <pre><code class="language-javascript">/**
  * Production Range Affine Lazy Segment Tree (Struct-of-Arrays TypedArray Layout)
  * Supports:
@@ -2340,8 +2921,71 @@ class RangeAffineLazySegTree {
     return walk(1, 0, this.n - 1);
   }
 }</code></pre>
+      <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;cstdint&gt;
+#include &lt;functional&gt;
 
-      <h3>3. Complexity Matrix</h3>
+// Unified Range Affine Lazy Segment Tree + O(log N) Tree-Walk max_right (C++20)
+class RangeAffineLazySegTree {
+    int n;
+    std::vector&lt;int64_t&gt; sum, lazy_a, lazy_b;
+
+    void apply(int v, int64_t len, int64_t a, int64_t b) noexcept {
+        sum[v] = a * sum[v] + b * len;
+        lazy_a[v] = a * lazy_a[v];
+        lazy_b[v] = a * lazy_b[v] + b;
+    }
+
+    void push_down(int v, int tl, int tr) noexcept {
+        int64_t a = lazy_a[v], b = lazy_b[v];
+        if (a == 1 &amp;&amp; b == 0) return;
+        int tm = (tl + tr) &gt;&gt; 1;
+        apply(v &lt;&lt; 1, tm - tl + 1, a, b);
+        apply((v &lt;&lt; 1) | 1, tr - tm, a, b);
+        lazy_a[v] = 1;
+        lazy_b[v] = 0;
+    }
+
+    void build(int v, int tl, int tr, const std::vector&lt;int64_t&gt;&amp; arr) {
+        if (tl == tr) { sum[v] = arr[tl]; return; }
+        int tm = (tl + tr) &gt;&gt; 1;
+        build(v &lt;&lt; 1, tl, tm, arr);
+        build((v &lt;&lt; 1) | 1, tm + 1, tr, arr);
+        sum[v] = sum[v &lt;&lt; 1] + sum[(v &lt;&lt; 1) | 1];
+    }
+public:
+    explicit RangeAffineLazySegTree(const std::vector&lt;int64_t&gt;&amp; arr)
+        : n(static_cast&lt;int&gt;(arr.size())),
+          sum(4 * n, 0), lazy_a(4 * n, 1), lazy_b(4 * n, 0) {
+        if (n &gt; 0) build(1, 0, n - 1, arr);
+    }
+
+    void range_affine(int ql, int qr, int64_t a, int64_t b, int v = 1, int tl = 0, int tr = -1) {
+        if (tr == -1) tr = n - 1;
+        if (ql &gt; tr || qr &lt; tl) return;
+        if (ql &lt;= tl &amp;&amp; tr &lt;= qr) { apply(v, tr - tl + 1, a, b); return; }
+        push_down(v, tl, tr);
+        int tm = (tl + tr) &gt;&gt; 1;
+        range_affine(ql, qr, a, b, v &lt;&lt; 1, tl, tm);
+        range_affine(ql, qr, a, b, (v &lt;&lt; 1) | 1, tm + 1, tr);
+        sum[v] = sum[v &lt;&lt; 1] + sum[(v &lt;&lt; 1) | 1];
+    }
+
+    void range_add(int ql, int qr, int64_t delta) { range_affine(ql, qr, 1, delta); }
+    void range_scale(int ql, int qr, int64_t factor) { range_affine(ql, qr, factor, 0); }
+    void range_assign(int ql, int qr, int64_t val) { range_affine(ql, qr, 0, val); }
+
+    int64_t range_sum(int ql, int qr, int v = 1, int tl = 0, int tr = -1) {
+        if (tr == -1) tr = n - 1;
+        if (ql &gt; tr || qr &lt; tl) return 0;
+        if (ql &lt;= tl &amp;&amp; tr &lt;= qr) return sum[v];
+        push_down(v, tl, tr);
+        int tm = (tl + tr) &gt;&gt; 1;
+        return range_sum(ql, qr, v &lt;&lt; 1, tl, tm) + range_sum(ql, qr, (v &lt;&lt; 1) | 1, tm + 1, tr);
+    }
+};</code></pre>
+
+      <h2>3. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>

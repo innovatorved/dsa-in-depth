@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -883,7 +883,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <audio id="audio-primality-miller-rabin-pollard-rho" src="audio/primality-miller-rabin-pollard-rho.mp3" preload="metadata"></audio>
       </div><article class="prose">
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Non-Trivial Square Roots of Unity &amp; Birthday Collisions</h3>
+        <h2>1. Formal Invariant — Non-Trivial Square Roots of Unity &amp; Birthday Collisions</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Strong Pseudoprimality (Miller-Rabin Witness)</h4>
           <p>For an odd integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&gt;</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N &gt; 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>, write <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>−</mo><mn>1</mn><mo>=</mo><msup><mn>2</mn><mi>s</mi></msup><mi>d</mi></mrow><annotation encoding="application/x-tex">N - 1 = 2^s d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span></span></span></span></span><span class="mord mathnormal">d</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span> odd. If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> is prime and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>gcd</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>N</mi><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gcd(a, N) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span style="margin-right:0.0139em;">g</span>cd</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, then either:</p>
@@ -915,7 +915,7 @@ c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3369em;"><span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1/4</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> steps, at which point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>gcd</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mo>−</mo><mi>y</mi><mi mathvariant="normal">∣</mi><mo separator="true">,</mo><mi>N</mi><mo stretchy="false">)</mo><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gcd(|x - y|, N) &gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span style="margin-right:0.0139em;">g</span>cd</span><span class="mopen">(</span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord">∣</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> extracts a non-trivial divisor of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span>.</p>
         </div>
 
-        <h3>2. Complete 64-Bit Factorization Pipeline</h3>
+        <h2>2. Complete 64-Bit Factorization Pipeline</h2>
         <div class="mermaid">
 flowchart TD
     Input["Factor(N) for 64-bit N"] --> BaseCase{"N == 1 ?"}
@@ -926,13 +926,13 @@ flowchart TD
     RunRho --> Recurse["Recurse Factor(d) and Factor(N / d)"]
         </div>
 
-        <h3>3. Hardware &amp; Algorithmic Optimizations: <code>__int128</code> &amp; Brent's Batched GCD</h3>
+        <h2>3. Hardware &amp; Algorithmic Optimizations: <code>__int128</code> &amp; Brent's Batched GCD</h2>
         <div class="hardware-box">
           <h4>Avoiding Overflow (<code>__int128_t</code>) &amp; Amortizing <code>gcd</code> via Richard Brent's Batching</h4>
           <p>Multiplying two 64-bit integers <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⋅</mo><mi>b</mi><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \cdot b \pmod N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4445em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>∼</mo><msup><mn>10</mn><mn>18</mn></msup></mrow><annotation encoding="application/x-tex">N \sim 10^{18}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">18</span></span></span></span></span></span></span></span></span></span></span></span> overflows <code>uint64_t</code>! Using GCC/Clang's hardware-backed <code>static_cast&lt;__uint128_t&gt;(a) * b % N</code> compiles directly to a single x86-64 <code>mulq</code> + <code>divq</code> instruction pair. Furthermore, calling <code>std::gcd(|x - y|, N)</code> on every step of Pollard's <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> adds an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> factor. **Brent's optimization** accumulates the product <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mn>128</mn></msubsup><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>j</mi></msub><mo>−</mo><mi>y</mi><mi mathvariant="normal">∣</mi><mtext> </mtext><mo lspace="0.22em" rspace="0.22em"><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mo><mtext> </mtext><mi>N</mi></mrow><annotation encoding="application/x-tex">P = \prod_{j=1}^{128} |x_j - y| \bmod N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.3898em;vertical-align:-0.4358em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.954em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4358em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> across <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn></mrow><annotation encoding="application/x-tex">128</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">128</span></span></span></span> steps and computes <code>std::gcd(P, N)</code> only once every 128 iterations, accelerating Pollard's <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">6\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">6</span><span class="mord">×</span></span></span></span>!</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-number-theory-miller-pollard">
           <div class="dsa-sim simulator-card" id="sim-number-theory-miller-pollard" data-sim-id="sim-number-theory-miller-pollard">
             <div class="dsa-sim__header simulator-card__header">
@@ -1076,7 +1076,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation</h3>
+        <h2>5. Production-Grade C++20 Implementation</h2>
         <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">95 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1189,11 +1189,11 @@ u64 <span class="tok-fn">pollard_rho</span>(u64 n) {
           
       <div class="check-slider__tabs" role="tablist" aria-label="Question categories">
         <button type="button" class="check-slider__tab is-active" data-jump-index="0" data-tab-type="mcq">Concept (3)</button>
-        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Napkin Math</button>
+        <button type="button" class="check-slider__tab" data-jump-index="1" data-tab-type="numeric">Bounds Math</button>
         
       </div>
     
-          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Core Invariant Check" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Napkin Math: Exact Algorithmic Calculation" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Core Invariant Check" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Staff Systems &amp; Proof Analysis" aria-label="Go to question 4"></button></span>
+          <span class="check-slider__dots"><button type="button" class="check-slider__dot is-mcq is-current" data-slide-index="0" title="1. Concept: Core Invariant Check" aria-label="Go to question 1"></button><button type="button" class="check-slider__dot is-numeric" data-slide-index="1" title="2. Bounds Math: Exact Algorithmic Calculation" aria-label="Go to question 2"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="2" title="3. Concept: Core Invariant Check" aria-label="Go to question 3"></button><button type="button" class="check-slider__dot is-mcq" data-slide-index="3" title="4. Concept: Staff Systems &amp; Proof Analysis" aria-label="Go to question 4"></button></span>
         </div>
         <div class="check-slider__track">
       <div class="quiz-card check-slider__slide" id="quiz-m18-q21" data-type="mcq" data-slug="primality-miller-rabin-pollard-rho" data-index="0">
@@ -1250,7 +1250,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
       </div>
       <div class="quiz-card check-slider__slide" id="quiz-m18-q22" data-type="numeric" data-slug="primality-miller-rabin-pollard-rho" data-index="1" hidden>
         <div class="check-slider__meta">
-          <span class="check-slider__type-badge is-numeric">Napkin Math · Capacity</span>
+          <span class="check-slider__type-badge is-numeric">Complexity &amp; Bounds Math</span>
           <span class="check-slider__title">Exact Algorithmic Calculation</span>
           <span class="check-slider__level">apply</span>
         </div>
@@ -1437,24 +1437,40 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-primality-miller-rabin-pollard-rho" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#039;s ρ Integer Factorization</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">Randomized Number Theory: Miller-Rabin Primality Testing &amp; Pollard&#039;s ρ Integer Factorization — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">Trial division up to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1133em;"><span></span></span></span></span></span></span></span></span> takes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span> iterations for a 64-bit integer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>∼</mo><msup><mn>10</mn><mn>18</mn></msup></mrow><annotation encoding="application/x-tex">N \sim 10^{18}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">18</span></span></span></span></span></span></span></span></span></span></span></span>. **Miller-Rabin** tests primality in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>k</mi><msup><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>3</mn></msup><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(k \log^3 N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.1484em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> time by combining Fermat&#039;s Little Theorem (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a^{N-1} \equiv 1 \pmod N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8413em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span>) wi</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(sqrtp)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(N^1/4)</code></span>
+              <span class="badge">🧭 Pattern: Computational Geometry, Number Theory, Randomized &amp; Approximation Algorithms</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1462,70 +1478,87 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Miller-Rabin factors N - 1 = 2^s * d and tests whether a^d == 1 (mod N) or a^{2^r d} == -1 (mod N), defeating ...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement power_mod()</div>
+                  <div class="build-lab-step-card__concept">Complete `power_mod(u64 base, u64 exp, u64 mod)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>u64 res = 1;
+base %= mod;
+while (exp &gt; 0) {
+if (exp &amp; 1) res = mul_mod(res, base, mod);</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Testing the 7 Sinclair bases {2, 325, 9375, 28178, 450775, 9780504, 1795265022} makes Miller-Rabin 100% determ...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement is_prime_u64()</div>
+                  <div class="build-lab-step-card__concept">Complete `is_prime_u64(u64 n)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (n &lt; 2) return false;
+for (u64 p : {2ULL, 3ULL, 5ULL, 7ULL, 11ULL, 13ULL, 17ULL, 19ULL, 23ULL, 29ULL, 31ULL, 37ULL}) {
+if (n == p) return true;
+if (n % p == 0) return false;</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Pollard&#039;s Rho iterates f(x) = (x^2 + c) mod N and exploits the Birthday Paradox to find a collision modulo the...</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Implement pollard_rho()</div>
+                  <div class="build-lab-step-card__concept">Complete `pollard_rho(u64 n)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (n % 2 == 0) return 2;
+auto f = [n](u64 x, u64 c) { return (mul_mod(x, x, n) + c) % n; };
+for (u64 c = 1; ; ++c) {
+u64 x = 2, y = 2, g = 1, q = 1, xs = 2;</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="primality-miller-rabin-pollard-rho" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-primality-miller-rabin-pollard-rho">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">In Brent's optimization of Pollard's <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span>, we batch 128 consecutive differences into a single product <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><msubsup><mo>∏</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mn>128</mn></msubsup><mi mathvariant="normal">∣</mi><mi>x</mi><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mi mathvariant="normal">∣</mi><mtext> </mtext><mo lspace="0.22em" rspace="0.22em"><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mo><mtext> </mtext><mi>N</mi></mrow><annotation encoding="application/x-tex">q = \prod_{k=1}^{128} |x - y_k| \bmod N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.2537em;vertical-align:-0.2997em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.954em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> and call `g = std::gcd(q, N)` once every 128 steps. What must the algorithm do if `g` jumps straight from `1` to `N` (`g == N`)?</p>
-        <div class="exercise-card__options" id="exercise-options-primality-miller-rabin-pollard-rho">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="primality-miller-rabin-pollard-rho" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Rewind `y` to the checkpoint `xs` saved at the start of that 128-step batch and step forward one iteration at a time calling `std::gcd(|x - xs|, N)` until <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">g &gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>; if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span></span></span></span> is still <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span>, restart with a new constant <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">c + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="primality-miller-rabin-pollard-rho" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">Conclude that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> is prime and return <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span></span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="primality-miller-rabin-pollard-rho" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">Return <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">N / 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord">/2</span></span></span></span> as the prime factor</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="primality-miller-rabin-pollard-rho" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">Divide <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span></span></span></span> by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> and continue the batch</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-primality-miller-rabin-pollard-rho" style="display:none;">
-          <div class="exercise-card__explanation">When the batch product <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mtext> </mtext><mo lspace="0.22em" rspace="0.22em"><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mo><mtext> </mtext><mi>N</mi></mrow><annotation encoding="application/x-tex">q \bmod N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> becomes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, `gcd(0, N) == N`, meaning one of the 128 steps inside the batch hit a multiple of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> (or all prime factors simultaneously). Backtracking from the saved checkpoint `xs` at the start of the 128-step block isolates the exact step where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>gcd</mi><mo>⁡</mo><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gcd &gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mop"><span style="margin-right:0.0139em;">g</span>cd</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1627,7 +1660,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1646,17 +1679,17 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -15,7 +15,7 @@ window.MODULE_CONTENT["m18"] = {
     intuition: "In naive geometry code, computing slopes $\\Delta y / \\Delta x$ triggers division-by-zero on vertical segments and catastrophic floating-point cancellation on nearly parallel lines. Every foundational 2D geometric predicate—whether three points turn counter-clockwise (CCW), whether two line segments intersect, whether a point lies inside a polygon, or the area of a non-self-intersecting polygon—reduces to two division-free bilinear forms over exact 64-bit integers: the 2D **Cross Product** $\\vec{u} \\times \\vec{v} = u_x v_y - u_y v_x$ (signed parallelogram area) and the **Dot Product** $\\vec{u} \\cdot \\vec{v} = u_x v_x + u_y v_y$ (signed projection).",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Exact Orientation &amp; Segment Intersection Predicates</h3>
+        <h2>1. Formal Invariant — Exact Orientation &amp; Segment Intersection Predicates</h2>
         <div class="invariant-box">
           <h4>Invariant: The CCW Orientation Determinant</h4>
           <p>Given three points $A(x_A, y_A)$, $B(x_B, y_B)$, and $C(x_C, y_C)$ in $\\mathbb{Z}^2$, define the displacement vectors $\\vec{AB} = B - A$ and $\\vec{AC} = C - A$. The 2D cross product (twice the signed area of $\\triangle ABC$) is:</p>
@@ -28,7 +28,7 @@ window.MODULE_CONTENT["m18"] = {
           <p>By the <strong>Shoelace Theorem (Discrete Green's Theorem)</strong>, twice the signed area of any simple polygon $P_0, P_1, \\dots, P_{N-1}$ is the exact integer sum $\\sum_{i=0}^{N-1} (P_i \\times P_{(i+1) \\bmod N})$.</p>
         </div>
 
-        <h3>2. Exact Segment-Segment Intersection Decision Tree</h3>
+        <h2>2. Exact Segment-Segment Intersection Decision Tree</h2>
         <div class="mermaid">
 flowchart TD
     Segs["Segments AB and CD"] --> EvalCCW["Compute s1 = sgn(cross(A, B, C)), s2 = sgn(cross(A, B, D))<br/>s3 = sgn(cross(C, D, A)), s4 = sgn(cross(C, D, B))"]
@@ -39,16 +39,16 @@ flowchart TD
     Collinear -->|"No"| Miss["Disjoint Segments (False)"]
         </div>
 
-        <h3>3. Why <code>sgn()</code> Normalization Prevents Overflow</h3>
+        <h2>3. Why <code>sgn()</code> Normalization Prevents Overflow</h2>
         <p>If coordinates satisfy $|x|, |y| \\le 10^9$, then $\\text{cross}(A, B, C)$ is bounded by $4 \\times 10^{18}$, which fits inside a signed 64-bit integer (<code>int64_t</code> max $\\approx 9.22 \\times 10^{18}$). However, if you test opposite orientations by multiplying $\\text{cross}(A, B, C) \\times \\text{cross}(A, B, D) < 0$ directly in <code>int64_t</code>, the product reaches $1.6 \\times 10^{37}$ and overflows! Mapping each cross product through $\\text{sgn}(v) \\in \\{-1, 0, +1\\}$ first reduces the product to $\\{-1, 0, +1\\}$ with zero overflow risk.</p>
 
-        <h3>4. Hardware &amp; Floating-Point Realities</h3>
+        <h2>4. Hardware &amp; Floating-Point Realities</h2>
         <div class="hardware-box">
           <h4>IEEE-754 Catastrophic Cancellation vs Exact Integer Predicates</h4>
           <p>In IEEE-754 <code>double</code> (53-bit significand), subtracting two nearly equal products $u_x v_y - u_y v_x$ loses all leading matching bits (catastrophic cancellation), which can flip the sign of <code>cross(A, B, C)</code> from positive to negative and cause Convex Hull or Delaunay Triangulation algorithms to enter infinite loops! Production CAD/GIS kernels (CGAL, Jonathan Shewchuk's Adaptive Precision Floating-Point Predicates) use a fast hardware floating-point filter first and fall back to exact multi-word expansion arithmetic only when $|u_x v_y - u_y v_x|$ is smaller than the rounding error bound.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-convex-hull-sweep"></div>
 
         <table class="complexity-matrix">
@@ -88,7 +88,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation</h3>
+        <h2>6. Production-Grade C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 #include &lt;cmath&gt;
@@ -188,7 +188,7 @@ int64_t polygon_twice_area(const std::vector&lt;Point&gt;&amp; poly) {
     intuition: "Stretch a rubber band around a scatter of nails on a board and let go—the polygon it snaps into is the **Convex Hull**. While Graham Scan (1972) sorts points by polar angle around the lowest pivot, **Andrew's Monotone Chain** (1979) avoids angle comparisons entirely: it sorts points lexicographically by $(x, y)$ and sweeps left-to-right to build the lower hull, then right-to-left to build the upper hull, popping any penultimate vertex that makes a clockwise (or collinear) turn. Once the convex hull is built, **Shamos's Rotating Calipers** (1978) sweeps two antipodal tangent lines around the hull in $O(H)$ linear time to find the farthest pair of points (polygon diameter) or minimum bounding box!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Monotone Chain Stack Convexity &amp; Antipodal Pairs</h3>
+        <h2>1. Formal Invariant — Monotone Chain Stack Convexity &amp; Antipodal Pairs</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Andrew's Monotone Chain Stack Property</h4>
           <p>After sorting distinct points $P_0 < P_1 < \\dots < P_{N-1}$ lexicographically by $(x, y)$, both the Lower Hull and Upper Hull stacks satisfy the strict CCW invariant on every consecutive triple $(H_{k-2}, H_{k-1}, H_k)$:</p>
@@ -200,7 +200,7 @@ int64_t polygon_twice_area(const std::vector&lt;Point&gt;&amp; poly) {
 
         <div class="simulator-mount" data-sim="sim-convex-hull-sweep"></div>
 
-        <h3>2. Andrew's Monotone Chain &amp; Rotating Calipers Pipeline</h3>
+        <h2>2. Andrew's Monotone Chain &amp; Rotating Calipers Pipeline</h2>
         <div class="mermaid">
 flowchart LR
     Input["N Points in 2D"] --> SortLex["Sort Lexicographically by (x, y)<br/>&amp; Deduplicate O(N log N)"]
@@ -211,19 +211,19 @@ flowchart LR
     Concat --> Calipers["Rotating Calipers Two-Pointer:<br/>Advance j while cross(e_i, H_{j+1}-H_j) > 0<br/>O(H) Diameter"]
         </div>
 
-        <h3>3. Why Andrew's Monotone Chain Beats Graham Scan in Practice</h3>
+        <h2>3. Why Andrew's Monotone Chain Beats Graham Scan in Practice</h2>
         <ul>
           <li><strong>Faster Sorting Key:</strong> Comparing two integers <code>a.x < b.x || (a.x == b.x && a.y < b.y)</code> takes 1–2 CPU cycles and branches predictably, whereas Graham Scan's polar comparator requires a 64-bit cross product + distance tie-breaker on every <code>std::sort</code> comparison ($O(N \\log N)$ multiplications).</li>
           <li><strong>Clean Collinear Handling:</strong> In Graham Scan, collinear points along the final closing ray back to the pivot require reversing the suffix of the sorted array if you want all boundary points. In Andrew's Monotone Chain, simply changing <code>< 0</code> vs <code><= 0</code> in the <code>while</code> loop toggles between keeping or discarding collinear boundary vertices!</li>
         </ul>
 
-        <h3>4. Hardware &amp; Cache Reality</h3>
+        <h2>4. Hardware &amp; Cache Reality</h2>
         <div class="hardware-box">
           <h4>Amortized $O(N)$ Stack Scans &amp; SIMD Sorting</h4>
           <p>After the initial $O(N \\log N)$ sort, the lower and upper hull construction loops stream sequentially through <code>pts[0..N-1]</code> and push/pop at the tail of a single contiguous <code>std::vector&lt;Point&gt;</code>. Each point is pushed twice and popped at most twice ($\\le 4N$ stack ops total), executing in sub-millisecond L1 cache time.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -267,7 +267,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Monotone Chain + Rotating Calipers Diameter)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Monotone Chain + Rotating Calipers Diameter)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;algorithm&gt;
@@ -377,7 +377,7 @@ int64_t rotating_calipers_diameter_sq(const std::vector&lt;Pt&gt;&amp; hull) {
     intuition: "The **Sweep-Line Paradigm** transforms a static 2D geometric problem into a dynamic 1D problem along time $x$: imagine sweeping a vertical line $x = t$ from $-\\infty$ to $+\\infty$. Nothing interesting happens to the 1D cross-section except at discrete **Event Points** (segment endpoints, intersections, or rectangle left/right edges). In **Bentley-Ottmann (1979)**, maintaining active segments ordered by $y$-coordinate in a balanced BST means we only ever test *immediately adjacent* vertical neighbors for intersection! In **Klee's Measure Problem (Area of Union of $N$ Axis-Aligned Rectangles)**, maintaining the active $y$-intervals in a Segment Tree with `cover_count` tags computes the exact covered vertical length in $O(1)$ at the root, solving the entire 2D union area in $O(N \\log N)$ time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Sweep-Line Status &amp; No-Pushdown Coverage Segment Tree</h3>
+        <h2>1. Formal Invariant — Sweep-Line Status &amp; No-Pushdown Coverage Segment Tree</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Bentley-Ottmann Local Adjacency Property</h4>
           <p>Suppose two segments $S_a$ and $S_b$ intersect at $x = x^*$. Immediately to the left of $x^*$ (after processing all events with $x < x^*$), $S_a$ and $S_b$ <strong>must be immediately adjacent</strong> in the vertical sweep-line status BST! Therefore, checking only newly adjacent pairs upon segment insertion, deletion, or intersection swap detects all $K$ intersections in $O((N + K) \\log N)$ time.</p>
@@ -390,7 +390,7 @@ int64_t rotating_calipers_diameter_sq(const std::vector&lt;Pt&gt;&amp; hull) {
           <p>Because we only ever query the global root $\\text{len}[1]$, we <strong>never need lazy pushdown</strong>!</p>
         </div>
 
-        <h3>2. Sweep-Line Architecture for Area of Union of Rectangles</h3>
+        <h2>2. Sweep-Line Architecture for Area of Union of Rectangles</h2>
         <div class="mermaid">
 flowchart LR
     Rects["N Axis-Aligned Rectangles<br/>[x1, x2] x [y1, y2]"] --> Events["Create 2N Vertical Events:<br/>(x1, +1, y1, y2) and (x2, -1, y1, y2)<br/>+ Coordinate Compress Y"]
@@ -399,16 +399,16 @@ flowchart LR
     Update --> Sweep
         </div>
 
-        <h3>3. Closest Pair of Points via Sweep-Line in $O(N \\log N)$</h3>
+        <h2>3. Closest Pair of Points via Sweep-Line in $O(N \\log N)$</h2>
         <p>Another classic sweep-line application finds the **Closest Pair of Points** among $N$ points without divide-and-conquer: sort points by $x$, maintain a sliding window of points with $x_i - x_j < d$ inside a <code>std::set</code> ordered by $y$, and for each point $P_i$, query the <code>std::set</code> range $[y_i - d, y_i + d]$. By a geometric packing argument, at most **6 points** can exist inside the $d \\times 2d$ bounding box with pairwise distance $\\ge d$, so the inner loop executes at most 6 iterations per point!</p>
 
-        <h3>4. Hardware &amp; Memory Access Reality</h3>
+        <h2>4. Hardware &amp; Memory Access Reality</h2>
         <div class="hardware-box">
           <h4>Coordinate Compression + Flat Array Segment Tree</h4>
           <p>In Klee's Measure Problem, $y$-coordinates can span $[-10^9, 10^9]$, but at most $2N$ distinct $y$-coordinates exist. Sorting and deduplicating them into a flat array <code>Y[0..M-1]</code> maps every elementary interval $[Y[k], Y[k+1]]$ to leaf $k$ of a static $4M$-element array Segment Tree, running $10\\times$ faster than pointer-based dynamic trees.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-convex-hull-sweep"></div>
 
         <table class="complexity-matrix">
@@ -448,7 +448,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Area of Union of Rectangles)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Area of Union of Rectangles)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;algorithm&gt;
@@ -569,7 +569,7 @@ int64_t rectangle_union_area(const std::vector&lt;Rect&gt;&amp; rects) {
     intuition: "How do PostgreSQL/PostGIS, game engines, and Lidar point-cloud processors find all objects inside a 2D/3D bounding box or the $K$ nearest neighbors to a query point without scanning all $N$ records? **Space-partitioning trees** like **k-d Trees** (Bentley 1975, cycling splitting axes $x, y, z$ at median points) and **Quadtrees/Octrees** recursively bisect space into disjoint cells. **Data-partitioning trees** like **R-Trees** (Guttman 1984) generalize B-Trees by grouping nearby geometric objects into Minimum Bounding Rectangles (MBRs) aligned with disk pages. And **Space-Filling Curves** like the **Z-Order (Morton) Curve** interleave the bits of $(x, y)$ into a single 64-bit integer so standard 1D B-Trees can answer 2D range queries with sequential memory scans!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Axis-Cycling Partitioning &amp; Bounding-Box Pruning</h3>
+        <h2>1. Formal Invariant — Axis-Cycling Partitioning &amp; Bounding-Box Pruning</h2>
         <div class="invariant-box">
           <h4>Invariant 1: k-d Tree Axis-Alternating Median Split</h4>
           <p>In a $k$-dimensional k-d Tree, a node at depth $d$ splits its point set along axis $a = d \\bmod k$ at the median coordinate <code>pivot[a]</code> (selected in $O(m)$ via <code>std::nth_element</code>). Every point in the left subtree has $p[a] \\le \\text{pivot}[a]$, and every point in the right subtree has $p[a] \\ge \\text{pivot}[a]$. Because each point set is halved at every level, the tree is perfectly balanced with height $\\lceil \\log_2 N \\rceil$ and builds in $O(N \\log N)$ time.</p>
@@ -577,7 +577,7 @@ int64_t rectangle_union_area(const std::vector&lt;Rect&gt;&amp; rects) {
           <p>During Nearest Neighbor search for query point $Q$ with current best squared distance $D_{\\text{best}}^2$, let $\\delta = Q[a] - \\text{pivot}[a]$ be the signed perpendicular distance to the splitting hyperplane. We <strong>always search the near child first</strong>, and we prune the far child completely whenever $\\delta^2 \\ge D_{\\text{best}}^2$!</p>
         </div>
 
-        <h3>2. Taxonomy of Multidimensional Spatial Indexes</h3>
+        <h2>2. Taxonomy of Multidimensional Spatial Indexes</h2>
         <div class="mermaid">
 flowchart TD
     Spatial["Multidimensional Spatial Indexing"] --> SpacePart["Space-Partitioning<br/>(Disjoint Regions)"]
@@ -589,13 +589,13 @@ flowchart TD
     SpaceFill --> Morton["Z-Order (Morton) &amp; Hilbert Curves<br/>Bit Interleaving (BMI2 _pdep_u64)"]
         </div>
 
-        <h3>3. Space-Filling Curves &amp; Hardware Bit Interleaving (<code>_pdep_u64</code>)</h3>
+        <h2>3. Space-Filling Curves &amp; Hardware Bit Interleaving (<code>_pdep_u64</code>)</h2>
         <div class="hardware-box">
           <h4>Single-Cycle Morton Encoding via x86 BMI2 <code>PDEP</code></h4>
           <p>The 2D Z-Order (Morton) code of $(x, y) \\in [0, 2^{32}-1]^2$ places the bits of $x$ at even bit positions ($0, 2, 4, \\dots$) and the bits of $y$ at odd bit positions ($1, 3, 5, \\dots$). On modern x86-64 CPUs with BMI2, <code>_pdep_u64(x, 0x5555555555555555ULL) | _pdep_u64(y, 0xAAAAAAAAAAAAAAAAULL)</code> computes the 64-bit Morton key in <strong>6 CPU cycles</strong>! Sorting an array of points or BVH triangles by their Morton code clusters spatially adjacent objects into the same cache lines and disk pages.</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-convex-hull-sweep"></div>
 
         <table class="complexity-matrix">
@@ -635,7 +635,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation (Morton Z-Curve &amp; Static 2D k-d Tree Core)</h3>
+        <h2>5. Production-Grade C++20 Implementation (Morton Z-Curve &amp; Static 2D k-d Tree Core)</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 #include &lt;algorithm&gt;
@@ -699,7 +699,7 @@ inline uint64_t morton_encode_2d(uint32_t x, uint32_t y) {
     intuition: "Division does not exist directly in modular arithmetic $\\mathbb{Z}/m\\mathbb{Z}$—to divide by $a \\pmod m$, we must multiply by its **modular inverse** $a^{-1}$ satisfying $a \\cdot a^{-1} \\equiv 1 \\pmod m$. When $m$ is prime, Fermat's Little Theorem gives $a^{-1} \\equiv a^{m-2} \\pmod m$ in $O(\\log m)$ time; when $m$ is composite and $\\gcd(a, m) = 1$, the **Extended Euclidean Algorithm** finds Bézout coefficients $a x + m y = 1$ in $O(\\log(\\min(a, m)))$ time. Extending Bézout's Identity to multiple moduli yields the **Chinese Remainder Theorem (CRT)**, while **Euler's Linear Sieve** factors all integers up to $N$ in strict $O(N)$ time by striking each composite out *exactly once* using its smallest prime factor!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Bézout's Identity, CRT &amp; Linear Sieve Uniqueness</h3>
+        <h2>1. Formal Invariant — Bézout's Identity, CRT &amp; Linear Sieve Uniqueness</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Extended Euclidean Algorithm (Bézout's Identity)</h4>
           <p>For any integers $a, b$, <code>ext_gcd(a, b, x, y)</code> maintains $a x + b y = g = \\gcd(a, b)$. From the recursive step $(b, a \\bmod b)$ returning $b x_1 + (a - \\lfloor a/b \\rfloor b) y_1 = g$, rearranging terms yields the exact integer transition:</p>
@@ -710,7 +710,7 @@ inline uint64_t morton_encode_2d(uint32_t x, uint32_t y) {
           <p>Every composite $x = p_{\\min} \\cdot i$ has a unique smallest prime factor $p_{\\min} = \\text{spf}[x]$. In the inner loop over primes $p \\le \\text{spf}[i]$, breaking immediately as soon as <code>i % p == 0</code> guarantees that every composite $x \\le N$ is marked <strong>exactly once</strong> (by $p = \\text{spf}[x]$), achieving true $O(N)$ time!</p>
         </div>
 
-        <h3>2. Chinese Remainder Theorem Congruence Merging Pipeline</h3>
+        <h2>2. Chinese Remainder Theorem Congruence Merging Pipeline</h2>
         <div class="mermaid">
 flowchart LR
     Cong["Merge X = r1 (mod m1)<br/>and X = r2 (mod m2)"] --> ExtGCD["Run ext_gcd(m1, m2, p, q)<br/>m1*p + m2*q = g"]
@@ -719,17 +719,17 @@ flowchart LR
     Check -->|"Yes"| Combine["step = m2 / g<br/>k = ((r2 - r1) / g % step * p) % step<br/>r_new = r1 + m1 * k<br/>m_new = m1 * (m2 / g)"]
         </div>
 
-        <h3>3. Linear-Time Modular Inverse Table in $O(N)$</h3>
+        <h2>3. Linear-Time Modular Inverse Table in $O(N)$</h2>
         <p>When precomputing factorials and inverse factorials modulo a prime $M$ up to $N$, we can compute all modular inverses $\\text{inv}[1..N]$ in $O(N)$ total time without a single <code>log M</code> binary exponentiation! Writing $M = q \\cdot i + r$ where $q = \\lfloor M / i \\rfloor$ and $r = M \\bmod i < i$, we have $q \\cdot i + r \\equiv 0 \\pmod M$. Multiplying by $i^{-1} r^{-1}$ gives the one-line recurrence:</p>
         <p>$$\\text{inv}[i] = \\left( M - \\lfloor M / i \\rfloor \\right) \\cdot \\text{inv}[M \\bmod i] \\bmod M$$</p>
 
-        <h3>4. Hardware &amp; Cache Reality</h3>
+        <h2>4. Hardware &amp; Cache Reality</h2>
         <div class="hardware-box">
           <h4>Bitset Wheel Sieve vs Linear SPF Sieve</h4>
           <p>While Euler's Linear Sieve does $O(N)$ arithmetic operations vs $O(N \\log \\log N)$ for Eratosthenes, storing <code>int spf[N]</code> requires $4N$ bytes of RAM ($400\\text{ MB}$ for $N = 10^8$), which spills out of L3 cache. If you only need primality bits (not factorization), an odd-only bit-packed <code>std::bitset</code> Sieve of Eratosthenes uses $N / 16$ bytes ($6.25\\text{ MB}$ for $N = 10^8$), fitting completely inside L3 cache and running $3\\times$ faster in wall-clock time!</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-number-theory-miller-pollard"></div>
 
         <table class="complexity-matrix">
@@ -775,7 +775,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation</h3>
+        <h2>6. Production-Grade C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
@@ -884,7 +884,7 @@ struct LinearSieve {
     intuition: "Trial division up to $\\sqrt{N}$ takes $10^9$ iterations for a 64-bit integer $N \\sim 10^{18}$. **Miller-Rabin** tests primality in $O(k \\log^3 N)$ time by combining Fermat's Little Theorem ($a^{N-1} \\equiv 1 \\pmod N$) with the field property that the only square roots of $1$ modulo a prime $p$ are $\\pm 1$: factoring $N - 1 = 2^s d$ and squaring $a^d \\pmod N$ $s$ times exposes any non-trivial square root of $1$! Even better, testing just **7 deterministic bases** ($\\{2, 325, 9375, 28178, 450775, 9780504, 1795265022\\}$) is **100% deterministic** for all 64-bit integers! When $N$ is composite, **Pollard's $\\rho$ (Rho) algorithm** uses a pseudo-random walk $f(x) = (x^2 + c) \\bmod N$ and the **Birthday Paradox**: if $p$ is the smallest prime factor of $N$, the sequence $x_i \\bmod p$ collides in $O(\\sqrt{p}) = O(N^{1/4})$ steps, revealing $p = \\gcd(|x - y|, N)$ without knowing $p$ in advance!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Non-Trivial Square Roots of Unity &amp; Birthday Collisions</h3>
+        <h2>1. Formal Invariant — Non-Trivial Square Roots of Unity &amp; Birthday Collisions</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Strong Pseudoprimality (Miller-Rabin Witness)</h4>
           <p>For an odd integer $N > 2$, write $N - 1 = 2^s d$ with $d$ odd. If $N$ is prime and $\\gcd(a, N) = 1$, then either:</p>
@@ -894,7 +894,7 @@ struct LinearSieve {
           <p>Let $p \\le \\sqrt{N}$ be a prime factor of composite $N$, and iterate $f(x) = (x^2 + c) \\bmod N$. Because $(x^2 + c \\bmod N) \\bmod p = (x^2 + c) \\bmod p$, the sequence implicitly performs a pseudo-random walk in $\\mathbb{Z}/p\\mathbb{Z}$! By the Birthday Paradox, two states $x, y$ satisfy $x \\equiv y \\pmod p$ after expected $O(\\sqrt{p}) \\le O(N^{1/4})$ steps, at which point $\\gcd(|x - y|, N) > 1$ extracts a non-trivial divisor of $N$.</p>
         </div>
 
-        <h3>2. Complete 64-Bit Factorization Pipeline</h3>
+        <h2>2. Complete 64-Bit Factorization Pipeline</h2>
         <div class="mermaid">
 flowchart TD
     Input["Factor(N) for 64-bit N"] --> BaseCase{"N == 1 ?"}
@@ -905,13 +905,13 @@ flowchart TD
     RunRho --> Recurse["Recurse Factor(d) and Factor(N / d)"]
         </div>
 
-        <h3>3. Hardware &amp; Algorithmic Optimizations: <code>__int128</code> &amp; Brent's Batched GCD</h3>
+        <h2>3. Hardware &amp; Algorithmic Optimizations: <code>__int128</code> &amp; Brent's Batched GCD</h2>
         <div class="hardware-box">
           <h4>Avoiding Overflow (<code>__int128_t</code>) &amp; Amortizing <code>gcd</code> via Richard Brent's Batching</h4>
           <p>Multiplying two 64-bit integers $a \\cdot b \\pmod N$ when $N \\sim 10^{18}$ overflows <code>uint64_t</code>! Using GCC/Clang's hardware-backed <code>static_cast&lt;__uint128_t&gt;(a) * b % N</code> compiles directly to a single x86-64 <code>mulq</code> + <code>divq</code> instruction pair. Furthermore, calling <code>std::gcd(|x - y|, N)</code> on every step of Pollard's $\\rho$ adds an $O(\\log N)$ factor. **Brent's optimization** accumulates the product $P = \\prod_{j=1}^{128} |x_j - y| \\bmod N$ across $128$ steps and computes <code>std::gcd(P, N)</code> only once every 128 iterations, accelerating Pollard's $\\rho$ by $6\\times$!</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-number-theory-miller-pollard"></div>
 
         <table class="complexity-matrix">
@@ -945,7 +945,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation</h3>
+        <h2>5. Production-Grade C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 #include &lt;numeric&gt;
@@ -1082,7 +1082,7 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
     intuition: "Randomized algorithms split into two paradigms: **Las Vegas** algorithms (like Randomized Quicksort or Randomized Incremental Convex Hull) *always* return the exact correct answer, with only their runtime being a random variable; **Monte Carlo** algorithms (like Miller-Rabin, **Karger's Min-Cut**, or **Freivalds' $O(N^2)$ Matrix Multiplication Verification**) run in deterministic time but have a bounded probability of error that can be amplified to $2^{-k}$ by independent repetition! In Karger's algorithm, repeatedly picking a random edge and contracting its endpoints until only 2 super-vertices remain survives without touching a specific minimum cut $C^*$ with probability $\\ge \\frac{2}{N(N-1)}$—which simultaneously proves that **any undirected multigraph has at most $\\frac{N(N-1)}{2}$ minimum cuts**!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Karger's Contraction Survival &amp; Freivalds' Witness</h3>
+        <h2>1. Formal Invariant — Karger's Contraction Survival &amp; Freivalds' Witness</h2>
         <div class="invariant-box">
           <h4>Theorem 1: Karger's Contraction Survival Bound (1993)</h4>
           <p>Let $G = (V, E)$ be a connected undirected multigraph with $N$ vertices, and let $C^*$ be any specific global minimum cut of cardinality $k = |C^*|$. Since every vertex in $G$ has degree at least $k$, the total number of edges satisfies $|E| \\ge \\frac{N k}{2}$. Thus, the probability that the first random edge contraction hits $C^*$ is at most $\\frac{k}{N k / 2} = \\frac{2}{N}$. Conditioning across all $N - 2$ contractions down to 2 vertices, the probability that $C^*$ survives untouched is:</p>
@@ -1091,7 +1091,7 @@ void factorize_rec(u64 n, std::vector&lt;u64&gt;&amp; factors) {
           <p>To verify whether $A \\cdot B = C$ for $N \\times N$ matrices without $O(N^3)$ multiplication, pick a random binary vector $r \\in \\{0, 1\\}^N$ and check whether $A(Br) = Cr$ in $O(N^2)$ time! If $AB \\ne C$, then $\\Pr[A(Br) = Cr] \\le \\frac{1}{2}$ per trial ($\\le 2^{-k}$ after $k$ trials).</p>
         </div>
 
-        <h3>2. Karger-Stein Recursive Amplification ($O(N^2 \\log^3 N)$)</h3>
+        <h2>2. Karger-Stein Recursive Amplification ($O(N^2 \\log^3 N)$)</h2>
         <div class="mermaid">
 flowchart TD
     Root["FastCut(G, N vertices)"] --> Base{"N <= 6 ?"}
@@ -1107,7 +1107,7 @@ flowchart TD
 
         <p>Notice why **Karger-Stein (1996)** is a masterpiece of algorithm design: in Karger's product, the early contractions are very safe (probability $1 - 2/N$), whereas the late contractions when only a few vertices remain are dangerous. By contracting from $N$ down to $t = \\lceil 1 + N / \\sqrt{2} \\rceil$ vertices, the survival probability is $\\approx \\frac{t(t-1)}{N(N-1)} \\ge \\frac{1}{2}$! Branching into **two independent recursive calls** at threshold $t$ satisfies $T(N) = 2 T(N / \\sqrt{2}) + O(N^2) = O(N^2 \\log N)$ per tree with success probability $\\Omega(1 / \\log N)$.</p>
 
-        <h3>3. Converting Between Las Vegas and Monte Carlo</h3>
+        <h2>3. Converting Between Las Vegas and Monte Carlo</h2>
         <div class="hardware-box">
           <h4>Markov's Inequality &amp; Verification Oracles</h4>
           <ul>
@@ -1116,7 +1116,7 @@ flowchart TD
           </ul>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-karger-np-reduction-fptas"></div>
 
         <table class="complexity-matrix">
@@ -1156,7 +1156,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation (Karger Contraction + Freivalds' Verifier)</h3>
+        <h2>5. Production-Grade C++20 Implementation (Karger Contraction + Freivalds' Verifier)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;numeric&gt;
@@ -1265,7 +1265,7 @@ bool freivalds_verify(const std::vector&lt;std::vector&lt;int64_t&gt;&gt;&amp; A
     intuition: "**NP** does *not* stand for 'Non-Polynomial'—it stands for **Nondeterministic Polynomial time**: the class of decision problems where a 'YES' answer has a short certificate (witness) that can be *verified* in polynomial time! By the **Cook-Levin Theorem (1971)**, any NP verification circuit can be encoded as a Boolean satisfiability formula (**SAT**). To prove a new problem $B$ is **NP-Hard**, we must construct a polynomial-time Karp reduction $A \\le_p B$ from a known NP-Hard problem $A$ TO $B$—showing that if someone gave us a magic polynomial-time solver for $B$, we could use it to solve $A$ in polynomial time!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Complexity Classes &amp; Karp Reduction Direction</h3>
+        <h2>1. Formal Invariant — Complexity Classes &amp; Karp Reduction Direction</h2>
         <div class="invariant-box">
           <h4>Definition: P, NP, NP-Hard, NP-Complete &amp; $A \\le_p B$</h4>
           <ul>
@@ -1279,7 +1279,7 @@ bool freivalds_verify(const std::vector&lt;std::vector&lt;int64_t&gt;&gt;&amp; A
           </ul>
         </div>
 
-        <h3>2. Karp's Canonical Reduction Chain (1972)</h3>
+        <h2>2. Karp's Canonical Reduction Chain (1972)</h2>
         <div class="mermaid">
 flowchart LR
     CircuitSAT["Circuit-SAT<br/>(Cook-Levin 1971)"] -->|"Tseitin O(N)"| ThreeSAT["3-SAT<br/>(m Clauses of 3 Literals)"]
@@ -1289,20 +1289,20 @@ flowchart LR
     VertexCover -->|"Base-4 Incidence Numbers"| SubsetSum["Subset Sum /<br/>0-1 Knapsack"]
         </div>
 
-        <h3>3. Anatomy of the Core Reductions</h3>
+        <h2>3. Anatomy of the Core Reductions</h2>
         <ol>
           <li><strong>$\\text{3-SAT} \\le_p \\text{Independent Set}$:</strong> Given a 3-CNF formula with $m$ clauses, create a triangle of $3$ vertices for each clause (so any independent set can pick <em>at most $1$</em> vertex per triangle, max $m$ vertices total). Add conflict edges between every literal $x_i$ and its negation $\\neg x_i$ across all clauses. Then the graph has an Independent Set of size $K = m$ <strong>if and only if</strong> one true literal can be chosen from every clause without contradiction!</li>
           <li><strong>$\\text{Independent Set} \\equiv_p \\text{Vertex Cover}$ (Gallai's Identity):</strong> In any graph $G = (V, E)$, a subset $I \\subseteq V$ has no internal edges (Independent Set) <strong>if and only if</strong> its complement $S = V \\setminus I$ touches every edge in $E$ (Vertex Cover)! Thus $\\alpha(G) + \\tau(G) = |V|$.</li>
           <li><strong>$\\text{Vertex Cover} \\le_p \\text{Subset Sum}$:</strong> Encode each vertex $v_i$ and edge $e_j$ as digits in a base-4 number with $|E| + 1$ columns (column $0$ has weight $4^{|E|}$ counting chosen vertices, and column $j$ tracks how many endpoints cover edge $e_j$). Adding a slack number $4^{j}$ per edge allows reaching target sum $K \\cdot 4^{|E|} + \\sum_{j=0}^{|E|-1} 2 \\cdot 4^j$ with zero carry between columns iff a Vertex Cover of size $K$ exists!</li>
         </ol>
 
-        <h3>4. Strong NP-Completeness vs Weak (Pseudo-Polynomial) NP-Completeness</h3>
+        <h2>4. Strong NP-Completeness vs Weak (Pseudo-Polynomial) NP-Completeness</h2>
         <div class="hardware-box">
           <h4>Why $O(N W)$ Knapsack Is NOT a Polynomial-Time Algorithm</h4>
           <p>In complexity theory, input size is measured in <strong>bits</strong>: an integer capacity $W$ requires $b = \\lceil \\log_2 W \\rceil$ bits to write down. Therefore, $O(N W) = O(N \\cdot 2^b)$ is <strong>exponential in the bit-length $b$</strong> (a <em>pseudo-polynomial</em> algorithm)! Problems like Subset Sum, Partition, and 0-1 Knapsack are <strong>Weakly NP-Complete</strong> (solvable in polynomial time if numbers are given in unary), whereas 3-SAT, Clique, TSP, and 3-Partition remain NP-Complete even when all numbers are polynomial in $N$ (<strong>Strongly NP-Complete</strong>).</p>
         </div>
 
-        <h3>5. Complexity Matrix: Tractable Twins vs NP-Complete Counterparts</h3>
+        <h2>5. Complexity Matrix: Tractable Twins vs NP-Complete Counterparts</h2>
         <div class="simulator-mount" data-sim="sim-karger-np-reduction-fptas"></div>
 
         <table class="complexity-matrix">
@@ -1348,7 +1348,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Karp Reduction $\\text{3-SAT} \\to \\text{Independent Set}$)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Karp Reduction $\\text{3-SAT} \\to \\text{Independent Set}$)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;utility&gt;
 #include &lt;cmath&gt;
@@ -1432,7 +1432,7 @@ IndependentSetInstance reduce_3sat_to_independent_set(const std::vector&lt;Claus
     intuition: "When a problem is NP-Hard and inputs are too large for exponential search, we trade exact optimality for a **provable worst-case approximation ratio $\\rho$**. Because we cannot compute the true optimum $OPT$ directly, every approximation proof hinges on finding a **structural lower bound** on $OPT$: the size of any maximal matching lower-bounds Vertex Cover (giving a **2-approximation**), the weight of an MST lower-bounds Metric TSP (giving a **2-approximation**, or **1.5-approximation** via Christofides' minimum-weight perfect matching on odd-degree vertices), harmonic dual prices bound **Greedy Set Cover** within $\\ln N$, and rounding item values turns pseudo-polynomial 0-1 Knapsack DP into a **$(1 - \\varepsilon)$-FPTAS** running in $O(N^3 / \\varepsilon)$ time!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Lower-Bound Certificates &amp; Value Scaling</h3>
+        <h2>1. Formal Invariant — Lower-Bound Certificates &amp; Value Scaling</h2>
         <div class="invariant-box">
           <h4>1. Unweighted Vertex Cover 2-Approximation (Maximal Matching Lower Bound)</h4>
           <p>Greedily pick any uncovered edge $(u, v) \\in E$, add <strong>both</strong> $u$ and $v$ to cover $C$, and delete all edges incident to $u$ or $v$. The chosen edges form a <strong>matching</strong> $M$ (pairwise vertex-disjoint). Since every valid Vertex Cover must pick at least $1$ endpoint from each edge in $M$, we have $OPT \\ge |M|$, while our cover has size $|C| = 2|M| \\le 2 \\cdot OPT$!</p>
@@ -1446,7 +1446,7 @@ IndependentSetInstance reduce_3sat_to_independent_set(const std::vector&lt;Claus
           <p>Let $v_{\\max} = \\max_i v_i$ and scale down every item's value by $K = \\frac{\\varepsilon \\cdot v_{\\max}}{N}$: $\\tilde{v}_i = \\lfloor v_i / K \\rfloor$. Now $\\max_i \\tilde{v}_i = \\lfloor N / \\varepsilon \\rfloor$, so the total scaled value of any subset is at most $N \\cdot (N / \\varepsilon) = N^2 / \\varepsilon$. Running minimum-weight DP indexed by scaled value takes $O(N^3 / \\varepsilon)$ time and loses at most $N \\cdot K = \\varepsilon \\cdot v_{\\max} \\le \\varepsilon \\cdot OPT$!</p>
         </div>
 
-        <h3>2. The Inapproximability Spectrum</h3>
+        <h2>2. The Inapproximability Spectrum</h2>
         <div class="mermaid">
 flowchart LR
     FPTAS["0-1 Knapsack<br/>FPTAS: (1 - eps) in O(N^3 / eps)"] --> ConstApprox["Metric TSP (1.5-Approx)<br/>Vertex Cover (2-Approx)<br/>MAX-3SAT (7/8-Approx)"]
@@ -1454,13 +1454,13 @@ flowchart LR
     LogApprox --> Inapprox["General TSP (No Triangle Ineq)<br/>&amp; Maximum Clique<br/>Inapproximable within any poly factor!"]
         </div>
 
-        <h3>3. Why General TSP (Without Triangle Inequality) Is Completely Inapproximable</h3>
+        <h2>3. Why General TSP (Without Triangle Inequality) Is Completely Inapproximable</h2>
         <div class="hardware-box">
           <h4>Gap-Introducing Reduction from Hamiltonian Cycle</h4>
           <p>Suppose a polynomial-time algorithm could approximate General TSP within <em>any</em> factor $\\rho \\ge 1$. Given a graph $G = (V, E)$ for Hamiltonian Cycle, assign weight $1$ to every edge in $E$ and weight $\\rho N + 1$ to every non-edge! If $G$ has a Hamiltonian cycle, $OPT = N$, so the $\\rho$-approximation must return a tour of cost $\\le \\rho N$ (using only edges of weight $1$). If $G$ has no Hamiltonian cycle, any tour uses at least one non-edge and costs $\\ge \\rho N + N > \\rho N$. Thus a $\\rho$-approximation for General TSP would solve NP-Complete Hamiltonian Cycle in polynomial time!</p>
         </div>
 
-        <h3>4. Complexity &amp; Approximation Ratio Matrix</h3>
+        <h2>4. Complexity &amp; Approximation Ratio Matrix</h2>
         <div class="simulator-mount" data-sim="sim-karger-np-reduction-fptas"></div>
 
         <table class="complexity-matrix">
@@ -1506,7 +1506,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation (2-Approx Vertex Cover &amp; Knapsack FPTAS)</h3>
+        <h2>5. Production-Grade C++20 Implementation (2-Approx Vertex Cover &amp; Knapsack FPTAS)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;cmath&gt;
@@ -1616,7 +1616,7 @@ int64_t knapsack_fptas(const std::vector&lt;int64_t&gt;&amp; weights,
     intuition: "In this capstone Build Lab, we engineer a high-performance, zero-allocation **Static Pointer-Free $K$-Dimensional k-d Tree** in C++20 supporting both **Exact $K$-Nearest Neighbor ($K$-NN) Search** (using a bounded max-heap + tighter Tight Bounding Box distance pruning) and **Orthogonal Axis-Aligned Bounding Box (AABB) Range Search** in $O(N^{1-1/D} + |\\text{output}|)$ time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Architecture &amp; Tight Bounding-Box Pruning Invariant</h3>
+        <h2>1. Architecture &amp; Tight Bounding-Box Pruning Invariant</h2>
         <div class="invariant-box">
           <h4>Invariant: Implicit Array Layout &amp; Point-to-AABB Squared Distance Pruning</h4>
           <p>Instead of allocating heap nodes with <code>left</code>/<code>right</code> pointers, we reorder the input array <code>pts[l..r]</code> in-place around <code>mid = (l + r) / 2</code> using <code>std::nth_element</code> along axis <code>depth % D</code>. Furthermore, each subtree precomputes its exact tight **Axis-Aligned Bounding Box (AABB)** $[\\text{lo}_0.. \\text{hi}_0] \\times \\dots \\times [\\text{lo}_{D-1}.. \\text{hi}_{D-1}]$. For a query point $Q$, the minimum squared Euclidean distance from $Q$ to <em>any</em> point inside a subtree's AABB is:</p>
@@ -1624,7 +1624,7 @@ int64_t knapsack_fptas(const std::vector&lt;int64_t&gt;&amp; weights,
           <p>During $K$-NN search with a max-heap of capacity $K$, if <code>heap.size() == K</code> and $d_{\\min}^2(Q, \\text{AABB}) \\ge \\text{heap.top().dist\_sq}$, the entire subtree cannot improve the $K$-th nearest neighbor and is pruned immediately!</p>
         </div>
 
-        <h3>2. K-NN Branch-and-Bound Execution Flow</h3>
+        <h2>2. K-NN Branch-and-Bound Execution Flow</h2>
         <div class="mermaid">
 flowchart TD
     Query["KNN_Search(Subtree [l, r], Query Q)"] --> Prune{"heap.size() == K AND<br/>box_dist_sq(Q, AABB) >= heap.top() ?"}
@@ -1635,13 +1635,13 @@ flowchart TD
     Order -->|"Q[axis] >= pts[mid][axis]"| RightFirst["Search Right Child First,<br/>Then Left Child (if not pruned)"]
         </div>
 
-        <h3>3. Why Tight AABB Pruning Beats Single-Axis Hyperplane Pruning</h3>
+        <h2>3. Why Tight AABB Pruning Beats Single-Axis Hyperplane Pruning</h2>
         <div class="hardware-box">
           <h4>Full $D$-Dimensional Box Distance vs Single-Axis $\\delta^2$</h4>
           <p>Standard textbook k-d trees only check the 1D perpendicular distance $\\delta^2 = (Q[a] - \\text{pivot}[a])^2$ to the current splitting plane. However, a deep subtree may be displaced along <em>multiple</em> axes $(x, y, z)$ simultaneously! Precomputing each node's tight AABB lets us sum squared clamping distances across all $D$ dimensions $\\sum_{a=0}^{D-1} \\delta_a^2$, pruning dead diagonal octants $2\\times$–$4\\times$ earlier while keeping all nodes in a flat contiguous <code>std::vector</code>.</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-convex-hull-sweep"></div>
 
         <table class="complexity-matrix">
@@ -1681,7 +1681,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Complete C++20 Build Lab Implementation</h3>
+        <h2>5. Complete C++20 Build Lab Implementation</h2>
         <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;vector&gt;
 #include &lt;cstdint&gt;

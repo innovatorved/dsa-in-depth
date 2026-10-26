@@ -13,7 +13,7 @@ window.MODULE_CONTENT["m11"] = {
     },
     "intuition": "<p>An uncompressed Trie of all $N$ suffixes of a string $S[0..N-1]$ can have $\\Theta(N^2)$ nodes and characters along its edges (for instance, on $S = \\texttt{\"a\"}^{N/2}\\texttt{\"b\"}^{N/2}$). Yet if we compress every unary path into a single edge labeled by a pair of indices $[l, r]$ into the original string $S$, and append a unique terminal sentinel $\\texttt{'\\$'}$ so no suffix is a prefix of another suffix, the resulting <strong>Suffix Tree</strong> has at most $N$ leaves, at most $N - 1$ internal branching nodes, and $O(N)$ total space!</p><p>Esko Ukkonen (1995) showed how to build this Suffix Tree online in $O(N)$ time by extending all suffixes of prefix $S[0..i-1]$ into suffixes of $S[0..i]$ using three amortization tricks: (1) every leaf edge is stored as $[l, \\infty)$, so Rule 1 (extending an existing leaf) happens automatically in $O(1)$ time just by incrementing $i$; (2) Rule 3 (when character $S[i]$ is already present at the <strong>Active Point</strong>) is a <em>showstopper</em> that immediately ends phase $i$; and (3) Rule 2 (splitting an edge to insert a new leaf) follows a <strong>Suffix Link</strong> from the active internal node to jump directly to the next shorter suffix in $O(1)$ time.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Structural Anatomy of a Compressed Suffix Tree</h3>
+<h2>1. Structural Anatomy of a Compressed Suffix Tree</h2>
 <p>Given $S[0..N-1]$ terminated by a unique sentinel $S[N-1] = \\texttt{'\\$'}$ ($\\texttt{'\\$'} \\notin \\Sigma$), the Suffix Tree $\\mathcal{T}(S)$ is the compressed Radix Tree of all $N$ non-empty suffixes $S[0..N-1], S[1..N-1], \\dots, S[N-1..N-1]$:</p>
 <ul>
   <li><strong>Bounded Vertex Count:</strong> Because $\\texttt{'\\$'}$ is unique to the end of $S$, no non-empty suffix is a prefix of any other suffix. Thus all $N$ suffixes end at $N$ distinct leaves. Every internal node (except possibly the root if $N=1$) has branching degree $\\ge 2$, which implies $\\le N - 1$ internal nodes and $\\le 2N - 1$ total vertices.</li>
@@ -21,7 +21,7 @@ window.MODULE_CONTENT["m11"] = {
   <li><strong>Universal Substring Property:</strong> Every substring of $S$ is a prefix of some suffix of $S$. Therefore, a pattern $P[0..M-1]$ occurs in $S$ if and only if $P$ can be spelled out from the root of $\\mathcal{T}(S)$ in $O(M)$ time; the leaves in the subtree below the locus of $P$ give all occurrence start positions!</li>
 </ul>
 
-<h3>2. Ukkonen's Three Extension Rules &amp; Amortized Linearity</h3>
+<h2>2. Ukkonen's Three Extension Rules &amp; Amortized Linearity</h2>
 <p>In Phase $i$ ($i = 0..N-1$), Ukkonen's algorithm implicitly maintains the count $\\text{rem}$ (<code>remainder</code>) of suffixes waiting to be explicitly branched, alongside the <strong>Active Point</strong> $(\\text{active\\_node}, \\text{active\\_edge}, \\text{active\\_len})$ identifying the locus of the longest suffix of $S[0..i-1]$ that already appeared earlier in $S$ (so it sits inside the tree rather than at a leaf):</p>
 <ol>
   <li><strong>Rule 1 (Leaf Extension — Free):</strong> Any suffix $S[j..i-1]$ that already ended at a leaf simply appends $S[i]$. By storing leaf right endpoints as $\\infty$ (implicitly the current phase index $i$), all existing leaves extend simultaneously in $O(1)$ time!</li>
@@ -70,7 +70,7 @@ window.MODULE_CONTENT["m11"] = {
   <p>Despite its $O(N)$ asymptotic elegance, a Suffix Tree node requires a child map, <code>l</code>, <code>r</code>, <code>parent</code>, and <code>suffix_link</code>—consuming $20\\text{N}$ to $48\\text{N}$ bytes of RAM with pointer-chasing cache misses at every branch. A Suffix Array (<code>4N</code> bytes) plus Kasai's LCP array (<code>4N</code> bytes) encodes the exact same tree topology in $8\\text{N}$ contiguous bytes ($3\\times$ to $6\\times$ less memory) with vastly superior cache locality.</p>
 </div>
 
-<h3>3. Visual Trace: Suffix Tree &amp; Suffix Links for $S = \\texttt{\"xabxa\\$\"}$</h3>
+<h2>3. Visual Trace: Suffix Tree &amp; Suffix Links for $S = \\texttt{\"xabxa\\$\"}$</h2>
 <svg viewBox="0 0 760 240" width="100%" height="240" role="img" aria-label="Suffix tree and suffix links for xabxa$">
   <style>
     .st-node { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; }
@@ -154,7 +154,7 @@ flowchart TD
 
 <div class="simulator-mount" data-sim="sim-suffix-array-sam"></div>
 
-<h3>4. Production Implementation: Ukkonen's Online $O(N)$ Suffix Tree</h3>
+<h2>4. Production Implementation: Ukkonen's Online $O(N)$ Suffix Tree</h2>
 <pre><code class="language-cpp">#include &lt;map&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -289,7 +289,7 @@ private:
     },
     "intuition": "<p>Udi Manber and Gene Myers (1990) asked: what if we discard all the nodes, child maps, and suffix links of a Suffix Tree and keep only the lexicographically sorted array of suffix starting indices $\\text{SA}[0..N-1]$? This <strong>Suffix Array</strong> occupies just $4N$ bytes (<code>int32_t SA[N]</code>) and corresponds to the left-to-right leaf order of the Suffix Tree. Because every occurrence of a pattern $P[0..M-1]$ is a prefix of a suffix, all occurrences of $P$ form a single contiguous range in $\\text{SA}$ that can be found via binary search!</p><p>To sort all $N$ suffixes without spending $O(N^2 \\log N)$ time comparing $O(N)$-length strings, Manber-Myers <strong>Prefix Doubling</strong> sorts suffixes by their prefixes of length $2^k$ in step $k$: since a prefix of length $2^{k+1}$ is the concatenation of two already-ranked prefixes of length $2^k$ at indices $i$ and $i + 2^k$, each doubling step sorts pairs of integers $(\\text{rank}_k[i],\\; \\text{rank}_k[i + 2^k])$ via stable counting sort in $O(N)$ time, completing in $O(N \\log N)$ time—or $O(N)$ time via Nong, Zhang &amp; Chan's <strong>SA-IS (Induced Sorting, 2009)</strong>.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Manber-Myers $O(N \\log N)$ Prefix Doubling</h3>
+<h2>1. Manber-Myers $O(N \\log N)$ Prefix Doubling</h2>
 <p>Append a sentinel $\\texttt{'\\$'}$ (smaller than any alphabet character) to $S$ so its length is $N$, and sort all cyclic shifts of $S$ (which is identical to sorting all suffixes because $\\texttt{'\\$'}$ breaks ties before wrapping around). At iteration $k = 0, 1, \\dots, \\lceil \\log_2 N \\rceil$:</p>
 <ul>
   <li>Maintain the array $\\text{sa}[0..N-1]$ of starting indices sorted by their $2^k$-length prefixes, and the equivalence class array $c[i] \\in [0, N-1]$ giving the lexicographical rank of $S[i .. i + 2^k - 1]$.</li>
@@ -298,7 +298,7 @@ private:
   <li><strong>Early Exit Optimization:</strong> As soon as the number of distinct equivalence classes reaches $N$, all suffixes are strictly ordered and we terminate immediately without running remaining doubling steps.</li>
 </ul>
 
-<h3>2. SA-IS ($O(N)$ Suffix Array via Induced Sorting)</h3>
+<h2>2. SA-IS ($O(N)$ Suffix Array via Induced Sorting)</h2>
 <p>How does SA-IS (Nong, Zhang, Chan 2009) eliminate the $\\log N$ factor? It classifies every suffix $i$ into one of two types in a single right-to-left scan:</p>
 <ul>
   <li><strong>S-type (Smaller):</strong> Suffix $S[i..]$ is lexicographically strictly smaller than the next suffix $S[i+1..]$, i.e., $S[i] < S[i+1]$ or ($S[i] == S[i+1]$ and $i+1$ is S-type). The sentinel $S[N-1] = \\texttt{'\\$'}$ is S-type by definition.</li>
@@ -354,7 +354,7 @@ private:
   <p>In Manber-Myers doubling, computing <code>pn[i] = sa[i] - (1 &lt;&lt; k)</code> and incrementing <code>cnt[c[pn[i]]]++</code> performs sequential reads over <code>sa</code>. To maximize L1 cache hits during the bucket-distribution loop, keep the equivalence class array <code>c[0..N-1]</code> as a flat <code>std::vector&lt;int32_t&gt;</code> and terminate the outer loop the instant the number of equivalence classes <code>classes == N</code>.</p>
 </div>
 
-<h3>3. Visual Trace: Suffix Array &amp; L/S/LMS Classification on $S = \\texttt{\"banana\\$\"}$</h3>
+<h2>3. Visual Trace: Suffix Array &amp; L/S/LMS Classification on $S = \\texttt{\"banana\\$\"}$</h2>
 <svg viewBox="0 0 760 225" width="100%" height="225" role="img" aria-label="Suffix Array and SA-IS L/S/LMS classification for banana$">
   <style>
     .sa-cell { fill: #1e293b; stroke: #475569; stroke-width: 1.2; }
@@ -413,7 +413,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-suffix-array-sam"></div>
 
-<h3>4. Production Implementation: $O(N \\log N)$ Prefix Doubling + Pattern Binary Search</h3>
+<h2>4. Production Implementation: $O(N \\log N)$ Prefix Doubling + Pattern Binary Search</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;string&gt;
@@ -525,7 +525,7 @@ std::pair&lt;int, int&gt; suffix_array_search(std::string_view text,
     },
     "intuition": "<p>A Suffix Array $\\text{SA}[0..N-1]$ by itself loses the internal branching depth information of a Suffix Tree. We restore all of that power by computing the <strong>Longest Common Prefix (LCP) Array</strong> $\\text{lcp}[0..N-2]$, where $\\text{lcp}[r]$ is the length of the longest common prefix between adjacent sorted suffixes $\\text{SA}[r]$ and $\\text{SA}[r+1]$. Computing $\\text{lcp}[r]$ naively in sorted rank order $r = 0..N-2$ takes $O(N^2)$ time because two adjacent suffixes in $\\text{SA}$ can come from completely unrelated positions in the text.</p><p>Toru Kasai et al. (2001) discovered that if you compute LCP values in <strong>text order</strong> ($i = 0, 1, \\dots, N-1$) instead of rank order, dropping the first character of suffix $S[i..]$ and its predecessor in $\\text{SA}$ moves you to suffix $S[i+1..]$ while reducing their shared common prefix by <strong>at most $1$ character</strong>: $\\text{lcp}[\\text{rank}[i+1]] \\ge \\text{lcp}[\\text{rank}[i]] - 1$! Just like KMP and the Z-algorithm, the matched length $h$ decreases at most $N$ times and increases at most $N$ times, constructing the entire LCP array in $O(N)$ time.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Kasai's Theorem: Why $\\text{LCP}$ Drops by at Most $1$ in Text Order</h3>
+<h2>1. Kasai's Theorem: Why $\\text{LCP}$ Drops by at Most $1$ in Text Order</h2>
 <p>Let $\\text{rank}[i] \\in [0, N-1]$ be the inverse permutation of $\\text{SA}$, so $\\text{SA}[\\text{rank}[i]] = i$. Suppose suffix $i$ at rank $r = \\text{rank}[i] < N - 1$ shares a longest common prefix of length $h > 0$ with the next suffix in sorted order, $j = \\text{SA}[r + 1]$:</p>
 $$\\text{LCP}(S[i..],\\; S[j..]) = h > 0 \\implies S[i..i+h-1] = S[j..j+h-1]$$
 <p>Now delete the first character $S[i] = S[j]$ from both suffixes! We obtain suffix $S[i+1..]$ and suffix $S[j+1..]$:</p>
@@ -536,7 +536,7 @@ $$\\text{LCP}(S[i..],\\; S[j..]) = h > 0 \\implies S[i..i+h-1] = S[j..j+h-1]$$
 </ol>
 <p>Therefore, when moving from text index $i$ to $i + 1$, we simply set <code>if (h &gt; 0) --h;</code> and start comparing characters from offset $h$ onward!</p>
 
-<h3>2. Three Classic Applications of $\\text{SA} + \\text{LCP}$</h3>
+<h2>2. Three Classic Applications of $\\text{SA} + \\text{LCP}$</h2>
 <ul>
   <li><strong>Arbitrary Suffix LCP via RMQ:</strong> For any two suffixes at ranks $r_1 < r_2$ in $\\text{SA}$, the length of their longest common prefix is the minimum of adjacent LCPs between them:
   $$\\text{LCP}(\\text{SA}[r_1],\\; \\text{SA}[r_2]) = \\min_{r_1 \\le k < r_2} \\text{lcp}[k]$$
@@ -583,7 +583,7 @@ $$\\text{LCP}(S[i..],\\; S[j..]) = h > 0 \\implies S[i..i+h-1] = S[j..j+h-1]$$
   <p>For a string of length $N = 10^5$, the total number of substrings $\\frac{N(N + 1)}{2}$ is approximately $5 \\times 10^9$, which overflows a signed 32-bit <code>int</code> (max $\\approx 2.14 \\times 10^9$). Always accumulate $\\frac{N(N+1)}{2} - \\sum \\text{lcp}[r]$ in a 64-bit integer (<code>int64_t</code> / <code>long long</code>).</p>
 </div>
 
-<h3>3. Visual Trace: Kasai LCP &amp; Distinct Substrings on $S = \\texttt{\"banana\"}$</h3>
+<h2>3. Visual Trace: Kasai LCP &amp; Distinct Substrings on $S = \\texttt{\"banana\"}$</h2>
 <svg viewBox="0 0 760 210" width="100%" height="210" role="img" aria-label="LCP histogram and distinct substring calculation for banana">
   <style>
     .lcp-hdr { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold; fill: #93c5fd; }
@@ -638,7 +638,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-suffix-array-sam"></div>
 
-<h3>4. Production Implementation: Kasai's $O(N)$ LCP &amp; Distinct Substring Counter</h3>
+<h2>4. Production Implementation: Kasai's $O(N)$ LCP &amp; Distinct Substring Counter</h2>
 <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;numeric&gt;
 #include &lt;string_view&gt;
@@ -714,7 +714,7 @@ int64_t count_distinct_substrings(int64_t n, const std::vector&lt;int&gt;&amp; l
     },
     "intuition": "<p>A Suffix Automaton (SAM, or Directed Acyclic Word Graph / DAWG, Blumer et al. 1985) is the smallest deterministic finite automaton that recognizes all substrings of a string $S[0..N-1]$. How can a DFA that accepts up to $\\Theta(N^2)$ distinct substrings have at most $2N - 1$ states and $3N - 4$ transitions? By grouping substrings that always finish at the exact same set of text positions into a single state!</p><p>Formally, for any non-empty substring $t$ of $S$, let $\\text{endpos}(t) \\subseteq \\{0, 1, \\dots, N-1\\}$ be the set of 0-based indices in $S$ where occurrences of $t$ end. Two substrings $u$ and $v$ are <strong>$\\text{endpos}$-equivalent</strong> ($u \\sim v$) if and only if $\\text{endpos}(u) = \\text{endpos}(v)$. Every state $q$ in the Suffix Automaton corresponds bijectively to one $\\text{endpos}$ equivalence class, representing a contiguous interval of suffix lengths $[\\text{minlen}(q),\\; \\text{len}(q)]$, where $\\text{minlen}(q) = \\text{len}(\\text{link}(q)) + 1$!</p>",
     "content": `<div class="lesson-content">
-<h3>1. The Four Fundamental Lemmas of $\\text{endpos}(t)$</h3>
+<h2>1. The Four Fundamental Lemmas of $\\text{endpos}(t)$</h2>
 <p>Every property of the Suffix Automaton follows from four elementary facts about $\\text{endpos}(t)$:</p>
 <ol>
   <li><strong>Nested Suffix Inclusion:</strong> If $|u| \\le |w|$ and $\\text{endpos}(u) \\cap \\text{endpos}(w) \\neq \\emptyset$, then $u$ MUST be a suffix of $w$, which implies $\\text{endpos}(w) \\subseteq \\text{endpos}(u)$. Thus any two $\\text{endpos}$ sets are either <strong>completely disjoint</strong> or <strong>one is a subset of the other</strong>!</li>
@@ -725,7 +725,7 @@ int64_t count_distinct_substrings(int64_t n, const std::vector&lt;int&gt;&amp; l
   <li><strong>Instant Substring Count:</strong> Since state $q$ represents exactly $\\text{len}[q] - \\text{len}[\\text{link}[q]]$ distinct substrings and states partition all non-empty substrings of $S$, the total number of distinct substrings of $S$ is simply $\\sum_{q > 0} (\\text{len}[q] - \\text{len}[\\text{link}[q]])$.</li>
 </ol>
 
-<h3>2. Online $O(N)$ Extension &amp; State Cloning</h3>
+<h2>2. Online $O(N)$ Extension &amp; State Cloning</h2>
 <p>When we append character $c = S[i]$ to the string processed so far (whose full prefix state is $\\text{last}$), we create a new state $\\text{cur}$ with $\\text{len}[\\text{cur}] = \\text{len}[\\text{last}] + 1$, walk up the suffix link chain $p = \\text{last}, \\text{link}[\\text{last}], \\dots$ adding transition $\\text{next}[p][c] = \\text{cur}$ while $\\text{next}[p][c]$ is absent, and then handle three cases:</p>
 <ul>
   <li><strong>Case 1 (Reached root with no existing $c$-edge):</strong> Set $\\text{link}[\\text{cur}] = 0$ (the root).</li>
@@ -775,7 +775,7 @@ int64_t count_distinct_substrings(int64_t n, const std::vector&lt;int&gt;&amp; l
   <p>Because $|V| \\le 2N$, calling <code>st.reserve(2 * n)</code> up front avoids all vector reallocations during construction. Furthermore, to aggregate occurrence counts bottom-up on the Link Tree ($\text{cnt}[\text{link}[u]] \mathrel{+}= \text{cnt}[u]$), you do NOT need to build adjacency lists or run recursion: simply counting-sort states by $\text{len}[u]$ in $O(N)$ time and iterate from longest $\text{len}[u]$ down to $1$!</p>
 </div>
 
-<h3>3. Visual Trace: SAM States &amp; Suffix Links for $S = \\texttt{\"abcbc\"}$</h3>
+<h2>3. Visual Trace: SAM States &amp; Suffix Links for $S = \\texttt{\"abcbc\"}$</h2>
 <svg viewBox="0 0 760 225" width="100%" height="225" role="img" aria-label="Suffix Automaton DAWG transitions and suffix links for abcbc">
   <style>
     .sam-node { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -853,7 +853,7 @@ flowchart TD
 
 <div class="simulator-mount" data-sim="sim-suffix-array-sam"></div>
 
-<h3>4. Production Implementation: Suffix Automaton + LCS of Two Strings</h3>
+<h2>4. Production Implementation: Suffix Automaton + LCS of Two Strings</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;array&gt;
 #include &lt;cstdint&gt;
@@ -970,18 +970,18 @@ private:
     },
     "intuition": "<p>How does <code>bzip2</code> permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners (<code>Bowtie2</code>, <code>BWA</code>) index the 3-billion-base-pair human genome in under 2 GB of RAM while still counting exact occurrences of a length-$M$ DNA read in $O(M)$ time? Both feats rely on the <strong>Burrows-Wheeler Transform (BWT, 1994)</strong> and Paolo Ferragina and Giovanni Manzini's <strong>FM-Index (2000)</strong>.</p><p>If we write down all $N$ cyclic rotations of $S\\texttt{\\$}$ sorted lexicographically into an $N \\times N$ matrix $\\mathcal{M}$, the first column $F$ is just the sorted characters of $S\\texttt{\\$}$, while the last column $L$ is the <strong>Burrows-Wheeler Transform</strong>: $L[r] = S[(\\text{SA}[r] - 1 + N) \\bmod N]$, the character immediately preceding suffix $\\text{SA}[r]$! Because rotation shifts the last column into the first column while preserving the relative order of suffixes following identical characters, the $k$-th occurrence of character $c$ in $L$ corresponds to the <strong>exact same text position</strong> as the $k$-th occurrence of $c$ in $F$—the celebrated <strong>Last-to-First (LF) Mapping</strong>.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Constructing the BWT from the Suffix Array &amp; Why It Compresses</h3>
+<h2>1. Constructing the BWT from the Suffix Array &amp; Why It Compresses</h2>
 <p>Given $S[0..N-1]$ with unique smallest sentinel $S[N-1] = \\texttt{'\\$'}$ and its Suffix Array $\\text{SA}[0..N-1]$, we never materialize the $N \\times N$ rotation matrix $\\mathcal{M}$. Row $r$ of $\\mathcal{M}$ starts at $\\text{SA}[r]$ and ends at $(\\text{SA}[r] - 1 + N) \\bmod N$, so the BWT string $L[0..N-1]$ is computed in one linear pass:</p>
 $$L[r] = \\begin{cases} S[\\text{SA}[r] - 1] & \\text{if } \\text{SA}[r] > 0 \\\\ S[N - 1] = \\texttt{'\\$'} & \\text{if } \\text{SA}[r] = 0 \\end{cases}$$
 <p>Why does $L$ have long runs of identical characters? In English text, suffixes starting with $\\texttt{\"he \"}$ are all grouped adjacently in $\\text{SA}$; in almost every one of those suffixes, the character immediately preceding $\\texttt{\"he \"}$ is $\\texttt{'t'}$, producing a long contiguous run $\\texttt{\"tttt...t\"}$ inside $L$! Applying Move-to-Front (MTF) coding, Run-Length Encoding (RLE), and Huffman/Arithmetic coding to $L$ is the entire pipeline of <code>bzip2</code>.</p>
 
-<h3>2. The Last-to-First (LF) Mapping &amp; $O(N)$ Inversion</h3>
+<h2>2. The Last-to-First (LF) Mapping &amp; $O(N)$ Inversion</h2>
 <p>Why is the BWT reversible? Consider all rows in $\\mathcal{M}$ whose last column $L[r]$ equals a specific character $c$. In those rows, the rest of the row $F[r..] $ spells the suffix immediately following that $c$. Since the rows of $\\mathcal{M}$ are sorted by those suffixes $F[r..]$, the relative top-to-bottom order of all $c$'s in $L$ is identical to the relative top-to-bottom order of all rows starting with $c$ in $F$ (where $c$ is followed by the exact same sorted suffixes)!</p>
 <p>Let $C[c]$ be the total number of characters in $S$ strictly smaller than $c$ (so the bucket for character $c$ in $F$ starts at row $C[c]$), and let $\\text{Occ}(c, r)$ be the number of times character $c$ appears in the prefix $L[0..r-1]$ ($0$-indexed exclusive rank). Then row $r$ in $L$ maps to row $\\text{LF}(r)$ in $F$:</p>
 $$\\text{LF}(r) = C[L[r]] + \\text{Occ}(L[r],\\; r)$$
 <p>Starting from the row $r_0$ where $L[r_0] = \\texttt{'\\$'}$ (or the row corresponding to $\\texttt{'\\$'}$ in $F$, which is row $0$), repeatedly stepping $r \\leftarrow \\text{LF}(r)$ reconstructs $S$ backwards from right to left in $O(N)$ time!</p>
 
-<h3>3. FM-Index Backward Search in $O(M)$ Time</h3>
+<h2>3. FM-Index Backward Search in $O(M)$ Time</h2>
 <p>Even better, $C[c]$ and $\\text{Occ}(c, r)$ allow us to count how many times a pattern $P[0..M-1]$ occurs in $S$ in $O(M)$ steps (faster than binary searching a Suffix Array, which takes $O(M \\log N)$)! We process $P$ <strong>backwards</strong> from $j = M - 1$ down to $0$, maintaining the half-open Suffix Array interval $[sp, ep)$ of suffixes prefixed by $P[j..M-1]$:</p>
 $$sp_{\\text{new}} = C[c] + \\text{Occ}(c, sp), \\qquad ep_{\\text{new}} = C[c] + \\text{Occ}(c, ep) \\quad \\text{where } c = P[j]$$
 <p>After $M$ steps, $ep - sp$ is the exact number of occurrences of $P$ in $S$!</p>
@@ -1027,7 +1027,7 @@ $$sp_{\\text{new}} = C[c] + \\text{Occ}(c, sp), \\qquad ep_{\\text{new}} = C[c] 
   <p>Storing a full 2D table $\\text{Occ}[|\\Sigma|][N]$ would take $|\\Sigma| \\cdot 4N$ bytes. Instead, production genomics aligners (<code>Bowtie2</code>, <code>BWA</code>) store 64-bit bitmasks for each nucleotide ($\\{\\texttt{A}, \\texttt{C}, \\texttt{G}, \\texttt{T}\\}$) inside 64-byte cache-line blocks alongside a single checkpoint counter per block. Computing $\\text{Occ}(c, r)$ then reduces to 1 memory load + 1 hardware <code>__builtin_popcountll</code> instruction!</p>
 </div>
 
-<h3>4. Visual Trace: BWT Matrix &amp; LF Mapping on $S = \\texttt{\"banana\\$\"}$</h3>
+<h2>4. Visual Trace: BWT Matrix &amp; LF Mapping on $S = \\texttt{\"banana\\$\"}$</h2>
 <svg viewBox="0 0 760 220" width="100%" height="220" role="img" aria-label="BWT rotation matrix, F and L columns, and LF mapping for banana$">
   <style>
     .bwt-hdr { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold; fill: #93c5fd; }
@@ -1063,7 +1063,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-bwt-fm-index"></div>
 
-<h3>5. Production Implementation: BWT Inversion &amp; FM-Index Backward Search</h3>
+<h2>5. Production Implementation: BWT Inversion &amp; FM-Index Backward Search</h2>
 <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;string&gt;
@@ -1161,10 +1161,10 @@ private:
     },
     "intuition": "<p>Why does matching the regular expression <code>(a+)+b</code> against a 35-character string <code>\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac\"</code> freeze Python's <code>re</code>, JavaScript's <code>RegExp</code>, Java's <code>java.util.regex</code>, and PCRE for tens of seconds, whereas Go's <code>regexp</code>, Rust's <code>regex</code>, and Google's <code>RE2</code> finish in 2 microseconds? Because most mainstream languages implement regexes via <strong>recursive depth-first backtracking</strong>, which tries all $2^N$ ways to partition $\\texttt{\"a\"}^N$ among the inner and outer <code>+</code> quantifiers before concluding that no path reaches <code>'b'</code>!</p><p>In 1968, Ken Thompson published a 4-page paper showing how to compile any regular expression of length $M$ into a Nondeterministic Finite Automaton (NFA) with at most $2M$ states and simulate <strong>all active states in lockstep</strong> as a deduplicated set (<code>clist</code> $\\to$ <code>nlist</code>). Because there are at most $M$ states in the entire NFA, tracking which states are active at text position $i$ does at most $O(M)$ work per character—guaranteeing $O(N \\cdot M)$ worst-case time and making <strong>Regular Expression Denial of Service (ReDoS)</strong> mathematically impossible.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Why Recursive Backtracking Explodes to $\\Omega(2^N)$</h3>
+<h2>1. Why Recursive Backtracking Explodes to $\\Omega(2^N)$</h2>
 <p>Consider an NFA state with an $\\varepsilon$-split (created by alternation <code>e1|e2</code> or quantifiers <code>e*</code>, <code>e+</code>, <code>e?</code>). A <strong>backtracking engine</strong> treats the NFA like a maze and runs Depth-First Search (DFS) on a call stack: at each split, it guesses Branch 1 and explores all the way to the end of the text; if that fails, it pops the stack and tries Branch 2 from the same text index. On <code>(a+)+b</code> with input $\\texttt{\"a\"}^N\\texttt{\"c\"}$, every character $i \\in [0, N-1]$ offers two choices (stay in the inner <code>a+</code> or loop through the outer <code>(...)+</code>), creating a binary recursion tree of $2^N$ leaves—all of which fail at $\\texttt{'c'}$!</p>
 
-<h3>2. Thompson's Construction &amp; Lockstep Subset Simulation</h3>
+<h2>2. Thompson's Construction &amp; Lockstep Subset Simulation</h2>
 <p>Ken Thompson's algorithm replaces DFS over paths with <strong>Breadth-First Lockstep Simulation</strong> over states:</p>
 <ol>
   <li><strong>Bounded Out-Degree NFA Fragments:</strong> Using postfix regex conversion (or AST traversal), every operator compiles into a tiny fragment with at most 2 outgoing arrows per state:
@@ -1219,7 +1219,7 @@ private:
   <p>Full DFA compilation of an $M$-state NFA can blow up to $2^M$ states in memory, whereas Thompson NFA simulation does $O(M)$ work per byte. Google's <code>RE2</code> and Rust's <code>regex</code> combine the best of both worlds with a <strong>Lazy DFA</strong>: each visited subset of NFA states <code>clist</code> is hashed into a single DFA state ID, and its transition <code>dfa[u][c]</code> is cached on first use! On normal inputs, after a few dozen bytes the hot DFA transitions are cached and the engine runs at $1$ table lookup per byte ($O(N)$); if an adversarial regex causes the DFA cache to hit its memory cap (e.g., 2 MB), the engine flushes the cache or falls back seamlessly to Thompson's $O(N \\cdot M)$ NFA.</p>
 </div>
 
-<h3>3. Visual Trace: Backtracking Tree vs. Thompson Lockstep on <code>(a+)+b</code></h3>
+<h2>3. Visual Trace: Backtracking Tree vs. Thompson Lockstep on <code>(a+)+b</code></h2>
 <svg viewBox="0 0 760 215" width="100%" height="215" role="img" aria-label="Comparison of exponential backtracking tree versus bounded Thompson NFA state set">
   <style>
     .rx-box { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -1260,7 +1260,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-bwt-fm-index"></div>
 
-<h3>4. Production Implementation: Thompson NFA Lockstep Simulator</h3>
+<h2>4. Production Implementation: Thompson NFA Lockstep Simulator</h2>
 <pre><code class="language-cpp">#include &lt;string_view&gt;
 #include &lt;vector&gt;
 
@@ -1358,7 +1358,7 @@ private:
     },
     "intuition": "<p>When you run <code>git diff</code> on two 10,000-line source files that differ by only $D = 5$ edited lines, standard dynamic programming for Longest Common Subsequence (LCS) allocates a $10{,}000 \\times 10{,}000$ table ($400\\text{ MB}$) and executes $10^8$ operations regardless of how similar the files are. Eugene Myers (1986) reframed diffing as a shortest-path search on an <strong>Edit Graph</strong> where horizontal edges delete from $A$ (cost $1$), vertical edges insert from $B$ (cost $1$), and diagonal edges match $A[x] == B[y]$ for <strong>cost $0$</strong>.</p><p>By parameterizing the search by the number of non-diagonal edits $d = 0, 1, \\dots, D$ and tracking only the furthest-reaching $x$-coordinate $V[k]$ on each diagonal $k = x - y$, Myers finds the Shortest Edit Script in $O((N + M)D)$ time—which is $O(N + M)$ when $D$ is small! And when $D$ is large and we need the full alignment path in $O(N + M)$ memory instead of $O(N \\cdot D)$ memory, <strong>Hirschberg's Divide-and-Conquer Algorithm (1975)</strong> runs a forward DP from the top-left and a reverse DP from the bottom-right to find the exact midpoint split in $O(N + M)$ space.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Myers Edit Graph: Diagonals $k = x - y$ &amp; Greedy Snakes</h3>
+<h2>1. Myers Edit Graph: Diagonals $k = x - y$ &amp; Greedy Snakes</h2>
 <p>Given sequences $A[0..N-1]$ and $B[0..M-1]$, consider the grid of vertices $(x, y) \\in [0, N] \\times [0, M]$. Define <strong>diagonal $k$</strong> as the set of grid points satisfying $k = x - y$:</p>
 <ul>
   <li><strong>Deletion from $A$ ($(x, y) \\to (x + 1, y)$):</strong> Increases $x$ by $1$, moving from diagonal $k - 1$ to diagonal $k$.</li>
@@ -1368,7 +1368,7 @@ private:
 <p>Let $V_d[k]$ be the maximum $x$-coordinate reachable on diagonal $k$ using at most $d$ edits. Because $d$ edits starting from $(0, 0)$ (diagonal $0$) change the diagonal by $\\pm 1$ on each edit, after $d$ edits only diagonals $k \\in [-d, +d]$ with $k \\equiv d \\pmod 2$ are reachable! To reach diagonal $k$ at step $d$, we must have taken either a vertical insertion from diagonal $k + 1$ (preserving $x = V_{d-1}[k + 1]$) or a horizontal deletion from diagonal $k - 1$ (advancing $x = V_{d-1}[k - 1] + 1$), followed by a greedy diagonal slide (<em>snake</em>) while $A[x] == B[y]$:</p>
 $$x_{\\text{start}} = \\begin{cases} V_{d-1}[k + 1] & \\text{if } k = -d \\text{ or } (k \\neq d \\text{ and } V_{d-1}[k - 1] < V_{d-1}[k + 1]) \\\\ V_{d-1}[k - 1] + 1 & \\text{otherwise} \\end{cases}$$
 
-<h3>2. Hirschberg's Linear-Space Divide-and-Conquer ($O(N + M)$ Memory)</h3>
+<h2>2. Hirschberg's Linear-Space Divide-and-Conquer ($O(N + M)$ Memory)</h2>
 <p>Whether using classical LCS DP or Myers diff, reconstructing the actual edit script naively requires storing the history of DP rows ($O(N \\cdot M)$ or $O((N + M)D)$ space). Dan Hirschberg (1975) showed how to reconstruct the exact optimal alignment in <strong>$O(N + M)$ space</strong> while only doubling the runtime constant:</p>
 <ol>
   <li>Split $A$ at its midpoint $x_{\\text{mid}} = \\lfloor N / 2 \\rfloor$.</li>
@@ -1419,7 +1419,7 @@ $$x_{\\text{start}} = \\begin{cases} V_{d-1}[k + 1] & \\text{if } k = -d \\text{
   <p>Because step $d$ only writes to diagonals $k \\equiv d \\pmod 2$ and only reads from diagonals $k \\pm 1 \\equiv d - 1 \\pmod 2$, the even and odd diagonals never collide! Thus $V_d[k]$ can overwrite a single flat array <code>V[k + offset]</code> in-place without needing separate <code>V_prev</code> and <code>V_curr</code> buffers.</p>
 </div>
 
-<h3>3. Visual Trace: Myers Edit Graph &amp; Hirschberg Midpoint Split</h3>
+<h2>3. Visual Trace: Myers Edit Graph &amp; Hirschberg Midpoint Split</h2>
 <svg viewBox="0 0 760 215" width="100%" height="215" role="img" aria-label="Myers edit graph diagonals and Hirschberg midpoint divide-and-conquer">
   <style>
     .my-grid { stroke: #334155; stroke-width: 1; }
@@ -1490,7 +1490,7 @@ flowchart TD
 
 <div class="simulator-mount" data-sim="sim-myers-diff-huffman-lz77"></div>
 
-<h3>4. Production Implementation: Myers $O(ND)$ Shortest Edit Distance &amp; Hirschberg LCS</h3>
+<h2>4. Production Implementation: Myers $O(ND)$ Shortest Edit Distance &amp; Hirschberg LCS</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
@@ -1598,7 +1598,7 @@ std::string hirschberg_lcs(std::string_view a, std::string_view b) {
     },
     "intuition": "<p>Every <code>.zip</code> archive, <code>gzip</code> HTTP response, and <code>PNG</code> image relies on Phil Katz's <strong>DEFLATE (RFC 1951)</strong> pipeline, which marries two orthogonal compression paradigms: <strong>LZ77</strong> (Abraham Lempel and Jacob Ziv, 1977) eliminates <em>structural substring redundancy</em> by replacing repeated phrases with $(\\text{distance}, \\text{length})$ sliding-window back-references, and <strong>Huffman Coding</strong> (David Huffman, 1952) eliminates <em>statistical symbol redundancy</em> by assigning shorter prefix-free bitstrings to higher-frequency literals and match lengths.</p><p>Why is a prefix-free binary code guaranteed to decode unambiguously without delimiters, and why does Huffman's greedy bottom-up min-heap merge produce an optimal prefix-free code? Because in any binary tree where codeword symbols sit exclusively at the leaves, no leaf is an ancestor of another leaf—satisfying <strong>Kraft's Inequality</strong> $\\sum_{c \\in \\Sigma} 2^{-\\ell_c} \\le 1$—and an exchange argument proves that the two lowest-frequency symbols can always be placed as sibling leaves at the deepest level of an optimal tree.</p>",
     "content": `<div class="lesson-content">
-<h3>1. Prefix-Free Codes, Kraft's Inequality &amp; Huffman Optimality Proof</h3>
+<h2>1. Prefix-Free Codes, Kraft's Inequality &amp; Huffman Optimality Proof</h2>
 <p>Given an alphabet $\\Sigma$ with symbol frequencies $f_c > 0$, a <strong>prefix-free code</strong> assigns each $c \\in \\Sigma$ a bitstring of length $\\ell_c$ such that no codeword is a prefix of another codeword. Equivalently, symbols correspond to <strong>leaves</strong> of a binary tree where left edges are $0$ and right edges are $1$. We want to minimize the weighted path length $L(T) = \\sum_{c \\in \\Sigma} f_c \\cdot \\ell_c$. Huffman's algorithm repeatedly extracts the two minimum-frequency nodes $(x, y)$ from a min-heap and replaces them with a parent node of frequency $f_x + f_y$. Its optimality rests on two lemmas:</p>
 <ol>
   <li><strong>Greedy Choice Property (Sibling Exchange):</strong> Let $x, y \\in \\Sigma$ have the two smallest frequencies ($f_x \\le f_y \\le f_z$ for all other $z$), and let $T^*$ be any optimal full binary tree with two sibling leaves $a, b$ at maximum depth $d_{\\max}$. Swapping $x \\leftrightarrow a$ and $y \\leftrightarrow b$ changes the total cost by:
@@ -1607,7 +1607,7 @@ std::string hirschberg_lcs(std::string_view a, std::string_view b) {
   <li><strong>Optimal Substructure (Merged Meta-Symbol):</strong> Once $x, y$ are fixed as sibling leaves under parent $p$ at depth $d_p$, their contribution to $L(T)$ is $(f_x + f_y)(d_p + 1) = (f_x + f_y)d_p + (f_x + f_y)$. Since $(f_x + f_y)$ is a constant additive term, minimizing $L(T)$ is identical to minimizing the tree cost over $\\Sigma' = (\\Sigma \\setminus \\{x, y\\}) \\cup \\{p\\}$ with $f_p = f_x + f_y$.</li>
 </ol>
 
-<h3>2. Canonical Huffman Codes &amp; The DEFLATE (LZ77 + Huffman) Pipeline</h3>
+<h2>2. Canonical Huffman Codes &amp; The DEFLATE (LZ77 + Huffman) Pipeline</h2>
 <p>How does a <code>gzip</code> file transmit the Huffman tree in its header without wasting bytes encoding tree pointers? Via <strong>Canonical Huffman Coding</strong>: if we sort symbols primarily by bit-length $\\ell_c$ and secondarily by alphabet value $c$, and assign sequential binary integers (left-shifted whenever $\\ell_c$ increases), the decoder can reconstruct the exact bitstring of every symbol from the array of lengths $\\ell_c$ alone!</p>
 <p>In <strong>DEFLATE (RFC 1951)</strong>, the compressor scans the input with a <strong>32 KB LZ77 sliding window</strong> (using a chained hash table keyed on 3-byte prefixes to find the longest match of length $3..258$ at distance $1..32768$), emitting a unified stream of Literal bytes ($0..255$), End-of-Block ($256$), and Length codes ($257..285$) followed by Distance codes ($0..29$), all compressed with Canonical Huffman trees.</p>
 
@@ -1652,7 +1652,7 @@ std::string hirschberg_lcs(std::string_view a, std::string_view b) {
   <p>If symbol frequencies are already sorted, you can build a Huffman tree in strict $O(|\\Sigma|)$ time without a heap using <strong>two FIFO queues</strong>: Queue $Q_1$ holds initial sorted leaves, and Queue $Q_2$ holds merged internal nodes (which are produced in monotonically non-decreasing order of weight!). At decompression time, production decoders (<code>zlib</code>, <code>libdeflate</code>, <code>zstd</code>) never walk the Huffman tree bit-by-bit; instead, they peek 9–11 bits from a 64-bit bitbuffer and index a flat <code>table[1 &lt;&lt; 10]</code> entry containing <code>(symbol, bit_length)</code> to decode each token in 1 array lookup!</p>
 </div>
 
-<h3>3. Visual Trace: DEFLATE Pipeline &amp; Canonical Huffman Assignment</h3>
+<h2>3. Visual Trace: DEFLATE Pipeline &amp; Canonical Huffman Assignment</h2>
 <svg viewBox="0 0 760 205" width="100%" height="205" role="img" aria-label="DEFLATE compression pipeline from LZ77 sliding window to Canonical Huffman bitstream">
   <style>
     .df-box { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -1696,7 +1696,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-myers-diff-huffman-lz77"></div>
 
-<h3>4. Production Implementation: Huffman Code Lengths, Canonical Bit-Assignment &amp; LZ77 Tokenizer</h3>
+<h2>4. Production Implementation: Huffman Code Lengths, Canonical Bit-Assignment &amp; LZ77 Tokenizer</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;queue&gt;
@@ -1842,10 +1842,10 @@ std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_siz
     },
     "intuition": "<p>Have you ever added a new function to a source file, run <code>git diff</code>, and seen Git claim that you deleted the closing brace <code>}</code> of the previous function and inserted the closing brace of the new function inside the old one? Mathematically, Eugene Myers' $O(ND)$ algorithm found a valid <strong>Shortest Edit Script</strong>—because every line has weight $1$, matching two boilerplate <code>}</code> or blank lines is worth the exact same score as matching two unique function signatures!</p><p>To produce human-readable diffs that respect semantic code structure, Bram Cohen invented <strong>Patience Diff</strong> and <code>JGit</code> / <code>git diff --histogram</code> refined it into <strong>Histogram Diff</strong>: before running Myers, anchor the diff on the <strong>lowest-frequency matching lines</strong> (such as unique function headers <code>fn parse_header() {</code> that occur $1$ time in both files) via Longest Increasing Subsequence (LIS), and recursively diff the regions between those anchors!</p>",
     "content": `<div class="lesson-content">
-<h3>1. The Boilerplate Misalignment Problem in Pure Myers Diff</h3>
+<h2>1. The Boilerplate Misalignment Problem in Pure Myers Diff</h2>
 <p>Suppose File $A$ and File $B$ differ because a developer rewrote the body of <code>func_one()</code> while adding <code>func_two()</code>. Inside those functions sit dozens of identical boilerplate lines (<code>}</code>, <code>return err;</code>, blank lines). Because pure Myers diff treats every line as an unweighted token and greedily slides along the first available diagonal snake, it readily matches the closing <code>}</code> of <code>func_one()</code> in File $A$ with the closing <code>}</code> of <code>func_two()</code> in File $B$, producing a tangled, unreadable diff hunk that splits across function boundaries.</p>
 
-<h3>2. Git's Three Production Diff Engines</h3>
+<h2>2. Git's Three Production Diff Engines</h2>
 <ol>
   <li><strong><code>git diff --myers</code> (Default / <code>xdl_do_diff</code>):</strong> Hashes each line into an integer token ID, strips common prefix/suffix lines, and runs Bidirectional Myers $O(ND)$ with Hirschberg's linear-space midpoint split (<code>find_snake</code>). Fast when $D$ is small, but includes heuristic cutoffs (<code>max_chain_length</code>) when $D$ is huge so it doesn't stall in $\\Theta(N^2)$ time on completely rewritten files.</li>
   <li><strong><code>git diff --patience</code> (Bram Cohen):</strong>
@@ -1899,7 +1899,7 @@ std::vector&lt;LZ77Token&gt; lz77_encode(std::string_view src, size_t window_siz
   <p>Before running any diff algorithm, Git's <code>libxdiff</code> hashes every line (using a fast multiplicative hash) into a 32-bit bucket ID so the inner diff loop compares <code>uint32_t</code> integers in registers rather than calling <code>memcmp</code> on line strings. After computing the edit script, Git runs a <strong>slider post-processing pass</strong> (<code>xdl_change_compact</code>) that shifts ambiguous deletion/insertion hunks up or down when surrounded by identical lines (such as <code>}</code>) so the hunk aligns cleanly with blank lines and indentation boundaries.</p>
 </div>
 
-<h3>3. Visual Trace: Myers Brace Misalignment vs. Patience/Histogram Anchor</h3>
+<h2>3. Visual Trace: Myers Brace Misalignment vs. Patience/Histogram Anchor</h2>
 <svg viewBox="0 0 760 220" width="100%" height="220" role="img" aria-label="Comparison of Myers diff brace misalignment versus Patience diff unique-line anchoring">
   <style>
     .gd-box { fill: #1e293b; stroke: #475569; stroke-width: 1.5; rx: 6; }
@@ -1948,7 +1948,7 @@ flowchart TD
 
 <div class="simulator-mount" data-sim="sim-myers-diff-huffman-lz77"></div>
 
-<h3>4. Reference Implementation: Patience Diff Unique-Line LIS Anchor Finder</h3>
+<h2>4. Reference Implementation: Patience Diff Unique-Line LIS Anchor Finder</h2>
 <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;string_view&gt;
 #include &lt;unordered_map&gt;
@@ -2040,7 +2040,7 @@ std::vector&lt;AnchorMatch&gt; find_patience_anchors(const std::vector&lt;std::s
     },
     "intuition": "<p>In this final Build Lab of Track 4, we build a complete, self-contained, <strong>ReDoS-proof Regular Expression Compiler and Virtual Machine</strong> supporting concatenation, alternation (<code>|</code>), grouping parentheses <code>(...)</code>, wildcard dot (<code>.</code>), and the three Kleene quantifiers (<code>*</code>, <code>+</code>, <code>?</code>) in strict $O(N \\cdot M)$ worst-case time.</p><p>Follow Russ Cox and Ken Thompson's classic three-stage compiler architecture: (1) a <strong>Lexer/Concatenation Inserter</strong> that inserts explicit concatenation operators (<code>\\x08</code>) between adjacent atoms (e.g., turning <code>a(b|c)*d</code> into <code>a·(b|c)*·d</code>) and converts the infix expression to postfix (Reverse Polish Notation) via Dijkstra's Shunting-Yard algorithm; (2) a <strong>Stack-Based NFA Fragment Compiler</strong> that patches dangling arrow indices without heap pointers; and (3) a <strong>Lockstep Subset Simulator</strong> using <code>step_id</code> generation counters.</p>",
     "content": `<div class="lesson-content">
-<h3>1. The Three-Stage Thompson Regex Pipeline</h3>
+<h2>1. The Three-Stage Thompson Regex Pipeline</h2>
 <p>To compile a raw regex string $R$ of length $M$ into a linear-time automaton with zero pointer chasing, we execute three linear passes:</p>
 <ol>
   <li><strong>Explicit Concatenation &amp; Shunting-Yard (<code>re2post</code>):</strong> Standard regex syntax omits the concatenation operator (writing <code>ab</code> instead of <code>a·b</code>). An explicit concatenation operator <code>CONCAT</code> must be inserted between token $T_1$ and token $T_2$ whenever $T_1$ can <em>end</em> a subexpression (a literal, <code>.</code>, <code>)</code>, <code>*</code>, <code>+</code>, or <code>?</code>) AND $T_2$ can <em>begin</em> a subexpression (a literal, <code>.</code>, or <code>(</code>). We then run Shunting-Yard with operator precedence $\\{*, +, ?\\} > \\text{CONCAT} > |$.</li>
@@ -2089,7 +2089,7 @@ std::vector&lt;AnchorMatch&gt; find_patience_anchors(const std::vector&lt;std::s
   <p>In C, Russ Cox's reference implementation represents dangling arrows as <code>Ptrlist*</code> unions overlaid inside <code>State*</code> pointers—a trick that triggers strict-aliasing UB in modern C++ and breaks if states live in a resizable <code>std::vector&lt;State&gt;</code>. Packing a dangling slot as <code>(state_id &lt;&lt; 1) | is_out1</code> (<code>int32_t</code>) is 100% standards-compliant, survives <code>std::vector</code> reallocation, and keeps the entire NFA inside a single cache-hot array.</p>
 </div>
 
-<h3>2. Visual Trace: Thompson NFA Fragments (<code>CONCAT</code>, <code>|</code>, <code>*</code>, <code>+</code>, <code>?</code>)</h3>
+<h2>2. Visual Trace: Thompson NFA Fragments (<code>CONCAT</code>, <code>|</code>, <code>*</code>, <code>+</code>, <code>?</code>)</h2>
 <svg viewBox="0 0 760 220" width="100%" height="220" role="img" aria-label="Thompson NFA fragment wiring for concatenation, alternation, star, plus, and question mark">
   <style>
     .nf-box { fill: #1e293b; stroke: #64748b; stroke-width: 1.5; rx: 6; }
@@ -2145,7 +2145,7 @@ flowchart LR
 
 <div class="simulator-mount" data-sim="sim-bwt-fm-index"></div>
 
-<h3>3. Complete Build Implementation: End-to-End Thompson Regex Engine</h3>
+<h2>3. Complete Build Implementation: End-to-End Thompson Regex Engine</h2>
 <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;

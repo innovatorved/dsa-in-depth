@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -860,7 +860,7 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="lru-lfu-eviction-structures" id="audio-speed-lru-lfu-eviction-structures" title="Playback speed">1x</button>
         <audio id="audio-lru-lfu-eviction-structures" src="audio/lru-lfu-eviction-structures.mp3" preload="metadata"></audio>
       </div><article class="prose">
-      <h3>Data Structure Composition: Why Hash Map + Doubly Linked List?</h3>
+      <h2>Data Structure Composition: Why Hash Map + Doubly Linked List?</h2>
       <p>In an <strong>LRU (Least Recently Used)</strong> cache of capacity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span>:
       <ul>
         <li><code>get(key)</code> must look up the key in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time and move its entry to the Most Recently Used (MRU) head of the recency order in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time.</li>
@@ -878,7 +878,7 @@
         <p>Because frequency only ever jumps to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> (on new insert) or increments by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">1</span></span></span></span> (on access), <code>min_freq</code> <strong>never needs to search for the next minimum</strong>!</p>
       </div>
 
-      <h3>Cache Eviction Policies &amp; Production Systems Comparison</h3>
+      <h2>Cache Eviction Policies &amp; Production Systems Comparison</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -921,7 +921,7 @@
         </tbody>
       </table>
 
-      <h3>Visualizing O(1) LFU Frequency-Bucketed Doubly Linked Lists</h3>
+      <h2>Visualizing O(1) LFU Frequency-Bucketed Doubly Linked Lists</h2>
       <svg viewBox="0 0 760 215" width="100%" height="auto" role="img" aria-label="O(1) LFU cache frequency bucketed doubly linked lists">
         <style>
           .lf-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -955,7 +955,7 @@
         <text x="20" y="200" class="lf-txt">Invariant: Eviction ALWAYS pops the LRU tail of freq_lists[min_freq] in O(1) time!</text>
       </svg>
 
-      <h3>LFU Promotion &amp; <code>min_freq</code> State Transition Diagram</h3>
+      <h2>LFU Promotion &amp; <code>min_freq</code> State Transition Diagram</h2>
       <div class="mermaid">
       flowchart LR
         A["Access Node u<br/>with f = u.freq"] --> B["Unlink u from<br/>freq_lists[f]"]
@@ -1109,7 +1109,7 @@
           </div>
         </div>
 
-      <h3>Production Implementation: Contiguous Arena-Backed O(1) LRU Cache</h3>
+      <h2>Production Implementation: Contiguous Arena-Backed O(1) LRU Cache</h2>
       <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">81 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1377,24 +1377,29 @@
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-lru-lfu-eviction-structures" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">3 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">LRU Cache Invariant &amp; Eviction Lab</h2>
             <p class="build-lab-card__desc">Build an O(1) Least-Recently-Used Cache combining a doubly-linked list with a hash map.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(1)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(1)</code></span>
+              <span class="badge">🧭 Pattern: Linked Structures, Monotonic Stacks/Queues &amp; Cache-Conscious Lists</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1402,83 +1407,78 @@
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">O(1) Access and Splice</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">O(1) Access and Splice</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Dual Structure Invariant</div>
+                  <div class="build-lab-step-card__concept">Store (key, value) pairs in std::list, and map each key to its list iterator in std::unordered_map.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>std::list iterators are stable: splicing an element to the front does not invalidate iterators.</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Dual Structure Invariant</div>
-                <div class="build-lab-step-card__concept">Store (key, value) pairs in std::list, and map each key to its list iterator in std::unordered_map.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">Splicing to Head</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Splicing to Head</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Get Operation with MRU Promotion</div>
+                  <div class="build-lab-step-card__concept">If key exists, splice its node to the front of the list and return its value.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>Use items_.splice(items_.begin(), items_, it-&gt;second) to move in O(1) time without heap reallocation.</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Get Operation with MRU Promotion</div>
-                <div class="build-lab-step-card__concept">If key exists, splice its node to the front of the list and return its value.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="2">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">03</span>
-                  <span class="build-lab-step-card__target">Tail Eviction</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Tail Eviction</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Put Operation with LRU Eviction</div>
+                  <div class="build-lab-step-card__concept">When inserting beyond capacity, remove the back element from both list and map.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>map_.erase(items_.back().first) before items_.pop_back().</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Put Operation with LRU Eviction</div>
-                <div class="build-lab-step-card__concept">When inserting beyond capacity, remove the back element from both list and map.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 3 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lru-lfu-eviction-structures" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-lru-lfu-eviction-structures">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">Why does strict LRU scale poorly on multi-socket/multi-core CPUs even on 100% read hits, and what is the systems fix?</p>
-        <div class="exercise-card__options" id="exercise-options-lru-lfu-eviction-structures">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="lru-lfu-eviction-structures" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Every read hit mutates the same `head` cache line, causing MESI cache-coherency invalidation storms across all 64 cores; production systems avoid per-hit list mutation using CLOCK/FIFO-Reinsertion (setting a 1-bit reference flag only if it was 0) or per-core buffered access ring buffers.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="lru-lfu-eviction-structures" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">Lock-free CAS instructions flush the CPU's TLB on every execution.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="lru-lfu-eviction-structures" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">The hash table buckets collide when more than 4 cores read simultaneously.</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="lru-lfu-eviction-structures" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">Strict LRU requires calling `malloc` on every read hit.</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-lru-lfu-eviction-structures" style="display:none;">
-          <div class="exercise-card__explanation">In strict LRU, a logical read (`get`) performs a physical write to the global `head` sentinel's `next`/`prev` pointers. Under the MESI protocol, all 64 cores fight for Exclusive/Modified ownership of that single 64-byte cache line. Approximations like CLOCK / S3-FIFO only set an atomic `accessed = 1` bit inside the item's own cache line (if not already 1), turning repeat reads into pure shared (`S`-state) cache hits.</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1487,7 +1487,7 @@
           </div>
         </div>
       <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Build it from scratch — Interactive Lab &amp; Guide</h3>
+        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
         
           <a class="lesson-builds__item" href="/build/build-lfu-lru-cache/" data-action="navigate-build" data-build-id="build-lfu-lru-cache">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -1495,7 +1495,7 @@
               
             </div>
             <span class="lesson-builds__summary">Strict O(1) LRU and Shah-Mitra-Matani frequency-bucketed LFU caches built over sentinel-guarded intrusive doubly linked lists with zero heap-log overhead.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Build Guide &amp; Interactive Lab (JS, TS &amp; C++20) →</span>
+            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
           </a>
       </div>
       <div class="lesson-builds lesson-challenges">
@@ -1616,7 +1616,7 @@
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1635,17 +1635,17 @@
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

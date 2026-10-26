@@ -15,7 +15,7 @@ window.MODULE_CONTENT["m16"] = {
     intuition: "Dynamic Programming is not a bag of algebraic tricks—it is literally Shortest (or Longest) Path relaxation on an implicit Directed Acyclic Graph (DAG) whose vertices are subproblem states and whose directed edges are state transitions. If your state transitions contain a cycle, your DP is ill-defined; if they form a DAG, total runtime is simply (Number of Vertices) + (Number of Edges).",
     content: `
       <div class="lesson-content">
-        <h3>1. The Implicit State-Space DAG & The SRTBOT Design Framework</h3>
+        <h2>1. The Implicit State-Space DAG & The SRTBOT Design Framework</h2>
         <p>Every Dynamic Programming problem reduces to evaluating a function on the vertices $V$ of an implicit <strong>Directed Acyclic Graph (DAG)</strong> $G = (V, E)$, where a directed edge $u \\to v$ means computing state $v$ depends on the value of state $u$. MIT's 6.006 <strong>SRTBOT Framework</strong> turns DP design into a mechanical 6-step checklist:</p>
         <ol>
           <li><strong>S — Subproblem Definition:</strong> Define the exact meaning of state $x \\in V$ in plain English (often prefixes $A[0..i]$, suffixes $A[i..n]$, or substrings $A[i..j]$) and count $|V|$.</li>
@@ -31,7 +31,7 @@ window.MODULE_CONTENT["m16"] = {
           <p>A problem exhibits <strong>Optimal Substructure</strong> if an optimal solution to state $x$ can be constructed strictly from optimal solutions to its predecessor subproblems $u \\in N^-(x)$, paired with a <strong>Markovian (memoryless)</strong> state definition: how we arrived at state $u$ does not restrict which future transitions are legal from $u$. If how you reached $u$ matters (e.g., Longest Simple Path in a graph with cycles, which is NP-hard), then $u$ is missing state dimensions!</p>
         </div>
 
-        <h3>2. Pull DP ("Gather") vs. Push DP ("Scatter") & Parent Pointers</h3>
+        <h2>2. Pull DP ("Gather") vs. Push DP ("Scatter") & Parent Pointers</h2>
         <p>Given a topological ordering of states $u_1, u_2, \\dots, u_{|V|}$, there are two dual ways to execute the relaxations:</p>
         <ul>
           <li><strong>Pull DP (In-Edge Relaxation):</strong> When standing at state $x$, iterate over all incoming edges $u \\to x$: <code>dp[x] = min(dp[x], dp[u] + cost(u, x))</code>. Ideal when in-neighbors are easy to enumerate and allows immediate register accumulation of <code>dp[x]</code>.</li>
@@ -55,7 +55,7 @@ flowchart LR
           <p>In a tight inner loop, <strong>Pull DP</strong> accumulates <code>best = std::min(best, dp[u] + w)</code> inside a single CPU register (<code>%rax</code>) and performs <em>one</em> memory write <code>dp[x] = best</code> at the end of the loop. In contrast, <strong>Push DP</strong> repeatedly reads and writes different memory addresses <code>dp[u + step]</code>, which can stall the CPU's Store-to-Load forwarding buffer if addresses alias or exceed L1 cache lines. Conversely, when 95% of the state space is unreachable (<code>dp[u] == INF</code>), Push DP skips the inner loop entirely via a single branch, running orders of magnitude faster!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
         <table class="complexity-matrix">
@@ -100,7 +100,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
@@ -190,7 +190,7 @@ CoinChangeResult solve_coin_change_with_reconstruction(const std::vector&lt;int&
     intuition: "Top-down memoization is DFS on the state DAG that lazily visits only the states reachable from the query; bottom-up tabulation is topological relaxation that strips away recursion stack overhead, enables SIMD vectorization, and lets us free old rows the instant no future state depends on them.",
     content: `
       <div class="lesson-content">
-        <h3>1. Top-Down Memoization vs. Bottom-Up Tabulation</h3>
+        <h2>1. Top-Down Memoization vs. Bottom-Up Tabulation</h2>
         <p>Given the same state DAG $G = (V, E)$, how should we evaluate it?</p>
         <ul>
           <li><strong>Top-Down Memoization (DFS Post-Order):</strong> Starts at the target state $t$ and recursively evaluates predecessors, caching results in a table or hash map.
@@ -213,7 +213,7 @@ CoinChangeResult solve_coin_change_with_reconstruction(const std::vector&lt;int&
           2. <strong>Single-Row In-Place (<code>dp[M]</code>):</strong> Overwrite <code>dp[j]</code> in-place by choosing the inner loop direction ($j = 0 \\to M$ vs. $j = M \\to 0$) so we never clobber a value from row $i-1$ that a later $j'$ in row $i$ still needs!</p>
         </div>
 
-        <h3>2. Choosing the Inner Loop Direction for 1-Row Compression</h3>
+        <h2>2. Choosing the Inner Loop Direction for 1-Row Compression</h2>
         <p>When compressing $dp[i][j]$ into a 1D array $dp[j]$:</p>
         <ul>
           <li>If $dp[i][j]$ depends on $dp[i-1][j - w]$ (strictly smaller column from the <strong>previous</strong> row, as in 0/1 Knapsack), we must iterate $j$ <strong>backward</strong> ($W \\to w$) so that when computing $dp[j]$, $dp[j - w]$ still holds its untouched value from row $i-1$.</li>
@@ -234,7 +234,7 @@ flowchart TD
           <p>Allocating <code>std::vector&lt;std::vector&lt;int&gt;&gt; dp(5000, std::vector&lt;int&gt;(5000))</code> allocates $5{,}000$ separate heap buffers totaling <strong>100 MB</strong>, completely blowing out the CPU's 32 KB L1 cache and 1 MB L2 cache and stalling on DRAM bandwidth. Compressing to a single 1D <code>std::vector&lt;int&gt; dp(5001)</code> occupies just <strong>20 KB</strong>—fitting 100% inside L1 data cache for the entire duration of the $2.5 \\times 10^7$ loop iterations!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
         <table class="complexity-matrix">
@@ -279,7 +279,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;string_view&gt;
@@ -371,7 +371,7 @@ long long min_falling_path_ping_pong(const std::vector&lt;std::vector&lt;int&gt;
     intuition: "The entire Knapsack family revolves around one question: how many copies of item i can we take? Flipping the 1D capacity loop from backward (W down to w_i) to forward (w_i up to W) turns 0/1 Knapsack into Unbounded Knapsack; packing boolean states into `std::bitset<W>` speeds up Subset Sum by 64x via word-level shift-OR; and decomposing count k_i into powers of two solves Bounded Knapsack in O(N W log k).",
     content: `
       <div class="lesson-content">
-        <h3>1. The Four Canonical Knapsack Variants</h3>
+        <h2>1. The Four Canonical Knapsack Variants</h2>
         <p>Given $N$ item types with weights $w_i$, values $v_i$, and knapsack capacity $W$:</p>
         <ol>
           <li><strong>0/1 Knapsack ($c_i \\in \\{0, 1\\}$):</strong> Each item taken at most once. 1D recurrence iterates $w$ <strong>backward</strong> from $W$ down to $w_i$:
@@ -393,7 +393,7 @@ long long min_falling_path_ping_pong(const std::vector&lt;std::vector&lt;int&gt;
 
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
-        <h3>2. The $\\sqrt{S}$ Frequency Compression Trick for Subset Sum ($\\sum w_i = S$)</h3>
+        <h2>2. The $\\sqrt{S}$ Frequency Compression Trick for Subset Sum ($\\sum w_i = S$)</h2>
         <p>When the sum of all item weights is $\\sum_{i=1}^N w_i = S$, at most $O(\\sqrt{S})$ <em>distinct</em> weight values can exist! Why? Because the minimum sum of $d$ distinct positive integers is $1 + 2 + \\dots + d = d(d+1)/2 \\le S \\implies d \\le \\sqrt{2S}$. By grouping identical weights into <code>(weight, count)</code> pairs and applying binary splitting (or packing pairs of equal weights into a next-level weight $2w$ until at most 2 copies of each weight remain), Subset Sum on $\\sum w_i = S$ runs in $O\\!\\left(\\frac{S \\sqrt{S}}{64}\\right)$ time!</p>
 
         <div class="mermaid">
@@ -407,7 +407,7 @@ flowchart LR
           <p>In C++, <code>std::bitset&lt;100001&gt; dp; dp |= (dp &lt;&lt; w);</code> compiles under <code>-O3 -march=native</code> to a tight loop of 256-bit AVX2 (<code>VPXOR</code>/<code>VPOR</code>/<code>VPSLLQ</code>) or 512-bit AVX-512 instructions processing 256 to 512 capacity states <strong>per CPU clock cycle</strong>. For $N = 2000, W = 100{,}000$, scalar DP executes $2 \\times 10^8$ loop iterations (~150 ms), whereas <code>std::bitset</code> executes $2000 \\times (100000 / 256) \\approx 7.8 \\times 10^5$ SIMD instructions in <strong>under 1.2 milliseconds</strong>.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -457,7 +457,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;bitset&gt;
 #include &lt;cstdint&gt;
@@ -577,7 +577,7 @@ bool subset_sum_bitset(const std::vector&lt;int&gt;&amp; weights, int target) {
     intuition: "Instead of asking 'What is the longest increasing subsequence ending at index i?' in O(N^2) time, invert the state and ask: 'For each possible length L, what is the smallest possible tail value of an increasing subsequence of length L?' Because a shorter prefix of a valid subsequence always has a strictly smaller tail, this `tails` array is monotonically sorted—unlocking O(log N) binary search per element.",
     content: `
       <div class="lesson-content">
-        <h3>1. State Inversion: From $O(N^2)$ Prefix DP to $O(N \\log N)$ Monotonic Tails</h3>
+        <h2>1. State Inversion: From $O(N^2)$ Prefix DP to $O(N \\log N)$ Monotonic Tails</h2>
         <p>The textbook $O(N^2)$ recurrence defines $dp[i]$ as the length of the Longest Increasing Subsequence ending at $A[i]$: $dp[i] = 1 + \\max_{j < i, A[j] < A[i]} dp[j]$. To break the $O(N^2)$ barrier, we apply <strong>State-Value Inversion</strong>:</p>
         <p>Define $\\text{tails}[L]$ (0-indexed for length $L + 1$) as the <strong>minimum possible ending value</strong> among all strictly increasing subsequences of length $L + 1$ seen so far in prefix $A[0..i]$.</p>
 
@@ -589,7 +589,7 @@ bool subset_sum_bitset(const std::vector&lt;int&gt;&amp; weights, int target) {
           Because $\\text{tails}$ is sorted, inserting $x = A[i]$ replaces the first element $\\ge x$ via <code>std::lower_bound</code> (for <strong>strictly increasing</strong> $<$) or <code>std::upper_bound</code> (for <strong>non-decreasing</strong> $\\le$) in $O(\\log N)$ time.</p>
         </div>
 
-        <h3>2. Patience Sorting & Dilworth's Theorem (Chain / Antichain Duality)</h3>
+        <h2>2. Patience Sorting & Dilworth's Theorem (Chain / Antichain Duality)</h2>
         <p>Imagine dealing cards $A[0..n-1]$ into piles from left to right according to <strong>Patience Sorting (Aldous &amp; Diaconis, 1999)</strong>: place card $x$ on the leftmost pile whose top card is $\\ge x$ (or start a new pile to the right if all pile tops are $< x$). Each pile is a <em>non-increasing subsequence</em>, and the top cards of the piles from left to right are literally our array $\\text{tails}[0..k-1]$!</p>
         <ul>
           <li><strong>Dilworth's Theorem (1950):</strong> In any finite partially ordered set, the minimum number of disjoint chains (non-increasing subsequences) needed to partition the sequence equals the maximum size of an antichain (strictly increasing subsequence). Thus:
@@ -615,7 +615,7 @@ flowchart LR
           <p>A notorious interview and production bug is returning the final <code>tails</code> vector itself as the LIS! On $A = [10, 20, 30, 5]$, after processing $30$ we have <code>tails = [10, 20, 30]</code>, and when $5$ arrives it overwrites <code>tails[0] = 5</code>, leaving <code>tails = [5, 20, 30]</code>—which is <strong>not a valid subsequence</strong> because $5$ appeared after $20$ and $30$! To reconstruct the true sequence in $O(N \\log N)$ time, store the array index <code>tail_idx[pos] = i</code> and record <code>parent[i] = (pos &gt; 0 ? tail_idx[pos - 1] : -1)</code> at the moment $A[i]$ is placed at position <code>pos</code>.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
         <table class="complexity-matrix">
@@ -660,7 +660,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -754,7 +754,7 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
     intuition: "Every `git diff`, spell-checker, and DNA sequence aligner walks a 2D grid graph where moving right deletes a character from A, moving down inserts a character from B, and moving diagonally matches or substitutes characters. When one string has no duplicate characters—or few matching pairs—we can even collapse the 2D grid into a 1D Longest Increasing Subsequence problem in O(N log N) time!",
     content: `
       <div class="lesson-content">
-        <h3>1. The Alignment Grid DAG: Wagner-Fischer Edit Distance & LCS</h3>
+        <h2>1. The Alignment Grid DAG: Wagner-Fischer Edit Distance & LCS</h2>
         <p>Given strings $A[0..n-1]$ and $B[0..m-1]$, prefix-pair Dynamic Programming defines subproblem $(i, j)$ on prefixes $A[0..i-1]$ and $B[0..j-1]$ across an $(n+1) \\times (m+1)$ grid DAG with three incoming edges into $(i, j)$:</p>
         <ul>
           <li><strong>Wagner–Fischer Levenshtein Edit Distance (1974):</strong> Minimum insertions, deletions, and substitutions to transform $A$ into $B$:
@@ -774,7 +774,7 @@ int max_nested_envelopes(std::vector&lt;std::pair&lt;int, int&gt;&gt; envelopes)
 
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
-        <h3>2. Needleman-Wunsch (Global) vs. Smith-Waterman (Local) Sequence Alignment</h3>
+        <h2>2. Needleman-Wunsch (Global) vs. Smith-Waterman (Local) Sequence Alignment</h2>
         <p>In computational genomics, mismatches carry penalty $-\\mu$ and gaps carry penalty $-\\delta$ while matches score $+\\sigma$:</p>
         <ul>
           <li><strong>Needleman–Wunsch (Global Alignment):</strong> Aligns full strings end-to-end; initializes $dp[i][0] = -i\\delta, dp[0][j] = -j\\delta$ and returns $dp[n][m]$.</li>
@@ -793,7 +793,7 @@ flowchart TD
           <p>Can general Edit Distance or LCS be solved in $O(N^{2 - \\epsilon})$ time? Backurs and Indyk (STOC 2015) proved that any $O(N^{2 - \\epsilon})$ algorithm for Edit Distance or LCS would refute the <strong>Strong Exponential Time Hypothesis (SETH)</strong>! In practice, production libraries (like <code>agrep</code>, <code>ripgrep</code>, and Edlib) use <strong>Myers' Bit-Parallel Algorithm (1999)</strong>, encoding the horizontal and vertical $\\in \\{-1, 0, +1\\}$ differences along columns into 64-bit integers and computing 64 rows in $O(1)$ bitwise ALU operations ($O(N M / 64)$ time).</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -831,7 +831,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cmath&gt;
 #include &lt;cstdint&gt;
@@ -953,7 +953,7 @@ int lcs_distinct_via_lis(const std::vector&lt;int&gt;&amp; a, const std::vector&
     intuition: "When a decision splits a contiguous range [i, j] into two independent sub-ranges [i, k] and [k+1, j]—like parenthesizing matrix multiplications, choosing the root of a Binary Search Tree, or slicing a convex polygon with a triangle—prefixes alone aren't enough. We must parameterize states by both endpoints (i, j) and iterate in increasing order of interval length L = j - i + 1.",
     content: `
       <div class="lesson-content">
-        <h3>1. Catalan Tree Spaces & The Interval Length Topological Order</h3>
+        <h2>1. Catalan Tree Spaces & The Interval Length Topological Order</h2>
         <p>How many ways can we parenthesize a product of $n$ matrices $A_1 A_2 \\cdots A_n$, construct a Binary Search Tree on $n$ sorted keys, or triangulate a convex $(n+1)$-gon? The answer to all three is the $(n-1)$-th <strong>Catalan Number</strong>:</p>
         $$C_{n-1} = \\frac{1}{n}\\binom{2n-2}{n-1} = \\Theta\\!\\left(\\frac{4^n}{n^{3/2}}\\right)$$
         <p>Because the last operation merges two contiguous sub-intervals $[i, k]$ and $[k+1, j]$ into $[i, j]$, any subproblem is uniquely identified by its pair of endpoints $(i, j)$ with $0 \\le i \\le j < n$—collapsing $\\Theta(4^n / n^{3/2})$ trees into just $\\binom{n+1}{2} = \\Theta(n^2)$ distinct subproblems!</p>
@@ -966,7 +966,7 @@ int lcs_distinct_via_lis(const std::vector&lt;int&gt;&amp; a, const std::vector&
           2. <strong>By Decreasing Left Endpoint:</strong> <code>for (int i = n - 1; i &gt;= 0; --i) for (int j = i + 1; j &lt; n; ++j)</code>.</p>
         </div>
 
-        <h3>2. Three Isomorphic Interval DP Archetypes</h3>
+        <h2>2. Three Isomorphic Interval DP Archetypes</h2>
         <ul>
           <li><strong>Matrix Chain Multiplication (Dimensions $p_0 \\times p_1, p_1 \\times p_2, \\dots, p_{n-1} \\times p_n$):</strong> Multiplying matrix $A_{i..k}$ ($p_i \\times p_{k+1}$) by $A_{k+1..j}$ ($p_{k+1} \\times p_{j+1}$) costs $p_i p_{k+1} p_{j+1}$ scalar multiplications:
             $$dp[i][j] = \\min_{i \\le k < j} \\big(dp[i][k] + dp[k+1][j] + p_i \\cdot p_{k+1} \\cdot p_{j+1}\\big)$$
@@ -990,7 +990,7 @@ flowchart TD
           <p>In the innermost loop <code>for (int k = i; k &lt; j; ++k)</code> of <code>dp[i][k] + dp[k+1][j]</code>, accessing <code>dp[i][k]</code> streams sequentially across row $i$ (stride 1, L1 cache hit), whereas accessing <code>dp[k+1][j]</code> jumps down column $j$ with stride $N$—causing an L1/L2 cache miss on every step when $N \\ge 512$! Maintaining a transposed mirror array <code>dpT[j][k+1] = dp[k+1][j]</code> turns both inner-loop reads into unit-stride sequential scans, allowing the compiler to auto-vectorize the $k$-loop with AVX2 (<code>VPMINSD</code>/<code>VPADDD</code>) for a $4\\times$–$6\\times$ wall-clock speedup.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-interval-tree-rerooting-dp"></div>
 
         <table class="complexity-matrix">
@@ -1035,7 +1035,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
@@ -1134,7 +1134,7 @@ long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
     intuition: "A rooted tree is already a DAG where information naturally flows from leaves up to the root in DFS post-order. Two miracles make Tree DP remarkably fast: first, merging knapsack arrays across child subtrees looks like O(N^3) but is actually O(N^2) because every pair of nodes meets only once at their LCA; second, the Rerooting (Up-Down) technique computes the answer for all N possible roots in O(N) total time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Bottom-Up Subtree DP & The $O(N^2)$ Tree Knapsack Theorem</h3>
+        <h2>1. Bottom-Up Subtree DP & The $O(N^2)$ Tree Knapsack Theorem</h2>
         <p>By rooting an undirected tree arbitrarily at vertex $0$, every vertex $u$ defines a subproblem on its subtree $T_u$, solved in DFS post-order:</p>
         <ul>
           <li><strong>Maximum Weight Independent Set on a Tree (House Robber III):</strong> Maintain two states per node: $dp[u][0]$ (max weight in $T_u$ if $u$ is excluded) and $dp[u][1]$ (if $u$ is included):
@@ -1151,7 +1151,7 @@ long long max_coins_burst_balloons(const std::vector&lt;int&gt;&amp; nums) {
           <p>If capacities are further capped at $K$, the complexity is strictly <strong>$O(N \\cdot K)$</strong>!</p>
         </div>
 
-        <h3>2. The All-Roots Rerooting Technique (Up-Down / In-Out DP)</h3>
+        <h2>2. The All-Roots Rerooting Technique (Up-Down / In-Out DP)</h2>
         <p>What if we need the tree DP answer when <em>every</em> vertex $u \\in \\{0..N-1\\}$ is chosen as the root (e.g., Sum of Distances in Tree, Minimum Height Trees, or Maximum Path from Every Node)? Running $N$ separate DFS traversals takes $O(N^2)$. Instead, <strong>Two-Pass Rerooting</strong> solves all $N$ roots in $O(N)$:</p>
         <ol>
           <li><strong>Pass 1 (Post-Order Downward DP <code>down[u]</code>):</strong> Root at $0$ and compute <code>down[u]</code> for every subtree $T_u$.</li>
@@ -1176,7 +1176,7 @@ flowchart LR
           <p>A single-line bug turns an $O(N^2)$ Tree Knapsack into an $O(N^3)$ TLE: if you increment <code>sz[u] += sz[v]</code> <em>before</em> the merge loop (or loop up to the precomputed total subtree size instead of the running accumulated size), the first child merge at the root iterates $N \\times \\text{sz}[v_1]$ instead of $1 \\times \\text{sz}[v_1]$, destroying the LCA pair-counting invariant!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-interval-tree-rerooting-dp"></div>
 
         <table class="complexity-matrix">
@@ -1221,7 +1221,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1342,7 +1342,7 @@ std::vector&lt;long long&gt; tree_knapsack_Exact_ONK(
     intuition: "In a general graph, finding the Longest Simple Path is NP-hard and counting paths is #P-complete because cycles allow infinite walks. On a Directed Acyclic Graph (DAG)—or on a cyclic graph condensed into a DAG of Strongly Connected Components via Tarjan's algorithm—both problems collapse to a single linear O(V + E) pass along topological order.",
     content: `
       <div class="lesson-content">
-        <h3>1. Linear-Time Semiring Relaxation on DAGs</h3>
+        <h2>1. Linear-Time Semiring Relaxation on DAGs</h2>
         <p>Given a Directed Acyclic Graph $G = (V, E)$ with topological ordering $\\pi = (v_1, v_2, \\dots, v_n)$ such that every directed edge $(u, v) \\in E$ satisfies $\\text{pos}(u) < \\text{pos}(v)$, we can evaluate any associative path algebra in $O(V + E)$ time:</p>
         <ul>
           <li><strong>Shortest Path (even with negative edge weights!):</strong> $(\\min, +)$ semiring: $dp[v] = \\min_{u \\to v} (dp[u] + w(u, v))$.</li>
@@ -1357,7 +1357,7 @@ std::vector&lt;long long&gt; tree_knapsack_Exact_ONK(
           <strong>Rule:</strong> For single-source queries from $s$, initialize <code>dp[s] = 0</code> and <code>dp[v] = -INF</code> for all $v \\neq s$. Still peel <em>all</em> in-degree-$0$ vertices in Kahn's queue so the topological dependencies unlock properly, and guard edge relaxations with <code>if (dp[u] != -INF)</code>!</p>
         </div>
 
-        <h3>2. Extending DAG DP to General Directed Graphs via SCC Condensation</h3>
+        <h2>2. Extending DAG DP to General Directed Graphs via SCC Condensation</h2>
         <p>What if the input graph $G$ contains directed cycles, and we want to maximize the sum of vertex weights collected along a walk (where each vertex's weight is collected at most once)? Every Strongly Connected Component (SCC) $C_i$ allows visiting <em>all</em> vertices inside $C_i$ and exiting through any outgoing edge! Thus:</p>
         <ol>
           <li>Run Tarjan's or Kosaraju's algorithm in $O(V + E)$ to partition $G$ into SCCs $C_1, \\dots, C_k$.</li>
@@ -1379,7 +1379,7 @@ flowchart LR
           <p>In large sparse DAGs (such as neural network computation graphs or static timing analysis circuits with $10^7$ gates), vertex IDs are often numbered arbitrarily, so <code>dp[v] = max(dp[v], dp[u] + w)</code> triggers random memory writes across <code>dp[]</code>. Relabeling vertices so that new ID $i$ is the $i$-th vertex in topological order turns <code>dp[u]</code> reads into monotonically forward memory accesses and guarantees every edge $(i, j)$ satisfies $i < j$.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dp-dag-table"></div>
 
         <table class="complexity-matrix">
@@ -1424,7 +1424,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;queue&gt;
@@ -1524,7 +1524,7 @@ DagPathMetrics solve_dag_s_to_t(
     intuition: "Why do paragraphs typeset in LaTeX look like a master printer crafted them, while greedy word-wrappers create hideous 'rivers' of stretched whitespace? Because greedy wrapping packs each line to the brim until a long word overflows, leaving the previous line sparse. Knuth and Plass (1981) formulated paragraph justification as a Shortest Path DAG where vertices are word boundaries, edges are candidate lines, and edge weights are cubic/quadratic 'badness' penalties.",
     content: `
       <div class="lesson-content">
-        <h3>1. Why Greedy Word Wrapping Fails & The Knuth-Plass Badness Function</h3>
+        <h2>1. Why Greedy Word Wrapping Fails & The Knuth-Plass Badness Function</h2>
         <p>Given $n$ words of widths $w_0, w_1, \\dots, w_{n-1}$ and target line width $L$, a <strong>greedy line breaker</strong> (used in basic web browsers and early word processors) packs words onto the current line until the next word exceeds $L$. This local myopia often packs $99\\%$ of lines tightly and then encounters a long URL or technical identifier, leaving a massive gap on the preceding line.</p>
         <p>In 1981, Donald Knuth and Michael Plass revolutionized digital typography in $\\TeX$ by optimizing <strong>global paragraph demerits</strong> across all lines simultaneously:</p>
         <ul>
@@ -1541,7 +1541,7 @@ DagPathMetrics solve_dag_s_to_t(
           Because every word has width $w_k \\ge 1$ plus a space of width $1$, how many words $j - i$ can possibly fit on a single line of width $L$? At most $\\lceil L / 2 \\rceil$! As soon as $W(i, j) > L$, we <code>break</code> out of the inner $j$-loop immediately. Thus the time complexity is not $O(n^2)$, but <strong>$O(n \\cdot W_{\\text{max\\_words\\_per\\_line}}) = O(n \\cdot L)$</strong>—which is linear $O(n)$ for a fixed page width $L \\approx 80$!</p>
         </div>
 
-        <h3>2. From $\\TeX$ Paragraphs to Code Formatters (<code>prettier</code>, <code>clang-format</code>, <code>rustfmt</code>)</h3>
+        <h2>2. From $\\TeX$ Paragraphs to Code Formatters (<code>prettier</code>, <code>clang-format</code>, <code>rustfmt</code>)</h2>
         <p>Modern source code formatters (<code>clang-format</code>, Wadler/Oppen pretty-printers in <code>prettier</code> and <code>rustfmt</code>) extend Knuth-Plass from flat word arrays to <strong>Abstract Syntax Trees (ASTs)</strong>:</p>
         <ul>
           <li>Each token break has a <em> syntactic penalty weight</em> (breaking after a <code>,</code> or <code>;</code> is cheap; breaking inside <code>a + b</code> is expensive) and an <em>indentation level</em> $I$.</li>
@@ -1561,7 +1561,7 @@ flowchart LR
           <p>What if line width $L$ is huge (so $O(N \\cdot L)$ is too slow)? Because the penalty function $f(x) = x^2$ or $x^3$ is convex, the transition matrix $C[i][j] = \\text{cost}(i, j) + dp[j]$ satisfies the <strong>Quadrangle Inequality (Monge Property)</strong>: optimal split points are monotonic ($\\text{opt}[i] \\le \\text{opt}[i+1]$). Using Wilber's algorithm or Hirschberg-Larmore's Convex Hull / Monge deque, Knuth-Plass line breaking runs in strict $O(N)$ time regardless of $L$!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-edit-distance-myers"></div>
 
         <table class="complexity-matrix">
@@ -1601,7 +1601,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;string&gt;
@@ -1698,7 +1698,7 @@ LineBreakPlan knuth_plass_line_break(const std::vector&lt;int&gt;&amp; word_widt
     intuition: "Rolling arrays compute the Edit Distance or LCS *score* in O(min(N, M)) memory, but throw away the parent pointers needed to reconstruct the actual diff! Hirschberg's algorithm (1975) marries Divide-and-Conquer with Rolling-Array DP: by running a 1D forward DP on the top half of A and a 1D backward DP on the bottom half of A, we find the exact column j* where the optimal alignment crosses the middle row mid = N/2—reconstructing the entire alignment in O(N*M) time and strict O(min(N, M)) space.",
     content: `
       <div class="lesson-content">
-        <h3>1. The Memory Bottleneck of Full Alignment Tables</h3>
+        <h2>1. The Memory Bottleneck of Full Alignment Tables</h2>
         <p>When aligning two genomic sequences or source files of length $N = M = 100{,}000$, storing a 2D table of 32-bit parent pointers requires $10^{10} \\times 4 \\text{ bytes} = 40 \\text{ GB}$ of RAM—causing an immediate Out-Of-Memory (OOM) crash. Yet a 1D rolling array of length $M + 1$ takes only $400 \\text{ KB}$, at the cost of forgetting the path. How can we recover the full path using only $O(M)$ memory?</p>
 
         <div class="invariant-box">
@@ -1710,7 +1710,7 @@ LineBreakPlan knuth_plass_line_break(const std::vector&lt;int&gt;&amp; word_widt
           2. Bottom-Right quadrant: $(A[\\text{mid}..n-1],\\; B[j^*..m-1])$ of area $\\frac{n}{2} \\cdot (m - j^*)$.</p>
         </div>
 
-        <h3>2. The Geometric Series Proof: Why Total Time Only Doubles ($2NM$)</h3>
+        <h2>2. The Geometric Series Proof: Why Total Time Only Doubles ($2NM$)</h2>
         <p>At depth $0$ of the recursion, the forward and backward 1D passes do proportional to $\\frac{n}{2} m + \\frac{n}{2} m = n m$ work. At depth $1$, the two recursive calls process areas $\\frac{n}{2} j^*$ and $\\frac{n}{2} (m - j^*)$, whose sum is:</p>
         $$\\frac{n}{2} j^* + \\frac{n}{2}(m - j^*) = \\frac{1}{2} n m$$
         <p>At depth $d$, the $2^d$ subproblems have total grid area $\\frac{1}{2^d} n m$! Summing over all recursion levels gives the geometric series:</p>
@@ -1731,7 +1731,7 @@ flowchart TD
           <p>If each recursive call in Hirschberg allocates new <code>std::vector&lt;int&gt;</code> buffers on the heap, the $O(N)$ recursive calls perform $O(N)$ <code>malloc</code>/<code>free</code> syscalls and risk $O(M \\log N)$ stack-accumulated memory if vectors stay alive across recursive calls. Production implementations Either shrink-to-fit/free temporary vectors <em>before</em> recursing, or write the 1D DP directly into a shared scratch arena slices of size $j^* + 1$ and $m - j^* + 1$.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-edit-distance-myers"></div>
 
         <table class="complexity-matrix">
@@ -1765,7 +1765,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Complete Production C++20 Build Lab Implementation</h3>
+        <h2>4. Complete Production C++20 Build Lab Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;string&gt;

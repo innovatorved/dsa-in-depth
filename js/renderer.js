@@ -45,100 +45,185 @@ window.loadScript = window.loadScript || function loadScript(src) {
 };
 
 window.SIMULATOR_SCRIPT_MAP = {
-  "cpu-cache-hierarchy-locality": "js/simulators-linear.js",
-  "static-dynamic-arrays-memory-layout": "js/simulators-linear.js",
-  "pointer-chasing-cache-conscious-lists": "js/simulators-linear.js",
-  "amortized-analysis-potential-method": "js/simulators-linear.js",
-  "case-v8-elements-kinds-smi-arrays": "js/simulators-linear.js",
-  "two-pointers-invariants": "js/simulators-linear.js",
-  "dutch-national-flag-3-way-partition": "js/simulators-linear.js",
-  "quicksort-hoare-lomuto-3way": "js/simulators-linear.js",
-  "sliding-window-fixed-variable": "js/simulators-linear.js",
-  "monotonic-queue-sliding-window-max": "js/simulators-linear.js",
+  "ram-model-vs-modern-cpu": "js/simulators-linear.js",
+  "asymptotic-notations-rigor": "js/simulators-linear.js",
+  "recurrence-relations-master-theorem": "js/simulators-linear.js",
+  "akra-bazzi-uneven-divides": "js/simulators-linear.js",
+  "amortized-analysis-potential": "js/simulators-linear.js",
+  "space-complexity-stack-frames": "js/simulators-linear.js",
+  "cache-oblivious-algorithms": "js/simulators-linear.js",
+  "branch-prediction-simd-cost": "js/simulators-linear.js",
+  "complexity-tradeoff-framework": "js/simulators-linear.js",
+  "case-v8-elements-kinds": "js/simulators-linear.js",
+  "dynamic-arrays-geometric-resizing": "js/simulators-linear.js",
+  "prefix-sums-difference-arrays": "js/simulators-linear.js",
+  "two-pointers-invariant-proofs": "js/simulators-linear.js",
+  "sliding-window-monotonicity": "js/simulators-linear.js",
+  "kadane-subarray-invariants": "js/simulators-linear.js",
+  "bit-manipulation-twos-complement": "js/simulators-linear.js",
+  "bitsets-word-level-parallelism": "js/simulators-linear.js",
+  "in-place-matrix-cyclic-shifts": "js/simulators-linear.js",
+  "boyer-moore-majority-misra-gries": "js/simulators-linear.js",
   "build-dynamic-circular-deque": "js/simulators-linear.js",
-  "stack-adt-monotonic-stack": "js/simulators-linear.js",
+  "singly-doubly-intrusive-lists": "js/simulators-linear.js",
+  "floyd-brent-cycle-detection": "js/simulators-linear.js",
+  "unrolled-linked-lists-ropes": "js/simulators-linear.js",
   "skip-lists-probabilistic-indexing": "js/simulators-linear.js",
-  "case-redis-ziplist-quicklist-skiplist": "js/simulators-linear.js",
-  "open-addressing-probing-robin-hood": "js/simulators-hashing.js",
-  "separate-chaining-cache-behavior": "js/simulators-hashing.js",
-  "build-robin-hood-hash-map": "js/simulators-hashing.js",
+  "stacks-expression-evaluation": "js/simulators-linear.js",
+  "monotonic-stack-next-greater": "js/simulators-linear.js",
+  "monotonic-deque-sliding-extrema": "js/simulators-linear.js",
+  "lru-lfu-eviction-structures": "js/simulators-hashing.js",
+  "case-redis-skiplist-ziplist": "js/simulators-linear.js",
+  "build-lfu-lru-cache": "js/simulators-hashing.js",
+  "universal-k-independent-hashing": "js/simulators-hashing.js",
+  "separate-chaining-vs-open-addressing": "js/simulators-hashing.js",
+  "robin-hood-cuckoo-hashing": "js/simulators-hashing.js",
+  "hashdos-siphash-random-seeds": "js/simulators-hashing.js",
+  "consistent-hashing-rendezvous": "js/simulators-hashing.js",
+  "bloom-filters-counting-xor": "js/simulators-hashing.js",
+  "count-min-sketch-heavy-hitters": "js/simulators-hashing.js",
+  "hyperloglog-cardinality": "js/simulators-hashing.js",
   "case-rust-hashbrown-swisstable": "js/simulators-hashing.js",
-  "cuckoo-hopscotch-extendible-hashing": "js/simulators-hashing.js",
-  "bloom-filters-counting-cuckoo": "js/simulators-hashing.js",
-  "count-min-sketch-hyperloglog": "js/simulators-hashing.js",
-  "consistent-rendezvous-jump-hashing": "js/simulators-hashing.js",
-  "binary-heaps-floyd-heapify": "js/simulators-trees.js",
-  "d-ary-indexed-binomial-fibonacci-heaps": "js/simulators-trees.js",
-  "heapsort-in-place-selection": "js/simulators-trees.js",
+  "build-robin-hood-hash-map": "js/simulators-hashing.js",
+  "quadratic-sorts-inversions": "js/simulators-trees.js",
+  "mergesort-bottom-up-inversions": "js/simulators-trees.js",
+  "quicksort-partition-schemes": "js/simulators-trees.js",
+  "randomized-quicksort-expectation": "js/simulators-trees.js",
+  "decision-tree-lower-bound": "js/simulators-trees.js",
+  "counting-radix-bucket-sorts": "js/simulators-trees.js",
+  "quickselect-bfprt-median": "js/simulators-linear.js",
+  "external-merge-sort-replacement": "js/simulators-linear.js",
+  "case-timsort-pdqsort": "js/simulators-linear.js",
+  "build-hybrid-introsort-timsort": "js/simulators-linear.js",
+  "binary-search-boundary-invariants": "js/simulators-trees.js",
+  "parametric-search-answer-space": "js/simulators-trees.js",
+  "rotated-bitonic-unbounded-search": "js/simulators-trees.js",
+  "fractional-cascading": "js/simulators-linear.js",
+  "divide-and-conquer-closest-pair": "js/simulators-linear.js",
+  "karatsuba-strassen-algebraic-dc": "js/simulators-linear.js",
+  "fast-fourier-transform-polynomials": "js/simulators-linear.js",
+  "meet-in-the-middle-search": "js/simulators-trees.js",
+  "cdq-divide-and-conquer": "js/simulators-linear.js",
+  "case-git-bisect-eytzinger": "js/simulators-linear.js",
+  "tree-representations-traversals": "js/simulators-trees.js",
+  "morris-threaded-traversal": "js/simulators-trees.js",
+  "tree-serialization-reconstruction": "js/simulators-trees.js",
+  "bst-operations-hibbard-deletion": "js/simulators-trees.js",
+  "randomly-built-bst-height": "js/simulators-trees.js",
+  "binary-d-ary-heaps": "js/simulators-trees.js",
+  "mergeable-heaps-binomial-fibonacci": "js/simulators-trees.js",
+  "two-heaps-k-way-merge-patterns": "js/simulators-trees.js",
+  "case-timer-wheels-vs-heaps": "js/simulators-trees.js",
   "build-indexed-d-ary-priority-queue": "js/simulators-trees.js",
-  "avl-trees-height-balance-rotations": "js/simulators-trees.js",
-  "red-black-trees-llrb": "js/simulators-trees.js",
-  "case-linux-cfs-rbtree-scheduler": "js/simulators-trees.js",
-  "build-llrb-order-statistic-tree": "js/simulators-trees.js",
-  "treaps-randomized-bst-split-merge": "js/simulators-trees.js",
-  "ropes-piece-tables-text-editors": "js/simulators-trees.js",
+  "tree-rotations-avl-invariants": "js/simulators-trees.js",
+  "red-black-llrb-isomorphism": "js/simulators-trees.js",
+  "treaps-split-merge-paradigm": "js/simulators-trees.js",
   "splay-trees-dynamic-optimality": "js/simulators-trees.js",
-  "b-trees-bplus-trees-external-memory": "js/simulators-trees.js",
-  "case-rocksdb-lsm-bplus-tradeoffs": "js/simulators-trees.js",
-  "fenwick-tree-binary-indexed-tree": "js/simulators-trees.js",
-  "segment-tree-point-update-range-query": "js/simulators-trees.js",
-  "segment-tree-lazy-propagation": "js/simulators-trees.js",
-  "persistent-segment-trees-path-copying": "js/simulators-trees.js",
+  "augmented-trees-order-intervals": "js/simulators-trees.js",
+  "b-trees-bplus-trees-disk-pages": "js/simulators-trees.js",
+  "lsm-trees-write-amplification": "js/simulators-trees.js",
+  "persistent-trees-path-copying": "js/simulators-trees.js",
+  "case-linux-rbtree-cfs": "js/simulators-trees.js",
+  "build-llrb-order-statistic-tree": "js/simulators-trees.js",
+  "static-range-queries-sparse-table": "js/simulators-trees.js",
+  "fenwick-tree-binary-indexed": "js/simulators-trees.js",
+  "segment-trees-bottom-up-monoids": "js/simulators-trees.js",
+  "lazy-propagation-segment-tree-beats": "js/simulators-trees.js",
+  "dynamic-persistent-segment-trees": "js/simulators-trees.js",
+  "sqrt-decomposition-mos-algorithm": "js/simulators-trees.js",
+  "lowest-common-ancestor-rmq": "js/simulators-trees.js",
+  "heavy-light-decomposition": "js/simulators-trees.js",
+  "cartesian-trees-treap-duality": "js/simulators-trees.js",
   "build-lazy-segment-tree": "js/simulators-trees.js",
+  "tries-radix-trees-patricia": "js/simulators-strings.js",
+  "bitwise-tries-max-xor": "js/simulators-strings.js",
+  "rabin-karp-polynomial-rolling-hash": "js/simulators-strings.js",
   "kmp-prefix-function-automaton": "js/simulators-strings.js",
-  "z-algorithm-linear-time-matching": "js/simulators-strings.js",
-  "boyer-moore-horspool-sunday": "js/simulators-strings.js",
-  "case-ripgrep-teddy-simd-boyer-moore": "js/simulators-strings.js",
-  "aho-corasick-multi-pattern-automaton": "js/simulators-strings.js",
-  "trie-radix-patricia-trees": "js/simulators-strings.js",
+  "z-algorithm-linear-box": "js/simulators-strings.js",
+  "boyer-moore-horspool-simd": "js/simulators-strings.js",
+  "aho-corasick-trie-automaton": "js/simulators-strings.js",
+  "manacher-palindromic-tree": "js/simulators-strings.js",
+  "case-ripgrep-teddy-simd": "js/simulators-strings.js",
   "build-aho-corasick-scanner": "js/simulators-strings.js",
-  "suffix-arrays-sais-construction": "js/simulators-strings.js",
+  "suffix-trees-ukkonen-intuition": "js/simulators-strings.js",
+  "suffix-arrays-prefix-doubling-sais": "js/simulators-strings.js",
   "kasai-lcp-array-rmq": "js/simulators-strings.js",
-  "suffix-automaton-sam": "js/simulators-strings.js",
+  "suffix-automaton-sam-endpos": "js/simulators-strings.js",
   "burrows-wheeler-transform-fm-index": "js/simulators-strings.js",
-  "thompson-nfa-regex-simulation": "js/simulators-strings.js",
+  "thompson-nfa-vs-backtracking-regex": "js/simulators-strings.js",
+  "myers-diff-hirschberg-lcs": "js/simulators-strings.js",
+  "huffman-lz77-deflate": "js/simulators-strings.js",
+  "case-git-myers-histogram-diff": "js/simulators-strings.js",
   "build-thompson-nfa-regex-engine": "js/simulators-strings.js",
+  "graph-representations-csr-cache": "js/simulators-graphs.js",
+  "bfs-01-bfs-multi-source": "js/simulators-graphs.js",
   "dfs-edge-classification-timestamps": "js/simulators-graphs.js",
-  "tarjan-kosaraju-scc": "js/simulators-graphs.js",
-  "bridges-articulation-points-biconnected": "js/simulators-graphs.js",
-  "two-sat-implication-graphs": "js/simulators-graphs.js",
+  "topological-sort-kahn-dfs": "js/simulators-graphs.js",
+  "bipartite-graphs-2-coloring": "js/simulators-graphs.js",
+  "bridges-articulation-biconnected": "js/simulators-graphs.js",
+  "scc-tarjan-kosaraju-2sat": "js/simulators-graphs.js",
+  "eulerian-paths-hierholzer": "js/simulators-graphs.js",
+  "case-bundler-build-graph-cycles": "js/simulators-graphs.js",
   "build-tarjan-scc-2sat-solver": "js/simulators-graphs.js",
-  "disjoint-set-union-tarjan-ackermann": "js/simulators-graphs.js",
-  "dsu-with-rollback-dynamic-connectivity": "js/simulators-graphs.js",
-  "dijkstra-algorithm-priority-queues": "js/simulators-graphs.js",
-  "astar-heuristic-search": "js/simulators-graphs.js",
-  "bidirectional-contraction-hierarchies": "js/simulators-graphs.js",
-  "case-osrm-google-maps-routing": "js/simulators-graphs.js",
-  "build-astar-bidirectional-router": "js/simulators-graphs.js",
-  "bellman-ford-spfa-negative-cycles": "js/simulators-graphs.js",
-  "floyd-warshall-johnson-apsp": "js/simulators-graphs.js",
-  "system-of-difference-constraints": "js/simulators-graphs.js",
+  "disjoint-set-union-ackermann": "js/simulators-graphs.js",
+  "dsu-rollback-weighted-offline": "js/simulators-graphs.js",
   "mst-cut-cycle-properties": "js/simulators-graphs.js",
-  "kruskal-prim-boruvka-algorithms": "js/simulators-graphs.js",
-  "steiner-trees-mst-approximations": "js/simulators-graphs.js",
-  "flow-networks-ford-fulkerson-maxflow-mincut": "js/simulators-graphs.js",
-  "edmonds-karp-capacity-scaling": "js/simulators-graphs.js",
-  "dinic-blocking-flow": "js/simulators-graphs.js",
-  "push-relabel-goldberg-tarjan": "js/simulators-graphs.js",
+  "dijkstra-relaxation-invariants": "js/simulators-graphs.js",
+  "astar-heuristic-admissibility": "js/simulators-graphs.js",
+  "bellman-ford-spfa-difference-constraints": "js/simulators-graphs.js",
+  "floyd-warshall-johnson-apsp": "js/simulators-graphs.js",
+  "state-space-dijkstra-layered-graphs": "js/simulators-graphs.js",
+  "case-osrm-contraction-hierarchies": "js/simulators-graphs.js",
+  "build-astar-bidirectional-router": "js/simulators-graphs.js",
+  "flow-networks-residual-graphs": "js/simulators-graphs.js",
+  "max-flow-min-cut-theorem": "js/simulators-graphs.js",
+  "edmonds-karp-shortest-augmenting": "js/simulators-graphs.js",
+  "dinic-level-graph-blocking-flow": "js/simulators-graphs.js",
+  "push-relabel-preflow": "js/simulators-graphs.js",
+  "bipartite-matching-hopcroft-karp": "js/simulators-graphs.js",
+  "weighted-matching-hungarian": "js/simulators-graphs.js",
+  "min-cost-max-flow-mcmf": "js/simulators-graphs.js",
+  "flow-reductions-project-selection": "js/simulators-graphs.js",
   "build-dinic-max-flow-engine": "js/simulators-graphs.js",
-  "zero-one-unbounded-bounded-knapsack": "js/simulators-dp-adv.js",
-  "memoization-vs-tabulation-dag": "js/simulators-dp-adv.js",
-  "optimal-substructure-overlapping-subproblems": "js/simulators-dp-adv.js",
-  "lcs-edit-distance-levenshtein": "js/simulators-dp-adv.js",
-  "hirschberg-linear-space-dp": "js/simulators-dp-adv.js",
-  "case-git-myers-diff-histogram": "js/simulators-dp-adv.js",
-  "build-hirschberg-linear-space-diff": "js/simulators-dp-adv.js",
-  "bitmask-dp-tsp-sos": "js/simulators-dp-adv.js",
-  "digit-dp-counting-constraints": "js/simulators-dp-adv.js",
+  "combinatorial-generation-permutations": "js/simulators-dp-adv.js",
+  "backtracking-state-space-trees": "js/simulators-dp-adv.js",
+  "exact-cover-knuth-algorithm-x": "js/simulators-dp-adv.js",
+  "branch-and-bound-admissible-bounds": "js/simulators-dp-adv.js",
+  "minimax-alpha-beta-pruning": "js/simulators-dp-adv.js",
+  "greedy-choice-exchange-arguments": "js/simulators-dp-adv.js",
+  "matroids-greedy-foundations": "js/simulators-dp-adv.js",
+  "regret-greedy-heap-rollback": "js/simulators-dp-adv.js",
+  "case-sat-solvers-cdcl-dpll": "js/simulators-dp-adv.js",
+  "build-dancing-links-exact-cover": "js/simulators-dp-adv.js",
+  "dp-optimal-substructure-dag": "js/simulators-dp-adv.js",
+  "memoization-tabulation-space-rolling": "js/simulators-dp-adv.js",
+  "knapsack-family-01-unbounded-bounded": "js/simulators-dp-adv.js",
+  "lis-patience-sorting": "js/simulators-dp-adv.js",
+  "sequence-dp-lcs-levenshtein": "js/simulators-dp-adv.js",
+  "interval-dp-matrix-chain-triangulation": "js/simulators-dp-adv.js",
   "tree-dp-rerooting-technique": "js/simulators-dp-adv.js",
+  "dag-dp-longest-path-counting": "js/simulators-dp-adv.js",
+  "case-pretty-printing-knuth-plass": "js/simulators-dp-adv.js",
+  "build-hirschberg-linear-space-diff": "js/simulators-dp-adv.js",
+  "bitmask-dp-tsp-hamiltonian": "js/simulators-dp-adv.js",
+  "sos-dp-fast-zeta-mobius": "js/simulators-dp-adv.js",
+  "digit-dp-lexicographic-automata": "js/simulators-dp-adv.js",
+  "broken-profile-dp-grid-tiling": "js/simulators-dp-adv.js",
+  "divide-and-conquer-dp-quadrangle": "js/simulators-dp-adv.js",
+  "knuth-optimization-optimal-bst": "js/simulators-dp-adv.js",
   "convex-hull-trick-li-chao-tree": "js/simulators-dp-adv.js",
-  "divide-conquer-dp-knuth-optimization": "js/simulators-dp-adv.js",
   "aliens-trick-wqs-binary-search": "js/simulators-dp-adv.js",
+  "matrix-exponentiation-linear-recurrences": "js/simulators-dp-adv.js",
   "build-li-chao-convex-hull-dp": "js/simulators-dp-adv.js",
-  "convex-hull-graham-scan-monotone-chain": "js/simulators-dp-adv.js",
-  "orientation-ccw-line-intersection": "js/simulators-dp-adv.js",
-  "sweep-line-bentley-ottmann-closest-pair": "js/simulators-dp-adv.js",
-  "kd-trees-quadtrees-r-trees": "js/simulators-dp-adv.js",
+  "geometry-primitives-orientation-ccw": "js/simulators-dp-adv.js",
+  "convex-hull-graham-andrew": "js/simulators-dp-adv.js",
+  "sweep-line-bentley-ottmann": "js/simulators-dp-adv.js",
+  "spatial-indexing-kd-quad-rtrees": "js/simulators-dp-adv.js",
+  "modular-arithmetic-gcd-crt": "js/simulators-dp-adv.js",
+  "primality-miller-rabin-pollard-rho": "js/simulators-dp-adv.js",
+  "las-vegas-monte-carlo-karger": "js/simulators-dp-adv.js",
+  "np-completeness-reductions": "js/simulators-dp-adv.js",
+  "approximation-algorithms-fptas": "js/simulators-dp-adv.js",
   "build-kd-tree-nearest-neighbor": "js/simulators-dp-adv.js"
 };
 
@@ -449,36 +534,47 @@ window.Renderer = (() => {
     );
   }
 
-  function renderTopicCodeLabCard(slug, unit, mod) {
+  function renderTopicCodeLabCard(slug, unit, mod, moduleContent) {
+    let fallbackCpp = '';
+    if (moduleContent?.content) {
+      const m = moduleContent.content.match(/<pre><code\s+class=["']language-cpp["']>([\s\S]*?)<\/code><\/pre>/);
+      if (m) fallbackCpp = m[1];
+    }
     const lab = (window.TopicGuidedLabs && typeof window.TopicGuidedLabs.getLab === 'function')
-      ? window.TopicGuidedLabs.getLab(slug, '', unit?.title)
+      ? window.TopicGuidedLabs.getLab(slug, fallbackCpp, unit?.title)
       : null;
     if (!lab) return '';
 
     const steps = Array.isArray(lab.steps) ? lab.steps : [];
-    const labTitle = lab.title || `${unit?.title || 'Interactive'} CodeLab`;
-    const labSummary = lab.summary || 'Hands-on implementation and algorithmic verification in in-browser C++20 Clang WASI.';
-    const totalSteps = steps.length || 2;
+    const labTitle = lab.title || `${unit?.title || 'Interactive'} — Guided Algorithm Coding Practice`;
+    const labSummary = lab.summary || 'Hands-on algorithm implementation with step-by-step progressive hints and automated C++20 verification.';
+    const totalSteps = steps.length || 3;
+    const comp = lab.complexity || { time: 'O(N log N)', space: 'O(N)', pattern: mod?.title || 'Algorithmic Invariants' };
 
     return `
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-${escapeHtml(slug)}" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">${totalSteps} Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">${totalSteps} Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">${escapeHtml(labTitle)}</h2>
             <p class="build-lab-card__desc">${escapeHtml(labSummary)}</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>${escapeHtml(comp.time || 'O(N log N)')}</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>${escapeHtml(comp.space || 'O(N)')}</code></span>
+              <span class="badge">🧭 Pattern: ${escapeHtml(comp.pattern || mod?.title || 'Core Invariants')}</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -486,18 +582,28 @@ window.Renderer = (() => {
         ${steps.length ? `
           <div class="build-lab-steps-grid">
             ${steps.map((s, idx) => `
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided" data-step-index="${idx}">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">0${idx + 1}</span>
-                  <span class="build-lab-step-card__target">${escapeHtml(s.concept || 'Algorithmic Invariant')}</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">0${idx + 1}</span>
+                    <span class="build-lab-step-card__target">${escapeHtml(s.concept || 'Algorithmic Invariant')}</span>
+                  </div>
+                  <div class="build-lab-step-card__title">${escapeHtml((s.title || '').replace(/^Step\s*\d+:\s*/i, ''))}</div>
+                  <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || 'Implement and verify core invariants in C++20.')}</div>
+                  ${s.hint ? `
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step ${idx + 1})</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>${escapeHtml(s.hint)}</code></pre>
+                    </details>
+                  ` : ''}
                 </div>
-                <div class="build-lab-step-card__title">${escapeHtml((s.title || '').replace(/^Step\s*\d+:\s*/i, ''))}</div>
-                <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || s.hint || 'Implement and verify core invariants in C++20.')}</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step ${idx + 1} →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step ${idx + 1} of ${steps.length}</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided" data-step-index="${idx}" style="padding:2px 8px; font-size:11px;">
+                    Code Step ${idx + 1} →
+                  </button>
                 </div>
-              </button>
+              </div>
             `).join('')}
           </div>
         ` : ''}
@@ -685,13 +791,8 @@ window.Renderer = (() => {
       }
     }
 
-    // Interactive Guided C++20 CodeLab Workbench Card
-    html += renderTopicCodeLabCard(slug, unit, mod);
-
-    // Interactive Practice / Challenge Exercise
-    if (window.Exercises && window.Exercises.renderExercise) {
-      html += window.Exercises.renderExercise(slug, unit.title);
-    }
+    // Interactive Guided C++20 CodeLab Workbench Card (Unified Guided Algorithm Coding Practice)
+    html += renderTopicCodeLabCard(slug, unit, mod, moduleContent);
 
     // Key takeaways
     if (moduleContent?.keyTakeaways?.length) {
@@ -761,7 +862,7 @@ window.Renderer = (() => {
     if (!builds.length) return '';
     return `
       <div class="lesson-builds">
-        <h3 class="lesson-builds__title">${icons.code} Build it from scratch — Interactive Lab &amp; Guide</h3>
+        <h3 class="lesson-builds__title">${icons.code} Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
         ${builds.map(([id, b]) => {
           const prog = window.Progress?.getBuildProgress ? window.Progress.getBuildProgress(id) : null;
           const stepCount = prog?.completedSteps?.length || 0;
@@ -777,7 +878,7 @@ window.Renderer = (() => {
               ${badgeHtml}
             </div>
             ${b.summary ? `<span class="lesson-builds__summary">${escapeHtml(b.summary)}</span>` : ''}
-            <span class="lesson-builds__cta">${icons.terminal} Open Build Guide &amp; Interactive Lab (JS, TS &amp; C++20) →</span>
+            <span class="lesson-builds__cta">${icons.terminal} Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
           </a>`;
         }).join('')}
       </div>`;
@@ -871,7 +972,7 @@ window.Renderer = (() => {
 
       <div class="lesson-header">
         <div class="lesson-header__badge">
-          <span class="lesson-header__kind lesson-header__kind--build">${icons.code} From-Scratch Build</span>
+          <span class="lesson-header__kind lesson-header__kind--build">${icons.code} Guided Algorithm Coding Lab</span>
         </div>
         <h1 class="lesson-header__title">${escapeHtml(build.title || buildId.replace(/-/g, ' '))}</h1>
         ${build.summary ? `<p class="build-summary">${escapeHtml(build.summary)}</p>` : ''}
@@ -883,16 +984,16 @@ window.Renderer = (() => {
         </div>
       </div>
 
-      <section class="build-lab-card" aria-label="Interactive Build Lab Overview">
+      <section class="build-lab-card" aria-label="Guided Algorithm Lab Overview">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive Build Lab</span>
+              <span>Guided Algorithm Coding Lab</span>
               <span class="build-lab-card__progress" id="build-lab-progress-badge">${completedIds.length}/${totalSteps} Steps Completed</span>
             </div>
-            <h2 class="build-lab-card__title">Code &amp; Verify in the Browser Workbench</h2>
+            <h2 class="build-lab-card__title">Code &amp; Verify Algorithm Invariants in the Browser Workbench</h2>
             <p class="build-lab-card__desc">
-              Complete ${totalSteps} progressive engineering steps in <strong>JavaScript</strong>, <strong>TypeScript</strong>, or <strong>C++20 (WebAssembly)</strong> against an in-browser Node.js v22, Bun v1.1 &amp; Clang/LLVM WASI runtime (virtual filesystem, loopback TCP/HTTP, and automated unit tests) — zero local setup required.
+              Complete ${totalSteps} progressive algorithmic steps with guided hints in <strong>C++20 (WebAssembly)</strong>, <strong>TypeScript</strong>, or <strong>JavaScript</strong> against automated unit test assertions — zero local setup required.
             </p>
             <div class="build-lab-progress-track" aria-hidden="true">
               <div class="build-lab-progress-track__fill" style="width:${progressPct}%"></div>

@@ -40,7 +40,7 @@
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=da155d7cf4"></script>
+  <script src="js/manifest.js?v=b6d41e3042"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">22 Builds</button>
+      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -813,7 +813,7 @@
         </div>
         <h1 class="lesson-header__title">√N Block Decomposition & Mo's Offline Query Ordering (O((N+Q)√N))</h1>
         <div class="lesson-header__meta">
-          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min read</span>
+          <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min read</span>
           <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Module 3.3: Range Query & Sublinear Decomposition Structures</span>
           <span class="lesson-header__meta-item" title="Content curriculum review date"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Updated Oct 21, 2026</span>
         </div>
@@ -893,7 +893,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="sqrt-decomposition-mos-algorithm" id="audio-speed-sqrt-decomposition-mos-algorithm" title="Playback speed">1x</button>
         <audio id="audio-sqrt-decomposition-mos-algorithm" src="audio/sqrt-decomposition-mos-algorithm.mp3" preload="metadata"></audio>
       </div><article class="prose"><div class="lesson-content">
-      <h3>1. Online <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+      <h2>1. Online <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
 c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
 c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
 c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
@@ -904,7 +904,7 @@ c5.3,-9.3,12,-14,20,-14
 H400000v40H845.2724
 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
-M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1133em;"><span></span></span></span></span></span></span></span></span> Block Decomposition vs Offline Mo's Algorithm</h3>
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1133em;"><span></span></span></span></span></span></span></span></span> Block Decomposition vs Offline Mo's Algorithm</h2>
       <p>There are two primary ways to apply square-root decomposition to array range queries:</p>
       <ul>
         <li><strong>Online <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
@@ -1026,7 +1026,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <circle cx="610" cy="175" r="5" class="mo-pt"/>
       </svg>
 
-      <h3>2. Critical Implementation Rule: Expand Window Before Contracting!</h3>
+      <h2>2. Critical Implementation Rule: Expand Window Before Contracting!</h2>
       <p>When transitioning the active window <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mtext>curL</mtext><mo separator="true">,</mo><mtext>curR</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\text{curL}, \text{curR}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord text"><span class="mord">curL</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">curR</span></span><span class="mclose">]</span></span></span></span> to target <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span>, the order of the four <code>while</code> loops is critical! If you execute <code>remove(curL++)</code> or <code>remove(curR--)</code> <em>before</em> expanding <code>add(--curL)</code> and <code>add(++curR)</code>, and the new query <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span> is disjoint from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mtext>curL</mtext><mo separator="true">,</mo><mtext>curR</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\text{curL}, \text{curR}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord text"><span class="mord">curL</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">curR</span></span><span class="mclose">]</span></span></span></span>, the intermediate window transiently becomes inverted (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>curL</mtext><mo>&gt;</mo><mtext>curR</mtext><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{curL} &gt; \text{curR} + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord text"><span class="mord">curL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">curR</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>) with negative element counts! Always run the two <strong>expansion loops (<code>--curL</code>, <code>++curR</code>) first</strong>, and the two <strong>contraction loops (<code>curL++</code>, <code>curR--</code>) second</strong>.</p>
 
       <div class="mermaid">
@@ -1201,7 +1201,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           </div>
         </div>
 
-      <h3>3. Production Implementation: Online <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+      <h2>3. Production Implementation: Online <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1133em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9267em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-2.8867em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
 c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
 c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
 c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
@@ -1212,7 +1212,7 @@ c5.3,-9.3,12,-14,20,-14
 H400000v40H845.2724
 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
-M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1133em;"><span></span></span></span></span></span></span></span></span> Decomposition &amp; Offline Mo's Algorithm</h3>
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1133em;"><span></span></span></span></span></span></span></span></span> Decomposition &amp; Offline Mo's Algorithm</h2>
       <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">JAVASCRIPT</span><span class="code-block__lines-chip">91 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="javascript" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1307,8 +1307,56 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   }
   <span class="tok-kw">return</span> answers<span class="tok-op">;</span>
 }</code></pre></div>
+      <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">45 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
+      <span class="code-block__toggle-text">Expand</span>
+      <span class="code-block__chevron">▼</span>
+    </button></div></div><pre><code class="language-cpp"><span class="tok-preproc">#include &lt;vector&gt;</span>
+<span class="tok-preproc">#include &lt;cmath&gt;</span>
+<span class="tok-preproc">#include &lt;algorithm&gt;</span>
 
-      <h3>4. Complexity Matrix</h3>
+<span class="tok-comment">// Offline Mo&#039;s Algorithm with Boustrophedon (Snake) Block Ordering (C++20)</span>
+<span class="tok-kw">struct</span> MoQuery {
+    <span class="tok-kw">int</span> l<span class="tok-op">,</span> r<span class="tok-op">,</span> idx<span class="tok-op">,</span> block<span class="tok-op">;</span>
+    <span class="tok-kw">bool</span> <span class="tok-kw">operator</span><span class="tok-op">&lt;</span>(<span class="tok-kw">const</span> MoQuery<span class="tok-op">&amp;</span> o) <span class="tok-kw">const</span> <span class="tok-kw">noexcept</span> {
+        <span class="tok-kw">if</span> (block <span class="tok-op">!=</span> o<span class="tok-op">.</span>block) <span class="tok-kw">return</span> block <span class="tok-op">&lt;</span> o<span class="tok-op">.</span>block<span class="tok-op">;</span>
+        <span class="tok-kw">return</span> (block <span class="tok-op">&amp;</span> <span class="tok-num">1</span>) <span class="tok-op">?</span> (r <span class="tok-op">&gt;</span> o<span class="tok-op">.</span>r) <span class="tok-op">:</span> (r <span class="tok-op">&lt;</span> o<span class="tok-op">.</span>r)<span class="tok-op">;</span>
+    }
+}<span class="tok-op">;</span>
+
+std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span> <span class="tok-fn">mos_distinct_queries</span>(<span class="tok-kw">const</span> std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;&amp;</span> arr<span class="tok-op">,</span>
+                                      <span class="tok-kw">const</span> std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span>std<span class="tok-op">::</span><span class="tok-type">pair</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">,</span> <span class="tok-kw">int</span><span class="tok-op">&gt;&gt;&amp;</span> queries) {
+    <span class="tok-kw">int</span> n <span class="tok-op">=</span> static_cast<span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span>(arr<span class="tok-op">.</span><span class="tok-fn">size</span>())<span class="tok-op">;</span>
+    <span class="tok-kw">int</span> q <span class="tok-op">=</span> static_cast<span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span>(queries<span class="tok-op">.</span><span class="tok-fn">size</span>())<span class="tok-op">;</span>
+    <span class="tok-kw">int</span> B <span class="tok-op">=</span> std<span class="tok-op">::</span><span class="tok-fn">max</span>(<span class="tok-num">1</span><span class="tok-op">,</span> static_cast<span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span>(n <span class="tok-op">/</span> std<span class="tok-op">::</span><span class="tok-fn">sqrt</span>(std<span class="tok-op">::</span><span class="tok-fn">max</span>(<span class="tok-num">1</span><span class="tok-op">,</span> q))))<span class="tok-op">;</span>
+
+    std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span> vals <span class="tok-op">=</span> arr<span class="tok-op">;</span>
+    std<span class="tok-op">::</span><span class="tok-fn">sort</span>(vals<span class="tok-op">.</span><span class="tok-fn">begin</span>()<span class="tok-op">,</span> vals<span class="tok-op">.</span><span class="tok-fn">end</span>())<span class="tok-op">;</span>
+    vals<span class="tok-op">.</span><span class="tok-fn">erase</span>(std<span class="tok-op">::</span><span class="tok-fn">unique</span>(vals<span class="tok-op">.</span><span class="tok-fn">begin</span>()<span class="tok-op">,</span> vals<span class="tok-op">.</span><span class="tok-fn">end</span>())<span class="tok-op">,</span> vals<span class="tok-op">.</span><span class="tok-fn">end</span>())<span class="tok-op">;</span>
+
+    std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span> <span class="tok-fn">a</span>(n)<span class="tok-op">;</span>
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span> i <span class="tok-op">&lt;</span> n<span class="tok-op">;</span> <span class="tok-op">++</span>i) {
+        a[i] <span class="tok-op">=</span> static_cast<span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span>(std<span class="tok-op">::</span><span class="tok-fn">lower_bound</span>(vals<span class="tok-op">.</span><span class="tok-fn">begin</span>()<span class="tok-op">,</span> vals<span class="tok-op">.</span><span class="tok-fn">end</span>()<span class="tok-op">,</span> arr[i]) <span class="tok-op">-</span> vals<span class="tok-op">.</span><span class="tok-fn">begin</span>())<span class="tok-op">;</span>
+    }
+
+    std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span>MoQuery<span class="tok-op">&gt;</span> <span class="tok-fn">qs</span>(q)<span class="tok-op">;</span>
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">;</span> i <span class="tok-op">&lt;</span> q<span class="tok-op">;</span> <span class="tok-op">++</span>i) {
+        qs[i] <span class="tok-op">=</span> {queries[i]<span class="tok-op">.</span>first<span class="tok-op">,</span> queries[i]<span class="tok-op">.</span>second<span class="tok-op">,</span> i<span class="tok-op">,</span> queries[i]<span class="tok-op">.</span>first <span class="tok-op">/</span> B}<span class="tok-op">;</span>
+    }
+    std<span class="tok-op">::</span><span class="tok-fn">sort</span>(qs<span class="tok-op">.</span><span class="tok-fn">begin</span>()<span class="tok-op">,</span> qs<span class="tok-op">.</span><span class="tok-fn">end</span>())<span class="tok-op">;</span>
+
+    std<span class="tok-op">::</span><span class="tok-type">vector</span><span class="tok-op">&lt;</span><span class="tok-kw">int</span><span class="tok-op">&gt;</span> <span class="tok-fn">freq</span>(vals<span class="tok-op">.</span><span class="tok-fn">size</span>()<span class="tok-op">,</span> <span class="tok-num">0</span>)<span class="tok-op">,</span> <span class="tok-fn">ans</span>(q)<span class="tok-op">;</span>
+    <span class="tok-kw">int</span> distinct <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">,</span> cur_l <span class="tok-op">=</span> <span class="tok-num">0</span><span class="tok-op">,</span> cur_r <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span><span class="tok-op">;</span>
+    <span class="tok-kw">for</span> (<span class="tok-kw">const</span> <span class="tok-kw">auto</span><span class="tok-op">&amp;</span> qr <span class="tok-op">:</span> qs) {
+        <span class="tok-kw">while</span> (cur_l <span class="tok-op">&gt;</span> qr<span class="tok-op">.</span>l) <span class="tok-kw">if</span> (<span class="tok-op">++</span>freq[a[<span class="tok-op">--</span>cur_l]] <span class="tok-op">==</span> <span class="tok-num">1</span>) <span class="tok-op">++</span>distinct<span class="tok-op">;</span>
+        <span class="tok-kw">while</span> (cur_r <span class="tok-op">&lt;</span> qr<span class="tok-op">.</span>r) <span class="tok-kw">if</span> (<span class="tok-op">++</span>freq[a[<span class="tok-op">++</span>cur_r]] <span class="tok-op">==</span> <span class="tok-num">1</span>) <span class="tok-op">++</span>distinct<span class="tok-op">;</span>
+        <span class="tok-kw">while</span> (cur_l <span class="tok-op">&lt;</span> qr<span class="tok-op">.</span>l) <span class="tok-kw">if</span> (<span class="tok-op">--</span>freq[a[cur_l<span class="tok-op">++</span>]] <span class="tok-op">==</span> <span class="tok-num">0</span>) <span class="tok-op">--</span>distinct<span class="tok-op">;</span>
+        <span class="tok-kw">while</span> (cur_r <span class="tok-op">&gt;</span> qr<span class="tok-op">.</span>r) <span class="tok-kw">if</span> (<span class="tok-op">--</span>freq[a[cur_r<span class="tok-op">--</span>]] <span class="tok-op">==</span> <span class="tok-num">0</span>) <span class="tok-op">--</span>distinct<span class="tok-op">;</span>
+        ans[qr<span class="tok-op">.</span>idx] <span class="tok-op">=</span> distinct<span class="tok-op">;</span>
+    }
+    <span class="tok-kw">return</span> ans<span class="tok-op">;</span>
+}</code></pre></div>
+
+      <h2>4. Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1648,24 +1696,29 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section>
-      <section class="build-lab-card topic-codelab-hero" aria-label="Interactive Topic CodeLab">
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-sqrt-decomposition-mos-algorithm" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Interactive C++20 Lab · Clang WASI</span>
-              <span class="build-lab-card__progress">2 Guided Steps</span>
+              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
-            <h2 class="build-lab-card__title">√N Block Decomposition &amp; Mo&#039;s Offline Query Ordering (O((N+Q)√N))</h2>
-            <p class="build-lab-card__desc">Run, test, and experiment with this implementation directly in the browser.</p>
+            <h2 class="build-lab-card__title">√N Block Decomposition &amp; Mo&#039;s Offline Query Ordering (O((N+Q)√N)) — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">Not every range query forms a clean monoid! Consider counting the number of distinct elements in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[L..R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mord">..</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span>, finding the mode (most frequent element) in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[L..R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mord">..</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span>, or counting pairs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">)</mo><mo>∈</mo><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">(i, j) \in [L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span> with $A[i] \oplus A</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">⏱ Target Time: <code>O(B + N/B)</code></span>
+              <span class="badge">💾 Auxiliary Space: <code>O(sqrtN)</code></span>
+              <span class="badge">🧭 Pattern: Range Query &amp; Sublinear Decomposition Structures</span>
+            </div>
           </div>
           <div class="build-lab-card__cta-col">
             <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Launch Guided Lab</span>
+              <span>Code Algorithm &amp; Run Tests</span>
             </button>
             <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="solution">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Reference Solution</span>
+              <span>View Reference Solution</span>
             </button>
           </div>
         </div>
@@ -1673,70 +1726,100 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         
           <div class="build-lab-steps-grid">
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided" data-step-index="0">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">01</span>
-                  <span class="build-lab-step-card__target">Core Algorithmic Invariant</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Square-root block decomposition partitions an array of size N into blocks of size B = sqrt(N), answering range</span>
+                  </div>
+                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (return)</div>
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at `TODO (Step 1)` inside `return(block &amp; 1) ? (r &gt; o.r)`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int n = static_cast&lt;int&gt;(arr.size());
+int q = static_cast&lt;int&gt;(queries.size());
+int B = std::max(1, static_cast&lt;int&gt;(n / std::sqrt(std::max(1, q))));
+std::vector&lt;int&gt; vals = arr;
+std::sort(vals.begin(), vals.end());
+vals.erase(std::unique(vals.begin(), vals.end()), vals.end());
+std::vector&lt;int&gt; a(n);
+for (int i = 0; i &lt; n; ++i) {
+a[i] = static_cast&lt;int&gt;(std::lower_bound(vals.begin(), vals.end(), arr[i]) - vals.begin());</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Understand Memory Invariants &amp; Representation</div>
-                <div class="build-lab-step-card__concept">Study the memory layout and time/space complexity bounds in the lesson text.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 1 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 1 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                    Code Step 1 →
+                  </button>
                 </div>
-              </button>
+              </div>
             
-              <button type="button" class="build-lab-step-card" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided" data-step-index="1">
-                <div class="build-lab-step-card__header">
-                  <span class="build-lab-step-card__num">02</span>
-                  <span class="build-lab-step-card__target">C++20 WASI Verification</span>
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Mo&#039;s algorithm reorders offline queries [L, R] by (floor(L / B), R with snake parity) where B = N / sqrt(Q), b</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at `TODO (Step 2)` inside `return`.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>}
+std::vector&lt;MoQuery&gt; qs(q);
+for (int i = 0; i &lt; q; ++i) {
+qs[i] = {queries[i].first, queries[i].second, i, queries[i].first / B};
+}
+std::sort(qs.begin(), qs.end());
+std::vector&lt;int&gt; freq(vals.size(), 0), ans(q);
+int distinct = 0, cur_l = 0, cur_r = -1;
+for (const auto&amp; qr : qs) {</code></pre>
+                    </details>
+                  
                 </div>
-                <div class="build-lab-step-card__title">Test &amp; Verify Execution</div>
-                <div class="build-lab-step-card__concept">Click &quot;Run &amp; Test&quot; to compile and run with Clang WASI.</div>
-                <div class="build-lab-step-card__footer">
-                  <span>In-Browser Clang C++20</span>
-                  <span class="build-lab-step-card__open">Step 2 →</span>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 2 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                    Code Step 2 →
+                  </button>
                 </div>
-              </button>
+              </div>
+            
+              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Always execute the two window expansion loops (--curL, ++curR) before the two window contraction loops (curL++</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
+                  <div class="build-lab-step-card__concept">Complete `TODO (Step 3)` to finalize the output of `return` and pass all C++20 unit assertions.</div>
+                  
+                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
+                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
+                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>while (cur_l &gt; qr.l) if (++freq[a[--cur_l]] == 1) ++distinct;
+while (cur_r &lt; qr.r) if (++freq[a[++cur_r]] == 1) ++distinct;
+while (cur_l &lt; qr.l) if (--freq[a[cur_l++]] == 0) --distinct;
+while (cur_r &gt; qr.r) if (--freq[a[cur_r--]] == 0) --distinct;
+ans[qr.idx] = distinct;
+}
+return ans;</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer" style="margin-top:10px;">
+                  <span>Step 3 of 3</span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="sqrt-decomposition-mos-algorithm" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
             
           </div>
         
       </section>
-    
-      <div class="exercise-card" id="exercise-sqrt-decomposition-mos-algorithm">
-        <div class="exercise-card__header">
-          <span class="exercise-card__badge">Interactive Challenge · Staff Level</span>
-          <h3 class="exercise-card__title">Algorithmic Design & Complexity Check</h3>
-        </div>
-        <div class="exercise-card__scenario">Analyze the invariant, asymptotic bound, and hardware behavior before selecting.</div>
-        <p class="exercise-card__prompt">How do we maintain the exact maximum frequency `maxFreq` in **<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> worst-case time per `add` AND `remove` step**?</p>
-        <div class="exercise-card__options" id="exercise-options-sqrt-decomposition-mos-algorithm">
-          
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="sqrt-decomposition-mos-algorithm" data-idx="0" data-ans="0">
-        <span class="exercise-option__letter">A</span>
-        <span class="exercise-option__text">Maintain `freq[v]` (frequency of value v) AND `cntOfFreq[f]` (how many distinct values currently have frequency f); on `add`, if `++freq[v] > maxFreq`, increment `maxFreq`; on `remove`, if `--cntOfFreq[maxFreq] === 0`, decrement `maxFreq--`!</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="sqrt-decomposition-mos-algorithm" data-idx="1" data-ans="0">
-        <span class="exercise-option__letter">B</span>
-        <span class="exercise-option__text">Re-scan the entire `freq` array only when `remove` is called</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="sqrt-decomposition-mos-algorithm" data-idx="2" data-ans="0">
-        <span class="exercise-option__letter">C</span>
-        <span class="exercise-option__text">Maintain a lazy max-heap and never delete stale entries</span>
-      </button>
-    
-      <button type="button" class="exercise-option" data-action="check-exercise" data-slug="sqrt-decomposition-mos-algorithm" data-idx="3" data-ans="0">
-        <span class="exercise-option__letter">D</span>
-        <span class="exercise-option__text">Use a Fenwick tree over frequencies</span>
-      </button>
-    
-        </div>
-        <div class="exercise-card__feedback" id="exercise-feedback-sqrt-decomposition-mos-algorithm" style="display:none;">
-          <div class="exercise-card__explanation">Because a single `add` or `remove` step changes `freq[v]` by at most `+1` or `-1`, `maxFreq` can only ever change by `+1` (when `++freq[v] === maxFreq + 1`) or `-1` (when the last value holding `maxFreq` has its frequency decremented to `maxFreq - 1`, so `cntOfFreq[maxFreq]` drops to `0` and `cntOfFreq[maxFreq - 1] > 0`). Thus both `add` and `remove` run in O(1) worst-case time!</div>
-        </div>
-      </div>
     
         <div class="takeaways">
           <h3 class="takeaways__title">Key Takeaways</h3>
@@ -1745,7 +1828,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           </div>
         </div>
       <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Build it from scratch — Interactive Lab &amp; Guide</h3>
+        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
         
           <a class="lesson-builds__item" href="/build/build-lazy-segment-tree/" data-action="navigate-build" data-build-id="build-lazy-segment-tree">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -1753,7 +1836,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
               
             </div>
             <span class="lesson-builds__summary">A full segment tree with composable affine lazy tags (f(x) = a*x + b) supporting range add, range multiply, range assign, range sum/min/max queries, and O(log n) first-element tree walk.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Build Guide &amp; Interactive Lab (JS, TS &amp; C++20) →</span>
+            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
           </a>
       </div>
         <div class="further-reading">
@@ -1850,7 +1933,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=e5195a92d6"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1869,17 +1952,17 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=625f89e323"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
-  <script type="text/plain" data-defer src="js/quiz.js?v=d5b3f5cfd5"></script>
+  <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
-  <script type="text/plain" data-defer src="js/dashboard.js?v=fbb58771fc"></script>
+  <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=871cd95a7c"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

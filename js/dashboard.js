@@ -1,5 +1,5 @@
 /**
- * System Design in Depth — Learner Dashboard & Study Hub Controller
+ * DSA in Depth — Learner Dashboard & Study Hub Controller
  * Handles /dashboard view: Gamification stats, SRS flashcards queue, notes, bookmarks, and export/import.
  */
 (function(root) {
@@ -26,16 +26,16 @@
     _importFeedback: null,
     _abortController: null,
     _latencyScaleMode: 'actual', // actual | humanized
-    _matrixCategory: 'all', // all | storage | database | messaging | protocol | coordination
+    _matrixCategory: 'all', // all | hashing | trees | graphs | strings | dp-sorting
     _capState: {
-      dau: 10000000,
-      readsPerUser: 40,
-      writesPerUser: 5,
-      peakMultiplier: 3,
-      payloadKb: 2,
-      latencyMs: 25,
-      retentionYears: 5,
-      replicationFactor: 3
+      inputN: 100000,
+      queriesQ: 100000,
+      timeLimitSec: 1.0,
+      opsPerSec: 100000000,
+      elemBytes: 8,
+      nodeOverheadBytes: 24,
+      cacheLineBytes: 64,
+      memoryLimitMb: 256
     },
 
     mount: function(container, options) {
@@ -456,43 +456,63 @@
 
     _renderToolkitTab: function() {
       var cap = this._capState || {
-        dau: 10000000,
-        readsPerUser: 40,
-        writesPerUser: 5,
-        peakMultiplier: 3,
-        payloadKb: 4,
-        latencyMs: 25,
-        retentionYears: 5,
-        replicationFactor: 3
+        inputN: 100000,
+        queriesQ: 100000,
+        timeLimitSec: 1.0,
+        opsPerSec: 100000000,
+        elemBytes: 8,
+        nodeOverheadBytes: 24,
+        cacheLineBytes: 64,
+        memoryLimitMb: 256
       };
 
-      var avgReadQps = Math.round((cap.dau * cap.readsPerUser) / 86400);
-      var peakReadQps = Math.round(avgReadQps * cap.peakMultiplier);
-      var avgWriteQps = Math.round((cap.dau * cap.writesPerUser) / 86400);
-      var peakWriteQps = Math.round(avgWriteQps * cap.peakMultiplier);
-      var totalPeakQps = peakReadQps + peakWriteQps;
-      var littlesLawConcurrency = Math.max(1, Math.round(totalPeakQps * (cap.latencyMs / 1000)));
-      var readBwMbps = ((peakReadQps * cap.payloadKb * 8) / 1000).toFixed(1);
-      var writeBwMbps = ((peakWriteQps * cap.payloadKb * 8) / 1000).toFixed(1);
-      var dailyNewStorageGb = ((cap.dau * cap.writesPerUser * cap.payloadKb) / (1024 * 1024)).toFixed(1);
-      var totalStorageTb = ((parseFloat(dailyNewStorageGb) * 365 * cap.retentionYears * cap.replicationFactor) / 1024).toFixed(2);
-      var hotCacheGb = Math.max(1, Math.round(parseFloat(dailyNewStorageGb) * 30 * 0.2));
-      var redisShards = Math.max(1, Math.ceil(hotCacheGb / 64));
+      var n = Math.max(1, cap.inputN || 100000);
+      var q = Math.max(1, cap.queriesQ || 100000);
+      var budgetOps = Math.round((cap.timeLimitSec || 1.0) * (cap.opsPerSec || 100000000));
+      var log2N = Math.max(1, Math.ceil(Math.log2(n)));
+      var nLogN = Math.round(n * log2N);
+
+      var maxClass = 'O(N log N) / O(N)';
+      var recommendedPatterns = 'Sorting, Segment/Fenwick Tree, Heap, Two Pointers, Monotonic Stack';
+      if (n <= 11) {
+        maxClass = 'O(N!) / O(2^N)';
+        recommendedPatterns = 'Permutations, Backtracking, Exact Branch-and-Bound';
+      } else if (n <= 22) {
+        maxClass = 'O(2^N · N)';
+        recommendedPatterns = 'Bitmask DP, Meet-in-the-Middle (2^(N/2)), SOS DP';
+      } else if (n <= 450) {
+        maxClass = 'O(N^3)';
+        recommendedPatterns = 'Floyd-Warshall, Interval DP, Gaussian Elimination, Edmonds-Karp';
+      } else if (n <= 5000) {
+        maxClass = 'O(N^2)';
+        recommendedPatterns = '2D DP, Quadratic Graph Scan, All-Pairs Distance';
+      } else if (n <= 300000) {
+        maxClass = 'O(N log N) or O(N √N)';
+        recommendedPatterns = 'Merge/IntroSort, Dijkstra, Lazy Segment Tree, Mo\'s Algorithm';
+      } else if (n <= 5000000) {
+        maxClass = 'O(N) Linear';
+        recommendedPatterns = 'Sliding Window, KMP/Z-Algorithm, Monotonic Deque, Linear Sieve';
+      } else {
+        maxClass = 'O(log N) / O(1)';
+        recommendedPatterns = 'Binary Search on Answer, Matrix Exponentiation, Closed-Form Math';
+      }
+
+      var flatVectorMb = ((n * cap.elemBytes) / (1024 * 1024)).toFixed(2);
+      var pointerNodeMb = ((n * (cap.elemBytes + cap.nodeOverheadBytes)) / (1024 * 1024)).toFixed(2);
+      var segTreeMb = ((4 * n * cap.elemBytes) / (1024 * 1024)).toFixed(2);
+      var cacheLinesScanned = Math.ceil((n * cap.elemBytes) / Math.max(16, cap.cacheLineBytes));
 
       var latencyItems = [
-        { op: 'L1 Cache Reference', ns: 1, real: '1 ns', human: '1 sec', category: 'CPU / RAM', note: 'Register & L1 SRAM hit inside CPU core' },
-        { op: 'Branch Mispredict', ns: 3, real: '3 ns', human: '3 sec', category: 'CPU / RAM', note: 'Instruction pipeline flush penalty' },
-        { op: 'L2 Cache Reference', ns: 4, real: '4 ns', human: '4 sec', category: 'CPU / RAM', note: 'Core-local L2 SRAM cache access' },
-        { op: 'Mutex Lock / Unlock', ns: 17, real: '17 ns', human: '17 sec', category: 'CPU / RAM', note: 'Uncontended atomic CAS instruction' },
-        { op: 'Main Memory (DRAM) Reference', ns: 100, real: '100 ns', human: '1 min 40 sec', category: 'CPU / RAM', note: 'Pointer chase / Redis in-memory lookup core cost' },
-        { op: 'Compress 1 KB with Snappy/LZ4', ns: 2000, real: '2 µs', human: '33 min', category: 'Compute', note: 'Fast wire compression before network/disk write' },
-        { op: 'SSD Random Read (4 KB NVMe)', ns: 16000, real: '16 µs', human: '4.4 hours', category: 'Storage', note: 'B-Tree / LSM SSTable page read from NVMe' },
-        { op: 'Read 1 MB Sequentially from Memory', ns: 64000, real: '64 µs', human: '18 hours', category: 'CPU / RAM', note: 'Sequential columnar scan in RAM' },
-        { op: 'Same-Zone Datacenter Round Trip (RTT)', ns: 500000, real: '0.5 ms', human: '5.8 days', category: 'Network', note: 'Single RPC hop inside an availability zone' },
-        { op: 'Read 1 MB Sequentially from NVMe SSD', ns: 1000000, real: '1 ms', human: '11.6 days', category: 'Storage', note: 'Sequential WAL / Kafka segment read' },
-        { op: 'Cross-AZ Synchronous Replication RTT', ns: 2000000, real: '2 ms', human: '23 days', category: 'Network', note: 'Raft / Quorum commit cost across 3 AZs' },
-        { op: 'HDD Disk Seek / Rotational Latency', ns: 5000000, real: '5 ms', human: '2 months', category: 'Storage', note: 'Why random I/O on spinning disks kills P99' },
-        { op: 'Cross-Continent Packet RTT (US ↔ EU)', ns: 150000000, real: '150 ms', human: '4.8 years', category: 'Network', note: 'Speed-of-light in fiber limit; requires Edge CDN / Geo-Replicas' }
+        { op: 'L1 Cache Reference', ns: 1, real: '1 ns', human: '1 sec', category: 'CPU / SRAM', note: 'Register & L1 SRAM hit (64B cache line)' },
+        { op: 'Branch Mispredict', ns: 3, real: '3 ns', human: '3 sec', category: 'CPU Pipeline', note: 'Unsorted pivot partition penalty (~15-20 cycles)' },
+        { op: 'L2 Cache Reference', ns: 4, real: '4 ns', human: '4 sec', category: 'CPU / SRAM', note: 'Core-local L2 SRAM cache access' },
+        { op: 'Atomic CAS / Lock Instruction', ns: 17, real: '17 ns', human: '17 sec', category: 'Concurrency', note: 'Uncontended hardware compare-and-swap' },
+        { op: 'Main Memory (DRAM) Pointer Chase', ns: 100, real: '100 ns', human: '1 min 40 sec', category: 'DRAM', note: 'std::map / linked-list node hop (cache miss cost)' },
+        { op: '1,000 Sequential 64-bit Array Adds', ns: 250, real: '250 ns', human: '4 min 10 sec', category: 'SIMD / RAM', note: 'Hardware prefetcher + AVX2 vectorized loop' },
+        { op: '1,000 Pointer-Chasing Tree Hops', ns: 100000, real: '100 µs', human: '1.15 days', category: 'DRAM', note: 'Why flat B-Trees / Eytzinger layout beat pointer BSTs' },
+        { op: 'Read 1 MB Contiguous std::vector', ns: 64000, real: '64 µs', human: '18 hours', category: 'DRAM', note: 'Sequential scan saturates memory bus bandwidth' },
+        { op: 'Sort 10^6 64-bit Integers (std::sort)', ns: 45000000, real: '45 ms', human: '1.4 years', category: 'Algorithm', note: 'Introsort / pdqsort (~20M log2(1M) ops)' },
+        { op: 'Sort 10^6 64-bit Integers (Radix Sort)', ns: 8000000, real: '8 ms', human: '3 months', category: 'Algorithm', note: '4-pass LSD 16-bit bucket sweep without comparisons' }
       ];
 
       var isHumanScale = this._latencyScaleMode === 'human';
@@ -552,43 +572,43 @@
           '<section class="eco-card" style="margin-bottom:24px;">' +
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">' +
               '<div>' +
-                '<h2 class="eco-card__title">Interactive Back-of-the-Envelope Capacity &amp; Cost Estimator</h2>' +
-                '<p class="eco-card__desc">Adjust workload parameters to compute real-time QPS, Little\'s Law concurrency, network bandwidth, 5-year storage with replication, and Redis cache shards.</p>' +
+                '<h2 class="eco-card__title">Interactive DSA Constraints → Complexity &amp; Memory Footprint Calculator</h2>' +
+                '<p class="eco-card__desc">Enter problem input size N, query count Q, time limit, and element byte size to determine maximum feasible Big-O complexity and cache/DRAM footprint.</p>' +
               '</div>' +
-              '<button class="eco-btn eco-btn--primary" data-action="open-capacity-codelab">Run Capacity Model in CodeLab</button>' +
+              '<button class="eco-btn eco-btn--primary" data-action="open-capacity-codelab">Benchmark Complexity in CodeLab</button>' +
             '</div>' +
 
             '<div class="eco-grid eco-grid--4" style="gap:12px;margin-bottom:20px;">' +
-              '<label class="cap-input-group"><span class="kpi-label">Daily Active Users (DAU)</span><input type="number" class="knob-select" data-cap-field="dau" value="' + cap.dau + '" min="1000" step="100000"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Reads / User / Day</span><input type="number" class="knob-select" data-cap-field="readsPerUser" value="' + cap.readsPerUser + '" min="1" step="5"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Writes / User / Day</span><input type="number" class="knob-select" data-cap-field="writesPerUser" value="' + cap.writesPerUser + '" min="1" step="1"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Peak Traffic Multiplier</span><input type="number" class="knob-select" data-cap-field="peakMultiplier" value="' + cap.peakMultiplier + '" min="1" max="20" step="0.5"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Avg Payload Size (KB)</span><input type="number" class="knob-select" data-cap-field="payloadKb" value="' + cap.payloadKb + '" min="1" step="1"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Avg Service Latency (ms)</span><input type="number" class="knob-select" data-cap-field="latencyMs" value="' + cap.latencyMs + '" min="1" step="5"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Retention Period (Years)</span><input type="number" class="knob-select" data-cap-field="retentionYears" value="' + cap.retentionYears + '" min="1" max="20"></label>' +
-              '<label class="cap-input-group"><span class="kpi-label">Replication Factor (N)</span><input type="number" class="knob-select" data-cap-field="replicationFactor" value="' + cap.replicationFactor + '" min="1" max="7"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Input Size (N)</span><input type="number" class="knob-select" data-cap-field="inputN" value="' + cap.inputN + '" min="1" step="1000"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Queries (Q)</span><input type="number" class="knob-select" data-cap-field="queriesQ" value="' + cap.queriesQ + '" min="1" step="1000"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Time Limit (sec)</span><input type="number" class="knob-select" data-cap-field="timeLimitSec" value="' + cap.timeLimitSec + '" min="0.1" max="10" step="0.5"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">CPU Ops / Sec Budget</span><input type="number" class="knob-select" data-cap-field="opsPerSec" value="' + cap.opsPerSec + '" min="1000000" step="10000000"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Element Size (Bytes)</span><input type="number" class="knob-select" data-cap-field="elemBytes" value="' + cap.elemBytes + '" min="1" max="128" step="4"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Pointer Node Overhead (B)</span><input type="number" class="knob-select" data-cap-field="nodeOverheadBytes" value="' + cap.nodeOverheadBytes + '" min="0" max="64" step="8"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">CPU Cache Line (Bytes)</span><input type="number" class="knob-select" data-cap-field="cacheLineBytes" value="' + cap.cacheLineBytes + '" min="32" max="128" step="32"></label>' +
+              '<label class="cap-input-group"><span class="kpi-label">Memory Limit (MB)</span><input type="number" class="knob-select" data-cap-field="memoryLimitMb" value="' + cap.memoryLimitMb + '" min="16" max="2048" step="64"></label>' +
             '</div>' +
 
             '<div class="eco-grid eco-grid--4" id="dash-cap-results">' +
               '<div class="eco-card dash-kpi-card">' +
-                '<span class="kpi-label">Read &amp; Write QPS</span>' +
-                '<strong class="kpi-val" id="cap-peak-qps">' + totalPeakQps.toLocaleString() + ' Peak QPS</strong>' +
-                '<span class="kpi-sub">Avg: ' + avgReadQps.toLocaleString() + ' R/s · ' + avgWriteQps.toLocaleString() + ' W/s</span>' +
+                '<span class="kpi-label">Max Feasible Time Complexity</span>' +
+                '<strong class="kpi-val" id="cap-peak-qps">' + escapeHtml(maxClass) + '</strong>' +
+                '<span class="kpi-sub">Budget: ~' + budgetOps.toLocaleString() + ' ops (' + cap.timeLimitSec + 's)</span>' +
               '</div>' +
               '<div class="eco-card dash-kpi-card">' +
-                '<span class="kpi-label">Little\'s Law Concurrency (L = λW)</span>' +
-                '<strong class="kpi-val" id="cap-concurrency">' + littlesLawConcurrency.toLocaleString() + ' In-Flight</strong>' +
-                '<span class="kpi-sub">At ' + cap.latencyMs + 'ms latency &amp; ' + totalPeakQps.toLocaleString() + ' req/s</span>' +
+                '<span class="kpi-label">N log₂ N Operations</span>' +
+                '<strong class="kpi-val" id="cap-concurrency">' + nLogN.toLocaleString() + ' ops</strong>' +
+                '<span class="kpi-sub">log₂(N) = ' + log2N + ' levels · Q log₂ N = ' + (q * log2N).toLocaleString() + '</span>' +
               '</div>' +
               '<div class="eco-card dash-kpi-card">' +
-                '<span class="kpi-label">Peak Network Bandwidth</span>' +
-                '<strong class="kpi-val" id="cap-bandwidth">' + readBwMbps + ' Mbps Egress</strong>' +
-                '<span class="kpi-sub">Ingress: ' + writeBwMbps + ' Mbps (' + cap.payloadKb + ' KB payload)</span>' +
+                '<span class="kpi-label">Contiguous vs Pointer Memory</span>' +
+                '<strong class="kpi-val" id="cap-bandwidth">' + flatVectorMb + ' MB Flat Array</strong>' +
+                '<span class="kpi-sub">Pointer Nodes: ' + pointerNodeMb + ' MB · 4N SegTree: ' + segTreeMb + ' MB</span>' +
               '</div>' +
               '<div class="eco-card dash-kpi-card">' +
-                '<span class="kpi-label">Storage &amp; 20% Hot Cache</span>' +
-                '<strong class="kpi-val" id="cap-storage">' + totalStorageTb + ' TB (' + cap.retentionYears + 'y)</strong>' +
-                '<span class="kpi-sub">Hot Cache: ~' + hotCacheGb + ' GB (' + redisShards + ' Redis shards)</span>' +
+                '<span class="kpi-label">Recommended Algorithmic Patterns</span>' +
+                '<strong class="kpi-val" id="cap-storage" style="font-size:0.92rem;">' + escapeHtml(recommendedPatterns) + '</strong>' +
+                '<span class="kpi-sub">Sequential Scan: ' + cacheLinesScanned.toLocaleString() + ' cache lines (' + cap.cacheLineBytes + 'B)</span>' +
               '</div>' +
             '</div>' +
           '</section>' +
@@ -596,8 +616,8 @@
           '<section class="eco-card" style="margin-bottom:24px;">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">' +
               '<div>' +
-                '<h2 class="eco-card__title">Latency Numbers Every Architect Should Know</h2>' +
-                '<p class="eco-card__desc">Compare raw hardware timings against humanized time scales (if 1 ns = 1 second, a US↔EU packet takes 4.8 years).</p>' +
+                '<h2 class="eco-card__title">Hardware Latency &amp; Algorithmic Operation Timings</h2>' +
+                '<p class="eco-card__desc">Why cache locality and flat arrays beat pointer chasing in practice (if 1 ns = 1 second, 1,000 pointer-chasing tree hops take 1.15 days).</p>' +
               '</div>' +
               '<div style="display:flex;gap:8px;">' +
                 '<button class="eco-btn eco-btn--sm ' + (!isHumanScale ? 'eco-btn--primary' : '') + '" data-latency-scale="real">Actual Hardware (ns / ms)</button>' +
@@ -611,7 +631,7 @@
                   '<th>Layer</th>' +
                   '<th>' + (isHumanScale ? 'Humanized (1ns=1s)' : 'Typical Latency') + '</th>' +
                   '<th>Log10 Scale</th>' +
-                  '<th>Architectural Implication</th>' +
+                  '<th>Algorithmic Implication</th>' +
                 '</tr></thead>' +
                 '<tbody>' + latencyRowsHtml + '</tbody>' +
               '</table>' +
@@ -621,8 +641,8 @@
           '<section class="eco-card">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">' +
               '<div>' +
-                '<h2 class="eco-card__title">Staff Architecture Trade-Off &amp; Decision Matrix</h2>' +
-                '<p class="eco-card__desc">Side-by-side comparison of distributed storage engines, replication topologies, brokers, protocols, and coordination primitives.</p>' +
+                '<h2 class="eco-card__title">Algorithm &amp; Data Structure Trade-Off Matrix</h2>' +
+                '<p class="eco-card__desc">Side-by-side comparison of hashing schemes, balanced trees, range query structures, graph shortest-path kernels, string automata, and DP optimizations.</p>' +
               '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
                 ['all', 'hashing', 'trees', 'graphs', 'strings', 'dp-sorting'].map(function(cat) {
@@ -635,11 +655,11 @@
             '<div class="eco-table-wrap">' +
               '<table class="eco-table">' +
                 '<thead><tr>' +
-                  '<th>Primitive / Pattern</th>' +
-                  '<th>Write Path</th>' +
-                  '<th>Read Path</th>' +
+                  '<th>Data Structure / Algorithm</th>' +
+                  '<th>Update / Build Cost</th>' +
+                  '<th>Query Cost</th>' +
                   '<th>Sweet Spot</th>' +
-                  '<th>Production Failure Mode</th>' +
+                  '<th>Degenerate Case / Watch Out</th>' +
                   '<th>Deep Dive &amp; Lab</th>' +
                 '</tr></thead>' +
                 '<tbody>' + matrixHtml + '</tbody>' +
@@ -653,45 +673,40 @@
     _openCapacityCodeLab: function() {
       var cap = this._capState;
       var code = [
-        '// Back-of-the-Envelope Capacity & Cost Simulation Model',
-        '// Edit the parameters below and click Run to simulate cluster sizing!',
+        '// DSA Constraints -> Complexity & Memory Footprint Simulator',
+        '// Edit the parameters below and click Run to evaluate asymptotic feasibility!',
         '',
         'const config = ' + JSON.stringify(cap, null, 2) + ';',
         '',
-        'const SECONDS_PER_DAY = 86_400;',
-        'const avgReadQps = (config.dau * config.readsPerUser) / SECONDS_PER_DAY;',
-        'const peakReadQps = avgReadQps * config.peakMultiplier;',
-        'const avgWriteQps = (config.dau * config.writesPerUser) / SECONDS_PER_DAY;',
-        'const peakWriteQps = avgWriteQps * config.peakMultiplier;',
-        'const totalPeakQps = peakReadQps + peakWriteQps;',
+        'const N = config.inputN;',
+        'const Q = config.queriesQ;',
+        'const budgetOps = config.timeLimitSec * config.opsPerSec;',
+        'const log2N = Math.ceil(Math.log2(Math.max(2, N)));',
+        'const nLogN = N * log2N;',
+        'const flatMb = (N * config.elemBytes) / (1024 * 1024);',
+        'const nodeMb = (N * (config.elemBytes + config.nodeOverheadBytes)) / (1024 * 1024);',
+        'const segTreeMb = (4 * N * config.elemBytes) / (1024 * 1024);',
         '',
-        "// Little's Law: L = lambda * W",
-        'const concurrentInFlight = Math.ceil(totalPeakQps * (config.latencyMs / 1000));',
-        'const egressMbps = (peakReadQps * config.payloadKb * 8) / 1000;',
-        'const dailyStorageGb = (config.dau * config.writesPerUser * config.payloadKb) / (1024 * 1024);',
-        'const multiYearStorageTb = (dailyStorageGb * 365 * config.retentionYears * config.replicationFactor) / 1024;',
-        'const hotCacheGb = Math.ceil(dailyStorageGb * 30 * 0.20); // 20% of 30-day working set',
-        '',
-        'console.log("=== CAPACITY & CLUSTER SIZING REPORT ===");',
-        'console.log(`Average QPS        : ${Math.round(avgReadQps)} reads/s | ${Math.round(avgWriteQps)} writes/s`);',
-        'console.log(`Peak QPS (${config.peakMultiplier}x)      : ${Math.round(peakReadQps)} reads/s | ${Math.round(peakWriteQps)} writes/s`);',
-        'console.log(`Little\'s Law (L=λW): ${concurrentInFlight} concurrent in-flight requests @ ${config.latencyMs}ms`);',
-        'console.log(`Peak Egress BW     : ${egressMbps.toFixed(1)} Mbps`);',
-        'console.log(`New Daily Storage  : ${dailyStorageGb.toFixed(2)} GB/day`);',
-        'console.log(`Total Storage (${config.retentionYears}y) : ${multiYearStorageTb.toFixed(2)} TB (RF=${config.replicationFactor})`);',
-        'console.log(`Redis Hot Cache    : ${hotCacheGb} GB (~${Math.ceil(hotCacheGb / 64)} x 64GB shards)`);'
+        'console.log("=== DSA COMPLEXITY & MEMORY FOOTPRINT REPORT ===");',
+        'console.log(`Input Size (N)     : ${N.toLocaleString()} | Queries (Q): ${Q.toLocaleString()}`);',
+        'console.log(`Operation Budget   : ${budgetOps.toLocaleString()} ops in ${config.timeLimitSec}s`);',
+        'console.log(`O(N log2 N) Cost   : ${nLogN.toLocaleString()} ops (${((nLogN / budgetOps) * 100).toFixed(1)}% of budget)`);',
+        'console.log(`O(N^2) Cost        : ${(N * N).toLocaleString()} ops (${N * N <= budgetOps ? "FEASIBLE" : "TLE - Exceeds Budget"})`);',
+        'console.log(`Flat Vector Memory : ${flatMb.toFixed(2)} MB (${Math.ceil((N * config.elemBytes) / config.cacheLineBytes).toLocaleString()} cache lines)`);',
+        'console.log(`Pointer Node Memory: ${nodeMb.toFixed(2)} MB (std::set / pointer tree overhead)`);',
+        'console.log(`4N Segment Tree    : ${segTreeMb.toFixed(2)} MB (Limit: ${config.memoryLimitMb} MB)`);'
       ].join('\n');
 
       if (root.App && typeof root.App.openGlobalCodeLab === 'function') {
         root.App.openGlobalCodeLab({
-          labId: 'capacity-estimator',
-          title: 'Back-of-the-Envelope Capacity Simulator',
-          summary: 'Interactive Node.js Capacity & Cluster Sizing Model',
+          labId: 'complexity-estimator',
+          title: 'DSA Complexity & Memory Footprint Simulator',
+          summary: 'Interactive Constraints-to-Big-O & Cache Footprint Model',
           mode: 'sandbox',
-          entry: 'capacity-model.js',
+          entry: 'complexity-model.js',
           files: {
-            'capacity-model.js': code,
-            'README.md': '# Back-of-the-Envelope Capacity Simulator\n\nClick **Run** or execute `node capacity-model.js` in the terminal to calculate QPS, Little\'s Law concurrency, egress bandwidth, and multi-year storage.\n'
+            'complexity-model.js': code,
+            'README.md': '# DSA Complexity & Memory Footprint Simulator\n\nClick **Run** to evaluate time-complexity feasibility ($O(N \\log N)$ vs $O(N^2)$) and memory footprint across flat vectors, pointer nodes, and $4N$ segment trees.\n'
           }
         });
       }

@@ -15,7 +15,7 @@ window.MODULE_CONTENT["m15"] = {
     intuition: "Allocating $2^n$ or $n!$ vectors in heap memory will crash your process long before your CPU runs out of cycles. Combinatorial generation turns exponential state spaces into $O(1)$-amortized in-place state machines—stepping from one configuration to the next via a single swap or bit flip (`g = i ^ (i >> 1)`).",
     content: `
       <div class="lesson-content">
-        <h3>1. In-Place State Machines vs. Recursive Materialization</h3>
+        <h2>1. In-Place State Machines vs. Recursive Materialization</h2>
         <p>When enumerating $2^n$ subsets or $n!$ permutations, materializing all states into a list requires $\\Omega(n \\cdot 2^n)$ or $\\Omega(n \\cdot n!)$ memory. For $n = 13$, $13! = 6{,}227{,}020{,}800$, which exceeds 75 GB of RAM. Instead, production combinatorial generators maintain a single mutable state vector $A[0..n-1]$ and implement an in-place <code>next()</code> transition that mutates $A$ in $O(1)$ amortized time.</p>
 
         <div class="invariant-box">
@@ -25,7 +25,7 @@ window.MODULE_CONTENT["m15"] = {
 
         <p>Why is <code>std::next_permutation</code> $O(1)$ amortized per permutation? In half of all $n!$ states, $A[n-2] < A[n-1]$, so the algorithm compares 1 pair and swaps 2 elements. In $1/k!$ of states, the suffix of length $k$ is reversed, doing $O(k)$ work. Summing over all $k$ gives $\\sum_{k=2}^{n} \\frac{c \\cdot k}{k!} = O(1)$ amortized comparisons and swaps per call.</p>
 
-        <h3>2. Reflected Binary Gray Code & Gosper's Hack</h3>
+        <h2>2. Reflected Binary Gray Code & Gosper's Hack</h2>
         <p>Standard binary counting from $0$ to $2^n - 1$ flips up to $n$ bits on a single increment (e.g., $0111_2 \\to 1000_2$), which means maintaining a running subset property (such as a knapsack weight or XOR sum) takes $O(1)$ amortized work only if we inspect the changed bits, or $O(1)$ <em>worst-case</em> work if we use a <strong>Binary Reflected Gray Code (BRGC)</strong>.</p>
         <ul>
           <li><strong>Closed-Form $i$-th Gray Code:</strong> $G(i) = i \\oplus (i \\gg 1)$.</li>
@@ -48,7 +48,7 @@ flowchart LR
           <p>On modern x86-64 (Haswell+) and ARM64 CPUs, Gosper's hack compiles to <code>BLSI</code> ($c = x \\mathbin{\\&} -x$, 1 cycle), <code>ADD</code> ($r = x + c$, 1 cycle), <code>XOR</code>, and <code>TZCNT</code> (trailing zero count, 3 cycles latency, 1 cycle throughput)—zero conditional branches inside the inner loop! In contrast, a recursive $\\binom{n}{k}$ generator pushes stack frames, spills registers, and incurs branch predictor misses when backtracking from base cases, running $8\\times$–$15\\times$ slower than a flat Gosper register loop.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-backtracking-dlx"></div>
 
         <table class="complexity-matrix">
@@ -93,7 +93,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -196,7 +196,7 @@ long long count_subsets_with_target_gray(const std::vector&lt;long long&gt;&amp;
     intuition: "Backtracking is just depth-first search on an implicit tree where we refuse to allocate child nodes—instead mutating one global state in-place, checking feasibility before recursing, and undoing the mutation on return. The art lies in failing fast (Minimum Remaining Values) and never exploring two branches that are secretly mirror images (symmetry breaking).",
     content: `
       <div class="lesson-content">
-        <h3>1. The Choice–Constraint–Undo Architecture & Knuth's Monte Carlo Tree Size Estimator</h3>
+        <h2>1. The Choice–Constraint–Undo Architecture & Knuth's Monte Carlo Tree Size Estimator</h2>
         <p>Every backtracking solver traverses an implicit state-space tree of depth $d$. If the branching factor at depth $k$ is $b_k$, a naive exhaustive search visits $\\prod_{k=0}^{d-1} b_k$ leaves. Pruning predicates $P(s)$ cut off invalid partial states at depth $k$, eliminating the entire subtree of size $\\prod_{j=k}^{d-1} b_j$ beneath them.</p>
 
         <div class="invariant-box">
@@ -206,7 +206,7 @@ long long count_subsets_with_target_gray(const std::vector&lt;long long&gt;&amp;
 
         <p>How do we know whether a backtracking search will finish in 10 milliseconds or 10 years? <strong>Knuth's Random Walk Estimator (1975)</strong> samples random root-to-leaf paths: at depth $k$, if there are $d_k$ valid children, pick one uniformly at random. The quantity $X = 1 + d_0 + d_0 d_1 + d_0 d_1 d_2 + \\dots$ is an unbiased estimator ($\\mathbb{E}[X] = |T|$) of the exact number of nodes in the pruned state-space tree!</p>
 
-        <h3>2. Variable Ordering (MRV) & Symmetry-Breaking Pruning</h3>
+        <h2>2. Variable Ordering (MRV) & Symmetry-Breaking Pruning</h2>
         <p>Two orthogonal techniques routinely compress a $10^{15}$-node search tree into $10^4$ nodes:</p>
         <ol>
           <li><strong>Fail-First / Minimum Remaining Values (MRV):</strong> When choosing <em>which</em> variable (e.g., Sudoku cell or graph vertex) to assign next, always pick the unassigned variable with the <strong>fewest legal choices</strong> remaining. If a variable has $0$ legal choices, we backtrack immediately ($b_k = 0$); if it has $1$ choice, we avoid branching ($b_k = 1$). Minimizing $b_k$ near the root shrinks the multiplier on all deeper levels.</li>
@@ -233,7 +233,7 @@ flowchart TD
           <p>In the classic $N$-Queens problem ($N \\le 32$), storing board attacks in a 2D boolean array requires $O(N)$ memory reads per conflict check. Instead, pass three 32-bit integers by value down the recursion stack: <code>cols</code>, <code>diag1</code> (shifted left each row), and <code>diag2</code> (shifted right each row). Available safe columns in the current row are computed in 1 cycle via <code>avail = ((1U &lt;&lt; n) - 1) &amp; ~(cols | diag1 | diag2)</code>, iterated via <code>bit = avail &amp; -avail</code>, and because the masks are passed in CPU registers by value, <strong>undo costs 0 instructions</strong> upon function return!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -276,7 +276,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;numeric&gt;
@@ -375,7 +375,7 @@ bool can_partition_k_subsets(std::vector&lt;int&gt; nums, int k) {
     intuition: "When you remove a node `x` from a doubly linked list via `x.L.R = x.R; x.R.L = x.L`, the removed node `x` still remembers its old neighbors! Knuth's Dancing Links (DLX) exploits this single observation to delete and restore entire rows and columns of a sparse 0/1 constraint matrix in exact O(1) pointer updates per non-zero entry.",
     content: `
       <div class="lesson-content">
-        <h3>1. The Exact Cover Problem & Knuth's Algorithm X</h3>
+        <h2>1. The Exact Cover Problem & Knuth's Algorithm X</h2>
         <p>Given a universe of constraints $C$ (columns) and a collection of candidate options $R$ (rows), where each row $r \\in R$ is a subset of $C$ represented as a $0/1$ matrix $A$, the <strong>Exact Cover Problem</strong> asks for a subset of rows $R^* \\subseteq R$ such that every column $c \\in C$ is covered by <em>exactly one</em> row in $R^*$. Exact Cover is NP-complete (Karp, 1972), yet countless constraint satisfaction problems—Sudoku, $N$-Queens, Pentomino tiling, Latin squares—reduce directly to Exact Cover:</p>
         <ul>
           <li><strong>Sudoku as Exact Cover ($729 \\text{ rows} \\times 324 \\text{ columns}$):</strong> Each candidate placement $(r, c, d) \\in \\{0..8\\}^3$ is a row (total $9^3 = 729$ rows). Each row has exactly 4 ones across 324 columns:
@@ -399,7 +399,7 @@ bool can_partition_k_subsets(std::vector&lt;int&gt; nums, int k) {
           No memory allocation, no search, and no conditionals are needed.</p>
         </div>
 
-        <h3>2. Toroidal 2D Doubly Linked Matrix Representation</h3>
+        <h2>2. Toroidal 2D Doubly Linked Matrix Representation</h2>
         <p>Only the $1$-entries of $A$ are represented as nodes. Every node $x$ has four pointers (<code>L, R, U, D</code>) and a pointer/index <code>C</code> to its column header. Each column header also tracks <code>S[c]</code>, the current number of active 1s in column $c$, and is linked horizontally into a master header list rooted at <code>head</code>.</p>
 
         <div class="mermaid">
@@ -417,7 +417,7 @@ flowchart TD
           <p>If each DLX node is allocated separately with <code>new Node()</code>, traversing <code>U[i]</code> and <code>R[j]</code> chases 64-bit pointers scattered across the heap, causing L1/L2 cache misses. Production DLX solvers allocate a single flat contiguous array of 32-bit integer indices (<code>int L[MAXN], R[MAXN], U[MAXN], D[MAXN], Col[MAXN]</code>). For Sudoku, all $\\le 324 + 4 \\times 729 = 3{,}240$ nodes fit inside <strong>64 KB</strong>—residing 100% inside the CPU's L1/L2 data cache!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-backtracking-dlx"></div>
 
         <table class="complexity-matrix">
@@ -457,7 +457,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;limits&gt;
 #include &lt;vector&gt;
@@ -592,7 +592,7 @@ public:
     intuition: "Backtracking asks 'Is this partial state legal?'; Branch and Bound asks 'Could this partial state possibly beat the best complete solution we already have?' By solving a fast continuous or graph relaxation (like Fractional Knapsack or 1-Tree MST) at each node, we prune entire subtrees that are mathematically incapable of improving the incumbent.",
     content: `
       <div class="lesson-content">
-        <h3>1. Optimality Pruning via Admissible Relaxations</h3>
+        <h2>1. Optimality Pruning via Admissible Relaxations</h2>
         <p>While backtracking targets feasibility (finding one or all valid configurations), <strong>Branch and Bound (B&amp;B)</strong> targets combinatorial optimization: $\\min_{x \\in \\mathcal{F}} f(x)$ (or $\\max$). B&amp;B maintains two quantities:</p>
         <ol>
           <li><strong>The Incumbent ($z^*$):</strong> The objective value of the best feasible complete solution found so far (initialized to $+\\infty$ for minimization, or seeded via a fast greedy heuristic).</li>
@@ -604,7 +604,7 @@ public:
           <p>For a <strong>minimization</strong> problem, a lower bound function $LB(u)$ is <em>admissible</em> if $LB(u) \\le \\min_{x \\in \\mathcal{F}(u)} f(x)$ for every subtree $u$. Whenever $LB(u) \\ge z^*$, no completion of $u$ can strictly improve upon the incumbent $z^*$, so $u$'s entire subtree can be pruned without loss of optimality. (For maximization, we use an admissible upper bound $UB(u) \\ge \\max_{x \\in \\mathcal{F}(u)} f(x)$ and prune when $UB(u) \\le z^*$.)</p>
         </div>
 
-        <h3>2. Classic Relaxations & Search Strategies (DFS vs. Best-First)</h3>
+        <h2>2. Classic Relaxations & Search Strategies (DFS vs. Best-First)</h2>
         <ul>
           <li><strong>0/1 Knapsack Upper Bound (Dantzig's LP Relaxation / Fractional Knapsack):</strong> Sort items by value-to-weight density $v_i / w_i$ descending. At node $u$ (having decided items $0..i-1$ with remaining capacity $C_{rem}$ and current value $V_{curr}$), greedily pack whole items $i, i+1, \\dots$ until an item $k$ does not fit, then add the fractional slice $C_{rem} \\cdot (v_k / w_k)$. This takes $O(\\log N)$ time with prefix sums + binary search (or $O(N)$ linearly) and gives the exact Linear Programming relaxation upper bound $UB(u)$.</li>
           <li><strong>Metric / General TSP Lower Bound:</strong>
@@ -634,7 +634,7 @@ flowchart TD
           <p>In textbook Best-First B&amp;B (like $A^*$ on combinatorial trees), every unpruned frontier node must be stored simultaneously on the binary heap along with its state vector. At 10 million nodes/sec, a priority queue fills 16 GB of RAM in under 15 seconds and suffers severe TLB and L3 cache misses on every <code>push</code>/<code>pop</code>. Production MIP solvers (Gurobi, CPLEX) and tournament solvers therefore use <strong>Plunging DFS (or IDA*)</strong> seeded with a greedy initial incumbent: stack space stays $O(N)$ inside L1 cache, and with prefix-sum + <code>std::upper_bound</code> fractional relaxation, each node's LP bound is computed in $O(\\log N)$ time.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-backtracking-dlx"></div>
 
         <table class="complexity-matrix">
@@ -679,7 +679,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -781,7 +781,7 @@ long long knapsack_branch_and_bound(std::vector&lt;KnapsackItem&gt; items, long 
     intuition: "In a zero-sum game, you don't need to find out whether an opponent's reply is merely bad for you or catastrophically bad for you—as soon as the opponent finds one reply worse than a safe option you already have in another branch, you can immediately abandon the entire move. With good move ordering, Alpha-Beta pruning cuts the effective branching factor from b to sqrt(b), letting your engine see twice as many moves ahead in the same time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Minimax, Negamax & The Alpha-Beta Pruning Window</h3>
+        <h2>1. Minimax, Negamax & The Alpha-Beta Pruning Window</h2>
         <p>In a two-player deterministic zero-sum game of perfect information (Chess, Go, Checkers, Connect Four), the <strong>Minimax value</strong> of state $s$ is the best score the active player can guarantee against a perfect opponent. Rather than writing separate <code>max_value()</code> and <code>min_value()</code> functions, production engines use <strong>Negamax</strong>, relying on the zero-sum symmetry $\\max(a, b) = -\\min(-a, -b)$ and evaluating every board strictly from the <em>side-to-move's perspective</em>.</p>
 
         <div class="invariant-box">
@@ -794,7 +794,7 @@ long long knapsack_branch_and_bound(std::vector&lt;KnapsackItem&gt; items, long 
           <p>When recursing to a child state $s'$, the roles swap and signs negate: the child is searched with window $[\\alpha', \\beta'] = [-\\beta, -\\alpha]$. As soon as any move achieves $\\text{score} \\ge \\beta$ ($\alpha \\ge \\beta$), a <strong>Beta-Cutoff (Fail-High)</strong> occurs and all remaining sibling moves are pruned.</p>
         </div>
 
-        <h3>2. The $\\Theta(b^{d/2})$ Theorem, Iterative Deepening & Zobrist Hashing</h3>
+        <h2>2. The $\\Theta(b^{d/2})$ Theorem, Iterative Deepening & Zobrist Hashing</h2>
         <p>How much does Alpha-Beta prune? If moves are searched in worst-first order, Alpha-Beta prunes <em>nothing</em> and visits all $b^d$ leaves. If moves are searched in <strong>best-first order</strong> (the best move at each node is tried first), Knuth and Moore (1975) proved that Alpha-Beta visits exactly:</p>
         $$N_{\\text{best}} = b^{\\lceil d/2 \\rceil} + b^{\\lfloor d/2 \\rfloor} - 1 = \\Theta(b^{d/2})$$
         <p>This reduces the effective branching factor from $b$ to $\\sqrt{b}$ (e.g., in Chess from $b \\approx 35$ to $\\sqrt{35} \\approx 6$), literally <strong>doubling the reachable search depth</strong> within a fixed time budget! To achieve near-perfect move ordering and avoid re-searching identical positions reached via different move sequences (transpositions):</p>
@@ -825,7 +825,7 @@ flowchart TD
           <p>Using <code>std::unordered_map&lt;uint64_t, TTEntry&gt;</code> in a game engine destroys performance due to heap node allocations and pointer chasing. Production engines (like Stockfish) allocate a single flat power-of-2 array of 16-byte or 64-byte cache-line-aligned <code>TTEntry</code> structs indexed by <code>zobrist_hash &amp; (table_size - 1)</code>, issuing <code>__builtin_prefetch(&amp;tt[hash &amp; mask])</code> as soon as a move is made so the cache line arrives from DRAM before evaluation begins.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-minimax-alpha-beta"></div>
 
         <table class="complexity-matrix">
@@ -870,7 +870,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -999,7 +999,7 @@ public:
     intuition: "Anyone can invent five plausible greedy heuristics in two minutes; four of them will fail on a 4-element counterexample. To prove a greedy algorithm is 100% optimal, we either show by induction that every greedy prefix finishes at least as early as any valid solution ('Greedy Stays Ahead'), or we take a hypothetical optimal solution O* and surgically swap its choices into our greedy choices without hurting the objective ('Exchange Argument').",
     content: `
       <div class="lesson-content">
-        <h3>1. Proof Paradigm I: "Greedy Stays Ahead" (Unweighted Interval Scheduling)</h3>
+        <h2>1. Proof Paradigm I: "Greedy Stays Ahead" (Unweighted Interval Scheduling)</h2>
         <p>Given $n$ intervals $[s_i, f_i)$, select a maximum-size subset of mutually compatible intervals ($f_i \\le s_j$ or $f_j \\le s_i$). Plausible heuristics like <em>Earliest Start Time</em>, <em>Shortest Duration</em> ($f_i - s_i$), or <em>Fewest Conflicts</em> all fail on simple counterexamples. The unique simple rule that works is <strong>Earliest Finish Time (EFT)</strong>: sort intervals by $f_1 \\le f_2 \\le \\dots \\le f_n$ and greedily pick the next compatible interval.</p>
 
         <div class="invariant-box">
@@ -1009,7 +1009,7 @@ public:
           <p><strong>Proof by Induction:</strong> For $r = 1$, $i_1$ has the minimum finish time among all intervals, so $f(i_1) \\le f(j_1)$. Assuming $f(i_{r-1}) \\le f(j_{r-1})$, since $O$ is compatible we know $f(j_{r-1}) \\le s(j_r)$, which implies $f(i_{r-1}) \\le s(j_r)$. Thus $j_r$ is in the candidate pool of compatible intervals available when EFT chooses $i_r$. Since EFT picks the candidate with minimum finish time, $f(i_r) \\le f(j_r)$. If $m > k$, then $f(i_k) \\le f(j_k) \\le s(j_{k+1})$, meaning EFT would have also picked $j_{k+1}$—contradiction! Hence $k = m$.</p>
         </div>
 
-        <h3>2. Proof Paradigm II: Adjacent Exchange Argument (Minimizing Maximum Lateness & Smith's Rule)</h3>
+        <h2>2. Proof Paradigm II: Adjacent Exchange Argument (Minimizing Maximum Lateness & Smith's Rule)</h2>
         <p>When every item must be scheduled (a permutation problem), we use a <strong>Local Exchange Argument</strong>:</p>
         <ul>
           <li><strong>Minimizing Maximum Lateness ($L_{\\max} = \\max_i \\max(0, C_i - d_i)$):</strong> Each job $i$ has processing time $t_i > 0$ and deadline $d_i$. <strong>Earliest Deadline First (EDF)</strong> sorts jobs by $d_1 \\le d_2 \\le \\dots \\le d_n$. Suppose an optimal schedule $O^*$ has an <em>inversion</em> ($d_i > d_j$, yet $i$ is scheduled immediately before $j$). Swapping adjacent jobs $i$ and $j$ leaves all other jobs unchanged, moves $j$ earlier (reducing $L_j$), and finishes $i$ at $j$'s old completion time $C'_i = C_j$. Since $d_i > d_j$, the new lateness $C_j - d_i < C_j - d_j \\le L_{\\max}(O^*)$. Thus swapping adjacent inversions never increases $L_{\\max}$!</li>
@@ -1032,7 +1032,7 @@ flowchart LR
           <p>When sorting by ratio $w_i / t_i$ (Smith's Rule) or $a_i / b_i$ in C++, writing <code>(double)a.w / a.t &gt; (double)b.w / b.t</code> suffers from two bugs: hardware floating-point division takes 10–14 cycles (vs. 3 cycles for 64-bit integer <code>IMUL</code>), and for 64-bit integers $> 2^{53}$, IEEE-754 <code>double</code> loses precision, which can violate <strong>strict weak ordering</strong> ($a < b$ and $b < c$ but $a \\not< c$) and cause <code>std::sort</code> to segfault out-of-bounds! Always compare via 64-bit or 128-bit integer cross-multiplication: <code>1LL * a.w * b.t &gt; 1LL * b.w * a.t</code>.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-greedy-matroid-cdcl"></div>
 
         <table class="complexity-matrix">
@@ -1077,7 +1077,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1180,7 +1180,7 @@ long long minimize_weighted_completion_time(std::vector&lt;Job&gt; jobs) {
     intuition: "Why does the greedy algorithm effortlessly find a Maximum Weight Spanning Forest or a Maximum Weight Linearly Independent XOR Basis, yet fail miserably on Maximum Weight Bipartite Matching? The answer is the Rado-Edmonds Theorem: the universal greedy algorithm is guaranteed optimal for arbitrary non-negative weights if and only if the underlying independence system is a Matroid.",
     content: `
       <div class="lesson-content">
-        <h3>1. The Three Matroid Axioms & The Rado-Edmonds Theorem</h3>
+        <h2>1. The Three Matroid Axioms & The Rado-Edmonds Theorem</h2>
         <p>A subset system $M = (E, \\mathcal{I})$, where $E$ is a finite ground set and $\\mathcal{I} \\subseteq 2^E$ is a family of <em>independent sets</em>, is called a <strong>Matroid</strong> (Whitney, 1935) if it satisfies three axioms:</p>
         <ol>
           <li><strong>Non-Emptiness:</strong> $\\emptyset \\in \\mathcal{I}$.</li>
@@ -1193,7 +1193,7 @@ long long minimize_weighted_completion_time(std::vector&lt;Job&gt; jobs) {
           <p>Let $(E, \\mathcal{I})$ be any hereditary system ($\\emptyset \\in \\mathcal{I}$ and downward closed). The <strong>Best-In Greedy Algorithm</strong> (sort $E$ by weight $w(e_1) \\ge w(e_2) \\ge \\dots \\ge w(e_n)$, initialize $S = \\emptyset$, and for each $e_i$ with $w(e_i) > 0$, set $S \\leftarrow S \\cup \\{e_i\\}$ if $S \\cup \\{e_i\\} \\in \\mathcal{I}$) returns a maximum-weight independent set for <strong>every</strong> weight function $w: E \\to \\mathbb{R}_{\\ge 0}$ <em>if and only if</em> $(E, \\mathcal{I})$ is a matroid.</p>
         </div>
 
-        <h3>2. Canonical Matroids in Systems & Competitive Programming</h3>
+        <h2>2. Canonical Matroids in Systems & Competitive Programming</h2>
         <ul>
           <li><strong>Graphic Matroid $M(G)$ (Kruskal's MST):</strong> $E$ is the edge set of an undirected graph $G$, and $I \\in \\mathcal{I}$ iff $I$ is a <em>forest</em> (contains no cycles). Independence testing $S \\cup \\{e\\} \\in \\mathcal{I}$ takes $O(\\alpha(V))$ time using Disjoint Set Union (DSU).</li>
           <li><strong>Linear / Vector Matroid over $\\mathbb{F}_2$ (XOR Basis):</strong> $E$ is a set of $d$-bit integers (vectors in $\\mathbb{F}_2^d$), and $I \\in \\mathcal{I}$ iff the vectors in $I$ are linearly independent under bitwise XOR ($\\oplus$). Maintaining an upper-triangular <strong>XOR Basis</strong> of size $\\le d$ tests independence and inserts a new $64$-bit vector in $O(d)$ bitwise operations!</li>
@@ -1216,7 +1216,7 @@ flowchart TD
           <p>A linear matroid basis over 64-bit integers (<code>uint64_t basis[64]</code>) occupies exactly $64 \\times 8 = 512$ bytes (8 L1 cache lines). Testing whether a number $x$ is linearly independent of the current basis iterates through the set bits of $x$ using <code>__builtin_ctzll(x)</code> (or from bit $63$ down to $0$) and XORs with <code>basis[b]</code> in under 20 CPU clock cycles—making maximum-weight XOR basis queries practically instantaneous.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-greedy-matroid-cdcl"></div>
 
         <table class="complexity-matrix">
@@ -1261,7 +1261,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;array&gt;
 #include &lt;cstdint&gt;
@@ -1377,7 +1377,7 @@ long long max_profit_deadline_scheduling(std::vector&lt;DeadlineJob&gt; jobs, in
     intuition: "Standard greedy makes irrevocable choices and fails when a decision made at step i blocks a better option at step j. Regret Greedy (or Undoable Greedy) optimistically takes every choice, pushes its 'regret cost' into a binary heap, and whenever a constraint is violated or a better trade appears, pops the worst historical choice to retroactively swap it in O(log N) time.",
     content: `
       <div class="lesson-content">
-        <h3>1. When Pure Greedy Fails: Retroactive Replacement via Heaps</h3>
+        <h2>1. When Pure Greedy Fails: Retroactive Replacement via Heaps</h2>
         <p>Consider the <strong>Variable-Length Course Scheduling Problem (Moore–Hodgson Algorithm, 1968 / Course Schedule III)</strong>: Given $N$ courses, each with duration $t_i$ and deadline $d_i$, maximize the number of courses completed. Unlike Unit-Time Scheduling ($t_i = 1$), variable durations $t_i$ do <em>not</em> form a matroid! If we sort by deadline $d_1 \\le d_2 \\le \\dots \\le d_n$ and greedily take course $1$ ($t_1 = 100, d_1 = 100$), we might block courses $2$ and $3$ ($t_2 = 30, d_2 = 110$ and $t_3 = 30, d_3 = 120$).</p>
 
         <div class="invariant-box">
@@ -1386,7 +1386,7 @@ long long max_profit_deadline_scheduling(std::vector&lt;DeadlineJob&gt; jobs, in
           <strong>Why this is optimal:</strong> After processing prefix $1..i$, $H$ achieves the maximum possible job count $k$ AND simultaneously achieves the <em>minimum possible total completion time $T$</em> among all valid $k$-job subsets of $1..i$.</p>
         </div>
 
-        <h3>2. Virtual Cancellation (Slope Trick / Stock Trading with Unlimited Transactions)</h3>
+        <h2>2. Virtual Cancellation (Slope Trick / Stock Trading with Unlimited Transactions)</h2>
         <p>A second, deeper form of Regret Greedy is <strong>Virtual Undo</strong> (Equivalent to a 1-capacity Successive Shortest Path augmenting path or <em>Slope Trick</em>): Suppose on Day $i$ the stock price is $p_i$, and you want to pair Buy/Sell days to maximize profit (or match tasks to servers). If you buy at $p_1 = 10$, sell at $p_2 = 15$ (profit $+5$), and then see $p_3 = 22$, you <em>regret</em> selling at $15$ instead of $22$.</p>
         <p>Observe the telescope identity:</p>
         $$(p_2 - p_1) + (p_3 - p_2) = p_3 - p_1$$
@@ -1407,7 +1407,7 @@ flowchart LR
           <p>Solving Variable-Length Deadline Scheduling via Dynamic Programming requires an $O(N \\cdot \\max d_i)$ table. When deadlines reach $d_i = 10^9$, the DP table requires $8 \\text{ GB}$ per row and is completely intractable. Moore-Hodgson's Regret Greedy uses a single <code>std::priority_queue&lt;int&gt;</code> backed by a contiguous <code>std::vector&lt;int&gt;</code> of size $\\le N$, solving $N = 10^6, d_i = 10^{18}$ in 45 milliseconds and 4 MB of L3 cache.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-greedy-matroid-cdcl"></div>
 
         <table class="complexity-matrix">
@@ -1452,7 +1452,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;functional&gt;
@@ -1544,7 +1544,7 @@ long long max_profit_multi_share_trading(const std::vector&lt;long long&gt;&amp;
     intuition: "Every time you run `cargo build`, `apt-get install`, or `conda install`, a SAT/PubGrub solver resolves thousands of conflicting version ranges in milliseconds. The secret that separates a toy recursive backtracker from an industrial SAT solver (MiniSat, CaDiCaL, Z3) is Unit Propagation (BCP), the Two-Watched Literals invariant (which needs zero pointer updates on backtrack!), and Conflict-Driven Clause Learning (CDCL).",
     content: `
       <div class="lesson-content">
-        <h3>1. From Naive Backtracking to DPLL & Boolean Constraint Propagation (BCP)</h3>
+        <h2>1. From Naive Backtracking to DPLL & Boolean Constraint Propagation (BCP)</h2>
         <p>A Boolean formula in <strong>Conjunctive Normal Form (CNF)</strong> is an AND ($\\wedge$) of clauses, where each clause is an OR ($\\vee$) of literals ($x_i$ or $\\neg x_i$). Package managers encode dependencies directly as CNF clauses:</p>
         <ul>
           <li><code>pkgA@1.2 requires pkgB@2.0 or pkgB@2.1</code> $\\implies (\\neg A_{1.2} \\vee B_{2.0} \\vee B_{2.1})$.</li>
@@ -1559,7 +1559,7 @@ long long max_profit_multi_share_trading(const std::vector&lt;long long&gt;&amp;
           Consequently, a clause can <em>never</em> become a unit clause or falsified unless one of its two watched literals becomes <code>FALSE</code>! Better yet: when backtracking (unassigning variables), $w_1$ and $w_2$ remain valid watches—<strong>backtracking requires ZERO watch-list updates ($O(1)$ time)!</strong></p>
         </div>
 
-        <h3>2. How Two-Watched Literals & CDCL Work Together</h3>
+        <h2>2. How Two-Watched Literals & CDCL Work Together</h2>
         <p>When literal $l$ is assigned <code>TRUE</code>, its negation $\\neg l$ becomes <code>FALSE</code>. We inspect <em>only</em> the watch list <code>watches[~l]</code>. For each clause $C$ watching $\\neg l$ (with other watch $w_{other}$):</p>
         <ol>
           <li>If $w_{other}$ is already <code>TRUE</code>, $C$ is satisfied—do nothing.</li>
@@ -1588,7 +1588,7 @@ flowchart TD
           <p>Empirical profiling of MiniSat and CaDiCaL shows that 80%–90% of total runtime is spent scanning <code>watches[~l]</code> inside Boolean Constraint Propagation. Because Two-Watched Literals never touches watch lists during backtracking, unassigning 1,000 variables on backtrack is a simple array index reset <code>trail_head = level_pos[lvl]</code>! Furthermore, industrial solvers inline the <strong>blocker literal</strong> ($w_{other}$) directly inside the 8-byte watch-list entry <code>struct Watch { int clause_id; int blocker; }</code> so if <code>blocker</code> is already <code>TRUE</code>, the CPU skips dereferencing the clause pointer entirely—saving an L3 cache miss.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-greedy-matroid-cdcl"></div>
 
         <table class="complexity-matrix">
@@ -1633,7 +1633,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 
@@ -1778,7 +1778,7 @@ public:
     intuition: "In this Build Lab, we assemble a complete, zero-heap-allocation Dancing Links (DLX) engine supporting both Primary Columns (must be covered exactly once, like Sudoku cells/rows/cols/boxes or N-Queens rows/cols) and Secondary Columns (covered at most once, like N-Queens diagonals), capable of solving the hardest 17-clue Sudokus in under 200 microseconds.",
     content: `
       <div class="lesson-content">
-        <h3>1. Primary vs. Secondary Columns in Generalized Exact Cover</h3>
+        <h2>1. Primary vs. Secondary Columns in Generalized Exact Cover</h2>
         <p>Many real-world Constraint Satisfaction Problems (CSPs) combine two types of constraints:</p>
         <ul>
           <li><strong>Primary Constraints (Exact Cover — $\\sum_{r \\in R^*} A[r, c] = 1$):</strong> Every column $c \\in [1..N_{\\text{primary}}]$ <em>must</em> be covered by the final solution. Example: In $N$-Queens, each of the $N$ rows and $N$ columns must contain <em>exactly one</em> queen. In Sudoku, all $324$ cell/row/col/box constraints are primary.</li>
@@ -1792,7 +1792,7 @@ public:
           Because secondary columns are not reachable from <code>nodes[0].R</code>, <code>search()</code> never requires them to be covered. Yet when a chosen row contains a $1$ in a secondary column $c$, <code>cover(c)</code> still traverses <code>c.D</code> and removes all conflicting rows that also touch column $c$!</p>
         </div>
 
-        <h3>2. End-to-End Sudoku Compiler to 324-Column DLX Torus</h3>
+        <h2>2. End-to-End Sudoku Compiler to 324-Column DLX Torus</h2>
         <p>For a $9 \\times 9$ Sudoku grid, candidate $(r, c, d)$ with $r, c, d \\in \\{0..8\\}$ maps to row ID $81r + 9c + d$ and covers 4 primary columns (1-indexed in $1..324$):</p>
         <ol>
           <li>$\text{Col}_{\text{cell}} = 1 + (9r + c) \\in [1..81]$</li>
@@ -1815,7 +1815,7 @@ flowchart LR
           <p>A $9 \\times 9$ Sudoku DLX instance has at most $325$ header nodes plus $729 \\times 4 = 2{,}916$ matrix nodes, for a strict upper bound of $3{,}241$ nodes. By storing the entire torus in a fixed-capacity <code>std::vector</code> reserved upfront (or <code>std::array&lt;Node, 3250&gt;</code>), the entire solver state occupies $3{,}250 \\times 24 \\text{ bytes} = 78 \\text{ KB}$, executing zero dynamic heap allocations during search.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-backtracking-dlx"></div>
 
         <table class="complexity-matrix">
@@ -1860,7 +1860,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Complete Production C++20 Build Lab Implementation</h3>
+        <h2>4. Complete Production C++20 Build Lab Implementation</h2>
         <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;string&gt;

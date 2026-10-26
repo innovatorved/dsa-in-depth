@@ -35,19 +35,19 @@ window.Quiz = (() => {
   function getTypeMeta(type) {
     if (type === 'numeric') {
       return {
-        badge: 'Napkin Math · Capacity',
-        shortLabel: 'Napkin Math',
+        badge: 'Complexity & Bounds Math',
+        shortLabel: 'Bounds Math',
         cls: 'is-numeric',
-        defaultTitle: 'Back-of-the-Envelope Napkin Math',
-        defaultDiff: 'capacity estimation'
+        defaultTitle: 'Complexity & Bounds Estimation',
+        defaultDiff: 'complexity estimation'
       };
     }
     if (type === 'tradeoff') {
       return {
-        badge: 'Staff Trade-Off Matrix',
+        badge: 'Algorithm Trade-Off Matrix',
         shortLabel: 'Trade-Off',
         cls: 'is-tradeoff',
-        defaultTitle: 'Staff Architecture Trade-Off Matrix',
+        defaultTitle: 'Algorithm & Data Structure Trade-Off Matrix',
         defaultDiff: 'trade-off decision'
       };
     }
@@ -112,7 +112,7 @@ window.Quiz = (() => {
           </div>
           ${q.hint ? `
             <details class="quiz-hint-details">
-              <summary class="quiz-hint-summary">Show Napkin Formula / Estimation Hint</summary>
+              <summary class="quiz-hint-summary">Show Complexity Formula / Bounds Hint</summary>
               <div class="quiz-hint-body">${escapeHtml(q.hint)}</div>
             </details>
           ` : ''}
@@ -124,7 +124,7 @@ window.Quiz = (() => {
           <div class="quiz-tradeoff-col">
             <div class="quiz-tradeoff-step">
               <span class="quiz-tradeoff-step__num">Part 1</span>
-              <span class="quiz-tradeoff-step__label">Select Architecture Decision</span>
+              <span class="quiz-tradeoff-step__label">Select Algorithm / Data Structure</span>
             </div>
             <div class="quiz-tradeoff-list">
               ${(q.options || []).map((opt, i) => `
@@ -138,7 +138,7 @@ window.Quiz = (() => {
           <div class="quiz-tradeoff-col">
             <div class="quiz-tradeoff-step">
               <span class="quiz-tradeoff-step__num">Part 2</span>
-              <span class="quiz-tradeoff-step__label">Select Primary Engineering Justification</span>
+              <span class="quiz-tradeoff-step__label">Select Primary Complexity / Invariant Justification</span>
             </div>
             <div class="quiz-tradeoff-list">
               ${(q.reasons || []).map((rsn, j) => `
@@ -152,7 +152,7 @@ window.Quiz = (() => {
         </div>
         ${q.hint ? `
           <details class="quiz-hint-details">
-            <summary class="quiz-hint-summary">Show Architectural Hint</summary>
+            <summary class="quiz-hint-summary">Show Algorithmic Hint</summary>
             <div class="quiz-hint-body">${escapeHtml(q.hint)}</div>
           </details>
         ` : ''}
@@ -221,7 +221,7 @@ window.Quiz = (() => {
     const modeTabsHtml = hasDrills ? `
       <div class="check-slider__tabs" role="tablist" aria-label="Question categories">
         ${firstMcqIdx !== -1 ? `<button type="button" class="check-slider__tab is-active" data-jump-index="${firstMcqIdx}" data-tab-type="mcq">Concept (${mcqCount})</button>` : ''}
-        ${firstNumericIdx !== -1 ? `<button type="button" class="check-slider__tab" data-jump-index="${firstNumericIdx}" data-tab-type="numeric">Napkin Math</button>` : ''}
+        ${firstNumericIdx !== -1 ? `<button type="button" class="check-slider__tab" data-jump-index="${firstNumericIdx}" data-tab-type="numeric">Bounds Math</button>` : ''}
         ${firstTradeoffIdx !== -1 ? `<button type="button" class="check-slider__tab" data-jump-index="${firstTradeoffIdx}" data-tab-type="tradeoff">Trade-Off</button>` : ''}
       </div>
     ` : '';

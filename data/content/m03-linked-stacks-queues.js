@@ -15,7 +15,7 @@ window.MODULE_CONTENT["m03"] = {
     },
     intuition: "Standard library linked lists (<code>std::list<T></code>) invert ownership by wrapping every payload inside a separately heap-allocated node—doubling allocator traffic, fragmenting L1 cache lines, and restricting an object to one list at a time. Intrusive linked lists (like the Linux kernel's <code>struct list_head</code>) embed the <code>next</code>/<code>prev</code> hooks directly inside the domain struct, recovering the parent struct via compile-time <code>offsetof</code> pointer arithmetic (<code>container_of</code>) with zero dynamic allocations.",
     content: `
-      <h3>Pointer-to-Pointer (<code>Node**</code>) &amp; Circular Sentinel Elimination</h3>
+      <h2>Pointer-to-Pointer (<code>Node**</code>) &amp; Circular Sentinel Elimination</h2>
       <p>In a naive singly or doubly linked list, every insertion or deletion checks a special-case branch: <code>if (prev == nullptr) head = curr-&gt;next; else prev-&gt;next = curr-&gt;next;</code>. As Linus Torvalds famously demonstrated, there are two complementary techniques that completely eliminate special-case boundary branches:</p>
       <ol>
         <li><strong>Indirect Pointer-to-Pointer (<code>Node** pp = &amp;head</code>) for Singly Linked Lists:</strong> Instead of tracking a predecessor node pointer <code>Node* prev</code>, track the <em>address of the pointer field</em> that points to the current node: <code>Node** indirect = &amp;head</code>. Advancing moves to <code>indirect = &amp;((*indirect)-&gt;next)</code>, and unlinking the target node executes <code>*indirect = (*indirect)-&gt;next</code> uniformly—whether the node is the head of the list or in the middle!</li>
@@ -29,7 +29,7 @@ window.MODULE_CONTENT["m03"] = {
         <p>Because the byte offset of a struct field is a compile-time constant known to the compiler, <code>container_of(ptr, Task, run_list)</code> subtracts that constant integer offset from the <code>list_head*</code> address—recovering the enclosing <code>Task*</code> in <strong>zero memory dereferences</strong>! Even better, a single <code>Task</code> struct can embed <em>multiple</em> <code>list_head</code> fields (<code>run_queue</code>, <code>all_tasks</code>, <code>wait_list</code>), participating in three doubly linked lists simultaneously with zero heap allocations.</p>
       </div>
 
-      <h3>Non-Intrusive vs. Intrusive vs. Arena-Indexed Linked Lists</h3>
+      <h2>Non-Intrusive vs. Intrusive vs. Arena-Indexed Linked Lists</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -65,7 +65,7 @@ window.MODULE_CONTENT["m03"] = {
         </tbody>
       </table>
 
-      <h3>Visualizing Non-Intrusive Heap Scattering vs. Intrusive <code>container_of</code></h3>
+      <h2>Visualizing Non-Intrusive Heap Scattering vs. Intrusive <code>container_of</code></h2>
       <svg viewBox="0 0 760 210" width="100%" height="auto" role="img" aria-label="Intrusive list_head and container_of offset arithmetic">
         <style>
           .ll-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -100,7 +100,7 @@ window.MODULE_CONTENT["m03"] = {
         <text x="20" y="196" class="ll-txt">container_of(ptr, task_struct, run_node) = (task_struct*)((char*)ptr - 16) --&gt; 0x1000 (1 ALU sub, 0 loads!)</text>
       </svg>
 
-      <h3>Circular Sentinel Doubly Linked List Splice &amp; Unlink</h3>
+      <h2>Circular Sentinel Doubly Linked List Splice &amp; Unlink</h2>
       <div class="mermaid">
       flowchart LR
         A["Sentinel Head<br/>(head.next = first,<br/>head.prev = last)"] <--> B["Node 1<br/>list_head"]
@@ -115,7 +115,7 @@ window.MODULE_CONTENT["m03"] = {
 
       <div class="simulator-mount" data-sim="sim-linked-list-floyd"></div>
 
-      <h3>Production Implementation: Intrusive Circular Doubly Linked List &amp; Torvalds Indirect Unlink</h3>
+      <h2>Production Implementation: Intrusive Circular Doubly Linked List &amp; Torvalds Indirect Unlink</h2>
       <pre><code class="language-cpp">#include &lt;cstddef&gt;
 #include &lt;cstdint&gt;
 
@@ -214,7 +214,7 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
     },
     intuition: "Any deterministic sequence $x_{k+1} = f(x_k)$ over a finite state space eventually enters a cycle (forming a Greek letter $\\rho$ with tail length $\\mu$ and cycle length $\\lambda$). Floyd's Tortoise-and-Hare detects the cycle and locates its exact entrance in $O(\\mu + \\lambda)$ time and $O(1)$ space via modular congruence, while Richard Brent's teleporting-turtle algorithm finds $\\lambda$ directly with $36\\%$ fewer step evaluations.",
     content: `
-      <h3>The $\\rho$ (Rho) Topology &amp; Floyd's Modular Congruence Proof</h3>
+      <h2>The $\\rho$ (Rho) Topology &amp; Floyd's Modular Congruence Proof</h2>
       <p>Consider a singly linked list (or iterated function $x_{i+1} = f(x_i)$ in Pollard's rho integer factorization and PRNG period testing) that has a non-cyclic prefix (tail) of $\\mu$ edges leading to a cycle entrance node $E$, followed by a directed cycle of $\\lambda$ edges. In <strong>Floyd's Cycle-Finding Algorithm</strong> (attributed to Robert W. Floyd, 1967, in Knuth TAOCP Vol. 2), a slow pointer $T$ (Tortoise) advances 1 step per iteration ($t_k = k$) and a fast pointer $H$ (Hare) advances 2 steps per iteration ($h_k = 2k$):</p>
       <ul>
         <li><strong>Phase 1 (Cycle Detection &amp; Meeting Point):</strong> Once $k \\ge \\mu$, both pointers are inside the cycle of length $\\lambda$. Since $H$ closes the gap to $T$ by exactly $2 - 1 = 1$ edge per iteration, $H$ cannot jump over $T$ without landing on it. They meet at the smallest step $k \\ge \\mu$ where the distance between them $2k - k = k$ is an exact multiple of the cycle length $\\lambda$:
@@ -228,7 +228,7 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
         <p>In Brent's algorithm, the Hare advances 1 step at a time while incrementing the current segment length $\\lambda$. Whenever $H == T$, the exact cycle length $\\lambda$ is already known! Whenever $\\lambda$ reaches the current power-of-two limit $P = 2^i$, we teleport $T \\leftarrow H$, reset $\\lambda \\leftarrow 0$, and double $P \\leftarrow 2P$. Once the first power of two $2^i \\ge \\max(\\mu, \\lambda)$ is reached, $T$ is parked inside the cycle and $H$ is guaranteed to collide with $T$ in exactly $\\lambda$ steps—performing only <strong>1 function evaluation per step</strong> and directly yielding $\\lambda$!</p>
       </div>
 
-      <h3>Comparative Analysis of Cycle Detection Algorithms</h3>
+      <h2>Comparative Analysis of Cycle Detection Algorithms</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -264,7 +264,7 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
         </tbody>
       </table>
 
-      <h3>Visualizing the $\\rho$ (Rho) Cycle Geometry &amp; Phase 2 Entrance Alignment</h3>
+      <h2>Visualizing the $\\rho$ (Rho) Cycle Geometry &amp; Phase 2 Entrance Alignment</h2>
       <svg viewBox="0 0 760 205" width="100%" height="auto" role="img" aria-label="Floyd and Brent cycle detection rho geometry">
         <style>
           .cy-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -304,7 +304,7 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
         <text x="15" y="190" class="cy-txt">Array Index Encoding (Find Duplicate in [1..N]): Treat i -&gt; nums[i] as a functional graph; index 0 has in-degree 0!</text>
       </svg>
 
-      <h3>Functional Graph Reduction: Finding Duplicates in $O(1)$ Space Without Mutating Array</h3>
+      <h2>Functional Graph Reduction: Finding Duplicates in $O(1)$ Space Without Mutating Array</h2>
       <div class="mermaid">
       flowchart LR
         A["Array nums[0..N]<br/>Values in [1..N]"] --> B["Implicit Directed Graph:<br/>Edge i -> nums[i]"]
@@ -320,7 +320,7 @@ void remove_first_matching(SinglyNode** head_ref, int target) noexcept {
 
       <div class="simulator-mount" data-sim="sim-linked-list-floyd"></div>
 
-      <h3>Production Implementation: Floyd's Entrance Finder &amp; Brent's Cycle Detector</h3>
+      <h2>Production Implementation: Floyd's Entrance Finder &amp; Brent's Cycle Detector</h2>
       <pre><code class="language-cpp">#include &lt;cstddef&gt;
 #include &lt;utility&gt;
 #include &lt;vector&gt;
@@ -426,7 +426,7 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
     },
     intuition: "A standard linked list pays 16 bytes of pointer overhead and a full 64-byte cache-line miss for every single element. Packing $B$ elements into each node's inline array (an Unrolled Linked List, sized so each node equals 1–2 cache lines) amortizes pointer overhead by $B\\times$ and turns pointer chasing into sequential SIMD/cache-line streaming—while Gap Buffers and Ropes apply the same cache-locality principle to text editors.",
     content: `
-      <h3>Defeating the Pointer Tax: Unrolled Linked Lists</h3>
+      <h2>Defeating the Pointer Tax: Unrolled Linked Lists</h2>
       <p>Consider storing 4-byte <code>int32_t</code> integers in a 64-bit doubly linked list (<code>std::list&lt;int32_t&gt;</code>). Each node contains 8B <code>prev</code> + 8B <code>next</code> + 4B <code>val</code> + 4B alignment padding + 8B–16B <code>malloc</code> chunk header = <strong>32 to 40 bytes per 4-byte integer</strong> ($800\\% - 1000\\%$ memory bloat!), and traversing $N$ elements incurs $N$ dependent pointer-chasing cache misses.</p>
       <p>An <strong>Unrolled Linked List</strong> replaces the single element in each node with a small inline array <code>T elements[B]</code> and an occupancy counter <code>uint16_t count</code>. When we size the node to match a single 64-byte CPU cache line (e.g., 8B <code>prev</code> + 8B <code>next</code> + 4B <code>count</code> + eleven 4-byte integers = 64 bytes):</p>
       <ul>
@@ -444,7 +444,7 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
         </p>
       </div>
 
-      <h3>Sequence Data Structure Trade-Off Matrix</h3>
+      <h2>Sequence Data Structure Trade-Off Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -492,7 +492,7 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
         </tbody>
       </table>
 
-      <h3>Visualizing Cache-Line-Sized Unrolled Nodes &amp; The Gap Buffer Split</h3>
+      <h2>Visualizing Cache-Line-Sized Unrolled Nodes &amp; The Gap Buffer Split</h2>
       <svg viewBox="0 0 760 205" width="100%" height="auto" role="img" aria-label="64-byte cache-line unrolled linked list node and Gap Buffer cursor">
         <style>
           .ul-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -528,7 +528,7 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
         <text x="15" y="192" class="ul-txt">Logical Index i Lookup: buf[i + (i &gt;= gap_start ? (gap_end - gap_start) : 0)] --&gt; O(1) time!</text>
       </svg>
 
-      <h3>Unrolled Node Overflow &amp; Half-Split Lifecycle</h3>
+      <h2>Unrolled Node Overflow &amp; Half-Split Lifecycle</h2>
       <div class="mermaid">
       flowchart LR
         A["Insert val into Node u<br/>at local index idx"] --> B{"u.count == B?<br/>(Node Full)"}
@@ -544,7 +544,7 @@ std::pair&lt;ListNode*, std::size_t&gt; brent_find_cycle(ListNode* head) noexcep
 
       <div class="simulator-mount" data-sim="sim-unrolled-rope-blocks"></div>
 
-      <h3>Production Implementation: Generic Gap Buffer Engine</h3>
+      <h2>Production Implementation: Generic Gap Buffer Engine</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cassert&gt;
 #include &lt;cstddef&gt;
@@ -652,7 +652,7 @@ public:
     },
     intuition: "William Pugh invented the Skip List in 1989 as a probabilistic alternative to complex self-balancing BST rotations. By promoting each inserted node to level $h+1$ with independent coin-flip probability $p$, a Skip List builds a hierarchy of express lanes where the reverse search path climbs $O(\\log N)$ levels in expectation with high probability—and supports lock-free <code>CAS</code> concurrency far more easily than Red-Black Trees.",
     content: `
-      <h3>Probabilistic Express Lanes &amp; The Backwards Search Proof</h3>
+      <h2>Probabilistic Express Lanes &amp; The Backwards Search Proof</h2>
       <p>In a sorted singly linked list, even though the keys are ordered, binary search is impossible because we lack random access. Suppose we construct a hierarchy of linked lists $L_0, L_1, \\dots, L_{H}$: level $L_0$ contains all $N$ elements, and each element present in level $L_k$ is independently promoted to level $L_{k+1}$ with probability $p \\in (0, 1)$ (typically $p = 1/2$ or $p = 1/4$). Search starts at the highest level of the sentinel head node: at the current node $u$ and level $k$, we advance horizontally (<code>u = u-&gt;forward[k]</code>) as long as <code>u-&gt;forward[k]-&gt;key &lt; target</code>; when the next key would overshoot <code>target</code> (or is <code>nullptr</code>), we drop down vertically to level $k - 1$.</p>
       <p>How do we prove that the expected search cost is $O(\\log N)$? Follow Pugh's elegant <strong>Backwards Analysis</strong>: trace the search path <em>in reverse</em>, starting from the found node at level $0$ and climbing up and left back to the sentinel head at level $H$. At any node on the reverse path at level $k$:</p>
       <ul>
@@ -669,7 +669,7 @@ public:
         <p>For $p = 1/2$, each node stores on average $\\frac{1}{1 - 1/2} = 2.0$ pointers. For $p = 1/4$ (used by <strong>Redis <code>zskiplist</code></strong> and <strong>LevelDB / RocksDB <code>MemTable</code></strong>), each node stores on average only $\\frac{1}{1 - 1/4} = 1.333$ pointers—less pointer overhead than a binary tree ($2.0$ pointers/node)!</p>
       </div>
 
-      <h3>Skip List Parameter Trade-Offs ($p = 1/2$ vs. $p = 1/4$ vs. Balanced BSTs)</h3>
+      <h2>Skip List Parameter Trade-Offs ($p = 1/2$ vs. $p = 1/4$ vs. Balanced BSTs)</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -712,7 +712,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing Express Lanes &amp; The <code>update[0..level]</code> Predecessor Splice Vector</h3>
+      <h2>Visualizing Express Lanes &amp; The <code>update[0..level]</code> Predecessor Splice Vector</h2>
       <svg viewBox="0 0 760 210" width="100%" height="auto" role="img" aria-label="Skip list multi-level indexing and update vector splice">
         <style>
           .sk-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -754,7 +754,7 @@ public:
         <text x="20" y="188" class="sk-txt">Rank / Order Statistics: Storing span[k] (number of L0 nodes skipped by forward[k]) gives O(log N) k-th element lookup!</text>
       </svg>
 
-      <h3>Why RocksDB &amp; Java <code>ConcurrentSkipListMap</code> Use Skip Lists Over Red-Black Trees</h3>
+      <h2>Why RocksDB &amp; Java <code>ConcurrentSkipListMap</code> Use Skip Lists Over Red-Black Trees</h2>
       <div class="mermaid">
       flowchart LR
         A["Concurrent Writers in<br/>RocksDB MemTable"] --> B["Red-Black Tree:<br/>Insert triggers bottom-up rotations<br/>Mutates root/grandparent pointers<br/>Requires coarse subtree locks"]
@@ -768,7 +768,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-skiplist-lanes"></div>
 
-      <h3>Production Implementation: Single-Allocation Skip List with $p = 1/4$ Geometric PRNG</h3>
+      <h2>Production Implementation: Single-Allocation Skip List with $p = 1/4$ Geometric PRNG</h2>
       <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstdint&gt;
 #include &lt;cstdlib&gt;
@@ -901,7 +901,7 @@ public:
     },
     intuition: "Every recursive grammar or nested expression is evaluated by a Last-In-First-Out (LIFO) stack. While compilers lower recursive functions into hardware stack frames (<code>RSP</code>/<code>RBP</code>), Edsger Dijkstra's 1961 Shunting-Yard algorithm parses arbitrary infix expressions with precedence, parenthesization, and left/right associativity into Reverse Polish Notation (RPN) or evaluates them on the fly in $O(N)$ time using a single operator stack.",
     content: `
-      <h3>Infix Ambiguity vs. Reverse Polish Notation (Postfix)</h3>
+      <h2>Infix Ambiguity vs. Reverse Polish Notation (Postfix)</h2>
       <p>Why is an infix expression like $3 + 4 \\times 2 \\uparrow 3 \\uparrow 2$ ambiguous without precedence and associativity rules, whereas its Reverse Polish Notation (postfix) equivalent <code>3 4 2 3 2 ^ ^ * +</code> requires <strong>zero parentheses and zero precedence rules</strong>? Because in postfix notation, every operator appears immediately after its operands, encoding the exact post-order traversal of the Abstract Syntax Tree (AST)!</p>
       <p>Evaluating an RPN token stream is a single branch-free stack machine pass: scan tokens left to right; push numbers onto an operand stack; when a binary operator $\\circ$ arrives, pop the right operand $b$, pop the left operand $a$, and push $(a \\circ b)$.</p>
 
@@ -912,7 +912,7 @@ public:
         <p>Notice how a single boolean flip handles associativity: for left-associative subtraction $a - b - c = (a - b) - c$, the second $-$ sees $\\text{prec}(-) == \\text{prec}(-)$ with left-associativity and pops the first $-$, emitting <code>a b - c -</code>. For right-associative exponentiation $2 \\uparrow 3 \\uparrow 2 = 2^{(3^2)} = 512$, the second $\\uparrow$ sees $\\text{prec}(\\uparrow) == \\text{prec}(\\uparrow)$ with <strong>right-associativity</strong> and <em>does not pop</em> the first $\\uparrow$, pushing onto the stack to emit <code>2 3 2 ^ ^</code>!</p>
       </div>
 
-      <h3>Operator Precedence, Associativity &amp; Unary Disambiguation</h3>
+      <h2>Operator Precedence, Associativity &amp; Unary Disambiguation</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -955,7 +955,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing AST Post-Order Equivalence &amp; Two-Stack On-the-Fly Evaluation</h3>
+      <h2>Visualizing AST Post-Order Equivalence &amp; Two-Stack On-the-Fly Evaluation</h2>
       <svg viewBox="0 0 760 200" width="100%" height="auto" role="img" aria-label="Shunting yard AST post-order and two-stack evaluation">
         <style>
           .sy-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -994,7 +994,7 @@ public:
         <text x="370" y="172" class="sy-txt">Pop Order Note: rhs = vals.pop(); lhs = vals.pop();</text>
       </svg>
 
-      <h3>Shunting-Yard Token Dispatch &amp; Reduction Pipeline</h3>
+      <h2>Shunting-Yard Token Dispatch &amp; Reduction Pipeline</h2>
       <div class="mermaid">
       flowchart TD
         A["Read Next Token T"] --> B{"Token Type?"}
@@ -1012,7 +1012,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-monotonic-stack-queue"></div>
 
-      <h3>Production Implementation: Shunting-Yard Evaluator with Unary Negation &amp; Exponentiation</h3>
+      <h2>Production Implementation: Shunting-Yard Evaluator with Unary Negation &amp; Exponentiation</h2>
       <pre><code class="language-cpp">#include &lt;cctype&gt;
 #include &lt;cstdint&gt;
 #include &lt;string_view&gt;
@@ -1168,7 +1168,7 @@ public:
     },
     intuition: "A monotonic stack maintains indices whose values are strictly ordered from bottom to top by evicting every dominated index as soon as a new element arrives. When an index $m$ is popped by incoming index $R$, $R$ is provably the first element to the right that breaks $m$'s dominance, while the element sitting immediately below $m$ on the stack ($L$) is the first element to the left that breaks $m$'s dominance—yielding both nearest-smaller/greater boundaries $[L+1, R-1]$ in a single $O(N)$ pass!",
     content: `
-      <h3>Dominance Pruning &amp; Two-Sided Boundary Discovery</h3>
+      <h2>Dominance Pruning &amp; Two-Sided Boundary Discovery</h2>
       <p>Suppose we want to find, for every bar $H[m]$ in a histogram $H[0 \\dots N-1]$, the largest rectangle of height $H[m]$ that can be formed using $m$ as the shortest (limiting) bar. That rectangle extends left to the nearest index $L &lt; m$ with $H[L] &lt; H[m]$, and extends right to the nearest index $R &gt; m$ with $H[R] &lt; H[m]$, giving width $(R - L - 1)$ and area $H[m] \\cdot (R - L - 1)$.</p>
       <p>How does a <strong>Monotonic Increasing Stack</strong> find both $L$ and $R$ for every $m \\in [0, N-1]$ in a single left-to-right scan? Maintain a stack of indices $i_0 &lt; i_1 &lt; \\dots &lt; i_k$ such that $H[i_0] \\le H[i_1] \\le \\dots \\le H[i_k]$. When scanning index $R$:</p>
       <ul>
@@ -1189,7 +1189,7 @@ public:
         </ul>
       </div>
 
-      <h3>Monotonic Stack Variants &amp; Boundary Semantics</h3>
+      <h2>Monotonic Stack Variants &amp; Boundary Semantics</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1225,7 +1225,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing Histogram Rectangle Expansion $[L+1 \\dots R-1]$ Upon Pop</h3>
+      <h2>Visualizing Histogram Rectangle Expansion $[L+1 \\dots R-1]$ Upon Pop</h2>
       <svg viewBox="0 0 760 205" width="100%" height="auto" role="img" aria-label="Monotonic stack histogram rectangle expansion between L and R">
         <style>
           .ms-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1266,7 +1266,7 @@ public:
         <text x="15" y="190" class="ms-txt">Sentinel Trick: Append virtual height 0 at index R = N to flush all remaining bars from the stack in 1 loop!</text>
       </svg>
 
-      <h3>Single-Pass Sentinel-Flushed Histogram Algorithm</h3>
+      <h2>Single-Pass Sentinel-Flushed Histogram Algorithm</h2>
       <div class="mermaid">
       flowchart LR
         A["For R = 0 .. N<br/>cur_h = (R == N ? 0 : H[R])"] --> B{"!st.empty() &amp;&amp;<br/>H[st.back()] >= cur_h"}
@@ -1282,7 +1282,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-monotonic-stack-queue"></div>
 
-      <h3>Production Implementation: Largest Histogram Rectangle &amp; Subarray Minimums Sum</h3>
+      <h2>Production Implementation: Largest Histogram Rectangle &amp; Subarray Minimums Sum</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1371,7 +1371,7 @@ std::int64_t sum_of_subarray_minimums(const std::vector&lt;int&gt;&amp; arr) {
     },
     intuition: "A Monotonic Deque is a Monotonic Stack with an expiration door at the front: when a new element $A[R]$ enters the sliding window $[R - K + 1, R]$, it pops all older, worse elements from the back (because $A[R]$ is both better and lives longer than them), while expired indices $< R - K + 1$ are evicted from the front—keeping the current window's exact extremum pinned at <code>deque.front()</code> in $O(1)$ time.",
     content: `
-      <h3>The Pareto Dominance Invariant: Value vs. Expiration Time</h3>
+      <h2>The Pareto Dominance Invariant: Value vs. Expiration Time</h2>
       <p>Consider computing the maximum of every contiguous window of length $K$ across $A[0 \\dots N-1]$. A balanced BST (<code>std::multiset</code>) or Binary Heap takes $O(N \\log K)$ time because it retains every element in the window. Why is retaining all $K$ elements wasteful? Suppose index $i &lt; R$ is currently inside the window, and the newly arriving element at index $R$ satisfies $A[i] \\le A[R]$.</p>
       <p>Compare $i$ and $R$ across two dimensions: (1) <strong>Value:</strong> $A[R] \\ge A[i]$, and (2) <strong>Lifetime:</strong> $R &gt; i$, so $R$ will remain inside all future sliding windows strictly longer than $i$ will! In optimization theory, $R$ <strong>Pareto-dominates</strong> $i$: $i$ can never be the maximum of the current window or any future window. Therefore, we can permanently discard $i$ from the back of our candidate list before pushing $R$!</p>
 
@@ -1385,7 +1385,7 @@ std::int64_t sum_of_subarray_minimums(const std::vector&lt;int&gt;&amp; arr) {
         <p>Consequently, $d_0 = \\text{deque.front()}$ is guaranteed to be a valid in-window index holding the <strong>maximum value</strong> of $A[R - K + 1 \\dots R]$ in $O(1)$ time! Each index $0 \\dots N-1$ is pushed to the back once and popped from either the back (by dominance) or the front (by window expiration) at most once, proving $O(1)$ amortized work per step ($\\le 2N$ deque operations total).</p>
       </div>
 
-      <h3>Sliding Window Extremum &amp; Constrained DP Techniques Compared</h3>
+      <h2>Sliding Window Extremum &amp; Constrained DP Techniques Compared</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1428,7 +1428,7 @@ std::int64_t sum_of_subarray_minimums(const std::vector&lt;int&gt;&amp; arr) {
         </tbody>
       </table>
 
-      <h3>Visualizing Back-Dominance Pruning &amp; Front-Expiration</h3>
+      <h2>Visualizing Back-Dominance Pruning &amp; Front-Expiration</h2>
       <svg viewBox="0 0 760 190" width="100%" height="auto" role="img" aria-label="Monotonic deque front expiration and back dominance pruning">
         <style>
           .md-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1460,7 +1460,7 @@ std::int64_t sum_of_subarray_minimums(const std::vector&lt;int&gt;&amp; arr) {
         <text x="20" y="162" class="md-txt">Prefix-Sum + Deque Pattern (Shortest Subarray &gt;= K): Pop front while P[R] - P[d.front()] &gt;= K; pop back while P[d.back()] &gt;= P[R]</text>
       </svg>
 
-      <h3>Monotonic Deque Optimization of DP &amp; Negative-Weight Prefix Sums</h3>
+      <h2>Monotonic Deque Optimization of DP &amp; Negative-Weight Prefix Sums</h2>
       <div class="mermaid">
       flowchart LR
         A["Step R: Advance right endpoint"] --> B["1. Expire Front:<br/>while !dq.empty() &amp;&amp; dq.front() < R - K + 1<br/>dq.pop_front()"]
@@ -1475,7 +1475,7 @@ std::int64_t sum_of_subarray_minimums(const std::vector&lt;int&gt;&amp; arr) {
 
       <div class="simulator-mount" data-sim="sim-monotonic-stack-queue"></div>
 
-      <h3>Production Implementation: Sliding Window Maximum &amp; Shortest Subarray with Sum $\ge K$</h3>
+      <h2>Production Implementation: Sliding Window Maximum &amp; Shortest Subarray with Sum $\ge K$</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1576,7 +1576,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
     },
     intuition: "No single primitive data structure supports both $O(1)$ key lookup and $O(1)$ recency/frequency reordering: a hash table has no ordering, and a linked list requires $O(N)$ search. By cross-linking a Hash Map (<code>key -> Node*</code>) directly into an intrusive Circular Doubly Linked List (for LRU) or a Hash Map of Frequency-Bucket Lists tracking <code>min_freq</code> (for LFU), every <code>get</code>, <code>put</code>, promotion, and eviction executes in worst-case $O(1)$ time.",
     content: `
-      <h3>Data Structure Composition: Why Hash Map + Doubly Linked List?</h3>
+      <h2>Data Structure Composition: Why Hash Map + Doubly Linked List?</h2>
       <p>In an <strong>LRU (Least Recently Used)</strong> cache of capacity $C$:
       <ul>
         <li><code>get(key)</code> must look up the key in $O(1)$ time and move its entry to the Most Recently Used (MRU) head of the recency order in $O(1)$ time.</li>
@@ -1594,7 +1594,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
         <p>Because frequency only ever jumps to $1$ (on new insert) or increments by $+1$ (on access), <code>min_freq</code> <strong>never needs to search for the next minimum</strong>!</p>
       </div>
 
-      <h3>Cache Eviction Policies &amp; Production Systems Comparison</h3>
+      <h2>Cache Eviction Policies &amp; Production Systems Comparison</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1637,7 +1637,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
         </tbody>
       </table>
 
-      <h3>Visualizing O(1) LFU Frequency-Bucketed Doubly Linked Lists</h3>
+      <h2>Visualizing O(1) LFU Frequency-Bucketed Doubly Linked Lists</h2>
       <svg viewBox="0 0 760 215" width="100%" height="auto" role="img" aria-label="O(1) LFU cache frequency bucketed doubly linked lists">
         <style>
           .lf-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1671,7 +1671,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
         <text x="20" y="200" class="lf-txt">Invariant: Eviction ALWAYS pops the LRU tail of freq_lists[min_freq] in O(1) time!</text>
       </svg>
 
-      <h3>LFU Promotion &amp; <code>min_freq</code> State Transition Diagram</h3>
+      <h2>LFU Promotion &amp; <code>min_freq</code> State Transition Diagram</h2>
       <div class="mermaid">
       flowchart LR
         A["Access Node u<br/>with f = u.freq"] --> B["Unlink u from<br/>freq_lists[f]"]
@@ -1695,7 +1695,7 @@ int shortest_subarray_sum_at_least_k(const std::vector&lt;int&gt;&amp; nums, std
 
       <div class="simulator-mount" data-sim="sim-lru-lfu-cache"></div>
 
-      <h3>Production Implementation: Contiguous Arena-Backed O(1) LRU Cache</h3>
+      <h2>Production Implementation: Contiguous Arena-Backed O(1) LRU Cache</h2>
       <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;unordered_map&gt;
 #include &lt;vector&gt;
@@ -1818,7 +1818,7 @@ public:
     },
     intuition: "How does a Redis Sorted Set (<code>ZSET</code>) support <code>ZSCORE member</code> (point lookup by string key) in $O(1)$ time, <code>ZRANGEBYSCORE min max</code> (1D range query by floating-point score) in $O(\\log N + M)$ time, AND <code>ZRANK member</code> / <code>ZRANGE start stop</code> (positional rank queries) in $O(\\log N + M)$ time? By adaptively switching from a flat cache-local <code>listpack</code> for small sets ($\\le 128$ items) to a dual-indexed <code>dict</code> + rank-augmented <code>zskiplist</code> for large sets.",
     content: `
-      <h3>Dual-Indexing Architecture: Why Redis Combines a Hash Table + Augmented Skip List</h3>
+      <h2>Dual-Indexing Architecture: Why Redis Combines a Hash Table + Augmented Skip List</h2>
       <p>Consider the API contract of a Redis Sorted Set (<code>ZSET</code>, implemented in <code>src/t_zset.c</code> by Salvatore Sanfilippo): every element is a unique string <code>ele</code> paired with a 64-bit IEEE-754 floating-point <code>double score</code>, ordered primarily by <code>score</code> ascending and secondarily by lexicographical <code>ele</code> ascending. Look at the conflicting access patterns required:</p>
       <ul>
         <li><code>ZSCORE key member</code> asks: <em>"What is the score of member $X$?"</em> A pure Skip List or B-Tree ordered by <code>(score, ele)</code> cannot search by <code>ele</code> alone without scanning all $N$ nodes in $O(N)$ time!</li>
@@ -1842,7 +1842,7 @@ public:
         </ol>
       </div>
 
-      <h3>Adaptive Representation: Small <code>OBJ_ENCODING_LISTPACK</code> vs. Large <code>OBJ_ENCODING_SKIPLIST</code></h3>
+      <h2>Adaptive Representation: Small <code>OBJ_ENCODING_LISTPACK</code> vs. Large <code>OBJ_ENCODING_SKIPLIST</code></h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1871,7 +1871,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing Redis <code>zskiplistNode</code> Layout &amp; <code>span</code> Rank Accumulation</h3>
+      <h2>Visualizing Redis <code>zskiplistNode</code> Layout &amp; <code>span</code> Rank Accumulation</h2>
       <svg viewBox="0 0 760 215" width="100%" height="auto" role="img" aria-label="Redis zset dual dict and zskiplist with span counters">
         <style>
           .rz-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1907,7 +1907,7 @@ public:
         <text x="35" y="186" class="rz-txt">  an O(N^2) "Cascade Update" as every subsequent 250-253B entry expanded from 1B to 5B prevlen!</text>
       </svg>
 
-      <h3>Redis ZSET Command Dispatch &amp; Encoding Promotion Flow</h3>
+      <h2>Redis ZSET Command Dispatch &amp; Encoding Promotion Flow</h2>
       <div class="mermaid">
       flowchart LR
         A["ZADD key score member"] --> B{"Current Encoding?"}
@@ -1924,7 +1924,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-skiplist-lanes"></div>
 
-      <h3>Production Implementation: Order-Statistic Skip List Node with <code>rank</code> &amp; <code>get_by_rank</code></h3>
+      <h2>Production Implementation: Order-Statistic Skip List Node with <code>rank</code> &amp; <code>get_by_rank</code></h2>
       <pre><code class="language-cpp">#include &lt;array&gt;
 #include &lt;cstddef&gt;
 #include &lt;cstdint&gt;
@@ -2033,7 +2033,7 @@ public:
     },
     intuition: "Building a production-grade $O(1)$ LFU Cache requires orchestrating three invariants simultaneously without a single memory leak or dangling iterator: (1) a key lookup table <code>key -> Node</code>, (2) per-frequency circular doubly linked lists <code>freq -> List</code> that preserve LRU tie-breaking within each frequency tier, and (3) a deterministic <code>min_freq</code> cursor that tracks the lowest populated frequency bucket in $O(1)$ time.",
     content: `
-      <h3>End-to-End State Machine of the $O(1)$ LFU Engine</h3>
+      <h2>End-to-End State Machine of the $O(1)$ LFU Engine</h2>
       <p>Let us trace every edge case required to implement a zero-allocation, bug-free $O(1)$ LFU Cache of capacity $C$. Every cached item is represented by a <code>Node</code> containing <code>{key, value, freq, prev, next}</code>. We maintain:</p>
       <ul>
         <li><code>key_table</code>: Maps <code>key -&gt; Node*</code> (or arena slot index).</li>
@@ -2051,7 +2051,7 @@ public:
         </ol>
       </div>
 
-      <h3>Operation Complexity &amp; Edge-Case Matrix</h3>
+      <h2>Operation Complexity &amp; Edge-Case Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -2094,7 +2094,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing Eviction + Insertion Order on Cache-Full Miss</h3>
+      <h2>Visualizing Eviction + Insertion Order on Cache-Full Miss</h2>
       <svg viewBox="0 0 760 195" width="100%" height="auto" role="img" aria-label="LFU cache full miss eviction before min_freq reset">
         <style>
           .bl-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -2120,7 +2120,7 @@ public:
         <text x="35" y="162" class="bl-txt">           (immediately evicting X itself!) instead of evicting the true victim from freq_lists[3]!</text>
       </svg>
 
-      <h3>Complete Control Flow of <code>LFUCache::put(key, value)</code></h3>
+      <h2>Complete Control Flow of <code>LFUCache::put(key, value)</code></h2>
       <div class="mermaid">
       flowchart TD
         A["put(key, val)"] --> B{"capacity == 0?"}
@@ -2144,7 +2144,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-lru-lfu-cache"></div>
 
-      <h3>Production Implementation: Zero-Allocation Intrusive O(1) LFU Cache Engine</h3>
+      <h2>Production Implementation: Zero-Allocation Intrusive O(1) LFU Cache Engine</h2>
       <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;unordered_map&gt;
 #include &lt;vector&gt;

@@ -14,7 +14,7 @@ window.MODULE_CONTENT["m02"] = {
     },
     intuition: "A dynamic array provides $O(1)$ amortized random access and $O(1)$ amortized append by allocating a contiguous block of heap memory and growing its capacity geometrically by a constant factor $k > 1$. However, choosing $k = 2$ (GCC libstdc++ <code>std::vector</code>) versus $k = 1.5$ (MSVC <code>std::vector</code>, Meta <code>folly::fbvector</code>) determines whether the allocator can ever reuse the sum of previously freed memory chunks.",
     content: `
-      <h3>Contiguous Representation and Geometric Growth</h3>
+      <h2>Contiguous Representation and Geometric Growth</h2>
       <p>At the machine level, a dynamic array (such as C++ <code>std::vector&lt;T&gt;</code>, Rust <code>Vec&lt;T&gt;</code>, or Java <code>ArrayList&lt;E&gt;</code>) is a 24-byte header struct stored on the stack or inline within an object: a base pointer <code>T* data</code>, a current element count <code>size_t size</code>, and an allocated slot count <code>size_t capacity</code>. Whenever <code>size &lt; capacity</code>, appending an element writes directly to <code>data[size++]</code> in a single store instruction with zero allocator interaction.</p>
       <p>When <code>size == capacity</code>, the container must allocate a new contiguous region of capacity $\\lceil k \\cdot C \\rceil$, move or copy the existing $C$ elements into the new region, destroy the old elements (if non-trivially destructible), and free the old block. If the array grew arithmetically by a constant $c$ (e.g., adding 100 slots each time), appending $N$ elements would copy $c + 2c + 3c + \\dots + N = \\Theta(N^2)$ elements, yielding $\\Theta(N)$ amortized cost per append. Geometric growth by $k > 1$ ensures that reallocation distances grow exponentially, bounding total copies to a geometric series:</p>
       <p>$$\\sum_{i=0}^{\\lfloor \\log_k N \\rfloor} k^i = \\frac{k^{\\lfloor \\log_k N \\rfloor + 1} - 1}{k - 1} \\le \\frac{k N - 1}{k - 1} = \\Theta(N)$$</p>
@@ -28,7 +28,7 @@ window.MODULE_CONTENT["m02"] = {
         <p>For $k = 2$, $2^m &gt; 2^m - 1$ for every $m \\ge 1$! A $2\\times$ growth factor guarantees that the newly requested block is <strong>always strictly larger</strong> (by 1 initial unit) than the sum of every block the vector has ever freed in its lifetime. In the asymptotic limit as $m \\to \\infty$, the critical polynomial is $k^2 - k - 1 \\le 0$, whose positive root is the Golden Ratio $\\varphi = \\frac{1 + \\sqrt{5}}{2} \\approx 1.618$. Therefore, any growth factor $1 &lt; k &lt; 1.618$ (such as $k = 1.5$) eventually allows a coalescing allocator to satisfy future reallocations purely from the vector's own previously freed address range.</p>
       </div>
 
-      <h3>Comparative Growth Strategies Across Runtimes</h3>
+      <h2>Comparative Growth Strategies Across Runtimes</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -71,7 +71,7 @@ window.MODULE_CONTENT["m02"] = {
         </tbody>
       </table>
 
-      <h3>Visualizing $k=2.0$ Heap Crawl vs. $k=1.5$ Coalesced Reuse</h3>
+      <h2>Visualizing $k=2.0$ Heap Crawl vs. $k=1.5$ Coalesced Reuse</h2>
       <svg viewBox="0 0 760 220" width="100%" height="auto" role="img" aria-label="Comparison of 2x vs 1.5x heap memory reuse">
         <style>
           .vec-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -108,7 +108,7 @@ window.MODULE_CONTENT["m02"] = {
         <text x="198" y="193" text-anchor="middle" class="vec-txt">Next Resize (122) Reuses Coalesced Freed Region (130)!</text>
       </svg>
 
-      <h3>Reallocation Lifecycle &amp; Exception Safety</h3>
+      <h2>Reallocation Lifecycle &amp; Exception Safety</h2>
       <div class="mermaid">
       flowchart LR
         A["push_back(val)<br/>size == capacity"] --> B["Compute new_cap =<br/>cap + (cap >> 1)"]
@@ -127,7 +127,7 @@ window.MODULE_CONTENT["m02"] = {
 
       <div class="simulator-mount" data-sim="sim-dynamic-array-amortized"></div>
 
-      <h3>Production Implementation: Aligned 1.5× Vector with Strong Exception Guarantee</h3>
+      <h2>Production Implementation: Aligned 1.5× Vector with Strong Exception Guarantee</h2>
       <pre><code class="language-cpp">#include &lt;cstdlib&gt;
 #include &lt;cstring&gt;
 #include &lt;memory&gt;
@@ -241,7 +241,7 @@ public:
     },
     intuition: "Prefix sums and difference arrays are discrete analogs of integration and differentiation. Just as the Fundamental Theorem of Calculus evaluates a definite integral $\\int_a^b f(x)\\,dx = F(b) - F(a)$ in two evaluations at the boundaries, a prefix sum array answers arbitrary contiguous range-sum queries in $O(1)$ time, while its dual—the difference array—transforms $O(N)$ range-addition updates into two $O(1)$ boundary point mutations.",
     content: `
-      <h3>The Discrete Fundamental Theorem of Calculus</h3>
+      <h2>The Discrete Fundamental Theorem of Calculus</h2>
       <p>Given an array $A[0 \\dots N-1]$ over an abelian group (such as $(\\mathbb{Z}, +)$ or bitvectors under $\\oplus$), define the 1-indexed prefix sum array $P[0 \\dots N]$ with sentinel $P[0] = 0$ and recurrence $P[i] = P[i-1] + A[i-1]$ for $1 \\le i \\le N$. Any contiguous range sum over the inclusive 0-indexed interval $[L, R]$ reduces to a single subtraction:</p>
       <p>$$\\sum_{k=L}^{R} A[k] = P[R + 1] - P[L]$$</p>
       <p>Notice why the $N+1$ length with sentinel $P[0] = 0$ is mandatory in clean systems code: it eliminates the branch <code>if (L == 0)</code> on every query. Conversely, define the <strong>Difference Array</strong> (discrete derivative) $D[0 \\dots N]$ where $D[0] = A[0]$ and $D[i] = A[i] - A[i-1]$ for $1 \\le i &lt; N$. The prefix sum of $D$ reconstructs $A$:</p>
@@ -257,7 +257,7 @@ public:
         <p>Dually, adding $\\Delta$ to every cell in $[r_1, r_2] \\times [c_1, c_2]$ of a 2D difference array $D$ updates 4 corners in $O(1)$: $D[r_1][c_1] \\mathrel{+}= \\Delta$, $D[r_1][c_2+1] \\mathrel{-}= \\Delta$, $D[r_2+1][c_1] \\mathrel{-}= \\Delta$, and $D[r_2+1][c_2+1] \\mathrel{+}= \\Delta$.</p>
       </div>
 
-      <h3>Trade-off Matrix: Static vs. Batched vs. Dynamic Range Operations</h3>
+      <h2>Trade-off Matrix: Static vs. Batched vs. Dynamic Range Operations</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -305,7 +305,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing 2D Inclusion-Exclusion &amp; Difference Array Boundaries</h3>
+      <h2>Visualizing 2D Inclusion-Exclusion &amp; Difference Array Boundaries</h2>
       <svg viewBox="0 0 760 225" width="100%" height="auto" role="img" aria-label="2D Prefix Sum Inclusion-Exclusion and 1D Difference Array">
         <style>
           .pf-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -360,7 +360,7 @@ public:
         <text x="330" y="185" class="pf-txt">D[r1][c1] += d,  D[r1][c2+1] -= d,  D[r2+1][c1] -= d,  D[r2+1][c2+1] += d</text>
       </svg>
 
-      <h3>Prefix Sum + Hash Map Pattern for Subarray Sum Equals $K$</h3>
+      <h2>Prefix Sum + Hash Map Pattern for Subarray Sum Equals $K$</h2>
       <div class="mermaid">
       flowchart LR
         A["Iterate j = 0 .. N-1<br/>running_sum += A[j]"] --> B["Need P[j+1] - P[i] == K<br/>iff P[i] == running_sum - K"]
@@ -377,7 +377,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-prefix-diff-kadane"></div>
 
-      <h3>Production Implementation: Contiguous 2D Prefix Sum &amp; 2D Difference Stencil</h3>
+      <h2>Production Implementation: Contiguous 2D Prefix Sum &amp; 2D Difference Stencil</h2>
       <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 
@@ -471,7 +471,7 @@ public:
     },
     intuition: "A two-pointer algorithm replaces an $O(N^2)$ nested loop over index pairs $(i, j)$ with an $O(N)$ linear progression by exploiting a monotonicity or partitioning invariant: every time a pointer advances by 1 step, it eliminates an entire row or column of the $(i, j)$ search matrix, or narrows the unclassified gap $[\\text{mid} \\dots \\text{high}]$ by exactly one element.",
     content: `
-      <h3>Eliminating Rows and Columns in the Pair Search Matrix</h3>
+      <h2>Eliminating Rows and Columns in the Pair Search Matrix</h2>
       <p>Why does the converging two-pointer algorithm for sorted 2-Sum ($A[L] + A[R] = T$) never miss a valid pair? Visualize all possible index pairs $(L, R)$ with $0 \\le L &lt; R &lt; N$ as an upper-triangular grid inside an $N \\times N$ matrix, starting at the top-right corner $(L = 0, R = N - 1)$:</p>
       <ul>
         <li>If $A[L] + A[R] &lt; T$, since the array is sorted ($A[k] \\le A[R]$ for all $k &lt; R$), pairing the current $L$ with <em>any</em> smaller right index $k &lt; R$ yields $A[L] + A[k] \\le A[L] + A[R] &lt; T$. Thus the <strong>entire row $L$</strong> is provably invalid, and incrementing $L \\leftarrow L + 1$ safely discards $R - L$ pairs in $O(1)$ time.</li>
@@ -491,7 +491,7 @@ public:
         <p><strong>Potential Function (Termination Proof):</strong> Define $\\Phi = \\text{high} - \\text{mid} + 1$, the size of the unclassified region. Initially $\\text{low} = 0, \\text{mid} = 0, \\text{high} = N - 1$, so $\\Phi = N$ and regions 1, 2, and 4 are vacuously empty. Each step inspects $A[\\text{mid}]$ and either increments $\\text{mid}$ or decrements $\\text{high}$, strictly decreasing $\\Phi$ by 1 until $\\Phi = 0$ ($\\text{mid} &gt; \\text{high}$), terminating in exactly $N$ comparisons.</p>
       </div>
 
-      <h3>Taxonomy of Multi-Pointer Paradigms</h3>
+      <h2>Taxonomy of Multi-Pointer Paradigms</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -527,7 +527,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing Dijkstra's 4-Region Dutch National Flag State</h3>
+      <h2>Visualizing Dijkstra's 4-Region Dutch National Flag State</h2>
       <svg viewBox="0 0 760 175" width="100%" height="auto" role="img" aria-label="Dutch National Flag 4-region loop invariant diagram">
         <style>
           .dnf-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -564,7 +564,7 @@ public:
         <text x="15" y="152" class="dnf-txt">Why mid++ on swap(low, mid) but NOT on swap(mid, high)? Because A[low] is known (== pivot), whereas A[high] was unclassified!</text>
       </svg>
 
-      <h3>Dutch National Flag State Transitions</h3>
+      <h2>Dutch National Flag State Transitions</h2>
       <div class="mermaid">
       flowchart TD
         A["Inspect A[mid]<br/>while mid <= high"] --> B{"Compare A[mid]<br/>with pivot p"}
@@ -580,7 +580,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-two-pointers-window"></div>
 
-      <h3>Production Implementation: Dijkstra's 3-Way Partition &amp; O(1)-Space Trapping Rain Water</h3>
+      <h2>Production Implementation: Dijkstra's 3-Way Partition &amp; O(1)-Space Trapping Rain Water</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
@@ -678,7 +678,7 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
     },
     intuition: "A variable-size sliding window $[L, R]$ achieves $O(N)$ time if and only if the validity predicate $P(L, R)$ is monotonic with respect to window expansion and contraction—guaranteeing that the optimal left boundary $L^*(R)$ is a non-decreasing function of $R$, so $L$ and $R$ never need to move backward.",
     content: `
-      <h3>When Is a Sliding Window Mathematically Valid?</h3>
+      <h2>When Is a Sliding Window Mathematically Valid?</h2>
       <p>Given an array $A[0 \\dots N-1]$ and a validity predicate $P(L, R) \\in \\{\\text{true}, \\text{false}\\}$ defined on contiguous subarrays $A[L \\dots R]$, a variable sliding window advances $R$ from $0$ to $N-1$ and increments $L$ while maintaining validity. For this algorithm to be correct without ever backtracking $L$, the predicate $P$ must be <strong>hereditary (monotonic under inclusion)</strong>:</p>
       <p>$$[L', R'] \\subseteq [L, R] \\text{ and } P(L, R) = \\text{true} \\implies P(L', R') = \\text{true}$$</p>
       <p>Equivalently, by contraposition: if $[L, R]$ violates the constraint ($P(L, R) = \\text{false}$), then any super-interval $[L, R']$ with $R' &gt; R$ also violates the constraint, and any sub-interval $[L', R]$ with $L' &gt; L$ moves closer to satisfying it. Define $L^*(R)$ as the smallest index $L$ (for longest valid window) or largest index $L$ (for shortest valid window) paired with right endpoint $R$. Monotonicity guarantees:</p>
@@ -692,7 +692,7 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
         <p>$$\\text{countExactly}(K) = \\text{countAtMost}(K) - \\text{countAtMost}(K - 1)$$</p>
       </div>
 
-      <h3>Sliding Window Archetypes &amp; Validity Conditions</h3>
+      <h2>Sliding Window Archetypes &amp; Validity Conditions</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -735,7 +735,7 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
         </tbody>
       </table>
 
-      <h3>Visualizing Monotonic Frontier $L^*(R)$ &amp; The $\\text{atMost}(K)$ Counting Wedge</h3>
+      <h2>Visualizing Monotonic Frontier $L^*(R)$ &amp; The $\\text{atMost}(K)$ Counting Wedge</h2>
       <svg viewBox="0 0 760 190" width="100%" height="auto" role="img" aria-label="Sliding window monotonic frontier and atMost(K) subarray counting">
         <style>
           .sw-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -768,7 +768,7 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
         <text x="582" y="138" class="sw-txt">&lt;-- R - L + 1 = 5 valid subarrays ending at R=6</text>
       </svg>
 
-      <h3>Amortized Execution Flow of Variable Sliding Window</h3>
+      <h2>Amortized Execution Flow of Variable Sliding Window</h2>
       <div class="mermaid">
       flowchart LR
         A["Advance R: 0 .. N-1<br/>Insert A[R] into window state"] --> B{"Is window [L..R]<br/>valid?"}
@@ -784,7 +784,7 @@ std::int64_t trap_rain_water(const std::vector&lt;int&gt;&amp; height) noexcept 
 
       <div class="simulator-mount" data-sim="sim-two-pointers-window"></div>
 
-      <h3>Production Implementation: Count Subarrays with Exactly K Distinct Integers</h3>
+      <h2>Production Implementation: Count Subarrays with Exactly K Distinct Integers</h2>
       <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 
@@ -861,7 +861,7 @@ std::int64_t subarrays_exactly_k_distinct(const std::vector&lt;int&gt;&amp; nums
     },
     intuition: "Jay Kadane solved the Maximum Subarray Problem in $O(N)$ time by asking a sharper question: instead of tracking the best subarray anywhere in $A[0 \\dots i]$, track $E[i]$—the maximum subarray <em>constrained to end at index $i$</em>. Because any contiguous subarray ending at $i$ either extends the optimal subarray ending at $i-1$ or starts fresh at $i$, $E[i]$ satisfies the local recurrence $E[i] = \\max(A[i], E[i-1] + A[i])$, which collapses to two scalar registers.",
     content: `
-      <h3>From 2D Image Estimation to $O(N)$ 1D Dynamic Programming</h3>
+      <h2>From 2D Image Estimation to $O(N)$ 1D Dynamic Programming</h2>
       <p>Originally posed by Ulf Grenander in 1977 for maximum-likelihood pattern detection in 2D digitized images, the Maximum Contiguous Subarray problem originally took $O(N^3)$ brute force, $O(N^2)$ via prefix sums, and $O(N \\log N)$ via divide-and-conquer before Jay Kadane (CMU) discovered the $O(N)$ invariant in 1984. Notice the structural connection to prefix sums:</p>
       <p>$$\\max_{0 \\le L \\le R &lt; N} \\sum_{k=L}^{R} A[k] = \\max_{0 \\le R &lt; N} \\left( P[R+1] - \\min_{0 \\le L \\le R} P[L] \\right)$$</p>
       <p>Maintaining the running minimum prefix sum $\\min_{0 \\le L \\le R} P[L]$ as $R$ scans left-to-right is mathematically identical to Kadane's DP recurrence: let $E[i]$ be the maximum sum of a non-empty contiguous subarray ending at index $i$. Whenever $E[i-1] &lt; 0$, prepending the best suffix of $A[0 \\dots i-1]$ to $A[i]$ strictly reduces $A[i]$'s value, so we discard the negative prefix and start a fresh subarray at $i$:</p>
@@ -878,7 +878,7 @@ std::int64_t subarrays_exactly_k_distinct(const std::vector&lt;int&gt;&amp; nums
         <p><strong>Critical Edge Case:</strong> If <em>all</em> elements in $A$ are negative ($A[i] &lt; 0$), then $\\text{Kadane}_{\\min}(A) = \\text{TotalSum}$, so $\\text{TotalSum} - \\text{Kadane}_{\\min}(A) = 0$, corresponding to an <em>empty</em> wrapping subarray. Therefore, if $\\text{Kadane}_{\\max}(A) &lt; 0$ (or equivalently $\\text{TotalSum} == \\text{Kadane}_{\\min}$), return $\\text{Kadane}_{\\max}(A)$ directly!</p>
       </div>
 
-      <h3>Comparative Algorithmic Approaches to Maximum Subarray</h3>
+      <h2>Comparative Algorithmic Approaches to Maximum Subarray</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -921,7 +921,7 @@ std::int64_t subarrays_exactly_k_distinct(const std::vector&lt;int&gt;&amp; nums
         </tbody>
       </table>
 
-      <h3>Visualizing Circular Subarray Complement Duality</h3>
+      <h2>Visualizing Circular Subarray Complement Duality</h2>
       <svg viewBox="0 0 760 185" width="100%" height="auto" role="img" aria-label="Circular subarray wrap-around complement duality">
         <style>
           .kd-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -948,7 +948,7 @@ std::int64_t subarrays_exactly_k_distinct(const std::vector&lt;int&gt;&amp; nums
         <text x="15" y="174" class="kd-txt">Guard: If all A[i] &lt; 0, TotalSum == Kadane_min (empty wrap); return Kadane_max directly!</text>
       </svg>
 
-      <h3>Associative Monoid Promotion for Parallel / Segment-Tree Kadane</h3>
+      <h2>Associative Monoid Promotion for Parallel / Segment-Tree Kadane</h2>
       <div class="mermaid">
       flowchart LR
         L["Left Half Tuple<br/>(sum_L, pref_L, suff_L, best_L)"] --> M["Combine Operator (O(1))<br/>sum = sum_L + sum_R<br/>pref = max(pref_L, sum_L + pref_R)<br/>suff = max(suff_R, suff_L + sum_R)<br/>best = max({best_L, best_R, suff_L + pref_R})"]
@@ -962,7 +962,7 @@ std::int64_t subarrays_exactly_k_distinct(const std::vector&lt;int&gt;&amp; nums
 
       <div class="simulator-mount" data-sim="sim-prefix-diff-kadane"></div>
 
-      <h3>Production Implementation: Circular Kadane &amp; Index-Tracking Non-Wrapping Kadane</h3>
+      <h2>Production Implementation: Circular Kadane &amp; Index-Tracking Non-Wrapping Kadane</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1060,7 +1060,7 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
     },
     intuition: "Every $w$-bit signed integer in modern hardware is represented in two's complement, where the most significant bit $b_{w-1}$ carries negative weight $-2^{w-1}$ and negation is defined by the ring identity $-x \\equiv \\sim x + 1 \\pmod{2^w}$. Because $+1$ ripples a carry across all trailing $0$s and flips the lowest set bit $1 \\to 0$, combining $x$ with $-x$ or $x - 1$ isolates or clears the lowest set bit in a single clock cycle.",
     content: `
-      <h3>Two's Complement Ring Algebra &amp; Lowest-Bit Identities</h3>
+      <h2>Two's Complement Ring Algebra &amp; Lowest-Bit Identities</h2>
       <p>In a $w$-bit two's-complement register, a bit vector $b_{w-1} b_{w-2} \\dots b_1 b_0$ represents the signed integer value:</p>
       <p>$$x = -b_{w-1} 2^{w-1} + \\sum_{i=0}^{w-2} b_i 2^i$$</p>
       <p>Why did two's complement universally triumph over sign-magnitude and ones' complement? Because addition, subtraction, and multiplication use the <strong>exact same ALU circuitry</strong> for both signed and unsigned integers modulo $2^w$, and zero has a unique representation. Suppose a non-zero integer $x$ has its lowest set bit ($1$) at index $k$, so its binary representation splits into an arbitrary prefix $P$, bit $k$ equal to $1$, and $k$ trailing zeros: $x = [P \\;\\vert\\; 1 \\;\\vert\\; 00\\dots0_k]$. Observe what happens under subtraction of $1$ and under negation ($\\sim x + 1$):</p>
@@ -1076,7 +1076,7 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
         <p>Even more remarkably, if two unique elements $u \\neq v$ appear once while all others appear twice, the total XOR is $S = u \\oplus v \\neq 0$. Extracting the lowest set bit $lowbit = S \\mathrel{\\&amp;} -S$ identifies a bit position where $u$ and $v$ <strong>provably differ</strong>—partitioning the stream into two disjoint subsets (those with $lowbit$ set vs. clear) that isolate $u$ and $v$ in $O(N)$ time and $O(1)$ space!</p>
       </div>
 
-      <h3>Essential Bit Manipulation Primitives &amp; x86 BMI1/BMI2 Instructions</h3>
+      <h2>Essential Bit Manipulation Primitives &amp; x86 BMI1/BMI2 Instructions</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1126,7 +1126,7 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
         </tbody>
       </table>
 
-      <h3>Visualizing Two's-Complement Bit Isolation &amp; $O(3^n)$ Submask Jumping</h3>
+      <h2>Visualizing Two's-Complement Bit Isolation &amp; $O(3^n)$ Submask Jumping</h2>
       <svg viewBox="0 0 760 205" width="100%" height="auto" role="img" aria-label="Twos complement bit isolation x and -x and x and x-1">
         <style>
           .bm-txt { font-family: 'JetBrains Mono', monospace; font-size: 12px; fill: currentColor; }
@@ -1166,7 +1166,7 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
         <text x="15" y="192" class="bm-txt">Submask jump s = (s - 1) &amp; M clears all bits outside M in 1 step, enumerating all pairs (M, s) in Sum C(n,k)2^k = 3^n!</text>
       </svg>
 
-      <h3>Why Enumerating All Submasks of All Masks Takes $O(3^n)$ Instead of $O(4^n)$</h3>
+      <h2>Why Enumerating All Submasks of All Masks Takes $O(3^n)$ Instead of $O(4^n)$</h2>
       <div class="mermaid">
       flowchart LR
         A["Outer Loop:<br/>For mask M = 0 .. 2^n - 1"] --> B["Inner Loop:<br/>For s = M; s > 0; s = (s - 1) & M"]
@@ -1185,7 +1185,7 @@ std::int64_t max_subarray_circular(const std::vector&lt;int&gt;&amp; nums) noexc
 
       <div class="simulator-mount" data-sim="sim-bit-manipulation-swar"></div>
 
-      <h3>Production Implementation: Single Number III, Gosper's Hack &amp; $O(3^n)$ Submask DP</h3>
+      <h2>Production Implementation: Single Number III, Gosper's Hack &amp; $O(3^n)$ Submask DP</h2>
       <pre><code class="language-cpp">#include &lt;bit&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
@@ -1275,7 +1275,7 @@ void enumerate_all_submasks(int n) noexcept {
     },
     intuition: "A 64-bit CPU register is not merely a single scalar integer—it is a 64-lane SIMD vector of booleans. Packing boolean states into contiguous <code>uint64_t</code> words compresses memory by $64\\times$ (fitting 524,288 flags inside a single 64 KB L2 cache) and executes set union (<code>|</code>), intersection (<code>&</code>), symmetric difference (<code>^</code>), shift, and cardinality (<code>POPCNT</code>) across 64 elements per clock cycle.",
     content: `
-      <h3>SWAR (SIMD Within A Register) &amp; Tree-Reduction Popcount</h3>
+      <h2>SWAR (SIMD Within A Register) &amp; Tree-Reduction Popcount</h2>
       <p>How do you count the number of set bits (Hamming weight / population count) inside a 64-bit word $x$ in $O(\\log_2 64) = 6$ steps without hardware <code>POPCNT</code>? Treat the 64-bit integer as 64 parallel 1-bit accumulators and apply a divide-and-conquer parallel tree reduction:</p>
       <ol>
         <li><strong>Pairwise 2-bit sums:</strong> Subtract the even bits shifted right by 1 from each 2-bit pair: <code>x = x - ((x &gt;&gt; 1) &amp; 0x5555555555555555ULL)</code> (since $2b_1 + b_0 - b_1 = b_1 + b_0$).</li>
@@ -1294,7 +1294,7 @@ void enumerate_all_submasks(int n) noexcept {
         </p>
       </div>
 
-      <h3>Bitset Representations Across Systems &amp; Analytics Engines</h3>
+      <h2>Bitset Representations Across Systems &amp; Analytics Engines</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1330,7 +1330,7 @@ void enumerate_all_submasks(int n) noexcept {
         </tbody>
       </table>
 
-      <h3>Visualizing SWAR Parallel Popcount &amp; Multi-Word Bitshift Carry</h3>
+      <h2>Visualizing SWAR Parallel Popcount &amp; Multi-Word Bitshift Carry</h2>
       <svg viewBox="0 0 760 200" width="100%" height="auto" role="img" aria-label="SWAR tree reduction popcount and multi-word bitset shift">
         <style>
           .swr-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1364,7 +1364,7 @@ void enumerate_all_submasks(int n) noexcept {
         <text x="15" y="186" class="swr-txt">Fast Set-Bit Iteration: while (w) { idx = base + countr_zero(w); w &amp;= w - 1; } skips all 0-runs in hardware!</text>
       </svg>
 
-      <h3>Fast Set-Bit Iteration via <code>TZCNT</code> + <code>BLSR</code></h3>
+      <h2>Fast Set-Bit Iteration via <code>TZCNT</code> + <code>BLSR</code></h2>
       <div class="mermaid">
       flowchart LR
         A["Load 64-bit word<br/>w = words[block]"] --> B{"w != 0?"}
@@ -1381,7 +1381,7 @@ void enumerate_all_submasks(int n) noexcept {
 
       <div class="simulator-mount" data-sim="sim-bit-manipulation-swar"></div>
 
-      <h3>Production Implementation: Dynamic 64-Bit Word-Parallel Bitset Engine</h3>
+      <h2>Production Implementation: Dynamic 64-Bit Word-Parallel Bitset Engine</h2>
       <pre><code class="language-cpp">#include &lt;bit&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -1503,7 +1503,7 @@ public:
     },
     intuition: "Every in-place spatial rearrangement—rotating an array by $k$, rotating an $N \\times N$ image by $90^\\circ$, or transposing a rectangular $R \\times C$ matrix—is a permutation of indices. By decomposing that permutation either into a product of two-or-three involutions (reversals/reflections) or into $\\gcd(N, k)$ disjoint algebraic orbits, we achieve $O(N)$ time with strictly $O(1)$ auxiliary memory.",
     content: `
-      <h3>Three-Reversal Involution vs. $\\gcd(N, k)$ Juggling Cycles</h3>
+      <h2>Three-Reversal Involution vs. $\\gcd(N, k)$ Juggling Cycles</h2>
       <p>Consider rotating an array $A = [X \\;\\vert\\; Y]$ so that a prefix $X$ of length $n - k$ and a suffix $Y$ of length $k$ swap positions to become $Y X$ (a right rotation by $k \\equiv k \\bmod n$).In abstract algebra, reversing an array is an <strong>involution</strong> ($R(R(A)) = A$) that reverses the order of concatenated blocks: $(X Y)^R = Y^R X^R$. Therefore, reversing $X$ and $Y$ individually and then reversing the whole array (or reversing the whole array first, then reversing the first $k$ and last $n-k$ elements) yields:</p>
       <p>$$\\left( X^R Y^R \\right)^R = (Y^R)^R (X^R)^R = Y X$$</p>
       <p>Alternatively, consider <strong>Bentley's Juggling Algorithm</strong>: moving each element directly from index $i$ to $(i + k) \\bmod n$ traces out cyclic orbits under the subgroup generated by $+k$ in $\\mathbb{Z}_n$. By elementary group theory (Lagrange's theorem), the subgroup $\\langle k \\rangle \\subseteq \\mathbb{Z}_n$ has size $L = \\frac{n}{\\gcd(n, k)}$ and partitions the $n$ indices into exactly $g = \\gcd(n, k)$ disjoint cycles, each of length $n / g$! Starting at each $s \\in [0, g - 1]$ and chasing the cycle moves every element exactly once ($N$ writes vs. $3N$ reads/writes in 3-Reversal).</p>
@@ -1517,7 +1517,7 @@ public:
         <p>Thus in-place rectangular transposition is simply cycle-following on the multiplicative permutation $i \\mapsto (R \\cdot i) \\bmod (RC - 1)$!</p>
       </div>
 
-      <h3>Comparison of In-Place Rotation &amp; Transposition Algorithms</h3>
+      <h2>Comparison of In-Place Rotation &amp; Transposition Algorithms</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1560,7 +1560,7 @@ public:
         </tbody>
       </table>
 
-      <h3>Visualizing 3-Reversal Rotation &amp; $D_4$ Matrix Transpose + Reflect</h3>
+      <h2>Visualizing 3-Reversal Rotation &amp; $D_4$ Matrix Transpose + Reflect</h2>
       <svg viewBox="0 0 760 200" width="100%" height="auto" role="img" aria-label="Three-reversal rotation and D4 matrix rotation via transpose and reflect">
         <style>
           .rot-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1604,7 +1604,7 @@ public:
         <text x="15" y="184" class="rot-txt">Cache Warning: For large k, Juggling strides by k across RAM; 3-Reversal streams at stride 1 (~3x faster in L1d)!</text>
       </svg>
 
-      <h3>Juggling Cycle Decomposition ($\gcd(N, k)$ Orbits)</h3>
+      <h2>Juggling Cycle Decomposition ($\gcd(N, k)$ Orbits)</h2>
       <div class="mermaid">
       flowchart LR
         A["Compute k %= N<br/>g = std::gcd(N, k)"] --> B["For start = 0 .. g - 1<br/>tmp = A[start], cur = start"]
@@ -1622,7 +1622,7 @@ public:
 
       <div class="simulator-mount" data-sim="sim-prefix-diff-kadane"></div>
 
-      <h3>Production Implementation: 3-Reversal, Juggling &amp; Cache-Tiled Square Transpose</h3>
+      <h2>Production Implementation: 3-Reversal, Juggling &amp; Cache-Tiled Square Transpose</h2>
       <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;numeric&gt;
@@ -1727,7 +1727,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
     },
     intuition: "If an element appears strictly more than $\\lfloor N / 2 \\rfloor$ times in a stream, it survives pairwise annihilation against every non-matching element. Generalizing pairwise cancellation to $(k\text{-way})$ tuple cancellation yields the Misra-Gries algorithm: maintaining $k - 1$ counters in $O(k)$ space identifies every 'heavy hitter' occurring strictly more than $N / k$ times.",
     content: `
-      <h3>Pairwise Annihilation &amp; The $k$-Tuple Cancellation Invariant</h3>
+      <h2>Pairwise Annihilation &amp; The $k$-Tuple Cancellation Invariant</h2>
       <p>Suppose a stream of length $N$ contains a strict majority element $m$ with frequency $f(m) &gt; N / 2$. Imagine pairing each occurrence of $m$ with one distinct element $x \\neq m$ and deleting both from the stream. Because all non-$m$ elements combined total $N - f(m) &lt; N / 2$, they cannot annihilate all occurrences of $m$! Robert S. Boyer and J Strother Moore (1981) turned this observation into an $O(N)$ time, $O(1)$ space streaming algorithm with two variables (<code>candidate</code>, <code>count</code>):</p>
       <ul>
         <li>If <code>count == 0</code>, adopt the current element $x$ as <code>candidate = x</code> and set <code>count = 1</code>.</li>
@@ -1745,7 +1745,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
         <p>Therefore, <strong>every element with $f(x) &gt; N / k$ is guaranteed to have $\\hat{f}(x) &gt; 0$</strong> at the end of Pass 1! Furthermore, Misra-Gries summaries are <em>mergeable</em> across distributed shards by adding counter maps and repeatedly subtracting the $k$-th largest count.</p>
       </div>
 
-      <h3>Streaming Frequency Estimation Algorithms Compared</h3>
+      <h2>Streaming Frequency Estimation Algorithms Compared</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1788,7 +1788,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
         </tbody>
       </table>
 
-      <h3>Visualizing $k$-Tuple Cancellation ($k = 3$, Finding Elements $&gt; N / 3$)</h3>
+      <h2>Visualizing $k$-Tuple Cancellation ($k = 3$, Finding Elements $&gt; N / 3$)</h2>
       <svg viewBox="0 0 760 185" width="100%" height="auto" role="img" aria-label="Misra-Gries k=3 triplet cancellation diagram">
         <style>
           .mg-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -1820,7 +1820,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
         <text x="15" y="156" class="mg-txt">Critical Rule: Always check (x == cand1) and (x == cand2) BEFORE checking (count1 == 0) or (count2 == 0)!</text>
       </svg>
 
-      <h3>Two-Pass Verification Pipeline for Heavy Hitters</h3>
+      <h2>Two-Pass Verification Pipeline for Heavy Hitters</h2>
       <div class="mermaid">
       flowchart LR
         A["Pass 1: Stream N items<br/>through k-1 Misra-Gries slots"] --> B["Produces <= k-1<br/>surviving candidates"]
@@ -1836,7 +1836,7 @@ void rotate_matrix_90_cw(std::vector&lt;int&gt;&amp; mat, std::size_t n) noexcep
 
       <div class="simulator-mount" data-sim="sim-boyer-moore-misra-gries"></div>
 
-      <h3>Production Implementation: Boyer-Moore &amp; $k=3$ Misra-Gries with 2-Pass Verification</h3>
+      <h2>Production Implementation: Boyer-Moore &amp; $k=3$ Misra-Gries with 2-Pass Verification</h2>
       <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;optional&gt;
 #include &lt;vector&gt;
@@ -1953,7 +1953,7 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
     },
     intuition: "A flat <code>std::vector</code> supports $O(1)$ amortized <code>push_back</code>, but <code>push_front</code> or <code>pop_front</code> shifts all $N$ elements in $\\Theta(N)$ time. By wrapping a contiguous power-of-two array into a ring indexed via bitwise AND masking <code>(head + i) & (cap - 1)</code>—and linearizing the ring during $2\\times$ geometric expansion—a dynamic circular deque achieves $O(1)$ amortized push/pop at both ends AND $O(1)$ random access in a single L1-friendly allocation.",
     content: `
-      <h3>Ring Buffer Indexing: Power-of-Two Masking &amp; Full vs. Empty Disambiguation</h3>
+      <h2>Ring Buffer Indexing: Power-of-Two Masking &amp; Full vs. Empty Disambiguation</h2>
       <p>Why do production ring buffers (Rust's <code>std::collections::VecDeque&lt;T&gt;</code>, Java's <code>ArrayDeque&lt;E&gt;</code>, Linux kernel <code>kfifo</code>, and LMAX Disruptor) enforce that capacity $C$ is always a <strong>power of two</strong> ($C = 2^p$)? Because wrapping an index modulo $C$ normally requires an integer division instruction (<code>div</code> on x86-64 takes 14–26 clock cycles and cannot be pipelined), whereas when $C = 2^p$, modulo reduces to a 1-cycle bitwise AND with $M = C - 1$:</p>
       <p>$$\\text{physical\\_index}(i) = (\\text{head} + i) \\bmod 2^p = (\\text{head} + i) \\mathrel{\\&amp;} (C - 1)$$</p>
       <p>How do we distinguish a <strong>completely full</strong> ring buffer from a <strong>completely empty</strong> ring buffer when both states have $\\text{head} \\equiv \\text{tail} \\pmod C$? There are two canonical engineering designs:</p>
@@ -1972,7 +1972,7 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
         <p>After copying both spans, reset <code>head_ = 0</code> in the new buffer so the resized deque starts completely linearized!</p>
       </div>
 
-      <h3>Architectural Comparison of Deque Implementations</h3>
+      <h2>Architectural Comparison of Deque Implementations</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -2008,7 +2008,7 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
         </tbody>
       </table>
 
-      <h3>Visualizing Wrapped Physical Spans &amp; Unwrapping Upon $2\\times$ Growth</h3>
+      <h2>Visualizing Wrapped Physical Spans &amp; Unwrapping Upon $2\\times$ Growth</h2>
       <svg viewBox="0 0 760 195" width="100%" height="auto" role="img" aria-label="Circular buffer wrapped spans and linearization on resize">
         <style>
           .cb-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: currentColor; }
@@ -2039,7 +2039,7 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
         <text x="15" y="182" class="cb-txt">Bitmask Wrap: push_front decrements head = (head - 1) &amp; (cap - 1); push_back writes at (head + size) &amp; (cap - 1)</text>
       </svg>
 
-      <h3>Circular Deque Operations &amp; Two-Span Reallocation Flow</h3>
+      <h2>Circular Deque Operations &amp; Two-Span Reallocation Flow</h2>
       <div class="mermaid">
       flowchart LR
         A["push_front / push_back"] --> B{"size_ == cap_?"}
@@ -2055,7 +2055,7 @@ std::vector&lt;int&gt; majority_element_n_over_3(const std::vector&lt;int&gt;&am
 
       <div class="simulator-mount" data-sim="sim-dynamic-array-amortized"></div>
 
-      <h3>Production Implementation: Power-of-Two Dynamic Circular Deque</h3>
+      <h2>Production Implementation: Power-of-Two Dynamic Circular Deque</h2>
       <pre><code class="language-cpp">#include &lt;cassert&gt;
 #include &lt;cstddef&gt;
 #include &lt;memory&gt;

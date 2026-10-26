@@ -1962,6 +1962,74 @@ function sumPackedOrTyped(n) {
 // Note: In V8, -0 cannot be represented as an SMI (because 0 is already an SMI),
 // so arr.push(-0) silently transitions PACKED_SMI_ELEMENTS -&gt; PACKED_DOUBLE_ELEMENTS!</code></pre>
 
+      <p>Below is the C++20 runtime state-machine implementation modeling V8's irreversible <code>ElementsKind</code> transition lattice, signaling-NaN hole representation (<code>kHoleNanInt64 = 0x7ff7fffffffaefde</code>), and sparse dictionary mode degradation:</p>
+
+      <pre><code class="language-cpp">#include &lt;cstdint&gt;
+#include &lt;cmath&gt;
+#include &lt;algorithm&gt;
+
+enum class ElementsKind : uint8_t {
+  PACKED_SMI = 0,
+  HOLEY_SMI = 1,
+  PACKED_DOUBLE = 2,
+  HOLEY_DOUBLE = 3,
+  PACKED_ELEMENTS = 4,
+  HOLEY_ELEMENTS = 5,
+  DICTIONARY_ELEMENTS = 6
+};
+
+struct V8ArrayDescriptor {
+  ElementsKind kind = ElementsKind::PACKED_SMI;
+  uint32_t length = 0;
+  uint32_t capacity = 4;
+
+  static constexpr uint64_t kHoleNanInt64 = 0x7ff7fffffffaefdeULL;
+  static constexpr uint32_t kMaxFastArrayIndex = 32'768;
+
+  static constexpr bool isHoley(ElementsKind k) noexcept {
+    return k == ElementsKind::HOLEY_SMI ||
+           k == ElementsKind::HOLEY_DOUBLE ||
+           k == ElementsKind::HOLEY_ELEMENTS ||
+           k == ElementsKind::DICTIONARY_ELEMENTS;
+  }
+
+  static constexpr ElementsKind makeHoley(ElementsKind k) noexcept {
+    switch (k) {
+      case ElementsKind::PACKED_SMI:      return ElementsKind::HOLEY_SMI;
+      case ElementsKind::PACKED_DOUBLE:   return ElementsKind::HOLEY_DOUBLE;
+      case ElementsKind::PACKED_ELEMENTS: return ElementsKind::HOLEY_ELEMENTS;
+      default:                            return k;
+    }
+  }
+
+  // Irreversible monotonic lattice transition on write at index idx
+  void onWrite(uint32_t idx, bool isSmi, bool isDouble) noexcept {
+    if (kind == ElementsKind::DICTIONARY_ELEMENTS) return;
+
+    // 1. Out-of-order sparse write beyond capacity threshold -> DICTIONARY_ELEMENTS
+    if (idx &gt; length &amp;&amp; idx - length &gt; 1024 &amp;&amp; idx &gt; kMaxFastArrayIndex) {
+      kind = ElementsKind::DICTIONARY_ELEMENTS;
+      length = idx + 1;
+      return;
+    }
+
+    // 2. Writing past current length creates holes in [length, idx - 1]
+    if (idx &gt; length) {
+      kind = makeHoley(kind);
+    }
+
+    // 3. Monotonic payload widening: SMI -&gt; DOUBLE -&gt; ELEMENTS
+    if (!isSmi &amp;&amp; isDouble) {
+      if (kind == ElementsKind::PACKED_SMI) kind = ElementsKind::PACKED_DOUBLE;
+      else if (kind == ElementsKind::HOLEY_SMI) kind = ElementsKind::HOLEY_DOUBLE;
+    } else if (!isSmi &amp;&amp; !isDouble) {
+      kind = isHoley(kind) ? ElementsKind::HOLEY_ELEMENTS : ElementsKind::PACKED_ELEMENTS;
+    }
+
+    if (idx &gt;= length) length = idx + 1;
+  }
+};</code></pre>
+
       <div class="callout callout-warning">
         <h4>Failure Modes &amp; Adversarial Pitfalls</h4>
         <ul>

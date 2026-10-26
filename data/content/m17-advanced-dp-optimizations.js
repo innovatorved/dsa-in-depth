@@ -15,7 +15,7 @@ window.MODULE_CONTENT["m17"] = {
     intuition: "Checking all N! permutations of cities for $N = 20$ requires $2.4 \\times 10^{18}$ operations (centuries of CPU time), because it distinguishes the internal ordering of already-visited cities. Held and Karp (1962) observed that to extend a partial tour from city u, we only need to know *which subset* of cities S has been visited so far and *which city* u we are currently standing on—collapsing $20!$ down to $20 \\times 2^{20} \\approx 2 \\times 10^7$ states.",
     content: `
       <div class="lesson-content">
-        <h3>1. The Held-Karp $O(N^2 2^N)$ TSP Formulation</h3>
+        <h2>1. The Held-Karp $O(N^2 2^N)$ TSP Formulation</h2>
         <p>Given a weighted graph on $N$ vertices $\\{0, 1, \\dots, N-1\\}$ with distance matrix $W[u][v]$, the <strong>Traveling Salesperson Problem (TSP)</strong> asks for the minimum-weight Hamiltonian cycle visiting every vertex exactly once and returning to start vertex $0$. Since a cycle can be rotated to start at vertex $0$ without loss of generality, we fix $0$ as the start vertex.</p>
         <p>Define state $dp[\\text{mask}][u]$ for $\\text{mask} \\in [1, 2^N - 1]$ (with bit $0$ and bit $u$ set) as the minimum cost of a simple walk starting at vertex $0$, visiting the exact subset of vertices encoded by $\\text{mask}$, and ending at vertex $u$:</p>
         $$dp[\\text{mask}][u] = \\min_{v \\in \\text{mask} \\setminus \\{u\\}} \\big(dp[\\text{mask} \\setminus \\{u\\}][v] + W[v][u]\\big)$$
@@ -31,7 +31,7 @@ window.MODULE_CONTENT["m17"] = {
           <p>Combinatorially, each of the $N$ bit positions is independently in one of <strong>3 states</strong>: (1) in both $m$ and $s$, (2) in $m$ but not $s$, or (3) in neither $m$ nor $s$!</p>
         </div>
 
-        <h3>2. Breaking the $O(W \\cdot 2^N)$ Barrier: Tuple State DP (Elevator Rides / Bin Packing)</h3>
+        <h2>2. Breaking the $O(W \\cdot 2^N)$ Barrier: Tuple State DP (Elevator Rides / Bin Packing)</h2>
         <p>Suppose we want to pack $N \\le 20$ items of weights $w_i \\le 10^9$ into the minimum number of bins of capacity $W = 10^9$. We cannot put remaining capacity $c \\in [0..W]$ in the DP index! Instead, store a <strong>lexicographic pair</strong> inside the DP value itself: $dp[\\text{mask}] = (\\text{min\\_bins},\\; \\text{min\\_weight\\_in\\_last\\_bin})$, solved in $O(N \\cdot 2^N)$ time regardless of how huge $W$ is!</p>
 
         <div class="mermaid">
@@ -45,7 +45,7 @@ flowchart LR
           <p>In Held-Karp TSP, the outer loop iterates over <code>mask</code> and the inner loops iterate over set bits $u$ and $v$. If you declare <code>dp[N][1 &lt;&lt; N]</code>, reading <code>dp[v][mask]</code> for different vertices $v$ jumps by $2^N \\times 4$ bytes (4 MB for $N = 20$), causing an L3 cache/TLB miss on every inner transition! Declaring <strong><code>dp[1 &lt;&lt; N][N]</code></strong> (flat <code>dp[mask * N + u]</code>) places all $N$ endpoints of the same <code>mask</code> inside a single 80-byte contiguous cache line. Furthermore, iterating only over set bits via <code>for (uint32_t bits = mask; bits; bits &amp;= bits - 1) { int u = __builtin_ctz(bits); ... }</code> halves the number of loop iterations.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-bitmask-sos-broken-profile"></div>
 
         <table class="complexity-matrix">
@@ -83,7 +83,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
@@ -186,7 +186,7 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
     intuition: "Enumerating submasks for every mask takes $O(3^N)$ time because each mask sums its submasks from scratch. Sum Over Subsets (SOS) DP views an $N$-bit mask as a point in an $N$-dimensional $\{0, 1\}^N$ hypercube and computes $N$-dimensional prefix sums one bit-dimension at a time—collapsing $O(3^N)$ down to $O(N \\cdot 2^N)$ in just 5 lines of in-place code!",
     content: `
       <div class="lesson-content">
-        <h3>1. From $O(3^N)$ Submasks to $O(N \\cdot 2^N)$ Hypercube Prefix Sums (SOS DP)</h3>
+        <h2>1. From $O(3^N)$ Submasks to $O(N \\cdot 2^N)$ Hypercube Prefix Sums (SOS DP)</h2>
         <p>Given an array $A[0..2^N - 1]$, we want to compute the <strong>Submask Zeta Transform (Sum Over Subsets)</strong> for every mask $m$:</p>
         $$F[m] = \\sum_{s \\subseteq m} A[s]$$
         <p>Think of an $N$-bit integer $m$ not as a scalar, but as an $N$-tuple of coordinates $(b_{N-1}, \\dots, b_1, b_0) \\in \\{0, 1\\}^N$. Then $s \\subseteq m$ simply means $s_i \\le m_i$ in every coordinate $i \\in \\{0..N-1\\}$—so $F[m]$ is literally an <strong>$N$-dimensional prefix sum</strong> over a $\\underbrace{2 \\times 2 \\times \\dots \\times 2}_{N}$ grid!</p>
@@ -200,7 +200,7 @@ int min_bins_bitmask_dp(const std::vector&lt;long long&gt;&amp; weights, long lo
           Because $dp[m][i]$ only reads $dp[\\dots][i-1]$, the second dimension $i$ compresses <strong>100% in-place</strong>! Furthermore, reversing the $+\\to -$ sign computes the <strong>Fast Möbius Inversion</strong> (recovering $A$ from $F$ by Inclusion-Exclusion in $O(N 2^N)$)!</p>
         </div>
 
-        <h3>2. Bitwise Convolutions (OR, AND, XOR) via Fast Walsh-Hadamard Transform (FWHT)</h3>
+        <h2>2. Bitwise Convolutions (OR, AND, XOR) via Fast Walsh-Hadamard Transform (FWHT)</h2>
         <p>Suppose we want to compute the bitwise convolution $C[k] = \\sum_{i \\circledast j = k} A[i] \\cdot B[j]$ for $\\circledast \\in \\{|, \\&, \\oplus\\}$ in $O(N \\cdot 2^N)$ instead of $O(4^N)$:</p>
         <ul>
           <li><strong>Bitwise OR Convolution ($i \\mathbin{|} j = k$):</strong> Notice $(i \\mathbin{|} j) \\subseteq k \\iff i \\subseteq k \\text{ and } j \\subseteq k$. Therefore, the Submask Zeta Transform turns OR-convolution into <strong>pointwise multiplication</strong>: $\\hat{C}[m] = \\hat{A}[m] \\cdot \\hat{B}[m]$, followed by Fast Möbius Inversion (subtracting <code>dp[m ^ (1 << i)]</code>)!</li>
@@ -220,7 +220,7 @@ flowchart LR
           <p>In SOS DP, you <em>must</em> put <code>for (int i = 0; i < N; ++i)</code> as the <strong>outer loop</strong> and <code>for (int mask = 0; mask < (1 << N); ++mask)</code> as the inner loop! First, putting <code>mask</code> on the outside is mathematically incorrect for in-place updates when <code>dp[m]</code> aggregates over $\\max$ or $+$. Second, with <code>i</code> on the outside, the butterfly step processes contiguous power-of-2 blocks of size $2^i$, enabling unconditional branchless inner loops (<code>for (int b = 0; b < (1 << N); b += 1 << (i + 1)) for (int j = 0; j < (1 << i); ++j)</code>) that the compiler auto-vectorizes with AVX2!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-bitmask-sos-broken-profile"></div>
 
         <table class="complexity-matrix">
@@ -265,7 +265,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstdint&gt;
 #include &lt;vector&gt;
 
@@ -357,7 +357,7 @@ void fwht_xor(std::vector&lt;long long&gt;&amp; a, int n, bool invert = false) {
     intuition: "How do you count how many integers between $1$ and $R = 10^{18}$ have digit sum divisible by $K$ or contain no adjacent equal digits? Iterating takes $10^{18}$ steps, but $R$ has only 19 base-10 digits! Digit DP builds a tiny deterministic automaton that chooses digits from Most Significant to Least Significant, tracking a single boolean `tight` flag indicating whether the prefix still matches $R$'s prefix.",
     content: `
       <div class="lesson-content">
-        <h3>1. Prefix Reduction $[L, R] \\to [0, R] - [0, L-1]$ & The <code>tight</code> Automaton</h3>
+        <h2>1. Prefix Reduction $[L, R] \\to [0, R] - [0, L-1]$ & The <code>tight</code> Automaton</h2>
         <p>To count integers $x \\in [L, R]$ satisfying a digit predicate $P(x)$, we reduce the two-sided range query to two one-sided queries: $\\text{solve}(R) - \\text{solve}(L - 1)$ (or $\\text{solve}(R) - \\text{solve}(L) + P(L)$ when $L$ is a 1000-digit string). Let $S[0..n-1]$ be the base-10 digit string of the upper bound $R$ (most significant digit at index $0$).</p>
 
         <div class="invariant-box">
@@ -369,7 +369,7 @@ void fwht_xor(std::vector&lt;long long&gt;&amp; a, int n, bool invert = false) {
           2. <strong><code>started</code> Flag (<code>bool</code>):</strong> Shorter numbers (e.g., $42$ when $R = 5000$) are generated as $0042$. When the problem depends on leading zeros (such as "no adjacent equal digits", where $0042$ has two leading $0$s that are NOT real digits, or "count occurrences of digit $0$"), <code>started == false</code> indicates we are still in the leading-zero prefix, and <code>next_started = started || (d > 0)</code>.</p>
         </div>
 
-        <h3>2. Cross-Query Memoization Trick: Caching <code>tight == false</code> Across Multiple Test Cases</h3>
+        <h2>2. Cross-Query Memoization Trick: Caching <code>tight == false</code> Across Multiple Test Cases</h2>
         <p>Observe a powerful structural fact: whenever <code>tight == false</code>, the remaining transitions from <code>(remaining_len, state)</code> depend only on <code>0..9</code> and <strong>do NOT depend on the input number $R$ at all</strong>! Therefore, if you index your memo table by <code>remaining_len = n - 1 - pos</code> and memoize <em>only</em> states where <code>tight == false</code> (and <code>started == true</code>), you can <strong>allocate and populate the memo table ONCE globally</strong> and answer $Q = 10^5$ range queries $[L_q, R_q]$ without ever clearing <code>memo</code>!</p>
 
         <div class="mermaid">
@@ -386,7 +386,7 @@ flowchart LR
           <p>For a 64-bit integer $R \\le 10^{18}$ ($n \\le 19$ digits), at each position <code>pos</code> there is <strong>at most one</strong> reachable prefix with <code>tight == true</code> (namely, the unique prefix equal to $S[0..\\text{pos}-1]$). Thus <code>tight == true</code> states never overlap within a single call! Only <code>tight == false</code> states are reached via multiple paths and benefit from memoization.</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-bitmask-sos-broken-profile"></div>
 
         <table class="complexity-matrix">
@@ -431,7 +431,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;cstring&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
@@ -519,7 +519,7 @@ long long count_range_no_adjacent_equal(long long L, long long R) {
     intuition: "If you try to tile an $N \\times M$ grid ($M \\le 16$) with dominoes by transitioning from one full row mask to the next, checking all compatible pairs of row masks takes $O(N \\cdot 4^M)$ time. Broken Profile DP advances the boundary *one single cell $(r, c)$ at a time*: the 'broken' staircase frontier between processed and unprocessed cells still has length $M$, so the state is still an $M$-bit mask, but each cell has at most 2 local choices—dropping runtime from $O(N \\cdot 4^M)$ to $O(N \\cdot M \\cdot 2^M)$!",
     content: `
       <div class="lesson-content">
-        <h3>1. Full-Row Transitions vs. The Cell-by-Cell Broken Profile Frontier</h3>
+        <h2>1. Full-Row Transitions vs. The Cell-by-Cell Broken Profile Frontier</h2>
         <p>Consider counting the number of ways to tile an $N \\times M$ grid with $1 \\times 2$ and $2 \\times 1$ dominoes (ensure $M \\le N$ by transposing the grid if $M > N$, so $M \\le \\sqrt{NM}$).</p>
         <p>In a naive row-by-row Bitmask DP, transitioning from row $r-1$'s protrusion mask to row $r$'s protrusion mask requires enumerating all horizontal domino placements inside row $r$, costing $O((1 + \\sqrt{2})^M)$ or $O(4^M)$ per row.</p>
         <p>In <strong>Broken Profile DP</strong>, we process cells in reading order $(r, c)$. At the moment we stand at cell $(r, c)$, the frontier separating the already-processed prefix from the unprocessed suffix consists of exactly $M$ boundary cells:</p>
@@ -540,7 +540,7 @@ long long count_range_no_adjacent_equal(long long L, long long R) {
              - <em>Horizontal Domino $(r, c-1) \\to (r, c)$:</em> Alternatively (in the backward-looking convention where bit $0$ means covered and $1$ means uncovered, or looking at bit $c$ and $c+1$), if $c + 1 < M$ and bit $c+1$ is $0$ (cell $(r-1, c+1)$ doesn't protrude into $(r, c+1)$), place a horizontal domino covering $(r, c)$ and $(r, c+1)$ by setting bit $c+1$ to $1$ (<code>mask | (1 << (c + 1))</code>) so $(r, c+1)$ will be seen as covered when the loop steps to $c + 1$!</p>
         </div>
 
-        <h3>2. Visual Geometry of the Staircase Frontier</h3>
+        <h2>2. Visual Geometry of the Staircase Frontier</h2>
         <div class="mermaid">
 flowchart LR
   subgraph Grid["Staircase Frontier at Cell (r, c)"]
@@ -557,7 +557,7 @@ flowchart LR
           <p>Suppose a grid has $R = 12$ rows and $C = 100$ columns ($R \\times C = 1200$). If you orient the profile along $C = 100$, $2^{100}$ is astronomically impossible. Because $R \\times C \\le 1200$ implies $\\min(R, C) \\le \\lfloor \\sqrt{1200} \\rfloor = 34$ (and in typical tiling problems $R \\le 12, C \\le 1000$), <strong>transposing the grid so that $M = \\min(R, C)$ is the width</strong> reduces $2^M$ to $2^{12} = 4096$, solving a $12 \\times 1000$ grid in $12{,}000 \\times 4096 \\approx 4.9 \\times 10^7$ simple integer additions (~25 milliseconds)!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-bitmask-sos-broken-profile"></div>
 
         <table class="complexity-matrix">
@@ -602,7 +602,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -689,7 +689,7 @@ long long count_domino_tilings_broken_profile(int n, int m) {
     intuition: "When partitioning an array of length $N$ into $K$ segments, each layer of DP takes $O(N^2)$ time because every index $i$ searches all split points $j < i$. But if the segment cost function $C(j, i)$ is 'supermodular' (satisfies the Quadrangle Inequality), the optimal split point $\\text{opt}[i]$ never moves backward as $i$ moves right! Computing $\\text{opt}[\\text{mid}]$ first sandwiches the left half's splits to $[\\text{opt}_L, \\text{opt}[\\text{mid}]]$ and the right half's splits to $[\\text{opt}[\\text{mid}], \\text{opt}_R]$, dropping each layer from $O(N^2)$ to $O(N \\log N)$.",
     content: `
       <div class="lesson-content">
-        <h3>1. The $K$-Partition Recurrence & Decision Monotonicity</h3>
+        <h2>1. The $K$-Partition Recurrence & Decision Monotonicity</h2>
         <p>Many partitioning and clustering problems (such as $k$-medians on a line, partitioning an array into $K$ subarrays to minimize sum of squared sums, or Optimal Batching) have the layered recurrence for $k = 1 \\dots K$ and $i = 1 \\dots N$:</p>
         $$dp[k][i] = \\min_{0 \\le j < i} \\big(dp[k-1][j] + C(j, i)\\big)$$
         <p>Evaluating all pairs $(j, i)$ for each layer $k$ takes $O(K \\cdot N^2)$ time. Let $\\text{opt}[k][i]$ be the smallest index $j$ that minimizes $dp[k-1][j] + C(j, i)$.</p>
@@ -703,7 +703,7 @@ long long count_domino_tilings_broken_profile(int n, int m) {
           $$\\text{opt}[k][0] \\le \\text{opt}[k][1] \\le \\dots \\le \\text{opt}[k][N]$$
         </div>
 
-        <h3>2. The Divide-and-Conquer Recursion ($O(K N^2) \\to O(K N \\log N)$)</h3>
+        <h2>2. The Divide-and-Conquer Recursion ($O(K N^2) \\to O(K N \\log N)$)</h2>
         <p>To compute a single layer <code>dp_cur[l..r]</code> given that we already know $\\text{opt}[i] \\in [\\text{opt}_L, \\text{opt}_R]$ for all $i \\in [l, r]$:</p>
         <ol>
           <li>Pick the midpoint $\\text{mid} = \\lfloor (l + r) / 2 \\rfloor$.</li>
@@ -724,7 +724,7 @@ flowchart TD
           <p>What if $C(j, i)$ is the number of inversions or number of pairs of equal elements inside subarray $A[j..i-1]$, which has no $O(1)$ prefix-sum formula? Because the D&amp;C recursion moves the endpoints $(j, \\text{mid})$ across ranges of total length $O(N \\log N)$ per layer, you can maintain a single global sliding window $[L_{ptr}, R_{ptr}]$ that increments/decrements one element at a time in $O(1)$, computing $C(j, \\text{mid})$ in $O(K N \\log N)$ total pointer steps without any Segment Tree!</p>
         </div>
 
-        <h3>3. Complexity Matrix</h3>
+        <h2>3. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dc-knuth-quadrangle-dp"></div>
 
         <table class="complexity-matrix">
@@ -762,7 +762,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>4. Reference C++20 Implementation</h3>
+        <h2>4. Reference C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
 #include &lt;vector&gt;
@@ -854,7 +854,7 @@ long long partition_min_sum_of_squares_dnc(const std::vector&lt;long long&gt;&am
     intuition: "In standard interval DP ($dp[i][j] = \\min_{i \\le k < j} (dp[i][k] + dp[k+1][j]) + C(i, j)$), trying all $O(N)$ split points $k$ takes $O(N^3)$ time. Knuth (1971) observed that for Optimal Binary Search Trees and Order-Preserving Huffman Codes (Garsia-Wachs), extending an interval $[i, j-1]$ on the right to $[i, j]$ pulls the optimal split point $opt[i][j]$ to the right, while shrinking it on the left to $[i+1, j]$ also pulls the split point to the right: $opt[i][j-1] \\le opt[i][j] \\le opt[i+1][j]$. Across any fixed interval length $L = j - i$, the search ranges $[opt[i][j-1], opt[i+1][j]]$ telescope to at most $2N$ total iterations, collapsing $O(N^3)$ to $O(N^2)$!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Quadrangle Inequality + Interval Monotonicity</h3>
+        <h2>1. Formal Invariant — Quadrangle Inequality + Interval Monotonicity</h2>
         <div class="invariant-box">
           <h4>Invariant: Knuth-Yao Interval Split Monotonicity</h4>
           <p>Consider the interval recurrence for $1 \\le i \\le j \\le N$:</p>
@@ -873,7 +873,7 @@ long long partition_min_sum_of_squares_dnc(const std::vector&lt;long long&gt;&am
         <p>$$\\sum_{i=1}^{N-L} \\Big( opt[i+1][i+L] - opt[i][i+L-1] + 1 \\Big)$$</p>
         <p>Notice that the term $opt[i+1][i+L]$ for index $i$ cancels against $-opt[(i+1)][(i+1)+L-1]$ at index $i+1$! It is a <strong>telescoping sum</strong> bounded by $(opt[N-L+1][N] - opt[1][L]) + N \\le 2N$. Summing $O(N)$ work across $N$ lengths gives $O(N^2)$ total operations.</p>
 
-        <h3>2. Telescoping Interval Search Topology</h3>
+        <h2>2. Telescoping Interval Search Topology</h2>
         <div class="mermaid">
 flowchart TD
     subgraph LengthLMinus1["Already Computed (Length L - 1)"]
@@ -887,19 +887,19 @@ flowchart TD
     RightSub -->|Upper Bound| Target
         </div>
 
-        <h3>3. Canonical Applications: Optimal BST &amp; Optimal Matrix / File Merging</h3>
+        <h2>3. Canonical Applications: Optimal BST &amp; Optimal Matrix / File Merging</h2>
         <ul>
           <li><strong>Optimal Binary Search Tree (Knuth 1971):</strong> Given sorted keys $K_1 < K_2 < \\dots < K_N$ with access probabilities $p_1, \\dots, p_N$, placing root $K_k$ pushes both subtrees one level deeper, adding $C(i, j) = \\sum_{m=i}^{j} p_m$ to the expected search cost. Because $C(i, j)$ is an additive interval sum, $C(a, c) + C(b, d) = C(a, d) + C(b, c)$ (QI holds with equality!) and $C(b, c) \\le C(a, d)$ for $p_m \\ge 0$.</li>
           <li><strong>Optimal Alphabetic Merge / Stone Merging:</strong> Merging adjacent piles $i \\dots j$ into one pile costs the sum of weights $W(i, j) = \\text{pref}[j] - \\text{pref}[i-1]$. Again QI holds with equality, so Knuth's Optimization solves adjacent stone merging in $O(N^2)$ (and the Garsia-Wachs algorithm further reduces this specific case to $O(N \\log N)$).</li>
         </ul>
 
-        <h3>4. Hardware &amp; Memory Access Reality</h3>
+        <h2>4. Hardware &amp; Memory Access Reality</h2>
         <div class="hardware-box">
           <h4>Row-Major vs Diagonal Traversal Cache Layout</h4>
           <p>In naive interval DP looped by length $L$, <code>dp[i][k]</code> reads across row <code>i</code> (contiguous in row-major order), while <code>dp[k+1][j]</code> reads down column <code>j</code> (stride $N$). However, because Knuth's Optimization restricts $k$ to an average of <strong>1 to 2 iterations per state</strong>, the inner loop finishes almost instantaneously inside L1 cache! Equivalently, iterating <code>i</code> <strong>downwards</strong> from $N$ to $1$ and <code>j</code> <strong>upwards</strong> from $i+1$ to $N$ computes both dependencies $(i, j-1)$ and $(i+1, j)$ in pure row-order without needing an outer length loop.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-dc-knuth-quadrangle-dp"></div>
 
         <table class="complexity-matrix">
@@ -933,7 +933,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation</h3>
+        <h2>6. Production-Grade C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
@@ -1023,7 +1023,7 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
     intuition: "Suppose a DP transition looks like $dp[i] = \\min_{j < i} (dp[j] + (x_i - x_j)^2)$. Expanding the square gives $dp[i] = x_i^2 + \\min_{j < i} (\\underbrace{-2x_j}_{m_j} \\cdot x_i + \\underbrace{dp[j] + x_j^2}_{b_j})$. Each previous state $j$ defines a straight line $L_j(x) = m_j x + b_j$, and finding the best $j$ at query point $x_i$ is simply evaluating the lower envelope of a set of lines! When slopes $m_j$ are inserted monotonically, a stack/deque maintains the lower envelope in $O(1)$ amortized time. When slopes and queries arrive in arbitrary order, a Li Chao Segment Tree maintains the dominant line at each interval midpoint in $O(\\log X)$ per insertion and query without tricky intersection rounding.",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Lower Envelope &amp; Li Chao Midpoint Dominance</h3>
+        <h2>1. Formal Invariant — Lower Envelope &amp; Li Chao Midpoint Dominance</h2>
         <div class="invariant-box">
           <h4>Invariant 1: Monotonic Deque CHT Redundancy Condition</h4>
           <p>Given three lines $L_1, L_2, L_3$ with strictly decreasing slopes $m_1 > m_2 > m_3$ (for minimum queries), the middle line $L_2$ is <strong>completely redundant</strong> (never strictly minimal at any $x$) if and only if the intersection $x(L_1, L_3)$ lies to the left of or at $x(L_1, L_2)$:</p>
@@ -1034,7 +1034,7 @@ KnuthResult solve_knuth_interval_dp(const std::vector&lt;int64_t&gt;&amp; weight
 
         <div class="simulator-mount" data-sim="sim-bitmask-sos-broken-profile"></div>
 
-        <h3>2. Li Chao Segment Tree Single-Branch Recursion</h3>
+        <h2>2. Li Chao Segment Tree Single-Branch Recursion</h2>
         <div class="mermaid">
 flowchart TD
     Insert["Insert New Line nw on [L, R], Mid M"] --> Eval["Compare nw(M) vs seg(M)"]
@@ -1048,7 +1048,7 @@ flowchart TD
     CheckLeft -->|"Neither"| Done["Terminate Early O(1)"]
         </div>
 
-        <h3>3. Choosing the Right Envelope Data Structure</h3>
+        <h2>3. Choosing the Right Envelope Data Structure</h2>
         <p>Depending on monotonicity of inserted slopes $m_j$ and query coordinates $x_i$, four regimes arise:</p>
         <ol>
           <li><strong>Slopes $m_j$ monotonic + Queries $x_i$ monotonic:</strong> Use a <code>std::deque</code> with a moving front pointer and back-hull pruning in $O(1)$ amortized per step ($O(N)$ total).</li>
@@ -1057,13 +1057,13 @@ flowchart TD
           <li><strong>Slopes $m_j$ arbitrary + Floating-Point Domain:</strong> Use KACTL's <code>LineContainer</code> (<code>std::multiset</code> ordered by slope maintaining right-intersection endpoints) in $O(N \\log N)$ time.</li>
         </ol>
 
-        <h3>4. Hardware &amp; Cache Behavior</h3>
+        <h2>4. Hardware &amp; Cache Behavior</h2>
         <div class="hardware-box">
           <h4>Overflow Prevention &amp; Implicit Pointer Allocation</h4>
           <p>In cross-multiplication $(b_3 - b_1)(m_1 - m_2) \\le (b_2 - b_1)(m_1 - m_3)$, if $b_j \\sim 10^{15}$ and $m_j \\sim 10^9$, the product reaches $10^{24}$, overflowing <code>int64_t</code>! Always cast cross-products to <code>__int128_t</code> (or <code>long double</code>). By contrast, a Li Chao Tree only evaluates $m \\cdot x + b$ at coordinate $x \\in [L, R]$, which fits cleanly in <code>int64_t</code> whenever $|m \\cdot x + b| < 9 \\times 10^{18}$. Pre-allocating a flat <code>std::vector&lt;Node&gt;</code> pool for implicit Li Chao nodes eliminates <code>new</code> heap fragmentation.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <table class="complexity-matrix">
           <thead>
             <tr>
@@ -1101,7 +1101,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Dynamic Implicit Li Chao Tree)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Dynamic Implicit Li Chao Tree)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
@@ -1225,7 +1225,7 @@ public:
     intuition: "Suppose we want to select at most (or exactly) $K$ disjoint segments/groups to minimize total cost $f(k)$, and the marginal benefit of each extra group exhibits diminishing returns—meaning $f(k)$ is convex ($f(k+1) - f(k) \\ge f(k) - f(k-1)$). Tracking the exact count $k \\in [0, K]$ in the DP state adds an $O(K)$ dimension. Instead, Lagrangian Relaxation (WQS Binary Search, popularized by IOI 2016 'Aliens') deletes the $k$ dimension entirely and charges a flat toll $\\lambda$ every time we open a new group! Minimizing $g_\\lambda = \\min_k (f(k) + \\lambda k)$ finds the point where the line of slope $-\\lambda$ is tangent to the convex curve $f(k)$. By binary searching $\\lambda$ until the unconstrained optimal solution uses $k^*(\\lambda) = K$ groups, we recover $f(K) = g_\\lambda - \\lambda K$ in $O(N \\log C)$ time!",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Convexity &amp; Supporting Hyperplanes</h3>
+        <h2>1. Formal Invariant — Convexity &amp; Supporting Hyperplanes</h2>
         <div class="invariant-box">
           <h4>Invariant: Lagrangian Duality on Discrete Convex Functions</h4>
           <p>Let $f(k)$ be the minimum cost to solve a problem using <strong>exactly $k$</strong> items/segments. We say $f(k)$ is <strong>convex</strong> on $k \\in [0, N]$ if its discrete first differences (marginal costs) $\\Delta(k) = f(k) - f(k-1)$ are non-decreasing:</p>
@@ -1236,7 +1236,7 @@ public:
           <p>$$f(K) = g(\\lambda^*) - \\lambda^* \\cdot K$$</p>
         </div>
 
-        <h3>2. Geometric Tangent Interpretation &amp; Collinear Tie-Breaking</h3>
+        <h2>2. Geometric Tangent Interpretation &amp; Collinear Tie-Breaking</h2>
         <div class="mermaid">
 flowchart LR
     subgraph ConvexCurve["Discrete Convex Curve (k, f(k))"]
@@ -1251,13 +1251,13 @@ flowchart LR
 
         <p><strong>What if multiple points $(k-1, f(k-1)), (k, f(k)), (k+1, f(k+1))$ are collinear on the convex hull?</strong> At the exact tangent slope $\\lambda^*$, all of them achieve the exact same penalized objective $f(k) + \\lambda^* k = g(\\lambda^*)$! If we consistently break ties in the 1D DP by choosing the <strong>minimum segment count</strong> <code>cnt</code> whenever penalized costs are equal, and we binary search for the largest $\\lambda^*$ where <code>cnt <= K</code> (or smallest $\\lambda^*$ where <code>cnt <= K</code> depending on tie-breaking), then even if $k(\\lambda^*)$ jumps across the collinear flat spot from $k_{\\min} \\le K$ to $k_{\\max} \\ge K$, the formula $g(\\lambda^*) - \\lambda^* \\cdot K$ <strong>still evaluates to the exact value $f(K)$</strong> because $(K, f(K))$ lies on that same collinear line segment!</p>
 
-        <h3>3. Hardware &amp; Precision Realities</h3>
+        <h2>3. Hardware &amp; Precision Realities</h2>
         <div class="hardware-box">
           <h4>Integer vs Floating-Point Binary Search</h4>
           <p>When all original weights are integers, the slopes $\\Delta(k) = f(k) - f(k-1)$ between consecutive integer points $k-1$ and $k$ are <strong>always integers</strong>! Therefore, you should binary search $\\lambda$ over <strong>integers</strong> (<code>int64_t</code>), completely avoiding floating-point precision loss and fixed-iteration loops. With integer weights bounded by $W$, $\\lambda \\in [0, N \\cdot W]$, requiring at most $\\lceil \\log_2(N \\cdot W) \\rceil \\le 50$ binary search iterations.</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-cht-knuth-dp"></div>
 
         <table class="complexity-matrix">
@@ -1291,7 +1291,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>5. Production-Grade C++20 Implementation</h3>
+        <h2>5. Production-Grade C++20 Implementation</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;utility&gt;
@@ -1390,7 +1390,7 @@ int64_t wqs_min_square_partition(const std::vector&lt;int64_t&gt;&amp; a, int K)
     intuition: "When a DP transition from layer $t$ to layer $t+1$ uses the exact same small number of states $K$ and time-invariant rules—whether summing ways ($c_{ij} = \\sum_k a_{ik} \\cdot b_{kj}$) or minimizing costs ($c_{ij} = \\min_k (a_{ik} + b_{kj})$)—that step is just matrix multiplication over a semiring! Because matrix multiplication is associative across both the standard $(+, \\times)$ ring and the tropical $(\\min, +)$ semiring, we can compute the $N$-th step transition matrix $T^N$ using binary exponentiation in $\\lceil \\log_2 N \\rceil$ matrix squarings, jumping to $N = 10^{18}$ in $O(K^3 \\log N)$ time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Formal Invariant — Semiring Associativity &amp; Transition Operators</h3>
+        <h2>1. Formal Invariant — Semiring Associativity &amp; Transition Operators</h2>
         <div class="invariant-box">
           <h4>Invariant: Semiring Matrix Exponentiation</h4>
           <p>Let $(S, \\oplus, \\otimes)$ be a semiring where $\\oplus$ is commutative and associative with identity $\\mathbb{0}$, $\\otimes$ is associative with identity $\\mathbb{1}$, and $\\otimes$ distributes over $\\oplus$: $a \\otimes (b \\oplus c) = (a \\otimes b) \\oplus (a \\otimes c)$. Define matrix multiplication $C = A \\star B$ for $K \\times K$ matrices by:</p>
@@ -1402,7 +1402,7 @@ int64_t wqs_min_square_partition(const std::vector&lt;int64_t&gt;&amp; a, int K)
           <p>Because $\\star$ is associative, $A^{\\otimes N}$ can be computed in $O(K^3 \\log N)$ operations via repeated squaring.</p>
         </div>
 
-        <h3>2. Binary Exponentiation Pipeline</h3>
+        <h2>2. Binary Exponentiation Pipeline</h2>
         <div class="mermaid">
 flowchart LR
     Init["Result = Identity Matrix I<br/>Base = Transition Matrix T<br/>Exponent = N"] --> CheckBit{"N > 0 ?"}
@@ -1413,7 +1413,7 @@ flowchart LR
     CheckBit -->|"No (N == 0)"| Output["Return Result * dp[0]"]
         </div>
 
-        <h3>3. State-Space Compilation Tricks</h3>
+        <h2>3. State-Space Compilation Tricks</h2>
         <ul>
           <li><strong>Order-$K$ Linear Recurrences:</strong> If $f(n) = c_1 f(n-1) + c_2 f(n-2) + \\dots + c_K f(n-K)$, the state vector is $[f(n-1), f(n-2), \\dots, f(n-K)]^T$ and the companion matrix has $[c_1, c_2, \\dots, c_K]$ in row $0$ and $1$s on the subdiagonal.</li>
           <li><strong>Affine Constants &amp; Polynomial Terms:</strong> If $f(n) = c_1 f(n-1) + d \\cdot n + e$, augment the state vector with $[n, 1]^T$ using the binomial expansion $(n+1) = 1 \\cdot n + 1 \\cdot 1$.</li>
@@ -1421,13 +1421,13 @@ flowchart LR
           <li><strong>Multiple Queries on the Same Graph:</strong> Precompute powers of two $T^{2^0}, T^{2^1}, \\dots, T^{2^{60}}$ in $O(K^3 \\log N)$ time once. Then each query for walk length $N_q$ multiplies a $1 \\times K$ vector by at most $\\log_2 N_q$ matrices in $O(K^2 \\log N_q)$ time instead of $O(K^3 \\log N_q)$!</li>
         </ul>
 
-        <h3>4. Hardware &amp; Cache Optimization</h3>
+        <h2>4. Hardware &amp; Cache Optimization</h2>
         <div class="hardware-box">
           <h4>Loop Reordering (<code>i-k-j</code>) &amp; Modulo Reduction</h4>
           <p>In a $K \\times K$ matrix product, the textbook <code>i-j-k</code> loop reads <code>B[k][j]</code> down column <code>j</code> with stride $K$, causing cache misses and blocking SIMD vectorization. Permuting the loops to <strong><code>i-k-j</code></strong> hoisted <code>A[i][k]</code> into a register and streams <code>C[i][j]</code> and <code>B[k][j]</code> sequentially across row <code>j</code>, yielding a 4x–8x speedup! For modular arithmetic with $M = 10^9 + 7$, accumulating into <code>uint64_t</code> and reducing modulo $M^2 \\approx 10^{18}$ every 16 inner iterations eliminates $93\\%$ of slow <code>div</code> instructions.</p>
         </div>
 
-        <h3>5. Complexity Matrix</h3>
+        <h2>5. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-cht-knuth-dp"></div>
 
         <table class="complexity-matrix">
@@ -1461,7 +1461,7 @@ flowchart LR
           </tbody>
         </table>
 
-        <h3>6. Production-Grade C++20 Implementation (Both Standard &amp; Min-Plus Semirings)</h3>
+        <h2>6. Production-Grade C++20 Implementation (Both Standard &amp; Min-Plus Semirings)</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
@@ -1554,7 +1554,7 @@ MinPlusMatrix power(MinPlusMatrix base, int64_t exp) {
     intuition: "In this Build Lab, we engineer two production-grade envelope optimizers side-by-side and benchmark them on classical slope-DP workloads (Frog 3 / Kalila and Dimna / Commando): (1) an $O(1)$ amortized Monotonic Deque CHT using exact `__int128_t` rational cross-multiplication with zero floating-point drift, and (2) an implicit Dynamic Li Chao Segment Tree supporting arbitrary-order line insertions and range-restricted line segments $[x_L, x_R]$ in $O(\\log X)$ time.",
     content: `
       <div class="lesson-content">
-        <h3>1. Architecture &amp; Dual-Engine Verification Invariants</h3>
+        <h2>1. Architecture &amp; Dual-Engine Verification Invariants</h2>
         <div class="invariant-box">
           <h4>Invariant: Equivalence of Algebraic Envelope &amp; Midpoint Tree</h4>
           <p>For any sequence of lines $\\{L_j(x) = m_j x + b_j\\}_{j=1}^{k}$ where $m_1 > m_2 > \\dots > m_k$ and queries $x_1 \\le x_2 \\le \\dots \\le x_n$:</p>
@@ -1564,7 +1564,7 @@ MinPlusMatrix power(MinPlusMatrix base, int64_t exp) {
           </ol>
         </div>
 
-        <h3>2. Dual-Engine System Architecture</h3>
+        <h2>2. Dual-Engine System Architecture</h2>
         <div class="mermaid">
 flowchart TD
     Problem["DP Recurrence: dp[i] = f(i) + min_j (m_j * x_i + b_j)"] --> Dispatch{"Are m_j and x_i<br/>Monotonic?"}
@@ -1574,13 +1574,13 @@ flowchart TD
     LiChao --> Verify
         </div>
 
-        <h3>3. Engineering Details &amp; Hardware Layout</h3>
+        <h2>3. Engineering Details &amp; Hardware Layout</h2>
         <div class="hardware-box">
           <h4>Contiguous Arena Allocation &amp; Branchless Evaluations</h4>
           <p>Our <code>MonotonicDequeCHT</code> uses a <code>std::vector&lt;Line&gt;</code> with an explicit <code>head_</code> index rather than <code>std::deque</code>, keeping all active lines in a single contiguous memory buffer and avoiding <code>std::deque</code>'s 512-byte chunk indirection. Our <code>LiChaoEngine</code> pre-reserves a contiguous <code>std::vector&lt;Node&gt;</code> arena so node indices are 32-bit <code>int</code> offsets (8 bytes per child pair instead of 16 bytes for 64-bit pointers).</p>
         </div>
 
-        <h3>4. Complexity Matrix</h3>
+        <h2>4. Complexity Matrix</h2>
         <div class="simulator-mount" data-sim="sim-cht-knuth-dp"></div>
 
         <table class="complexity-matrix">
@@ -1614,7 +1614,7 @@ flowchart TD
           </tbody>
         </table>
 
-        <h3>5. Complete C++20 Build Lab Implementation</h3>
+        <h2>5. Complete C++20 Build Lab Implementation</h2>
         <pre><code class="language-cpp">#include &lt;vector&gt;
 #include &lt;cstdint&gt;
 #include &lt;limits&gt;
