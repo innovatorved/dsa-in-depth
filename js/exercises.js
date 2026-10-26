@@ -67,7 +67,7 @@ window.Exercises = (() => {
     return `
       <div class="exercise-card" id="exercise-${slug}">
         <div class="exercise-card__header">
-          <span class="exercise-card__badge">⚡ Interactive Challenge · ${ex.difficulty}</span>
+          <span class="exercise-card__badge">Interactive Challenge · ${ex.difficulty}</span>
           <h3 class="exercise-card__title">${ex.title || unitTitle}</h3>
         </div>
         ${ex.scenario ? `<div class="exercise-card__scenario">${ex.scenario}</div>` : ''}

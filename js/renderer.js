@@ -419,7 +419,7 @@ window.Renderer = (() => {
     const initialExpanded = !isLong;
 
     const runBtn = isRunnable
-      ? `<button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE">⚡ Run in CodeLab</button>`
+      ? `<button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button>`
       : '';
 
     const copyBtn = `<button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button>`;
@@ -465,7 +465,7 @@ window.Renderer = (() => {
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>⚡ Interactive C++20 Lab · Clang WASI</span>
+              <span>Interactive C++20 Lab · Clang WASI</span>
               <span class="build-lab-card__progress">${totalSteps} Guided Steps</span>
             </div>
             <h2 class="build-lab-card__title">${escapeHtml(labTitle)}</h2>

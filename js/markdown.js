@@ -38,7 +38,7 @@ window.MarkdownRenderer = (() => {
         const cleanLang = (lang || 'text').toLowerCase();
         const isRunnable = RUNNABLE_LANGS.has(cleanLang);
         const runBtn = isRunnable
-          ? `<button type="button" class="code-block__copy" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE (Node.js v22, TypeScript, C++20 WASI &amp; Python 3.12)">⚡ Run in CodeLab</button>`
+          ? `<button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="${escapeHtml(cleanLang)}" title="Execute this snippet in the in-browser CodeLab IDE (Node.js v22, TypeScript, C++20 WASI &amp; Python 3.12)"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button>`
           : '';
         codeBlocks.push(
           '<div class="code-block">' +

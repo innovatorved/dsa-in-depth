@@ -966,7 +966,7 @@ int main() {
           id: 'step-2',
           title: 'Step 2: Test & Verify Execution',
           concept: 'C++20 WASI Verification',
-          instructions: 'Click "⚡ Run & Test" to compile and run with Clang WASI.',
+          instructions: 'Click "Run & Test" to compile and run with Clang WASI.',
           hint: 'Check stdout/stderr in the inline terminal console.'
         }
       ],
