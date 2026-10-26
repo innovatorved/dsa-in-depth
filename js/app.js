@@ -20,6 +20,70 @@ window.App = (() => {
   let currentRouteParams = new URLSearchParams();
   let landingCleanup = null;  // live demo on the landing page
   const collapsedModules = new Set();
+  let collapsedModulesInitialized = false;
+
+  function getAllModuleIds() {
+    const ids = [];
+    const data = window.CURRICULUM_DATA;
+    if (!data) return ids;
+    for (const p of data.parts) {
+      for (const m of p.modules) {
+        ids.push(m.id);
+      }
+    }
+    return ids;
+  }
+
+  function ensureDefaultCollapsedModules() {
+    if (collapsedModulesInitialized) return;
+    const allIds = getAllModuleIds();
+    if (allIds.length === 0) return;
+    collapsedModulesInitialized = true;
+    const activeModId = (currentSlug && getModuleIdForSlug(currentSlug)) || allIds[0];
+    for (const id of allIds) {
+      if (id !== activeModId) collapsedModules.add(id);
+    }
+  }
+
+  function syncCollapseModulesBtn() {
+    const labelEl = document.getElementById('sidebar-collapse-modules-label');
+    const btnEl = document.getElementById('sidebar-collapse-modules-btn');
+    if (!labelEl || !btnEl) return;
+    const allIds = getAllModuleIds();
+    const allCollapsed = allIds.length > 0 && allIds.every(id => collapsedModules.has(id));
+    labelEl.textContent = allCollapsed ? 'Expand' : 'Collapse';
+    btnEl.title = allCollapsed ? 'Expand all modules' : 'Collapse all modules';
+    btnEl.setAttribute('aria-label', allCollapsed ? 'Expand all modules' : 'Collapse all modules');
+  }
+
+  function toggleAllModules() {
+    ensureDefaultCollapsedModules();
+    const allIds = getAllModuleIds();
+    const allCollapsed = allIds.length > 0 && allIds.every(id => collapsedModules.has(id));
+    if (allCollapsed) {
+      collapsedModules.clear();
+      document.querySelectorAll('.module-group').forEach(g => g.classList.remove('collapsed'));
+    } else {
+      allIds.forEach(id => collapsedModules.add(id));
+      document.querySelectorAll('.module-group').forEach(g => g.classList.add('collapsed'));
+    }
+    syncCollapseModulesBtn();
+  }
+
+  function toggleDesktopSidebar(forceCollapsed) {
+    if (window.innerWidth <= 900 && sidebarOpen) {
+      closeSidebar();
+      return;
+    }
+    const isCollapsed = typeof forceCollapsed === 'boolean'
+      ? forceCollapsed
+      : !document.body.classList.contains('sidebar-collapsed');
+    document.body.classList.toggle('sidebar-collapsed', isCollapsed);
+    const collapseBtn = document.getElementById('sidebar-collapse-btn');
+    const expandBtn = document.getElementById('sidebar-expand-btn');
+    if (collapseBtn) collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
+    if (expandBtn) expandBtn.setAttribute('aria-expanded', String(!isCollapsed));
+  }
 
   // Helper: find module ID for a given slug
   function getModuleIdForSlug(slug) {
@@ -604,6 +668,7 @@ window.App = (() => {
                 if (placeholder) {
                   const wrapper = document.createElement('div');
                   wrapper.className = 'simulator-mount';
+                  wrapper.id = placeholder.id || ('topic-simulator-' + currentSlug);
                   wrapper.setAttribute('data-sim', simData.sim.id);
                   wrapper.innerHTML = simData.html;
                   placeholder.replaceWith(wrapper);
@@ -902,16 +967,16 @@ window.App = (() => {
         if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.1/dist/code-lab.css';
+          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
           link.crossOrigin = 'anonymous';
           link.onerror = function () {
             this.onerror = null;
-            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.1/dist/code-lab.css';
+            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
           };
           document.head.appendChild(link);
         }
         if (!window.CodeLab) {
-          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.1/dist/code-lab.js');
+          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.js');
         }
 
         if (neededBuildScripts.length > 0 && window.loadScript) {
@@ -1003,6 +1068,7 @@ window.App = (() => {
     const data = window.CURRICULUM_DATA;
     if (!data) { container.innerHTML = '<p style="padding:16px;color:var(--fg-muted)">Loading...</p>'; return; }
 
+    ensureDefaultCollapsedModules();
     let html = '';
     for (const part of data.parts) {
       html += `<div style="padding:${part.number > 1 ? '8px' : '4px'} 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">${part.title}</div>`;
@@ -1040,6 +1106,7 @@ window.App = (() => {
     }
 
     container.innerHTML = html;
+    syncCollapseModulesBtn();
   }
 
   function renderBuildsSidebar(container) {
@@ -1071,6 +1138,7 @@ window.App = (() => {
         el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
     });
+    syncCollapseModulesBtn();
   }
 
   function toggleModule(moduleId) {
@@ -1081,6 +1149,7 @@ window.App = (() => {
     }
     const group = document.querySelector(`.module-group[data-module="${moduleId}"]`);
     if (group) group.classList.toggle('collapsed');
+    syncCollapseModulesBtn();
     if (window.Analytics) {
       window.Analytics.trackModuleToggle(moduleId, !collapsedModules.has(moduleId));
     }
@@ -1583,6 +1652,31 @@ window.App = (() => {
       });
     }
 
+    // Compact collapse/expand all modules button next to Curriculum tab
+    const collapseModulesBtn = document.getElementById('sidebar-collapse-modules-btn');
+    if (collapseModulesBtn) {
+      collapseModulesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleAllModules();
+      });
+    }
+
+    // Compact sidebar collapse & reopen buttons
+    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+    if (sidebarCollapseBtn) {
+      sidebarCollapseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleDesktopSidebar(true);
+      });
+    }
+    const sidebarExpandBtn = document.getElementById('sidebar-expand-btn');
+    if (sidebarExpandBtn) {
+      sidebarExpandBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleDesktopSidebar(false);
+      });
+    }
+
     // Sidebar overlay
     const overlay = document.getElementById('sidebar-overlay');
     if (overlay) overlay.addEventListener('click', closeSidebar);
@@ -1824,6 +1918,45 @@ window.App = (() => {
         return;
       }
 
+      const toggleLabStepsBtn = target.closest('[data-action="toggle-lab-steps"]');
+      if (toggleLabStepsBtn) {
+        e.preventDefault();
+        const hero = toggleLabStepsBtn.closest('.topic-codelab-hero');
+        if (hero) {
+          const isCollapsed = hero.classList.toggle('steps-collapsed');
+          const labelEl = toggleLabStepsBtn.querySelector('.build-lab-card__collapse-label');
+          const chevronEl = toggleLabStepsBtn.querySelector('.build-lab-card__collapse-chevron');
+          if (labelEl) labelEl.textContent = isCollapsed ? 'Expand Steps' : 'Collapse Steps';
+          if (chevronEl) chevronEl.textContent = isCollapsed ? '▼' : '▲';
+          toggleLabStepsBtn.setAttribute('aria-expanded', String(!isCollapsed));
+        }
+        return;
+      }
+
+      const toggleQuickJumpBtn = target.closest('[data-action="toggle-quick-jump"]');
+      if (toggleQuickJumpBtn) {
+        e.preventDefault();
+        const nav = toggleQuickJumpBtn.closest('.topic-quick-jump');
+        if (nav) {
+          const isCollapsed = nav.classList.toggle('is-collapsed');
+          const chevronEl = toggleQuickJumpBtn.querySelector('.topic-quick-jump__chevron');
+          if (chevronEl) chevronEl.textContent = isCollapsed ? '▲' : '▼';
+          toggleQuickJumpBtn.setAttribute('aria-expanded', String(!isCollapsed));
+        }
+        return;
+      }
+
+      const quickJumpBtn = target.closest('[data-action="quick-jump"]');
+      if (quickJumpBtn) {
+        e.preventDefault();
+        const targetId = quickJumpBtn.getAttribute('data-target');
+        const dest = targetId ? document.getElementById(targetId) : null;
+        if (dest) {
+          dest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return;
+      }
+
       const openRepoBtn = target.closest('[data-action="open-repo-codelab"]');
       if (openRepoBtn) {
         e.preventDefault();
@@ -1893,18 +2026,7 @@ window.App = (() => {
         const buildMatch = href.match(/^\/build\/([^/#?]+)\/?(\?.*)?$/);
         if (buildMatch) {
           e.preventDefault();
-          if (buildMatch[2]) {
-            history.pushState(null, '', href);
-            currentView = 'build';
-            currentSlug = buildMatch[1];
-            activeTab = 'builds';
-            syncSidebarTabs();
-            closeSidebar();
-            renderCurrentView();
-            window.scrollTo(0, 0);
-          } else {
-            navigateToBuild(buildMatch[1], e);
-          }
+          navigateToBuild(buildMatch[1] + (buildMatch[2] || ''), e);
           return;
         }
         const topicMatch = href.match(/^\/topic\/([^/#?]+)\/?$/);
@@ -1940,6 +2062,11 @@ window.App = (() => {
         e.preventDefault();
         if (currentSlug) toggleComplete(currentSlug);
       }
+      // '[' to toggle desktop sidebar collapse
+      if (e.key === '[' && !e.metaKey && !e.ctrlKey && !e.altKey && !isInputFocused()) {
+        e.preventDefault();
+        toggleDesktopSidebar();
+      }
     });
   }
 
@@ -1949,17 +2076,17 @@ window.App = (() => {
     if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.1/dist/code-lab.css';
+      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
       link.crossOrigin = 'anonymous';
       link.onerror = function () {
         this.onerror = null;
-        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.1/dist/code-lab.css';
+        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
       };
       document.head.appendChild(link);
     }
     if (window.CodeLab) return Promise.resolve(window.CodeLab);
     if (window.loadScript) {
-      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.1/dist/code-lab.js').then(() => window.CodeLab);
+      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.js').then(() => window.CodeLab);
     }
     return Promise.resolve(null);
   }
@@ -3213,7 +3340,7 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.1 C++20 Workbench...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.2 C++20 Workbench...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {

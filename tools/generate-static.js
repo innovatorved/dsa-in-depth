@@ -224,7 +224,8 @@ function renderStaticSidebar(curriculum, currentSlug) {
     for (const mod of part.modules) {
       const hasActiveUnit = mod.units.some(u => u.slug === currentSlug);
       const isFirstMod = part.number === 1 && mod === part.modules[0] && !currentSlug;
-      html += `<div class="module-group${(hasActiveUnit || isFirstMod) ? ' expanded' : ''}" data-module="${escapeAttr(mod.id)}">
+      const isExpanded = hasActiveUnit || isFirstMod;
+      html += `<div class="module-group${isExpanded ? ' expanded' : ' collapsed'}" data-module="${escapeAttr(mod.id)}">
         <div class="module-group__header">
           <span class="module-group__chevron">${context.window.Renderer.icons.chevronDown}</span>
           <span class="module-group__number">${escapeHtml(mod.number)}</span>

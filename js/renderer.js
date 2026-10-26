@@ -534,6 +534,76 @@ window.Renderer = (() => {
     );
   }
 
+  function formatInlineCode(str) {
+    if (!str) return '';
+    return escapeHtml(String(str)).replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
+  function decorateProseHeadings(proseHtml) {
+    const headings = [];
+    let idx = 0;
+    const htmlWithIds = String(proseHtml || '').replace(/<h2(\s[^>]*)?>([\s\S]*?)<\/h2>/gi, (full, attrs = '', inner) => {
+      idx += 1;
+      const plain = inner.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
+      const existingIdMatch = attrs.match(/\bid=["']([^"']+)["']/i);
+      const secId = existingIdMatch ? existingIdMatch[1] : `topic-sec-${idx}`;
+      if (plain) {
+        headings.push({ id: secId, title: plain, num: idx });
+      }
+      if (existingIdMatch) return full;
+      return `<h2${attrs} id="${secId}">${inner}</h2>`;
+    });
+    return { htmlWithIds, headings };
+  }
+
+  function renderTopicQuickJump(slug, headings, opts = {}) {
+    const safeSlug = escapeHtml(slug);
+    const hasSections = Array.isArray(headings) && headings.length > 0;
+    return `
+      <nav class="topic-quick-jump is-collapsed" aria-label="On this page">
+        <div class="topic-quick-jump__bar">
+          <div class="topic-quick-jump__pills">
+            <span class="topic-quick-jump__label">Jump to:</span>
+            <a class="topic-quick-jump__pill topic-quick-jump__pill--primary" href="#guided-coding-practice-${safeSlug}" data-action="quick-jump" data-target="guided-coding-practice-${safeSlug}">
+              <span>💻 C++20 Coding Lab</span>
+            </a>
+            ${opts.hasSim ? `
+              <a class="topic-quick-jump__pill" href="#topic-simulator-${safeSlug}" data-action="quick-jump" data-target="topic-simulator-${safeSlug}">
+                <span>⚡ Simulator</span>
+              </a>
+            ` : ''}
+            ${opts.hasQuiz ? `
+              <a class="topic-quick-jump__pill" href="#check-slider-${safeSlug}" data-action="quick-jump" data-target="check-slider-${safeSlug}">
+                <span>🧠 Concept Check</span>
+              </a>
+            ` : ''}
+            ${opts.hasTakeaways ? `
+              <a class="topic-quick-jump__pill" href="#topic-takeaways-${safeSlug}" data-action="quick-jump" data-target="topic-takeaways-${safeSlug}">
+                <span>📌 Key Takeaways</span>
+              </a>
+            ` : ''}
+          </div>
+          ${hasSections ? `
+            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="false" title="Show or hide article sections">
+              <span class="topic-quick-jump__toggle-text">Sections (${headings.length})</span>
+              <span class="topic-quick-jump__toggle-chevron">▼</span>
+            </button>
+          ` : ''}
+        </div>
+        ${hasSections ? `
+          <div class="topic-quick-jump__sections">
+            ${headings.map(h => `
+              <a class="topic-quick-jump__sec-link" href="#${escapeHtml(h.id)}" data-action="quick-jump" data-target="${escapeHtml(h.id)}">
+                <span class="topic-quick-jump__sec-num">0${h.num}</span>
+                <span>${escapeHtml(h.title.replace(/^\d+\.\s*/, ''))}</span>
+              </a>
+            `).join('')}
+          </div>
+        ` : ''}
+      </nav>
+    `;
+  }
+
   function renderTopicCodeLabCard(slug, unit, mod, moduleContent) {
     let fallbackCpp = '';
     if (moduleContent?.content) {
@@ -558,9 +628,15 @@ window.Renderer = (() => {
             <div class="build-lab-card__eyebrow">
               <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
               <span class="build-lab-card__progress">${totalSteps} Guided Steps + Progressive Hints</span>
+              ${steps.length ? `
+                <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
+                  <span class="build-lab-card__collapse-text">Collapse Steps</span>
+                  <span class="build-lab-card__collapse-chevron">▲</span>
+                </button>
+              ` : ''}
             </div>
             <h2 class="build-lab-card__title">${escapeHtml(labTitle)}</h2>
-            <p class="build-lab-card__desc">${escapeHtml(labSummary)}</p>
+            <p class="build-lab-card__desc">${formatInlineCode(labSummary)}</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>${escapeHtml(comp.time || 'O(N log N)')}</code></span>
               <span class="badge">💾 Auxiliary Space: <code>${escapeHtml(comp.space || 'O(N)')}</code></span>
@@ -593,8 +669,8 @@ window.Renderer = (() => {
                     <span class="build-lab-step-card__target">${escapeHtml(phaseLabel)}</span>
                   </div>
                   <div class="build-lab-step-card__title">${escapeHtml(stepTitle)}</div>
-                  ${s.concept ? `<div class="build-lab-step-card__invariant">${escapeHtml(s.concept)}</div>` : ''}
-                  <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || 'Implement and verify core invariants in src/main.cpp.')}</div>
+                  ${s.concept ? `<div class="build-lab-step-card__invariant">${formatInlineCode(s.concept)}</div>` : ''}
+                  <div class="build-lab-step-card__concept">${formatInlineCode(s.instructions || 'Implement and verify core invariants in `src/main.cpp`.')}</div>
                   ${s.hint ? `
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step ${idx + 1})</summary>
@@ -742,20 +818,20 @@ window.Renderer = (() => {
       </div>`;
 
     // Content
-    html += '<article class="prose">';
+    let rawArticleHtml = '';
 
     if (archiveContent && archiveContent.trim().length > 100) {
       // Use authentic markdown from curriculum
-      html += convertMarkdownToHTML(archiveContent);
+      rawArticleHtml += convertMarkdownToHTML(archiveContent);
       // If module content has complementary details (e.g. diagrams or breakdown), augment smoothly
       const isPlaceholder = moduleContent?.content?.includes('This topic is covered in depth in the curriculum archive');
       if (moduleContent?.content && !isPlaceholder && !archiveContent.includes('Real-World Usage')) {
-        html += '<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--divider);">';
+        rawArticleHtml += '<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--divider);">';
         let deepDiveHtml = moduleContent.content.replace(
           /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
           (match, lang, code) => renderTopicCodeBlock(code, lang)
         );
-        html += '<div class="lesson-deep-dive">' + deepDiveHtml + '</div>';
+        rawArticleHtml += '<div class="lesson-deep-dive">' + deepDiveHtml + '</div>';
       }
     } else if (moduleContent?.content) {
       let bodyHtml = moduleContent.content.replace(
@@ -763,7 +839,7 @@ window.Renderer = (() => {
         (match, simId) => {
           const simObj = window.SIMULATORS?.[simId];
           return simObj && typeof simObj.render === 'function'
-            ? `<div class="simulator-mount" data-sim="${simId}">${simObj.render()}</div>`
+            ? `<div class="simulator-mount" id="topic-simulator-${slug}" data-sim="${simId}">${simObj.render()}</div>`
             : match;
         }
       );
@@ -771,39 +847,49 @@ window.Renderer = (() => {
         /<pre><code\s+class=["']language-([a-zA-Z0-9_\-+]+)["']>([\s\S]*?)<\/code><\/pre>/g,
         (match, lang, code) => renderTopicCodeBlock(code, lang)
       );
-      html += bodyHtml;
+      rawArticleHtml += bodyHtml;
     } else {
       // Fallback
-      html += renderFallbackContent(unit, mod);
+      rawArticleHtml += renderFallbackContent(unit, mod);
     }
 
-    html += '</article>';
-
-    // Check yourself: unified slider with Concept Checks, Napkin Math (numeric), and Staff Trade-Off Matrix (tradeoff)
-    if (window.Quiz?.renderCheckSlider) html += window.Quiz.renderCheckSlider(slug);
-
-    // Interactive Visual Simulator (only if not already mounted inline via .simulator-mount)
+    const { htmlWithIds, headings } = decorateProseHeadings(rawArticleHtml);
+    const quizHtml = window.Quiz?.renderCheckSlider ? window.Quiz.renderCheckSlider(slug) : '';
     const hasInlineSim = moduleContent?.content?.includes('class="simulator-mount"');
+    let simHtml = '';
     if (!hasInlineSim) {
       if (window.Simulators && window.Simulators.getSimulatorForUnit) {
         const simData = window.Simulators.getSimulatorForUnit(slug);
         if (simData) {
-          html += `<div class="simulator-mount" data-sim="${simData.sim.id}">${simData.html}</div>`;
+          simHtml = `<div class="simulator-mount" id="topic-simulator-${slug}" data-sim="${simData.sim.id}">${simData.html}</div>`;
         } else if (window.SIMULATOR_SCRIPT_MAP?.[slug]) {
-          html += `<div class="sim-card-placeholder" data-sim-slug="${slug}"></div>`;
+          simHtml = `<div class="sim-card-placeholder" id="topic-simulator-${slug}" data-sim-slug="${slug}"></div>`;
         }
       } else if (window.SIMULATOR_SCRIPT_MAP?.[slug]) {
-        html += `<div class="sim-card-placeholder" data-sim-slug="${slug}"></div>`;
+        simHtml = `<div class="sim-card-placeholder" id="topic-simulator-${slug}" data-sim-slug="${slug}"></div>`;
       }
     }
+
+    const hasSim = Boolean(hasInlineSim || simHtml);
+    const hasQuiz = Boolean(quizHtml && quizHtml.trim());
+    const hasTakeaways = Boolean(moduleContent?.keyTakeaways?.length);
+
+    html += renderTopicQuickJump(slug, headings, { hasSim, hasQuiz, hasTakeaways });
+    html += '<article class="prose">' + htmlWithIds + '</article>';
+
+    // Check yourself: unified slider with Concept Checks, Napkin Math (numeric), and Staff Trade-Off Matrix (tradeoff)
+    if (hasQuiz) html += `<div id="check-slider-${slug}">${quizHtml}</div>`;
+
+    // Interactive Visual Simulator (only if not already mounted inline via .simulator-mount)
+    if (simHtml) html += simHtml;
 
     // Interactive Guided C++20 CodeLab Workbench Card (Unified Guided Algorithm Coding Practice)
     html += renderTopicCodeLabCard(slug, unit, mod, moduleContent);
 
     // Key takeaways
-    if (moduleContent?.keyTakeaways?.length) {
+    if (hasTakeaways) {
       html += `
-        <div class="takeaways">
+        <div class="takeaways" id="topic-takeaways-${slug}">
           <h3 class="takeaways__title">Key Takeaways</h3>
           <div class="takeaways__list">
             ${moduleContent.keyTakeaways.map(t => '<div class="takeaways__item">' + t + '</div>').join('')}

@@ -31,9 +31,9 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
-  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
+  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
+  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
+  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -118,9 +118,18 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <div class="sidebar__header-actions">
+        <button type="button" class="sidebar__collapse-modules-btn" id="sidebar-collapse-modules-btn" title="Collapse or expand all curriculum modules" aria-label="Collapse or expand all curriculum modules">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 15 12 20 17 15"/><polyline points="7 9 12 4 17 9"/></svg>
+          <span id="sidebar-collapse-modules-label">Collapse</span>
+        </button>
+        <button type="button" class="sidebar__collapse-panel-btn" id="sidebar-collapse-btn" title="Collapse sidebar ( [ )" aria-label="Collapse curriculum sidebar">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="14 9 11 12 14 15"/></svg>
+        </button>
+      </div>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
-<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
+<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group collapsed" data-module="m01">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.1</span>
@@ -157,7 +166,7 @@
         </a><a class="unit-item" data-slug="case-v8-elements-kinds" href="/topic/case-v8-elements-kinds/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: How V8 Optimizes JS Arrays (SMI, Double &amp; Holey Elements)</span>
-        </a></div></div><div class="module-group" data-module="m02">
+        </a></div></div><div class="module-group collapsed" data-module="m02">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.2</span>
@@ -194,7 +203,7 @@
         </a><a class="unit-item" data-slug="build-dynamic-circular-deque" href="/topic/build-dynamic-circular-deque/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector</span>
-        </a></div></div><div class="module-group" data-module="m03">
+        </a></div></div><div class="module-group collapsed" data-module="m03">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.3</span>
@@ -231,7 +240,7 @@
         </a><a class="unit-item" data-slug="build-lfu-lru-cache" href="/topic/build-lfu-lru-cache/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group" data-module="m04">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group collapsed" data-module="m04">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.1</span>
@@ -268,7 +277,7 @@
         </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
-        </a></div></div><div class="module-group" data-module="m05">
+        </a></div></div><div class="module-group collapsed" data-module="m05">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.2</span>
@@ -305,7 +314,7 @@
         </a><a class="unit-item" data-slug="build-hybrid-introsort-timsort" href="/topic/build-hybrid-introsort-timsort/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)</span>
-        </a></div></div><div class="module-group" data-module="m06">
+        </a></div></div><div class="module-group collapsed" data-module="m06">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.3</span>
@@ -342,7 +351,7 @@
         </a><a class="unit-item" data-slug="case-git-bisect-eytzinger" href="/topic/case-git-bisect-eytzinger/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: Cache-Friendly Eytzinger Binary Search Layout vs Standard Binary Search</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group" data-module="m07">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group collapsed" data-module="m07">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.1</span>
@@ -416,7 +425,7 @@
         </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
-        </a></div></div><div class="module-group" data-module="m09">
+        </a></div></div><div class="module-group collapsed" data-module="m09">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.3</span>
@@ -453,7 +462,7 @@
         </a><a class="unit-item" data-slug="build-lazy-segment-tree" href="/topic/build-lazy-segment-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates &amp; Queries</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group" data-module="m10">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group collapsed" data-module="m10">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.1</span>
@@ -490,7 +499,7 @@
         </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
-        </a></div></div><div class="module-group" data-module="m11">
+        </a></div></div><div class="module-group collapsed" data-module="m11">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.2</span>
@@ -527,7 +536,7 @@
         </a><a class="unit-item" data-slug="build-thompson-nfa-regex-engine" href="/topic/build-thompson-nfa-regex-engine/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: ReDoS-Proof Regular Expression Engine via Thompson&#39;s Construction &amp; NFA Step Simulation</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group" data-module="m12">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group collapsed" data-module="m12">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.1</span>
@@ -564,7 +573,7 @@
         </a><a class="unit-item" data-slug="build-tarjan-scc-2sat-solver" href="/topic/build-tarjan-scc-2sat-solver/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Tarjan&#39;s SCC Condensation DAG &amp; Linear-Time 2-SAT Constraint Solver</span>
-        </a></div></div><div class="module-group" data-module="m13">
+        </a></div></div><div class="module-group collapsed" data-module="m13">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.2</span>
@@ -601,7 +610,7 @@
         </a><a class="unit-item" data-slug="build-astar-bidirectional-router" href="/topic/build-astar-bidirectional-router/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: A* and Bidirectional Dijkstra Pathfinding Engine with Consistent Potentials</span>
-        </a></div></div><div class="module-group" data-module="m14">
+        </a></div></div><div class="module-group collapsed" data-module="m14">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.3</span>
@@ -638,7 +647,7 @@
         </a><a class="unit-item" data-slug="build-dinic-max-flow-engine" href="/topic/build-dinic-max-flow-engine/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dinic&#39;s Maximum Flow, Min-Cut Partitioning &amp; Bipartite Matching Engine</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group" data-module="m15">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group collapsed" data-module="m15">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.1</span>
@@ -675,7 +684,7 @@
         </a><a class="unit-item" data-slug="build-dancing-links-exact-cover" href="/topic/build-dancing-links-exact-cover/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Knuth&#39;s Dancing Links (DLX) Exact Cover &amp; Constraint Satisfaction Solver</span>
-        </a></div></div><div class="module-group" data-module="m16">
+        </a></div></div><div class="module-group collapsed" data-module="m16">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.2</span>
@@ -712,7 +721,7 @@
         </a><a class="unit-item" data-slug="build-hirschberg-linear-space-diff" href="/topic/build-hirschberg-linear-space-diff/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hirschberg&#39;s O(NM)-Time O(min(N,M))-Space Sequence Alignment &amp; Diff Reconstructor</span>
-        </a></div></div><div class="module-group" data-module="m17">
+        </a></div></div><div class="module-group collapsed" data-module="m17">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.3</span>
@@ -749,7 +758,7 @@
         </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
-        </a></div></div><div class="module-group" data-module="m18">
+        </a></div></div><div class="module-group collapsed" data-module="m18">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.4</span>
@@ -795,6 +804,10 @@
 
   <!-- Main Content -->
   <main class="main" id="main-content">
+    <button type="button" class="sidebar-reopen-btn" id="sidebar-expand-btn" title="Expand curriculum sidebar ( [ )" aria-label="Expand curriculum sidebar">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="12 9 15 12 12 15"/></svg>
+      <span>Curriculum</span>
+    </button>
     <div class="main__content" id="reader" data-prerendered="lsm-trees-write-amplification">
 
       <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -858,8 +871,55 @@
         </div>
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="lsm-trees-write-amplification" id="audio-speed-lsm-trees-write-amplification" title="Playback speed">1x</button>
         <audio id="audio-lsm-trees-write-amplification" src="audio/lsm-trees-write-amplification.mp3" preload="metadata"></audio>
-      </div><article class="prose"><div class="lesson-content">
-      <h2>The LSM Write/Read Pipeline, Tombstones &amp; Compaction Strategies</h2>
+      </div>
+      <nav class="topic-quick-jump is-collapsed" aria-label="On this page">
+        <div class="topic-quick-jump__bar">
+          <div class="topic-quick-jump__pills">
+            <span class="topic-quick-jump__label">Jump to:</span>
+            <a class="topic-quick-jump__pill topic-quick-jump__pill--primary" href="#guided-coding-practice-lsm-trees-write-amplification" data-action="quick-jump" data-target="guided-coding-practice-lsm-trees-write-amplification">
+              <span>💻 C++20 Coding Lab</span>
+            </a>
+            
+              <a class="topic-quick-jump__pill" href="#topic-simulator-lsm-trees-write-amplification" data-action="quick-jump" data-target="topic-simulator-lsm-trees-write-amplification">
+                <span>⚡ Simulator</span>
+              </a>
+            
+            
+              <a class="topic-quick-jump__pill" href="#check-slider-lsm-trees-write-amplification" data-action="quick-jump" data-target="check-slider-lsm-trees-write-amplification">
+                <span>🧠 Concept Check</span>
+              </a>
+            
+            
+              <a class="topic-quick-jump__pill" href="#topic-takeaways-lsm-trees-write-amplification" data-action="quick-jump" data-target="topic-takeaways-lsm-trees-write-amplification">
+                <span>📌 Key Takeaways</span>
+              </a>
+            
+          </div>
+          
+            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="false" title="Show or hide article sections">
+              <span class="topic-quick-jump__toggle-text">Sections (2)</span>
+              <span class="topic-quick-jump__toggle-chevron">▼</span>
+            </button>
+          
+        </div>
+        
+          <div class="topic-quick-jump__sections">
+            
+              <a class="topic-quick-jump__sec-link" href="#topic-sec-1" data-action="quick-jump" data-target="topic-sec-1">
+                <span class="topic-quick-jump__sec-num">01</span>
+                <span>The LSM Write/Read Pipeline, Tombstones &amp; Compaction Strategies</span>
+              </a>
+            
+              <a class="topic-quick-jump__sec-link" href="#topic-sec-2" data-action="quick-jump" data-target="topic-sec-2">
+                <span class="topic-quick-jump__sec-num">02</span>
+                <span>Implementation: LSM Compaction Stream Merger with MVCC Sequence &amp; Tombstone Elision</span>
+              </a>
+            
+          </div>
+        
+      </nav>
+    <article class="prose"><div class="lesson-content">
+      <h2 id="topic-sec-1">The LSM Write/Read Pipeline, Tombstones &amp; Compaction Strategies</h2>
       <p>Because SSTables on disk are <strong>strictly immutable</strong>, an LSM-Tree never modifies an existing file in place:</p>
       <ul>
         <li><strong>Updates &amp; Deletions (Tombstones):</strong> Updating key <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span></span></span></span> simply appends a newer version <code>(K, v_new, seqNo)</code> to the MemTable. Deleting key <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span></span></span></span> appends a special <strong>Tombstone marker</strong> <code>(K, TOMBSTONE, seqNo)</code>. The obsolete older record is only physically reclaimed later when a background compaction merges the SSTable containing the tombstone with the older SSTable at the bottommost level!</li>
@@ -908,7 +968,7 @@
         </ul>
       </div>
 
-      <div class="simulator-mount" data-sim="sim-bplus-tree-splitting">
+      <div class="simulator-mount" id="topic-simulator-lsm-trees-write-amplification" data-sim="sim-bplus-tree-splitting">
           <div class="dsa-sim simulator-card" id="sim-bplus-tree-splitting" data-sim-id="sim-bplus-tree-splitting">
             <div class="dsa-sim__header simulator-card__header">
               <div class="dsa-sim__title simulator-card__title">
@@ -1138,7 +1198,7 @@ into L1 → L2 → ... → Lk
         <p>A standard Bloom Filter hashes an exact key <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>K</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(K)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span><span class="mclose">)</span></span></span></span>, so it can answer <code>get("user:42")</code> by skipping 99% of SSTables, reducing a point lookup to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\le 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> disk read. However, for a <strong>short range scan</strong> (<code>SELECT * FROM events WHERE key BETWEEN "user:42:00" AND "user:42:99"</code>), a standard Bloom Filter is completely useless because you cannot hash every possible string in a continuous interval! Consequently, an LSM range iterator must seek into <em>every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">L_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> SSTable and one SSTable at every level <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub><mo>…</mo><msub><mi>L</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">L_1 \dots L_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></em>. RocksDB mitigates this with <strong>Prefix Bloom Filters</strong> (hashing a fixed key prefix like <code>"user:42"</code>) or Zhang et al.'s <strong>SuRF (Succinct Range Filter, SIGMOD 2018)</strong> based on Fast Succinct Tries.</p>
       </div>
 
-      <h2>Implementation: LSM Compaction Stream Merger with MVCC Sequence &amp; Tombstone Elision</h2>
+      <h2 id="topic-sec-2">Implementation: LSM Compaction Stream Merger with MVCC Sequence &amp; Tombstone Elision</h2>
       <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">35 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1185,7 +1245,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           <li><strong>RocksDB Tombstone Scan Degradation ("Delete-Heavy Queue Anti-Pattern"):</strong> Using an LSM-Tree as a FIFO queue (<code>insert</code> at tail, <code>delete</code> at head, then <code>seekToFirst()</code>) accumulates millions of consecutive tombstones at the start of the keyspace before compaction catches up—causing <code>seekToFirst()</code> to scan past millions of dead tombstones in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> time!</li>
         </ul>
       </div>
-    </div></article>
+    </div></article><div id="check-slider-lsm-trees-write-amplification">
       <section class="check-slider" data-slug="lsm-trees-write-amplification" data-total="4" aria-label="Check yourself">
         <div class="check-slider__head">
           <span class="check-slider__label">Check yourself</span>
@@ -1362,13 +1422,19 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           <p class="check-slider__score"></p>
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
-      </section>
+      </section></div>
       <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-lsm-trees-write-amplification" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
               <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
+              
+                <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
+                  <span class="build-lab-card__collapse-text">Collapse Steps</span>
+                  <span class="build-lab-card__collapse-chevron">▲</span>
+                </button>
+              
             </div>
             <h2 class="build-lab-card__title">LSM-Trees vs B+ Trees: MemTables, SSTables, Compaction &amp; RUM Conjecture — Guided C++20 Coding Lab</h2>
             <p class="build-lab-card__desc">Why do write-intensive distributed databases like RocksDB, LevelDB, Apache Cassandra, ScyllaDB, and Pebble abandon B+ Trees in favor of Patrick O&#039;Neil&#039;s Log-Structured Merge-Tree (LSM-Tree, 1996) ?</p>
@@ -1401,9 +1467,9 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
                   </div>
                   <div class="build-lab-step-card__title">State &amp; Boundary Initialization (compactSortedStream)</div>
                   <div class="build-lab-step-card__invariant">LSM-Trees convert random writes, updates, and deletes into sequential appends via an in-memory MemTable + WAL that flushes immutable SSTables to disk.</div>
-                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at `TODO (Step 1)` inside `compactSortedStream(const std::vector&lt;LSMRecord&gt;&amp; mergedStream,
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at <code>TODO (Step 1)</code> inside <code>compactSortedStream(const std::vector&lt;LSMRecord&gt;&amp; mergedStream,
     uint64_t oldestActiveSnapshotSeq,
-    bool isBottommostLevel)` in `src/main.cpp`.</div>
+    bool isBottommostLevel)</code> in <code>src/main.cpp</code>.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 1)</summary>
@@ -1431,7 +1497,7 @@ output.back().seqNo &lt;= oldestActiveSnapshotSeq) {</code></pre>
                   </div>
                   <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
                   <div class="build-lab-step-card__invariant">Deletions write Tombstone markers; a tombstone cannot be garbage-collected until compaction reaches the bottommost level, otherwise older versions in deeper levels resurrect as zombie keys.</div>
-                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at `TODO (Step 2)` inside `compactSortedStream` in `src/main.cpp`.</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at <code>TODO (Step 2)</code> inside <code>compactSortedStream</code> in <code>src/main.cpp</code>.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 2)</summary>
@@ -1459,7 +1525,7 @@ continue;
                   </div>
                   <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
                   <div class="build-lab-step-card__invariant">Leveled Compaction (RocksDB) minimizes Space Amplification (≤ 11% stale overhead) at the cost of higher Write Amplification O(T log_T N), whereas Size-Tiered Compaction (Cassandra) minimizes Write Amplification O(log_T N) at the cost of higher temporary Space Amplification.</div>
-                  <div class="build-lab-step-card__concept">Complete `TODO (Step 3)` in `src/main.cpp` to finalize the output of `compactSortedStream` and pass all C++20 unit assertions.</div>
+                  <div class="build-lab-step-card__concept">Complete <code>TODO (Step 3)</code> in <code>src/main.cpp</code> to finalize the output of <code>compactSortedStream</code> and pass all C++20 unit assertions.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 3)</summary>
@@ -1481,7 +1547,7 @@ return output;</code></pre>
         
       </section>
     
-        <div class="takeaways">
+        <div class="takeaways" id="topic-takeaways-lsm-trees-write-amplification">
           <h3 class="takeaways__title">Key Takeaways</h3>
           <div class="takeaways__list">
             <div class="takeaways__item">LSM-Trees convert random writes, updates, and deletes into sequential appends via an in-memory MemTable + WAL that flushes immutable SSTables to disk.</div><div class="takeaways__item">Deletions write Tombstone markers; a tombstone cannot be garbage-collected until compaction reaches the bottommost level, otherwise older versions in deeper levels resurrect as zombie keys.</div><div class="takeaways__item">Leveled Compaction (RocksDB) minimizes Space Amplification (≤ 11% stale overhead) at the cost of higher Write Amplification O(T log_T N), whereas Size-Tiered Compaction (Cassandra) minimizes Write Amplification O(log_T N) at the cost of higher temporary Space Amplification.</div><div class="takeaways__item">Bloom Filters reduce LSM point-lookup Read Amplification to ~1 disk read, but standard Bloom Filters cannot prune arbitrary range scans unless paired with Prefix Bloom Filters or Succinct Range Filters (SuRF).</div>
@@ -1612,7 +1678,7 @@ return output;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=271068bb52"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1620,9 +1686,9 @@ return output;</code></pre>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=8e5e923ea0"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=11e736e7d6"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

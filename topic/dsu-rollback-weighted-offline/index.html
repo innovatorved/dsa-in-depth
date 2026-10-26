@@ -31,9 +31,9 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
-  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
+  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
+  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
+  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -118,9 +118,18 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <div class="sidebar__header-actions">
+        <button type="button" class="sidebar__collapse-modules-btn" id="sidebar-collapse-modules-btn" title="Collapse or expand all curriculum modules" aria-label="Collapse or expand all curriculum modules">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 15 12 20 17 15"/><polyline points="7 9 12 4 17 9"/></svg>
+          <span id="sidebar-collapse-modules-label">Collapse</span>
+        </button>
+        <button type="button" class="sidebar__collapse-panel-btn" id="sidebar-collapse-btn" title="Collapse sidebar ( [ )" aria-label="Collapse curriculum sidebar">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="14 9 11 12 14 15"/></svg>
+        </button>
+      </div>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
-<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
+<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group collapsed" data-module="m01">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.1</span>
@@ -157,7 +166,7 @@
         </a><a class="unit-item" data-slug="case-v8-elements-kinds" href="/topic/case-v8-elements-kinds/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: How V8 Optimizes JS Arrays (SMI, Double &amp; Holey Elements)</span>
-        </a></div></div><div class="module-group" data-module="m02">
+        </a></div></div><div class="module-group collapsed" data-module="m02">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.2</span>
@@ -194,7 +203,7 @@
         </a><a class="unit-item" data-slug="build-dynamic-circular-deque" href="/topic/build-dynamic-circular-deque/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector</span>
-        </a></div></div><div class="module-group" data-module="m03">
+        </a></div></div><div class="module-group collapsed" data-module="m03">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.3</span>
@@ -231,7 +240,7 @@
         </a><a class="unit-item" data-slug="build-lfu-lru-cache" href="/topic/build-lfu-lru-cache/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group" data-module="m04">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group collapsed" data-module="m04">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.1</span>
@@ -268,7 +277,7 @@
         </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
-        </a></div></div><div class="module-group" data-module="m05">
+        </a></div></div><div class="module-group collapsed" data-module="m05">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.2</span>
@@ -305,7 +314,7 @@
         </a><a class="unit-item" data-slug="build-hybrid-introsort-timsort" href="/topic/build-hybrid-introsort-timsort/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)</span>
-        </a></div></div><div class="module-group" data-module="m06">
+        </a></div></div><div class="module-group collapsed" data-module="m06">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.3</span>
@@ -342,7 +351,7 @@
         </a><a class="unit-item" data-slug="case-git-bisect-eytzinger" href="/topic/case-git-bisect-eytzinger/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: Cache-Friendly Eytzinger Binary Search Layout vs Standard Binary Search</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group" data-module="m07">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group collapsed" data-module="m07">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.1</span>
@@ -379,7 +388,7 @@
         </a><a class="unit-item" data-slug="build-indexed-d-ary-priority-queue" href="/topic/build-indexed-d-ary-priority-queue/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Indexed 4-Ary Min/Max Priority Queue with O(log_d N) decreaseKey</span>
-        </a></div></div><div class="module-group" data-module="m08">
+        </a></div></div><div class="module-group collapsed" data-module="m08">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.2</span>
@@ -416,7 +425,7 @@
         </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
-        </a></div></div><div class="module-group" data-module="m09">
+        </a></div></div><div class="module-group collapsed" data-module="m09">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.3</span>
@@ -453,7 +462,7 @@
         </a><a class="unit-item" data-slug="build-lazy-segment-tree" href="/topic/build-lazy-segment-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates &amp; Queries</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group" data-module="m10">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group collapsed" data-module="m10">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.1</span>
@@ -490,7 +499,7 @@
         </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
-        </a></div></div><div class="module-group" data-module="m11">
+        </a></div></div><div class="module-group collapsed" data-module="m11">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.2</span>
@@ -527,7 +536,7 @@
         </a><a class="unit-item" data-slug="build-thompson-nfa-regex-engine" href="/topic/build-thompson-nfa-regex-engine/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: ReDoS-Proof Regular Expression Engine via Thompson&#39;s Construction &amp; NFA Step Simulation</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group" data-module="m12">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group collapsed" data-module="m12">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.1</span>
@@ -601,7 +610,7 @@
         </a><a class="unit-item" data-slug="build-astar-bidirectional-router" href="/topic/build-astar-bidirectional-router/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: A* and Bidirectional Dijkstra Pathfinding Engine with Consistent Potentials</span>
-        </a></div></div><div class="module-group" data-module="m14">
+        </a></div></div><div class="module-group collapsed" data-module="m14">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.3</span>
@@ -638,7 +647,7 @@
         </a><a class="unit-item" data-slug="build-dinic-max-flow-engine" href="/topic/build-dinic-max-flow-engine/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dinic&#39;s Maximum Flow, Min-Cut Partitioning &amp; Bipartite Matching Engine</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group" data-module="m15">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Dynamic Programming, Combinatorial Search &amp; Advanced Paradigms</div><div class="module-group collapsed" data-module="m15">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.1</span>
@@ -675,7 +684,7 @@
         </a><a class="unit-item" data-slug="build-dancing-links-exact-cover" href="/topic/build-dancing-links-exact-cover/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Knuth&#39;s Dancing Links (DLX) Exact Cover &amp; Constraint Satisfaction Solver</span>
-        </a></div></div><div class="module-group" data-module="m16">
+        </a></div></div><div class="module-group collapsed" data-module="m16">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.2</span>
@@ -712,7 +721,7 @@
         </a><a class="unit-item" data-slug="build-hirschberg-linear-space-diff" href="/topic/build-hirschberg-linear-space-diff/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hirschberg&#39;s O(NM)-Time O(min(N,M))-Space Sequence Alignment &amp; Diff Reconstructor</span>
-        </a></div></div><div class="module-group" data-module="m17">
+        </a></div></div><div class="module-group collapsed" data-module="m17">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.3</span>
@@ -749,7 +758,7 @@
         </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
-        </a></div></div><div class="module-group" data-module="m18">
+        </a></div></div><div class="module-group collapsed" data-module="m18">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.4</span>
@@ -795,6 +804,10 @@
 
   <!-- Main Content -->
   <main class="main" id="main-content">
+    <button type="button" class="sidebar-reopen-btn" id="sidebar-expand-btn" title="Expand curriculum sidebar ( [ )" aria-label="Expand curriculum sidebar">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="12 9 15 12 12 15"/></svg>
+      <span>Curriculum</span>
+    </button>
     <div class="main__content" id="reader" data-prerendered="dsu-rollback-weighted-offline">
 
       <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -858,8 +871,60 @@
         </div>
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="dsu-rollback-weighted-offline" id="audio-speed-dsu-rollback-weighted-offline" title="Playback speed">1x</button>
         <audio id="audio-dsu-rollback-weighted-offline" src="audio/dsu-rollback-weighted-offline.mp3" preload="metadata"></audio>
-      </div><article class="prose"><div class="lesson-content">
-      <h2>1. Weighted DSU: Path-Compressed Group Potentials</h2>
+      </div>
+      <nav class="topic-quick-jump is-collapsed" aria-label="On this page">
+        <div class="topic-quick-jump__bar">
+          <div class="topic-quick-jump__pills">
+            <span class="topic-quick-jump__label">Jump to:</span>
+            <a class="topic-quick-jump__pill topic-quick-jump__pill--primary" href="#guided-coding-practice-dsu-rollback-weighted-offline" data-action="quick-jump" data-target="guided-coding-practice-dsu-rollback-weighted-offline">
+              <span>💻 C++20 Coding Lab</span>
+            </a>
+            
+              <a class="topic-quick-jump__pill" href="#topic-simulator-dsu-rollback-weighted-offline" data-action="quick-jump" data-target="topic-simulator-dsu-rollback-weighted-offline">
+                <span>⚡ Simulator</span>
+              </a>
+            
+            
+              <a class="topic-quick-jump__pill" href="#check-slider-dsu-rollback-weighted-offline" data-action="quick-jump" data-target="check-slider-dsu-rollback-weighted-offline">
+                <span>🧠 Concept Check</span>
+              </a>
+            
+            
+              <a class="topic-quick-jump__pill" href="#topic-takeaways-dsu-rollback-weighted-offline" data-action="quick-jump" data-target="topic-takeaways-dsu-rollback-weighted-offline">
+                <span>📌 Key Takeaways</span>
+              </a>
+            
+          </div>
+          
+            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="false" title="Show or hide article sections">
+              <span class="topic-quick-jump__toggle-text">Sections (3)</span>
+              <span class="topic-quick-jump__toggle-chevron">▼</span>
+            </button>
+          
+        </div>
+        
+          <div class="topic-quick-jump__sections">
+            
+              <a class="topic-quick-jump__sec-link" href="#topic-sec-1" data-action="quick-jump" data-target="topic-sec-1">
+                <span class="topic-quick-jump__sec-num">01</span>
+                <span>Weighted DSU: Path-Compressed Group Potentials</span>
+              </a>
+            
+              <a class="topic-quick-jump__sec-link" href="#topic-sec-2" data-action="quick-jump" data-target="topic-sec-2">
+                <span class="topic-quick-jump__sec-num">02</span>
+                <span>Complexity Matrix</span>
+              </a>
+            
+              <a class="topic-quick-jump__sec-link" href="#topic-sec-3" data-action="quick-jump" data-target="topic-sec-3">
+                <span class="topic-quick-jump__sec-num">03</span>
+                <span>Production Implementation: Rollback DSU &amp; Weighted Potential DSU</span>
+              </a>
+            
+          </div>
+        
+      </nav>
+    <article class="prose"><div class="lesson-content">
+      <h2 id="topic-sec-1">1. Weighted DSU: Path-Compressed Group Potentials</h2>
       <p>Suppose each edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mclose">)</span></span></span></span> imposes a constraint <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>−</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>=</mo><mi>w</mi></mrow><annotation encoding="application/x-tex">\phi(u) - \phi(v) = w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> in an abelian group <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>G</mi><mo separator="true">,</mo><mo>+</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(G, +)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">+</span><span class="mclose">)</span></span></span></span> (or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>⊕</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi(u) \oplus \phi(v) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> for 2-coloring / bipartiteness). In a Weighted DSU, every node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> stores <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>diff</mtext><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\text{diff}[x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">diff</span></span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span></span></span></span>, defined as the group difference between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> and its immediate parent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>parent</mtext><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\text{parent}[x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">parent</span></span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span></span></span></span>:</p>
       <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>diff</mtext><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo>=</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>−</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mtext>parent</mtext><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{diff}[x] = \phi(x) - \phi(\text{parent}[x])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">diff</span></span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord text"><span class="mord">parent</span></span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">])</span></span></span></span></span>
 
@@ -925,7 +990,7 @@
         Rec --> Roll
       </div>
 
-      <div class="simulator-mount" data-sim="sim-dsu-rollback-timeline">
+      <div class="simulator-mount" id="topic-simulator-dsu-rollback-weighted-offline" data-sim="sim-dsu-rollback-timeline">
           <div class="dsa-sim simulator-card" id="sim-dsu-rollback-timeline" data-sim-id="sim-dsu-rollback-timeline">
             <div class="dsa-sim__header simulator-card__header">
               <div class="dsa-sim__title simulator-card__title">
@@ -1117,7 +1182,7 @@
         <p>A persistent DSU built on a path-copied functional treap or rope allocates <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> heap nodes per union. A Rollback DSU stores a flat <code>std::vector< pair<int, int> > history</code> where each successful merge pushes <code>(childRoot, oldParentOrNegSizeOfChild)</code> and restores both the parent and size in 4 instructions on pop.</p>
       </div>
 
-      <h2>Complexity Matrix</h2>
+      <h2 id="topic-sec-2">Complexity Matrix</h2>
       <table class="complexity-matrix">
         <thead>
           <tr>
@@ -1153,7 +1218,7 @@
         </tbody>
       </table>
 
-      <h2>Production Implementation: Rollback DSU &amp; Weighted Potential DSU</h2>
+      <h2 id="topic-sec-3">Production Implementation: Rollback DSU &amp; Weighted Potential DSU</h2>
       <div class="code-block code-block--collapsible code-block--collapsed"><div class="code-block__header" data-action="toggle-code-header"><div style="display:flex;align-items:center;gap:8px;"><span class="code-block__lang">C++20</span><span class="code-block__lines-chip">79 lines</span></div><div style="display:flex;align-items:center;gap:6px;"><button type="button" class="code-block__copy code-block__run-btn" data-action="run-snippet-codelab" data-lang="cpp" title="Execute this snippet in the in-browser CodeLab IDE"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Run in CodeLab</span></button><button type="button" class="code-block__copy" data-action="copy-code" title="Copy code to clipboard">Copy</button><button type="button" class="code-block__copy code-block__toggle-btn" data-action="toggle-code" aria-expanded="false" title="Expand or collapse code block">
       <span class="code-block__toggle-text">Expand</span>
       <span class="code-block__chevron">▼</span>
@@ -1241,7 +1306,7 @@
         <div class="callout-title">Failure Mode — Non-LIFO Undo Attempts &amp; Unclosed Edge Intervals</div>
         <p>A Rollback DSU stack only supports <strong>LIFO (stack-ordered)</strong> rollbacks; if edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">e_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is added before <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">e_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, you cannot delete <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">e_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> while keeping <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">e_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> without the Segment Tree over Time wrapper! Also, when building the Segment Tree over Time, remember to close all edges still present at the end of the query stream with right endpoint <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mi>Q</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R = Q - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.</p>
       </div>
-    </div></article>
+    </div></article><div id="check-slider-dsu-rollback-weighted-offline">
       <section class="check-slider" data-slug="dsu-rollback-weighted-offline" data-total="4" aria-label="Check yourself">
         <div class="check-slider__head">
           <span class="check-slider__label">Check yourself</span>
@@ -1425,13 +1490,19 @@
           <p class="check-slider__score"></p>
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
-      </section>
+      </section></div>
       <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-dsu-rollback-weighted-offline" aria-label="Guided Algorithm Coding Practice">
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
               <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
+              
+                <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
+                  <span class="build-lab-card__collapse-text">Collapse Steps</span>
+                  <span class="build-lab-card__collapse-chevron">▲</span>
+                </button>
+              
             </div>
             <h2 class="build-lab-card__title">Weighted DSU (Potentials/Parity) &amp; Rollback DSU for Dynamic Connectivity Over Time — Guided C++20 Coding Lab</h2>
             <p class="build-lab-card__desc">Standard Union-Find only answers a boolean question: Are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span> in the same component?</p>
@@ -1464,7 +1535,7 @@
                   </div>
                   <div class="build-lab-step-card__title">Implement find()</div>
                   <div class="build-lab-step-card__invariant">Weighted DSU stores diff[x] = phi(x) - phi(parent[x]) and accumulates telescoping sums during path compression to maintain group potentials or bipartite parity in O(alpha(N)) time.</div>
-                  <div class="build-lab-step-card__concept">Complete `find(int x)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
+                  <div class="build-lab-step-card__concept">Complete <code>find(int x)</code> in <code>src/main.cpp</code> by replacing <code>TODO (Step 1)</code> with the algorithm logic.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 1)</summary>
@@ -1489,7 +1560,7 @@ return x;</code></pre>
                   </div>
                   <div class="build-lab-step-card__title">Implement unite()</div>
                   <div class="build-lab-step-card__invariant">Rollback DSU disables path compression and relies exclusively on Union by Size so that find(x) is O(log N) read-only and unite(u, v) mutates only 2 integers.</div>
-                  <div class="build-lab-step-card__concept">Complete `unite(int a, int b)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
+                  <div class="build-lab-step-card__concept">Complete <code>unite(int a, int b)</code> in <code>src/main.cpp</code> by replacing <code>TODO (Step 2)</code> with the algorithm logic.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 2)</summary>
@@ -1516,7 +1587,7 @@ if (p[a] &gt; p[b]) std::swap(a, b); // p[a] is more negative (larger size)</cod
                   </div>
                   <div class="build-lab-step-card__title">Implement rollback()</div>
                   <div class="build-lab-step-card__invariant">Restoring a Rollback DSU to any prior snapshot pops the history stack in O(1) per rolled-back union.</div>
-                  <div class="build-lab-step-card__concept">Complete `rollback(size_t targetSize)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
+                  <div class="build-lab-step-card__concept">Complete <code>rollback(size_t targetSize)</code> in <code>src/main.cpp</code> by replacing <code>TODO (Step 3)</code> with the algorithm logic.</div>
                   
                     <details class="quiz-hint-details">
                       <summary>💡 Progressive Hint (Step 3)</summary>
@@ -1539,7 +1610,7 @@ int a = p[b];</code></pre>
         
       </section>
     
-        <div class="takeaways">
+        <div class="takeaways" id="topic-takeaways-dsu-rollback-weighted-offline">
           <h3 class="takeaways__title">Key Takeaways</h3>
           <div class="takeaways__list">
             <div class="takeaways__item">Weighted DSU stores diff[x] = phi(x) - phi(parent[x]) and accumulates telescoping sums during path compression to maintain group potentials or bipartite parity in O(alpha(N)) time.</div><div class="takeaways__item">Rollback DSU disables path compression and relies exclusively on Union by Size so that find(x) is O(log N) read-only and unite(u, v) mutates only 2 integers.</div><div class="takeaways__item">Restoring a Rollback DSU to any prior snapshot pops the history stack in O(1) per rolled-back union.</div><div class="takeaways__item">Splitting each edge's active lifespan [L, R] across a Segment Tree over Time turns arbitrary edge additions and deletions into nested LIFO scopes solvable in O((M + Q) log Q log N).</div>
@@ -1670,7 +1741,7 @@ int a = p[b];</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=271068bb52"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1678,9 +1749,9 @@ int a = p[b];</code></pre>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=8e5e923ea0"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=11e736e7d6"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

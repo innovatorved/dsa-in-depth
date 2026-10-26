@@ -31,9 +31,9 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
-  <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
+  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
+  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
+  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
@@ -118,9 +118,18 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      <div class="sidebar__header-actions">
+        <button type="button" class="sidebar__collapse-modules-btn" id="sidebar-collapse-modules-btn" title="Collapse or expand all curriculum modules" aria-label="Collapse or expand all curriculum modules">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 15 12 20 17 15"/><polyline points="7 9 12 4 17 9"/></svg>
+          <span id="sidebar-collapse-modules-label">Collapse</span>
+        </button>
+        <button type="button" class="sidebar__collapse-panel-btn" id="sidebar-collapse-btn" title="Collapse sidebar ( [ )" aria-label="Collapse curriculum sidebar">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="14 9 11 12 14 15"/></svg>
+        </button>
+      </div>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
-<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
+<div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group collapsed" data-module="m01">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.1</span>
@@ -157,7 +166,7 @@
         </a><a class="unit-item" data-slug="case-v8-elements-kinds" href="/topic/case-v8-elements-kinds/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: How V8 Optimizes JS Arrays (SMI, Double &amp; Holey Elements)</span>
-        </a></div></div><div class="module-group" data-module="m02">
+        </a></div></div><div class="module-group collapsed" data-module="m02">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.2</span>
@@ -194,7 +203,7 @@
         </a><a class="unit-item" data-slug="build-dynamic-circular-deque" href="/topic/build-dynamic-circular-deque/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Circular Buffer &amp; Amortized O(1) Vector</span>
-        </a></div></div><div class="module-group" data-module="m03">
+        </a></div></div><div class="module-group collapsed" data-module="m03">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">1.3</span>
@@ -231,7 +240,7 @@
         </a><a class="unit-item" data-slug="build-lfu-lru-cache" href="/topic/build-lfu-lru-cache/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: O(1) LRU and Frequency-Bucketed LFU Cache Engine</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group" data-module="m04">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Hashing, Sorting &amp; Divide-and-Conquer</div><div class="module-group collapsed" data-module="m04">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.1</span>
@@ -268,7 +277,7 @@
         </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
-        </a></div></div><div class="module-group" data-module="m05">
+        </a></div></div><div class="module-group collapsed" data-module="m05">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.2</span>
@@ -305,7 +314,7 @@
         </a><a class="unit-item" data-slug="build-hybrid-introsort-timsort" href="/topic/build-hybrid-introsort-timsort/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hybrid Adaptive Sort (Run Detection + Insertion + Galloping Merge)</span>
-        </a></div></div><div class="module-group" data-module="m06">
+        </a></div></div><div class="module-group collapsed" data-module="m06">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.3</span>
@@ -342,7 +351,7 @@
         </a><a class="unit-item" data-slug="case-git-bisect-eytzinger" href="/topic/case-git-bisect-eytzinger/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Production Case Study: Cache-Friendly Eytzinger Binary Search Layout vs Standard Binary Search</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group" data-module="m07">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Trees, Balanced Hierarchies &amp; Range Queries</div><div class="module-group collapsed" data-module="m07">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.1</span>
@@ -379,7 +388,7 @@
         </a><a class="unit-item" data-slug="build-indexed-d-ary-priority-queue" href="/topic/build-indexed-d-ary-priority-queue/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Indexed 4-Ary Min/Max Priority Queue with O(log_d N) decreaseKey</span>
-        </a></div></div><div class="module-group" data-module="m08">
+        </a></div></div><div class="module-group collapsed" data-module="m08">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.2</span>
@@ -416,7 +425,7 @@
         </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
-        </a></div></div><div class="module-group" data-module="m09">
+        </a></div></div><div class="module-group collapsed" data-module="m09">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.3</span>
@@ -453,7 +462,7 @@
         </a><a class="unit-item" data-slug="build-lazy-segment-tree" href="/topic/build-lazy-segment-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Generic Lazy-Propagating Segment Tree with Range Affine Updates &amp; Queries</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group" data-module="m10">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Strings, Automata &amp; Information Retrieval</div><div class="module-group collapsed" data-module="m10">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.1</span>
@@ -490,7 +499,7 @@
         </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
-        </a></div></div><div class="module-group" data-module="m11">
+        </a></div></div><div class="module-group collapsed" data-module="m11">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.2</span>
@@ -527,7 +536,7 @@
         </a><a class="unit-item" data-slug="build-thompson-nfa-regex-engine" href="/topic/build-thompson-nfa-regex-engine/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: ReDoS-Proof Regular Expression Engine via Thompson&#39;s Construction &amp; NFA Step Simulation</span>
-        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group" data-module="m12">
+        </a></div></div><div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Graph Theory, Shortest Paths &amp; Network Flow</div><div class="module-group collapsed" data-module="m12">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.1</span>
@@ -564,7 +573,7 @@
         </a><a class="unit-item" data-slug="build-tarjan-scc-2sat-solver" href="/topic/build-tarjan-scc-2sat-solver/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Tarjan&#39;s SCC Condensation DAG &amp; Linear-Time 2-SAT Constraint Solver</span>
-        </a></div></div><div class="module-group" data-module="m13">
+        </a></div></div><div class="module-group collapsed" data-module="m13">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.2</span>
@@ -601,7 +610,7 @@
         </a><a class="unit-item" data-slug="build-astar-bidirectional-router" href="/topic/build-astar-bidirectional-router/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: A* and Bidirectional Dijkstra Pathfinding Engine with Consistent Potentials</span>
-        </a></div></div><div class="module-group" data-module="m14">
+        </a></div></div><div class="module-group collapsed" data-module="m14">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">5.3</span>
@@ -675,7 +684,7 @@
         </a><a class="unit-item active" data-slug="build-dancing-links-exact-cover" href="/topic/build-dancing-links-exact-cover/">
           <span class="unit-item__status unit-item__status--active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg></span>
           <span class="unit-item__title">Build Lab: Knuth&#39;s Dancing Links (DLX) Exact Cover &amp; Constraint Satisfaction Solver</span>
-        </a></div></div><div class="module-group" data-module="m16">
+        </a></div></div><div class="module-group collapsed" data-module="m16">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.2</span>
@@ -712,7 +721,7 @@
         </a><a class="unit-item" data-slug="build-hirschberg-linear-space-diff" href="/topic/build-hirschberg-linear-space-diff/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Hirschberg&#39;s O(NM)-Time O(min(N,M))-Space Sequence Alignment &amp; Diff Reconstructor</span>
-        </a></div></div><div class="module-group" data-module="m17">
+        </a></div></div><div class="module-group collapsed" data-module="m17">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.3</span>
@@ -749,7 +758,7 @@
         </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
-        </a></div></div><div class="module-group" data-module="m18">
+        </a></div></div><div class="module-group collapsed" data-module="m18">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.4</span>
@@ -795,6 +804,10 @@
 
   <!-- Main Content -->
   <main class="main" id="main-content">
+    <button type="button" class="sidebar-reopen-btn" id="sidebar-expand-btn" title="Expand curriculum sidebar ( [ )" aria-label="Expand curriculum sidebar">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="12 9 15 12 12 15"/></svg>
+      <span>Curriculum</span>
+    </button>
     <div class="main__content" id="reader" data-prerendered-build="build-dancing-links-exact-cover">
 
       <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -1051,7 +1064,7 @@ x<span class="tok-op">.</span>R<span class="tok-op">.</span>L <span class="tok-o
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=271068bb52"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1059,9 +1072,9 @@ x<span class="tok-op">.</span>R<span class="tok-op">.</span>L <span class="tok-o
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=8e5e923ea0"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=11e736e7d6"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

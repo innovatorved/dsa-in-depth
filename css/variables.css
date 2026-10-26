@@ -83,8 +83,8 @@
   /* ── Layout ──────────────────────────────────────────────── */
   --topbar-h: 52px;
   --sidebar-w: 280px;
-  --content-max: 760px;
-  --reading-max: 680px;
+  --content-max: 820px;
+  --reading-max: 100%;
 
   /* ── Transitions ─────────────────────────────────────────── */
   --dur-fast: 120ms;
