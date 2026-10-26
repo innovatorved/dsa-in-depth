@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -269,7 +268,7 @@
         </a><a class="unit-item" data-slug="build-robin-hood-hash-map" href="/topic/build-robin-hood-hash-map/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Open-Addressed Robin Hood Hash Table with Tombstone-Free Backward Shift Deletion</span>
-        </a></div></div><div class="module-group" data-module="m05">
+        </a></div></div><div class="module-group expanded" data-module="m05">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">2.2</span>
@@ -1378,9 +1377,9 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">External Memory Sorting: K-Way Merge &amp; Replacement Selection — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">When sorting <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mtext> GB</mtext></mrow><annotation encoding="application/x-tex">100\text{ GB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">100</span><span class="mord text"><span class="mord"> GB</span></span></span></span></span> of records with only <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> GB</mtext></mrow><annotation encoding="application/x-tex">1\text{ GB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> GB</span></span></span></span></span> of RAM, CPU comparisons are virtually free compared to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mtext> KB</mtext></mrow><annotation encoding="application/x-tex">4\text{ KB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">4</span><span class="mord text"><span class="mord"> KB</span></span></span></span></span> disk/NVMe block transfers. By merging <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mo stretchy="false">⌊</mo><mi>M</mi><mi mathvariant="normal">/</mi><mi>B</mi><mo stretchy="false">⌋</mo><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">K = \lfloor M / B \rfloor - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌊</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> sorted runs simul</p>
+            <p class="build-lab-card__desc">When sorting <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mtext> GB</mtext></mrow><annotation encoding="application/x-tex">100\text{ GB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">100</span><span class="mord text"><span class="mord"> GB</span></span></span></span></span> of records with only <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> GB</mtext></mrow><annotation encoding="application/x-tex">1\text{ GB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> GB</span></span></span></span></span> of RAM, CPU comparisons are virtually free compared to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mtext> KB</mtext></mrow><annotation encoding="application/x-tex">4\text{ KB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">4</span><span class="mord text"><span class="mord"> KB</span></span></span></span></span> disk/NVMe block transfers.</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
-              <span class="badge">⏱ Target Time: <code>Theta(M/B)</code></span>
+              <span class="badge">⏱ Target Time: <code>Θ(M/B)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(N)</code></span>
               <span class="badge">🧭 Pattern: Sorting Mechanics, Hybrid Sorts &amp; Linear-Time Order Statistics</span>
             </div>
@@ -1400,80 +1399,83 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">In the External-Memory (DAM) model with RAM size M and block size B, K-way Merge Sort achieves the optimal I/O...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement LoserTree()</div>
+                  <div class="build-lab-step-card__invariant">In the External-Memory (DAM) model with RAM size M and block size B, K-way Merge Sort achieves the optimal I/O bound Θ((N/B) log_{M/B}(N/B)) by merging K = Θ(M/B) runs simultaneously.</div>
                   <div class="build-lab-step-card__concept">Complete `LoserTree(const std::vector&lt;T&gt;&amp; initial_heads, T sentinel_max)
         : k_(1), sentinel_(sentinel_max)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>while (k_ &lt; initial_heads.size()) k_ &lt;&lt;= 1;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>while (k_ &lt; initial_heads.size()) k_ &lt;&lt;= 1;
 keys_.assign(k_, sentinel_);
 for (std::size_t i = 0; i &lt; initial_heads.size(); ++i) {
 keys_[i] = initial_heads[i];</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">Knuth&#039;s Replacement Selection uses a size-M min-heap to stream records &gt;= the last output key into the active ...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement replay()</div>
+                  <div class="build-lab-step-card__invariant">Knuth&#039;s Replacement Selection uses a size-M min-heap to stream records &gt;= the last output key into the active run, producing sorted runs of expected length 2M on random inputs.</div>
                   <div class="build-lab-step-card__concept">Complete `replay(std::size_t run_idx, T next_key)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>keys_[run_idx] = std::move(next_key);
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>keys_[run_idx] = std::move(next_key);
 std::size_t champ = run_idx;
 for (std::size_t p = (k_ + run_idx) &gt;&gt; 1; p &gt;= 1; p &gt;&gt;= 1) {
 if (keys_[tree_[p]] &lt; keys_[champ]) {</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">A Tournament Loser Tree stores the loser at each internal node and bubbles the winner upward, performing exact...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement k_way_merge()</div>
+                  <div class="build-lab-step-card__invariant">A Tournament Loser Tree stores the loser at each internal node and bubbles the winner upward, performing exactly log_2(K) comparisons per output (half the 2 log_2(K) comparisons of a binary heap).</div>
                   <div class="build-lab-step-card__concept">Complete `k_way_merge(const std::vector&lt;std::vector&lt;T&gt;&gt;&amp; runs, T sentinel_max)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>const std::size_t k = runs.size();
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>const std::size_t k = runs.size();
 if (k == 0) return {};
 std::vector&lt;std::size_t&gt; pos(k, 0);
 std::vector&lt;T&gt; heads(k, sentinel_max);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="external-merge-sort-replacement" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1595,7 +1597,7 @@ std::vector&lt;T&gt; heads(k, sentinel_max);</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1614,7 +1616,7 @@ std::vector&lt;T&gt; heads(k, sentinel_max);</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1624,7 +1626,7 @@ std::vector&lt;T&gt; heads(k, sentinel_max);</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

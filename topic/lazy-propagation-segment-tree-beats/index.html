@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -417,7 +416,7 @@
         </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
-        </a></div></div><div class="module-group" data-module="m09">
+        </a></div></div><div class="module-group expanded" data-module="m09">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.3</span>
@@ -1497,7 +1496,7 @@ pull(v)"]
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">Lazy Propagation &amp; Segment Tree Beats (Ji Driver Segment Tree for Range Chmin/Chmax) — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">If we apply a range update (such as adding <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">+\Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">Δ</span></span></span></span> to every element in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>L</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[L..R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mord">..</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span>) by updating every leaf in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span>, a single range update degrades to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Theta(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Θ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> time. Lazy Propagation restores <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> time by ha</p>
+            <p class="build-lab-card__desc">R]<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">)</mo><mi>b</mi><mi>y</mi><mi>u</mi><mi>p</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>e</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>y</mi><mi>l</mi><mi>e</mi><mi>a</mi><mi>f</mi><mi>i</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">) by updating every leaf in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose">)</span><span class="mord mathnormal">b</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal">u</span><span class="mord mathnormal">p</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mord mathnormal" style="margin-right:0.0278em;">er</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal">in</span></span></span></span>[L, R]<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo separator="true">,</mo><mi>a</mi><mi>s</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>e</mi><mi>u</mi><mi>p</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>a</mi><mi>d</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>o</mi></mrow><annotation encoding="application/x-tex">, a single range update degrades to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0278em;">er</span><span class="mord mathnormal">an</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">u</span><span class="mord mathnormal">p</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal">es</span><span class="mord mathnormal">t</span><span class="mord mathnormal">o</span></span></span></span>\Theta(N)$ time.</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>O(1)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(1)</code></span>
@@ -1519,76 +1518,79 @@ pull(v)"]
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">Lazy propagation requires a Data Monoid (S, op) and an Endomorphism Tag Monoid (F, compose) whose action distr...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement pull()</div>
+                  <div class="build-lab-step-card__invariant">Lazy propagation requires a Data Monoid (S, op) and an Endomorphism Tag Monoid (F, compose) whose action distributes over op: f(s1 op s2) = f(s1) op f(s2).</div>
                   <div class="build-lab-step-card__concept">Complete `pull(int v)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int L = v &lt;&lt; 1, R = L | 1;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>int L = v &lt;&lt; 1, R = L | 1;
 sum[v] = sum[L] + sum[R];
 if (max1[L] == max1[R]) {
 max1[v] = max1[L];</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">When combining two non-commutative lazy operations like range assignment/scaling and range addition, compose t...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement apply_chmin()</div>
+                  <div class="build-lab-step-card__invariant">When combining two non-commutative lazy operations like range assignment/scaling and range addition, compose them as an affine transformation f(x) = a*x + b where f2(f1(x)) = (a2*a1)*x + (a2*b1 + b2).</div>
                   <div class="build-lab-step-card__concept">Complete `apply_chmin(int v, int64_t x)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (x &gt;= max1[v]) return;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>if (x &gt;= max1[v]) return;
 sum[v] -= (max1[v] - x) * cnt_max[v];
 max1[v] = x;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">Segment Tree Beats handles non-linear range updates (chmin/chmax with range sum) by tracking max1, cntMax, and...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement push_down()</div>
+                  <div class="build-lab-step-card__invariant">Segment Tree Beats handles non-linear range updates (chmin/chmax with range sum) by tracking max1, cntMax, and strict second maximum max2 at every node.</div>
                   <div class="build-lab-step-card__concept">Complete `push_down(int v)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>apply_chmin(v &lt;&lt; 1, max1[v]);
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>apply_chmin(v &lt;&lt; 1, max1[v]);
 apply_chmin((v &lt;&lt; 1) | 1, max1[v]);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="lazy-propagation-segment-tree-beats" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1604,34 +1606,6 @@ apply_chmin((v &lt;&lt; 1) | 1, max1[v]);</code></pre>
             <div class="takeaways__item">Lazy propagation requires a Data Monoid (S, op) and an Endomorphism Tag Monoid (F, compose) whose action distributes over op: f(s1 op s2) = f(s1) op f(s2).</div><div class="takeaways__item">When combining two non-commutative lazy operations like range assignment/scaling and range addition, compose them as an affine transformation f(x) = a*x + b where f2(f1(x)) = (a2*a1)*x + (a2*b1 + b2).</div><div class="takeaways__item">Segment Tree Beats handles non-linear range updates (chmin/chmax with range sum) by tracking max1, cntMax, and strict second maximum max2 at every node.</div><div class="takeaways__item">Whenever x <= max2, recursing into children merges max1 and max2 into a single value x, reducing the tree's potential function and guaranteeing O(log N) (or O(log^2 N)) amortized time.</div>
           </div>
         </div>
-      <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
-        
-          <a class="lesson-builds__item" href="/build/build-implicit-treap-rope/" data-action="navigate-build" data-build-id="build-implicit-treap-rope">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Implicit Treap Rope with O(log n) Split, Merge &amp; Lazy Reverse</span>
-              
-            </div>
-            <span class="lesson-builds__summary">An implicit treap (randomized Cartesian tree over implicit array indices) supporting O(log n) split, merge, arbitrary-index insert/delete, range reversal, and cut-and-paste rope operations.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-fenwick-range-tree/" data-action="navigate-build" data-build-id="build-fenwick-range-tree">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Fenwick Range-Update Range-Query Tree &amp; O(log n) Binary Lifting</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A Binary Indexed Tree (Fenwick Tree) featuring O(n) linear construction, dual-array range-update/range-query (RURQ), and O(log n) prefix binary lifting.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-lazy-segment-tree/" data-action="navigate-build" data-build-id="build-lazy-segment-tree">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Segment Tree with Affine Lazy Propagation &amp; Monoid Beats</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A full segment tree with composable affine lazy tags (f(x) = a*x + b) supporting range add, range multiply, range assign, range sum/min/max queries, and O(log n) first-element tree walk.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-      </div>
       <div class="lesson-builds lesson-challenges">
         <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Debug This in Production — Incident Simulator &amp; Code Hotfix</h3>
         
@@ -1750,7 +1724,7 @@ apply_chmin((v &lt;&lt; 1) | 1, max1[v]);</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1769,7 +1743,7 @@ apply_chmin((v &lt;&lt; 1) | 1, max1[v]);</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1779,7 +1753,7 @@ apply_chmin((v &lt;&lt; 1) | 1, max1[v]);</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

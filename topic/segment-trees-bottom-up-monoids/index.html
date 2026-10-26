@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -417,7 +416,7 @@
         </a><a class="unit-item" data-slug="build-llrb-order-statistic-tree" href="/topic/build-llrb-order-statistic-tree/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Left-Leaning Red-Black (LLRB) Order-Statistic Tree with rank and select</span>
-        </a></div></div><div class="module-group" data-module="m09">
+        </a></div></div><div class="module-group expanded" data-module="m09">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">3.3</span>
@@ -1458,7 +1457,7 @@ M = max(M_L, M_R, Q_L + P_R)"]
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">Segment Trees over Monoids: Recursive vs Iterative (ZKW) Bottom-Up Implementation — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">While a Fenwick tree requires an invertible operation (like addition) to recover <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span> from two prefixes, a Segment Tree only requires a Monoid <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>M</mi><mo separator="true">,</mo><mo>⊕</mo><mo separator="true">,</mo><mi>e</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(M, \oplus, e)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">⊕</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">e</span><span class="mclose">)</span></span></span></span>: an associative binary operation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊕</mo></mrow><annotation encoding="application/x-tex">\oplus</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">⊕</span></span></span></span> with an identi</p>
+            <p class="build-lab-card__desc">While a Fenwick tree requires an invertible operation (like addition) to recover <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>L</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[L, R]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mclose">]</span></span></span></span> from two prefixes, a Segment Tree only requires a Monoid <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>M</mi><mo separator="true">,</mo><mo>⊕</mo><mo separator="true">,</mo><mi>e</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(M, \oplus, e)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">⊕</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">e</span><span class="mclose">)</span></span></span></span>: an associative binary operation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊕</mo></mrow><annotation encoding="application/x-tex">\oplus</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">⊕</span></span></span></span> with an identity element <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">e</span></span></span></span>.</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>O(N)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(log N)</code></span>
@@ -1480,79 +1479,82 @@ M = max(M_L, M_R, Q_L + P_R)"]
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">A Segment Tree works over any Monoid (associative combine + identity element), requiring no inverse or idempot...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement set()</div>
+                  <div class="build-lab-step-card__invariant">A Segment Tree works over any Monoid (associative combine + identity element), requiring no inverse or idempotence.</div>
                   <div class="build-lab-step-card__concept">Complete `set(int idx, const Monoid&amp; val)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int p = idx + n;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>int p = idx + n;
 tree[p] = val;
 for (p &gt;&gt;= 1; p &gt;= 1; p &gt;&gt;= 1) {
 tree[p] = combine(tree[p &lt;&lt; 1], tree[(p &lt;&lt; 1) | 1]);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">Iterative bottom-up (ZKW) segment trees store leaves at [N .. 2N-1] and internal nodes at [1 .. N-1], using ex...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement query()</div>
+                  <div class="build-lab-step-card__invariant">Iterative bottom-up (ZKW) segment trees store leaves at [N .. 2N-1] and internal nodes at [1 .. N-1], using exact 2N space instead of 4N.</div>
                   <div class="build-lab-step-card__concept">Complete `query(int l, int r)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>Monoid resL = identity, resR = identity;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>Monoid resL = identity, resR = identity;
 for (int a = l + n, b = r + n + 1; a &lt; b; a &gt;&gt;= 1, b &gt;&gt;= 1) {
 if (a &amp; 1) resL = combine(resL, tree[a++]);
 if (b &amp; 1) resR = combine(tree[--b], resR);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">To support non-commutative monoids (matrices, max-subarray tuples, polynomial hashes) in an iterative segment ...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement merge()</div>
+                  <div class="build-lab-step-card__invariant">To support non-commutative monoids (matrices, max-subarray tuples, polynomial hashes) in an iterative segment tree, maintain separate left and right accumulators resL and resR.</div>
                   <div class="build-lab-step-card__concept">Complete `merge(const KadaneNode&amp; L, const KadaneNode&amp; R)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>if (L.best == NEG_INF) return R;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>if (L.best == NEG_INF) return R;
 if (R.best == NEG_INF) return L;
 return {
 L.sum + R.sum,</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="segment-trees-bottom-up-monoids" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1568,50 +1570,6 @@ L.sum + R.sum,</code></pre>
             <div class="takeaways__item">A Segment Tree works over any Monoid (associative combine + identity element), requiring no inverse or idempotence.</div><div class="takeaways__item">Iterative bottom-up (ZKW) segment trees store leaves at [N .. 2N-1] and internal nodes at [1 .. N-1], using exact 2N space instead of 4N.</div><div class="takeaways__item">To support non-commutative monoids (matrices, max-subarray tuples, polynomial hashes) in an iterative segment tree, maintain separate left and right accumulators resL and resR.</div><div class="takeaways__item">Complex range queries like Range Maximum Subarray Sum are solved by lifting the node value into a tuple (sum, maxPrefix, maxSuffix, maxSubarray) that is closed under associative merging.</div>
           </div>
         </div>
-      <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
-        
-          <a class="lesson-builds__item" href="/build/build-fenwick-range-tree/" data-action="navigate-build" data-build-id="build-fenwick-range-tree">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Fenwick Range-Update Range-Query Tree &amp; O(log n) Binary Lifting</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A Binary Indexed Tree (Fenwick Tree) featuring O(n) linear construction, dual-array range-update/range-query (RURQ), and O(log n) prefix binary lifting.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-lazy-segment-tree/" data-action="navigate-build" data-build-id="build-lazy-segment-tree">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Segment Tree with Affine Lazy Propagation &amp; Monoid Beats</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A full segment tree with composable affine lazy tags (f(x) = a*x + b) supporting range add, range multiply, range assign, range sum/min/max queries, and O(log n) first-element tree walk.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-persistent-segment-tree/" data-action="navigate-build" data-build-id="build-persistent-segment-tree">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Persistent Segment Tree (Path-Copying Time Travel &amp; Range K-th Smallest)</span>
-              
-            </div>
-            <span class="lesson-builds__summary">An immutable path-copying Persistent Segment Tree supporting O(log n) versioned point updates, historical range sum queries, and O(log n) static range k-th smallest (quantile) queries.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-dsu-rollback-connectivity/" data-action="navigate-build" data-build-id="build-dsu-rollback-connectivity">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Rollback Disjoint-Set Union &amp; Offline Dynamic Connectivity Engine</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A Rollback Disjoint-Set Union (Union-Find with undo stack) paired with a segment tree over the query timeline to solve offline dynamic graph connectivity with edge insertions and deletions.</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-          <a class="lesson-builds__item" href="/build/build-li-chao-convex-hull-dp/" data-action="navigate-build" data-build-id="build-li-chao-convex-hull-dp">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Li Chao Segment Tree &amp; Monotonic Convex Hull Trick DP Engine</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A dynamically allocated Li Chao Segment Tree and a Monotonic Convex Hull Trick queue for optimizing O(n^2) dynamic programming recurrences of the form dp[i] = min_j (m_j * x_i + b_j) to O(n log X) and O(n).</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-      </div>
       <div class="lesson-builds lesson-challenges">
         <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Debug This in Production — Incident Simulator &amp; Code Hotfix</h3>
         
@@ -1718,7 +1676,7 @@ L.sum + R.sum,</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1737,7 +1695,7 @@ L.sum + R.sum,</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1747,7 +1705,7 @@ L.sum + R.sum,</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -491,7 +490,7 @@
         </a><a class="unit-item" data-slug="build-aho-corasick-scanner" href="/topic/build-aho-corasick-scanner/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Multi-Pattern Aho-Corasick Automaton with Overlapping Match Streamer</span>
-        </a></div></div><div class="module-group" data-module="m11">
+        </a></div></div><div class="module-group expanded" data-module="m11">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">4.2</span>
@@ -1398,7 +1397,7 @@ flowchart LR
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">Burrows-Wheeler Transform (BWT), Last-to-First (LF) Mapping &amp; FM-Index Substring Search — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners ( Bowtie2 , BWA ) index the 3-billion-base-pair human genome in u</p>
+            <p class="build-lab-card__desc">How does bzip2 permute a text so that identical characters cluster into long runs without losing a single bit of information, and how do genomics aligners ( Bowtie2 , BWA ) index the 3-billion-base-pair human genome in under 2 GB of RAM while still counting exact occurrences of a length-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">M</span></span></span></span> DNA read in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(M)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mclose">)</span></span></span></span> time?</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>O(N)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(N)</code></span>
@@ -1420,80 +1419,83 @@ flowchart LR
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">The Burrows-Wheeler Transform L[r] = S[(SA[r] - 1 + N) mod N] groups characters that precede identical context...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement FMIndex()</div>
+                  <div class="build-lab-step-card__invariant">The Burrows-Wheeler Transform L[r] = S[(SA[r] - 1 + N) mod N] groups characters that precede identical contexts into long homogeneous runs ideal for Move-to-Front and Run-Length compression.</div>
                   <div class="build-lab-step-card__concept">Complete `FMIndex(std::string_view s_with_null, const std::vector&lt;int&gt;&amp; sa)
         : n_(static_cast&lt;int&gt;(s_with_null.size())), bwt_(n_, &#039; &#039;), occ_(n_ + 1)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>c_.fill(0);
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>c_.fill(0);
 occ_[0].fill(0);
 for (int r = 0; r &lt; n_; ++r) {
 int prev_idx = (sa[r] == 0) ? (n_ - 1) : (sa[r] - 1);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">The Last-to-First (LF) property guarantees that the k-th occurrence of character c in L is the exact same text...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement invert_bwt()</div>
+                  <div class="build-lab-step-card__invariant">The Last-to-First (LF) property guarantees that the k-th occurrence of character c in L is the exact same text character as the k-th occurrence of c in F, enabling O(N) inversion via LF(r) = C[L[r]] + Occ(L[r], r).</div>
                   <div class="build-lab-step-card__concept">Complete `invert_bwt()` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>std::string out(n_ - 1, &#039; &#039;);
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>std::string out(n_ - 1, &#039; &#039;);
 int r = 0; // Row 0 in F starts with &#039; &#039;, so L[0] is the last char of S
 for (int i = n_ - 2; i &gt;= 0; --i) {
 uint8_t ch = static_cast&lt;uint8_t&gt;(bwt_[r]);</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">FM-Index backward search processes pattern P from right to left (j = M - 1 down to 0) updating [sp, ep) = [C[c...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement count_matches()</div>
+                  <div class="build-lab-step-card__invariant">FM-Index backward search processes pattern P from right to left (j = M - 1 down to 0) updating [sp, ep) = [C[c] + Occ(c, sp), C[c] + Occ(c, ep)) to count occurrences in O(M) time.</div>
                   <div class="build-lab-step-card__concept">Complete `count_matches(std::string_view pat)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int sp = 0, ep = n_;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>int sp = 0, ep = n_;
 for (int j = static_cast&lt;int&gt;(pat.size()) - 1; j &gt;= 0 &amp;&amp; sp &lt; ep; --j) {
 uint8_t ch = static_cast&lt;uint8_t&gt;(pat[j]);
 sp = c_[ch] + occ_[sp][ch];</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="burrows-wheeler-transform-fm-index" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1603,7 +1605,7 @@ sp = c_[ch] + occ_[sp][ch];</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1622,7 +1624,7 @@ sp = c_[ch] + occ_[sp][ch];</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1632,7 +1634,7 @@ sp = c_[ch] + occ_[sp][ch];</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

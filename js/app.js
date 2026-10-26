@@ -104,25 +104,22 @@ window.App = (() => {
       return;
     }
 
-    // Upgrade legacy #build/<slug> hash to clean /build/<slug>/ path
-    if (hash.startsWith('build/')) {
-      const [rawBuildSlug, queryStr] = hash.slice(6).split('?');
+    // Redirect legacy #build/<slug> or /build/<slug>/ routes to the unified C++20 curriculum topic view
+    if (hash.startsWith('build/') || path.startsWith('build/')) {
+      const rawPart = hash.startsWith('build/') ? hash.slice(6) : path.slice(6);
+      const [rawBuildSlug, queryStr] = rawPart.split('?');
       currentSlug = rawBuildSlug.replace(/\/+$/, '');
       currentBuildParams = new URLSearchParams(queryStr || window.location.search);
-      history.replaceState(null, '', '/build/' + currentSlug + '/' + (queryStr ? '?' + queryStr : window.location.search));
-      currentView = 'build';
-      activeTab = 'builds';
+      history.replaceState(null, '', '/topic/' + currentSlug + '/');
+      currentView = 'topic';
+      activeTab = 'curriculum';
       syncSidebarTabs();
-      return;
-    }
-
-    // Clean URL build route: build/<slug> or /build/<slug>/
-    if (path.startsWith('build/')) {
-      currentView = 'build';
-      currentSlug = path.slice(6).replace(/\/+$/, '');
-      currentBuildParams = new URLSearchParams(window.location.search);
-      activeTab = 'builds';
-      syncSidebarTabs();
+      const requestedMode = currentBuildParams.get('mode');
+      const requestedStep = currentBuildParams.get('step');
+      if (requestedMode) {
+        const stepIdx = requestedStep !== null ? parseInt(requestedStep, 10) : undefined;
+        setTimeout(() => openTopicCodeLab(currentSlug, requestedMode, stepIdx), 120);
+      }
       return;
     }
 
@@ -257,8 +254,9 @@ window.App = (() => {
   }
 
   function syncSidebarTabs() {
+    activeTab = 'curriculum';
     document.querySelectorAll('.sidebar__tab').forEach(tab => {
-      const match = tab.dataset.tab === activeTab;
+      const match = tab.dataset.tab === 'curriculum';
       tab.classList.toggle('active', match);
       tab.setAttribute('aria-selected', match ? 'true' : 'false');
     });
@@ -283,12 +281,14 @@ window.App = (() => {
     if (!buildId) return;
     const [rawSlug, queryStr] = String(buildId).replace(/^\/build\//, '').split('?');
     const cleanId = rawSlug.replace(/\/+$/, '');
-    history.pushState(null, '', '/build/' + cleanId + '/' + (queryStr ? '?' + queryStr : ''));
-    parseRoute();
-    renderCurrentView();
-    updateSidebarActive();
-    closeSidebar();
-    window.scrollTo(0, 0);
+    const params = new URLSearchParams(queryStr || '');
+    const requestedMode = params.get('mode');
+    const requestedStep = params.get('step');
+    navigateTo(cleanId, event);
+    if (requestedMode) {
+      const stepIdx = requestedStep !== null ? parseInt(requestedStep, 10) : undefined;
+      setTimeout(() => openTopicCodeLab(cleanId, requestedMode, stepIdx), 120);
+    }
   }
 
   function navigate(pathOrUrl, event) {
@@ -994,12 +994,8 @@ window.App = (() => {
     const container = document.getElementById('sidebar-content');
     if (!container) return;
 
-    if (activeTab === 'curriculum') {
-      renderCurriculumSidebar(container);
-    } else if (activeTab === 'builds') {
-      renderBuildsSidebar(container);
-    }
-
+    activeTab = 'curriculum';
+    renderCurriculumSidebar(container);
     updateSidebarActive();
   }
 
@@ -1012,6 +1008,8 @@ window.App = (() => {
       html += `<div style="padding:${part.number > 1 ? '8px' : '4px'} 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">${part.title}</div>`;
 
       for (const mod of part.modules) {
+        const hasActiveUnit = mod.units.some(u => u.slug === currentSlug);
+        if (hasActiveUnit) collapsedModules.delete(mod.id);
         const isCollapsed = collapsedModules.has(mod.id);
         const prog = window.Progress.getModuleProgress(mod.id);
         const progPct = prog.total > 0 ? Math.round((prog.completed / prog.total) * 100) : 0;
@@ -1023,7 +1021,7 @@ window.App = (() => {
             <span class="module-group__title">${mod.title}</span>
             <div class="module-group__progress"><div class="module-group__progress-fill" style="width:${progPct}%"></div></div>
           </div>
-          <div class="module-group__units"${!isCollapsed ? '' : ''}>`;
+          <div class="module-group__units">`;
 
         for (const unit of mod.units) {
           const completed = window.Progress.isCompleted(unit.slug);
@@ -1045,77 +1043,31 @@ window.App = (() => {
   }
 
   function renderBuildsSidebar(container) {
-    const impls = window.IMPLEMENTATIONS_DATA;
-    if (!impls) {
-      if (!container.querySelector('[data-build]')) {
-        container.innerHTML = '<p style="padding:16px;color:var(--fg-muted)">Loading coding labs...</p>';
-      }
-      if (window.loadScript) {
-        window.loadScript('data/implementations_code.js').then(() => {
-          renderBuildsSidebar(container);
-        });
-      }
-      return;
-    }
-
-    const buildCount = Object.keys(impls).length;
-    let html = `<div style="padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Capstone Multi-File Coding Labs (${buildCount})</div>`;
-
-    for (const [id, build] of Object.entries(impls)) {
-      const active = currentView === 'build' && currentSlug === id;
-      let doneSteps = 0;
-      const prog = window.Progress?.getBuildProgress ? window.Progress.getBuildProgress(id) : null;
-      if (prog && Array.isArray(prog.completedSteps)) {
-        doneSteps = prog.completedSteps.length;
-      }
-      const isComplete = Boolean(prog?.completed) || doneSteps >= 4;
-      const statusClass = isComplete ? 'completed' : active ? 'active' : 'pending';
-      const statusIcon = isComplete ? window.Renderer.icons.check : window.Renderer.icons.code;
-
-      html += `<a class="unit-item${active ? ' active' : ''}" data-build="${id}" href="/build/${id}/">
-        <span class="unit-item__status unit-item__status--${statusClass}">${statusIcon}</span>
-        <span class="unit-item__title">${build.title || id.replace(/-/g, ' ')}</span>
-        ${doneSteps > 0 ? `<span style="margin-left:auto;font-size:10px;font-family:var(--font-mono);color:${isComplete ? '#22c55e' : 'var(--fg-faint)'};">${doneSteps}/4</span>` : ''}
-      </a>`;
-    }
-
-    const currData = window.CURRICULUM_DATA;
-    if (currData?.parts) {
-      html += `<div style="padding:14px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;border-top:1px solid var(--border);margin-top:8px;">180 Topic Guided C++20 Labs</div>`;
-      for (const part of currData.parts) {
-        for (const mod of part.modules) {
-          const isCollapsed = collapsedModules.has(mod.id);
-          html += `<div class="module-group${isCollapsed ? ' collapsed' : ''}" data-module="${mod.id}">
-            <div class="module-group__header">
-              <span class="module-group__chevron">${window.Renderer.icons.chevronDown}</span>
-              <span class="module-group__number">${mod.number}</span>
-              <span class="module-group__title">${mod.title}</span>
-            </div>
-            <div class="module-group__units">`;
-          for (const unit of mod.units) {
-            const active = currentView === 'topic' && currentSlug === unit.slug;
-            const completed = window.Progress.isCompleted(unit.slug);
-            const statusClass = completed ? 'completed' : active ? 'active' : 'pending';
-            const statusIcon = completed ? window.Renderer.icons.check : window.Renderer.icons.code;
-            html += `<a class="unit-item${active ? ' active' : ''}" data-slug="${unit.slug}" href="/topic/${unit.slug}/">
-              <span class="unit-item__status unit-item__status--${statusClass}">${statusIcon}</span>
-              <span class="unit-item__title">${unit.title}</span>
-            </a>`;
-          }
-          html += `</div></div>`;
-        }
-      }
-    }
-
-    container.innerHTML = html;
+    renderCurriculumSidebar(container);
   }
 
   function updateSidebarActive() {
     document.querySelectorAll('.unit-item').forEach(el => {
       const slug = el.dataset.slug || el.dataset.build || el.dataset.project;
-      const isActive = slug === currentSlug;
+      const isActive = Boolean(currentSlug && slug === currentSlug);
       el.classList.toggle('active', isActive);
+      const statusEl = el.querySelector('.unit-item__status');
+      if (statusEl && slug && window.Renderer?.icons) {
+        const completed = Boolean(window.Progress?.isCompleted && window.Progress.isCompleted(slug));
+        const statusClass = completed ? 'completed' : isActive ? 'active' : 'pending';
+        statusEl.className = 'unit-item__status unit-item__status--' + statusClass;
+        statusEl.innerHTML = completed
+          ? window.Renderer.icons.check
+          : isActive
+            ? window.Renderer.icons.circle
+            : window.Renderer.icons.dot;
+      }
       if (isActive) {
+        const group = el.closest('.module-group');
+        if (group) {
+          group.classList.remove('collapsed');
+          if (group.dataset.module) collapsedModules.delete(group.dataset.module);
+        }
         el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
     });
@@ -3096,6 +3048,31 @@ window.App = (() => {
     const CodeLab = window.CodeLab;
     if (!CodeLab || !mountEl) return null;
 
+    const targetLang = (mountOpts.language || mountOpts.lang || 'cpp').toLowerCase();
+    const isCppTarget = targetLang === 'cpp' || targetLang === 'c++';
+    const allowedLangs = Array.isArray(mountOpts.languages) && mountOpts.languages.length > 0
+      ? mountOpts.languages
+      : (isCppTarget ? ['cpp'] : [targetLang]);
+
+    if (isCppTarget) {
+      mountOpts.language = 'cpp';
+      mountOpts.lang = 'cpp';
+      mountOpts.languages = allowedLangs;
+      mountOpts.activeFile = mountOpts.activeFile || mountOpts.cppEntry || mountOpts.entry || 'src/main.cpp';
+      // Evict any stale JS/TS cached state in localStorage for this labId
+      try {
+        const lid = mountOpts.labId || mountOpts.id;
+        if (lid) {
+          for (const prefix of ['codelab:v1:', 'codelab_state_', 'sd-codelab-v1:', 'sd_codelab_']) {
+            const raw = localStorage.getItem(prefix + lid);
+            if (raw && (raw.includes('"lang":"js"') || raw.includes('"lang":"ts"') || raw.includes('index.js'))) {
+              localStorage.removeItem(prefix + lid);
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
     const wb = CodeLab.mount(mountEl, mountOpts);
     const ext = CodeLab.extensions || {};
     if (wb && typeof wb.use === 'function') {
@@ -3108,32 +3085,32 @@ window.App = (() => {
       wb._bindEvents = function () {};
 
       try {
-        if (typeof ext.typescript === 'function') {
+        if (allowedLangs.includes('ts') && typeof ext.typescript === 'function') {
           wb.use((w) => ext.typescript(w, {
             files: mountOpts.tsFiles || mountOpts.tsSolutionFiles,
             starterFiles: mountOpts.tsStarterFiles,
             solutionFiles: mountOpts.tsSolutionFiles,
-            activate: mountOpts.language === 'ts' || mountOpts.lang === 'ts'
+            activate: targetLang === 'ts'
           }));
         }
-        if (typeof ext.cpp === 'function') {
+        if ((allowedLangs.includes('cpp') || isCppTarget) && typeof ext.cpp === 'function') {
           wb.use((w) => ext.cpp(w, {
             std: 'c++20',
             optLevel: '-O2',
             cacheInIndexedDB: true,
-            files: mountOpts.cppFiles || mountOpts.cppSolutionFiles,
-            starterFiles: mountOpts.cppStarterFiles,
-            solutionFiles: mountOpts.cppSolutionFiles,
-            activate: mountOpts.language === 'cpp' || mountOpts.lang === 'cpp'
+            files: mountOpts.cppFiles || mountOpts.files || mountOpts.cppSolutionFiles,
+            starterFiles: mountOpts.cppStarterFiles || mountOpts.starterFiles,
+            solutionFiles: mountOpts.cppSolutionFiles || mountOpts.solutionFiles,
+            activate: isCppTarget
           }));
         }
-        if (typeof ext.python === 'function') {
+        if (allowedLangs.includes('py') && typeof ext.python === 'function') {
           wb.use((w) => ext.python(w, {
             preloadPackages: ['numpy', 'pytest'],
             files: mountOpts.pyFiles || mountOpts.pySolutionFiles,
             starterFiles: mountOpts.pyStarterFiles,
             solutionFiles: mountOpts.pySolutionFiles,
-            activate: mountOpts.language === 'py' || mountOpts.language === 'python' || mountOpts.lang === 'py'
+            activate: targetLang === 'py' || targetLang === 'python'
           }));
           const vfs = wb.vfs || wb.shell?.vfs;
           if (vfs && typeof window.CodeLab.seedPythonModulesIntoVfs === 'function') {
@@ -3145,14 +3122,16 @@ window.App = (() => {
           wb.use((w) => ext.guidedLab(w, {
             ...(mountOpts.guided || {}),
             mode: mountOpts.mode,
-            language: mountOpts.language || mountOpts.lang,
+            lang: isCppTarget ? 'cpp' : targetLang,
+            language: isCppTarget ? 'cpp' : targetLang,
+            mainFile: isCppTarget ? 'src/main.cpp' : undefined,
             stepIndex: mountOpts.stepIndex,
             starterFiles: mountOpts.starterFiles || mountOpts.guided?.starterFiles,
             solutionFiles: mountOpts.solutionFiles || mountOpts.guided?.solutionFiles,
             tsStarterFiles: mountOpts.tsStarterFiles || mountOpts.guided?.tsStarterFiles,
             tsSolutionFiles: mountOpts.tsSolutionFiles || mountOpts.guided?.tsSolutionFiles,
-            cppStarterFiles: mountOpts.cppStarterFiles || mountOpts.guided?.cppStarterFiles,
-            cppSolutionFiles: mountOpts.cppSolutionFiles || mountOpts.guided?.cppSolutionFiles,
+            cppStarterFiles: mountOpts.cppStarterFiles || mountOpts.guided?.cppStarterFiles || mountOpts.starterFiles,
+            cppSolutionFiles: mountOpts.cppSolutionFiles || mountOpts.guided?.cppSolutionFiles || mountOpts.solutionFiles,
             pyStarterFiles: mountOpts.pyStarterFiles || mountOpts.guided?.pyStarterFiles,
             pySolutionFiles: mountOpts.pySolutionFiles || mountOpts.guided?.pySolutionFiles,
             steps: guidedSteps,
@@ -3166,10 +3145,35 @@ window.App = (() => {
         wb._bindEvents = origBindEvents;
       }
 
+      if (isCppTarget && allowedLangs.length === 1 && allowedLangs[0] === 'cpp') {
+        wb.enabledLanguages = new Set(['cpp']);
+        wb.hasMultipleLanguages = false;
+        wb.lang = 'cpp';
+        const cppFilesMap = mountOpts.files || mountOpts.cppFiles || mountOpts.cppStarterFiles || {};
+        if (Object.keys(cppFilesMap).length > 0) {
+          wb.files = { ...cppFilesMap };
+          if (wb.vfs && typeof wb.vfs.writeFile === 'function') {
+            for (const [k, v] of Object.entries(wb.files)) {
+              try { wb.vfs.writeFile(k, v); } catch (_) {}
+            }
+          }
+        }
+        const entryCpp = mountOpts.activeFile || mountOpts.cppEntry || 'src/main.cpp';
+        wb.activeFile = wb.files[entryCpp] !== undefined ? entryCpp : Object.keys(wb.files)[0];
+        wb.openTabs = [wb.activeFile, ...(wb.files['README.md'] && wb.activeFile !== 'README.md' ? ['README.md'] : [])];
+        if (typeof wb.setLanguage === 'function') {
+          try { wb.setLanguage('cpp'); } catch (_) {}
+        }
+        if (typeof wb.openFile === 'function' && wb.activeFile) {
+          try { wb.openFile(wb.activeFile); } catch (_) {}
+        }
+      }
+
       if (typeof wb._refreshLanguageSwitcher === 'function') wb._refreshLanguageSwitcher();
       if (typeof wb._renderStepPills === 'function') wb._renderStepPills();
       if (typeof wb._renderGuidePane === 'function') wb._renderGuidePane();
       if (typeof wb._renderFileLists === 'function') wb._renderFileLists();
+      if (typeof wb._renderTabs === 'function') wb._renderTabs();
     }
     return wb;
   }
@@ -3209,19 +3213,21 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.1 IDE...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.1 C++20 Workbench...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {
       if (!CodeLab || !mountEl) return null;
       mountEl.innerHTML = '';
       const opts = Object.assign({
-        languages: ['js', 'ts', 'cpp', 'py'],
+        language: 'cpp',
+        lang: 'cpp',
+        languages: ['cpp'],
         backLabel: 'Close CodeLab',
         onClose: closeGlobalCodeLab
       }, mountOpts);
       if (window.Analytics?.trackCodeLabOpen) {
-        window.Analytics.trackCodeLabOpen(opts.labId || 'global-lab', opts.mode || 'sandbox', opts.language || 'javascript');
+        window.Analytics.trackCodeLabOpen(opts.labId || 'global-lab', opts.mode || 'sandbox', opts.language || 'cpp');
       }
       globalCodeLabInstance = mountCodeLabWithExtensions(mountEl, opts);
       setTimeout(() => {
@@ -3237,10 +3243,16 @@ window.App = (() => {
     const unitTitle = document.querySelector('.lesson__title, h1')?.textContent?.trim() || slug;
     const title = curLab?.title || `${unitTitle} — C++20 Guided Lab`;
     const summary = curLab?.summary || `Hands-on C++20 implementation and algorithmic verification for ${unitTitle}.`;
-    const steps = curLab?.steps || [
+    const rawSteps = curLab?.steps || [
       { id: 'step-1', title: 'Step 1: Core Implementation Invariants', concept: 'Memory & Time Bounds' },
       { id: 'step-2', title: 'Step 2: Algorithmic Verification & Tests', concept: 'Verification Suite' }
     ];
+    const steps = rawSteps.map((s, idx) => ({
+      ...s,
+      targetFile: 'src/main.cpp',
+      cppTargetFile: 'src/main.cpp',
+      phase: s.phase || ['Phase 1 · State & Boundaries', 'Phase 2 · Core Transition', 'Phase 3 · Verification & Bounds'][idx] || `Phase ${idx + 1}`
+    }));
     const starterCode = curLab?.starterCode || '#include <bits/stdc++.h>\n#include <codelab/dsa.hpp>\nusing namespace std;\n\n// TODO: Implement according to lesson invariants\n\nint main() {\n  return 0;\n}\n';
     const solutionCode = curLab?.solutionCode || starterCode;
 
@@ -3250,8 +3262,16 @@ window.App = (() => {
       'README.md': `# ${title}\n\n${summary}\n\n## Verification\n\nRun in the terminal:\n\`\`\`bash\ng++ -std=c++20 -O2 src/main.cpp -o app && ./app\n\`\`\`\n`
     };
 
-    const starterFiles = { 'src/main.cpp': starterCode };
-    const solutionFiles = { 'src/main.cpp': solutionCode };
+    const starterFiles = {
+      'src/main.cpp': starterCode,
+      'src/solution.hpp': solutionCode,
+      'README.md': files['README.md']
+    };
+    const solutionFiles = {
+      'src/main.cpp': solutionCode,
+      'src/solution.hpp': solutionCode,
+      'README.md': files['README.md']
+    };
 
     return openGlobalCodeLab({
       labId: 'topic-' + slug,
@@ -3259,9 +3279,13 @@ window.App = (() => {
       summary: summary,
       mode: mode === 'solution' ? 'sandbox' : 'guided',
       language: 'cpp',
+      lang: 'cpp',
+      languages: ['cpp'],
+      activeFile: 'src/main.cpp',
       entry: 'src/main.cpp',
       cppEntry: 'src/main.cpp',
       files: files,
+      cppFiles: files,
       starterFiles: starterFiles,
       solutionFiles: solutionFiles,
       cppStarterFiles: starterFiles,
@@ -3270,9 +3294,12 @@ window.App = (() => {
       guided: {
         title: title,
         summary: summary,
+        mainFile: 'src/main.cpp',
         steps: steps,
         starterFiles: starterFiles,
-        solutionFiles: solutionFiles
+        solutionFiles: solutionFiles,
+        cppStarterFiles: starterFiles,
+        cppSolutionFiles: solutionFiles
       }
     }).then(instance => {
       if (typeof stepIndex === 'number' && !Number.isNaN(stepIndex) && instance?.selectStep) {
@@ -3283,11 +3310,11 @@ window.App = (() => {
   }
 
   function openSnippetInCodeLab(code, lang, title) {
-    const norm = (lang || 'javascript').toLowerCase();
-    let fileName = 'snippet.js';
-    let entryFile = 'snippet.js';
-    let runCmd = 'node snippet.js';
-    let workbenchLang = 'js';
+    const norm = (lang || 'cpp').toLowerCase();
+    let fileName = 'src/main.cpp';
+    let entryFile = 'src/main.cpp';
+    let runCmd = 'g++ -std=c++20 -O2 src/main.cpp -o app && ./app';
+    let workbenchLang = 'cpp';
     const files = {};
     let formattedCode = code.trim() + '\n';
 
@@ -3301,6 +3328,11 @@ window.App = (() => {
       entryFile = 'snippet.ts';
       runCmd = 'bun run snippet.ts';
       workbenchLang = 'ts';
+    } else if (norm === 'js' || norm === 'javascript' || norm === 'node') {
+      fileName = 'snippet.js';
+      entryFile = 'snippet.js';
+      runCmd = 'node snippet.js';
+      workbenchLang = 'js';
     } else if (norm === 'cpp' || norm === 'c++' || norm === 'cc' || norm === 'cxx' || norm === 'hpp' || norm === 'c') {
       fileName = 'src/main.cpp';
       entryFile = 'src/main.cpp';
@@ -3364,6 +3396,9 @@ window.App = (() => {
       summary: `Run and experiment with this ${norm.toUpperCase()} snippet inside @innovatorved/code-lab (${runCmd}).`,
       mode: 'sandbox',
       language: workbenchLang,
+      lang: workbenchLang,
+      languages: [workbenchLang],
+      activeFile: entryFile,
       entry: entryFile,
       cppEntry: workbenchLang === 'cpp' ? entryFile : undefined,
       pyEntry: workbenchLang === 'py' ? entryFile : undefined,

@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -750,7 +749,7 @@
         </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
-        </a></div></div><div class="module-group" data-module="m18">
+        </a></div></div><div class="module-group expanded" data-module="m18">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.4</span>
@@ -1314,7 +1313,7 @@ std<span class="tok-op">::</span><span class="tok-type">pair</span><span class="
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">Algorithmic Number Theory: Extended Euclidean Algorithm, Modular Inverse, CRT &amp; Sieve of Eratosthenes — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">Division does not exist directly in modular arithmetic <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">Z</mi><mi mathvariant="normal">/</mi><mi>m</mi><mi mathvariant="double-struck">Z</mi></mrow><annotation encoding="application/x-tex">\mathbb{Z}/m\mathbb{Z}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbb">Z</span><span class="mord">/</span><span class="mord mathnormal">m</span><span class="mord mathbb">Z</span></span></span></span>—to divide by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \pmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>, we must multiply by its **modular inverse** <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">a^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> satisfying <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⋅</mo><msup><mi>a</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \cdot a^{-1} \equiv 1 \pmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4445em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>. When <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> is pri</p>
+            <p class="build-lab-card__desc">Division does not exist directly in modular arithmetic <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">Z</mi><mi mathvariant="normal">/</mi><mi>m</mi><mi mathvariant="double-struck">Z</mi></mrow><annotation encoding="application/x-tex">\mathbb{Z}/m\mathbb{Z}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbb">Z</span><span class="mord">/</span><span class="mord mathnormal">m</span><span class="mord mathbb">Z</span></span></span></span>—to divide by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \pmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>, we must multiply by its **modular inverse** <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">a^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> satisfying <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⋅</mo><msup><mi>a</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace></mspace><mspace width="0.4444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333em"/><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \cdot a^{-1} \equiv 1 \pmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4445em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.3333em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>.</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>O(N)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(N)</code></span>
@@ -1336,79 +1335,82 @@ std<span class="tok-op">::</span><span class="tok-type">pair</span><span class="
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">The Extended Euclidean Algorithm finds Bezout coefficients a*x + b*y = gcd(a, b) in O(log(min(a, b))) time and...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement ext_gcd()</div>
+                  <div class="build-lab-step-card__invariant">The Extended Euclidean Algorithm finds Bezout coefficients a*x + b*y = gcd(a, b) in O(log(min(a, b))) time and computes modular inverses for any coprime modulus without factoring.</div>
                   <div class="build-lab-step-card__concept">Complete `ext_gcd(int64_t a, int64_t b, int64_t&amp; x, int64_t&amp; y)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>x = 1; y = 0;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>x = 1; y = 0;
 int64_t x1 = 0, y1 = 1, a1 = a, b1 = b;
 while (b1 != 0) {
 int64_t q = a1 / b1;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">The Generalized Chinese Remainder Theorem merges X = r1 (mod m1) and X = r2 (mod m2) iff r1 == r2 (mod gcd(m1,...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement mod_inv()</div>
+                  <div class="build-lab-step-card__invariant">The Generalized Chinese Remainder Theorem merges X = r1 (mod m1) and X = r2 (mod m2) iff r1 == r2 (mod gcd(m1, m2)), yielding a unique residue modulo lcm(m1, m2).</div>
                   <div class="build-lab-step-card__concept">Complete `mod_inv(int64_t a, int64_t m)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int64_t x, y;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>int64_t x, y;
 int64_t g = ext_gcd(a, m, x, y);
 if (g != 1) return -1; // Inverse does not exist
 return (x % m + m) % m;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">All modular inverses 1..N modulo prime M can be precomputed in O(N) time via inv[i] = (M - M/i) * inv[M % i] %...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement crt_merge()</div>
+                  <div class="build-lab-step-card__invariant">All modular inverses 1..N modulo prime M can be precomputed in O(N) time via inv[i] = (M - M/i) * inv[M % i] % M.</div>
                   <div class="build-lab-step-card__concept">Complete `crt_merge(int64_t r1, int64_t m1, int64_t r2, int64_t m2)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int64_t p, q;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>int64_t p, q;
 int64_t g = ext_gcd(m1, m2, p, q);
 if ((r2 - r1) % g != 0) return {-1, -1};
 int64_t step = m2 / g;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="modular-arithmetic-gcd-crt" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1518,7 +1520,7 @@ int64_t step = m2 / g;</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1537,7 +1539,7 @@ int64_t step = m2 / g;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1547,7 +1549,7 @@ int64_t step = m2 / g;</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

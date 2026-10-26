@@ -581,30 +581,36 @@ window.Renderer = (() => {
 
         ${steps.length ? `
           <div class="build-lab-steps-grid">
-            ${steps.map((s, idx) => `
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+            ${steps.map((s, idx) => {
+              const defaultPhases = ['Phase 1 · State & Boundaries', 'Phase 2 · Core Transition', 'Phase 3 · Verification & Bounds'];
+              const phaseLabel = s.phase || defaultPhases[idx] || `Phase ${idx + 1} · Implementation`;
+              const stepTitle = (s.title || `Step ${idx + 1}`).replace(/^Step\s*\d+:\s*/i, '');
+              return `
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">0${idx + 1}</span>
-                    <span class="build-lab-step-card__target">${escapeHtml(s.concept || 'Algorithmic Invariant')}</span>
+                    <span class="build-lab-step-card__target">${escapeHtml(phaseLabel)}</span>
                   </div>
-                  <div class="build-lab-step-card__title">${escapeHtml((s.title || '').replace(/^Step\s*\d+:\s*/i, ''))}</div>
-                  <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || 'Implement and verify core invariants in C++20.')}</div>
+                  <div class="build-lab-step-card__title">${escapeHtml(stepTitle)}</div>
+                  ${s.concept ? `<div class="build-lab-step-card__invariant">${escapeHtml(s.concept)}</div>` : ''}
+                  <div class="build-lab-step-card__concept">${escapeHtml(s.instructions || 'Implement and verify core invariants in src/main.cpp.')}</div>
                   ${s.hint ? `
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step ${idx + 1})</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>${escapeHtml(s.hint)}</code></pre>
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step ${idx + 1})</summary>
+                      <pre><code>${escapeHtml(s.hint)}</code></pre>
                     </details>
                   ` : ''}
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step ${idx + 1} of ${steps.length}</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided" data-step-index="${idx}" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step ${idx + 1} of ${steps.length} · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="${escapeHtml(slug)}" data-mode="guided" data-step-index="${idx}">
                     Code Step ${idx + 1} →
                   </button>
                 </div>
               </div>
-            `).join('')}
+            `;
+            }).join('')}
           </div>
         ` : ''}
       </section>
@@ -805,8 +811,7 @@ window.Renderer = (() => {
         </div>`;
     }
 
-    // From-scratch builds, incident challenges, and architecture blueprints for this lesson
-    html += renderLessonBuilds(slug);
+    // Incident challenges and architecture blueprints for this lesson
     html += renderLessonChallenges(slug);
     html += renderLessonBlueprints(slug);
 

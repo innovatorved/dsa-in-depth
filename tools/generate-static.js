@@ -222,7 +222,9 @@ function renderStaticSidebar(curriculum, currentSlug) {
     html += `<div style="padding:${part.number > 1 ? '8px' : '4px'} 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">${escapeHtml(part.title)}</div>`;
 
     for (const mod of part.modules) {
-      html += `<div class="module-group" data-module="${escapeAttr(mod.id)}">
+      const hasActiveUnit = mod.units.some(u => u.slug === currentSlug);
+      const isFirstMod = part.number === 1 && mod === part.modules[0] && !currentSlug;
+      html += `<div class="module-group${(hasActiveUnit || isFirstMod) ? ' expanded' : ''}" data-module="${escapeAttr(mod.id)}">
         <div class="module-group__header">
           <span class="module-group__chevron">${context.window.Renderer.icons.chevronDown}</span>
           <span class="module-group__number">${escapeHtml(mod.number)}</span>
@@ -692,16 +694,8 @@ for (const [buildId, build] of buildEntries) {
 
   page = setJsonLd(page, jsonLd);
 
-  // Activate Builds tab in sidebar and pre-render Builds sidebar list
-  page = page.replace(
-    'class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true"',
-    'class="sidebar__tab" data-tab="curriculum" role="tab" aria-selected="false"'
-  );
-  page = page.replace(
-    'class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false"',
-    'class="sidebar__tab active" data-tab="builds" role="tab" aria-selected="true"'
-  );
-  const buildsSidebarHtml = renderStaticBuildsSidebar(implementations, buildId);
+  // Pre-render Curriculum sidebar with the corresponding topic highlighted
+  const buildsSidebarHtml = renderStaticSidebar(curriculum, buildId);
   page = replaceSidebarContent(page, buildsSidebarHtml);
 
   // Replace #reader content with prerendered build page

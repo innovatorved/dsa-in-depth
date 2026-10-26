@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
   <link rel="stylesheet" href="css/variables.css?v=ad04c4a441">
   <link rel="stylesheet" href="css/layout.css?v=a384f455dc">
-  <link rel="stylesheet" href="css/components.css?v=978d1a6d93">
+  <link rel="stylesheet" href="css/components.css?v=0877408bfb">
   <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
   <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
   <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
 
   <!-- Core scripts: head initializer & asset manifest -->
   <script src="js/init.js?v=87619ae004"></script>
-  <script src="js/manifest.js?v=b6d41e3042"></script>
+  <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
 {
@@ -118,7 +118,6 @@
   <aside class="sidebar" id="sidebar" aria-label="Course navigation">
     <nav class="sidebar__tabs" role="tablist">
       <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
-      <button class="sidebar__tab" data-tab="builds" role="tab" aria-selected="false">Coding Labs</button>
     </nav>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group" data-module="m01">
@@ -750,7 +749,7 @@
         </a><a class="unit-item" data-slug="build-li-chao-convex-hull-dp" href="/topic/build-li-chao-convex-hull-dp/">
           <span class="unit-item__status unit-item__status--pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="unit-item__title">Build Lab: Dynamic Li Chao Tree &amp; Monotonic Convex Hull Trick Optimizer</span>
-        </a></div></div><div class="module-group" data-module="m18">
+        </a></div></div><div class="module-group expanded" data-module="m18">
         <div class="module-group__header">
           <span class="module-group__chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
           <span class="module-group__number">6.4</span>
@@ -1324,7 +1323,7 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
               <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
             </div>
             <h2 class="build-lab-card__title">2D Convex Hull: Graham Scan vs Andrew&#039;s Monotone Chain &amp; Rotating Calipers — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">Stretch a rubber band around a scatter of nails on a board and let go—the polygon it snaps into is the **Convex Hull**. While Graham Scan (1972) sorts points by polar angle around the lowest pivot, **Andrew&#039;s Monotone Ch</p>
+            <p class="build-lab-card__desc">Stretch a rubber band around a scatter of nails on a board and let go—the polygon it snaps into is the **Convex Hull**.</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
               <span class="badge">⏱ Target Time: <code>O(M)</code></span>
               <span class="badge">💾 Auxiliary Space: <code>O(N log N)</code></span>
@@ -1346,77 +1345,80 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
         
           <div class="build-lab-steps-grid">
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">Andrew&#039;s Monotone Chain sorts points lexicographically by (x, y) in O(N log N) and constructs the lower and up...</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement dist_sq()</div>
+                  <div class="build-lab-step-card__invariant">Andrew&#039;s Monotone Chain sorts points lexicographically by (x, y) in O(N log N) and constructs the lower and upper convex hulls in O(N) stack operations without polar angle arithmetic.</div>
                   <div class="build-lab-step-card__concept">Complete `dist_sq(const Pt&amp; a, const Pt&amp; b)` in `src/main.cpp` by replacing `TODO (Step 1)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 1)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>int64_t dx = a.x - b.x, dy = a.y - b.y;
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 1)</summary>
+                      <pre><code>int64_t dx = a.x - b.x, dy = a.y - b.y;
 return dx * dx + dy * dy;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 1 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="0" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="0">
                     Code Step 1 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">Using cross(...) &lt;= 0 pops collinear boundary points to yield a minimal vertex hull, whereas cross(...) &lt; 0 re...</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement monotone_chain_hull()</div>
+                  <div class="build-lab-step-card__invariant">Using cross(...) &lt;= 0 pops collinear boundary points to yield a minimal vertex hull, whereas cross(...) &lt; 0 retains all boundary points (requiring deduplication of identical points first).</div>
                   <div class="build-lab-step-card__concept">Complete `monotone_chain_hull(std::vector&lt;Pt&gt; pts)` in `src/main.cpp` by replacing `TODO (Step 2)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 2)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>std::sort(pts.begin(), pts.end());
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 2)</summary>
+                      <pre><code>std::sort(pts.begin(), pts.end());
 pts.erase(std::unique(pts.begin(), pts.end()), pts.end());
 const int n = static_cast&lt;int&gt;(pts.size());
 if (n &lt;= 1) return pts;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 2 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="1" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="1">
                     Code Step 2 →
                   </button>
                 </div>
               </div>
             
-              <div class="build-lab-step-card" style="text-align:left; cursor:default; display:flex; flex-direction:column; justify-content:space-between;">
-                <div>
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
                   <div class="build-lab-step-card__header">
                     <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">Rotating Calipers finds the diameter (farthest pair of points) of a convex hull in O(H) time by sweeping antip...</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
                   </div>
                   <div class="build-lab-step-card__title">Implement rotating_calipers_diameter_sq()</div>
+                  <div class="build-lab-step-card__invariant">Rotating Calipers finds the diameter (farthest pair of points) of a convex hull in O(H) time by sweeping antipodal pairs around the hull.</div>
                   <div class="build-lab-step-card__concept">Complete `rotating_calipers_diameter_sq(const std::vector&lt;Pt&gt;&amp; hull)` in `src/main.cpp` by replacing `TODO (Step 3)` with the algorithm logic.</div>
                   
-                    <details class="quiz-hint-details" style="margin-top:8px; font-size:12px;">
-                      <summary style="cursor:pointer; color:var(--accent); font-weight:600;">💡 Progressive Hint (Step 3)</summary>
-                      <pre style="margin-top:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow-x:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--fg);"><code>const int h = static_cast&lt;int&gt;(hull.size());
+                    <details class="quiz-hint-details">
+                      <summary>💡 Progressive Hint (Step 3)</summary>
+                      <pre><code>const int h = static_cast&lt;int&gt;(hull.size());
 if (h &lt;= 1) return 0;
 if (h == 2) return dist_sq(hull[0], hull[1]);
 int64_t max_d2 = 0;</code></pre>
                     </details>
                   
                 </div>
-                <div class="build-lab-step-card__footer" style="margin-top:10px;">
-                  <span>Step 3 of 3</span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="2" style="padding:2px 8px; font-size:11px;">
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="convex-hull-graham-andrew" data-mode="guided" data-step-index="2">
                     Code Step 3 →
                   </button>
                 </div>
@@ -1432,18 +1434,6 @@ int64_t max_d2 = 0;</code></pre>
             <div class="takeaways__item">Andrew's Monotone Chain sorts points lexicographically by (x, y) in O(N log N) and constructs the lower and upper convex hulls in O(N) stack operations without polar angle arithmetic.</div><div class="takeaways__item">Using cross(...) <= 0 pops collinear boundary points to yield a minimal vertex hull, whereas cross(...) < 0 retains all boundary points (requiring deduplication of identical points first).</div><div class="takeaways__item">Rotating Calipers finds the diameter (farthest pair of points) of a convex hull in O(H) time by sweeping antipodal pairs around the hull.</div><div class="takeaways__item">Always advance the Rotating Calipers pointer using triangle area cross(H_i, H_{i+1}, H_j) rather than point-to-point distance, because perpendicular distance to an edge is guaranteed unimodal on a convex hull.</div>
           </div>
         </div>
-      <div class="lesson-builds">
-        <h3 class="lesson-builds__title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
-        
-          <a class="lesson-builds__item" href="/build/build-li-chao-convex-hull-dp/" data-action="navigate-build" data-build-id="build-li-chao-convex-hull-dp">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <span class="lesson-builds__name">Li Chao Segment Tree &amp; Monotonic Convex Hull Trick DP Engine</span>
-              
-            </div>
-            <span class="lesson-builds__summary">A dynamically allocated Li Chao Segment Tree and a Monotonic Convex Hull Trick queue for optimizing O(n^2) dynamic programming recurrences of the form dp[i] = min_j (m_j * x_i + b_j) to O(n log X) and O(n).</span>
-            <span class="lesson-builds__cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Open Guided Algorithm Lab (C++20, TypeScript &amp; JS) →</span>
-          </a>
-      </div>
         <div class="further-reading">
           <h3 class="further-reading__title">Further Reading</h3>
           <div class="further-reading__list">
@@ -1538,7 +1528,7 @@ int64_t max_d2 = 0;</code></pre>
   <script type="text/plain" data-defer src="data/challenges.js?v=6975e9e50e"></script>
   <script type="text/plain" data-defer src="data/srs-cards.js?v=3e37cf75fc"></script>
   <script type="text/plain" data-defer src="data/whiteboard-blueprints.js?v=27c47f3f79"></script>
-  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=593e146372"></script>
+  <script type="text/plain" data-defer src="data/topic_guided_labs.js?v=d562b38f97"></script>
   <script type="text/plain" data-defer src="data/projects.js?v=9bbdbba7cb"></script>
   <script type="text/plain" data-defer src="data/glossary.js?v=a880f704c7"></script>
 
@@ -1557,7 +1547,7 @@ int64_t max_d2 = 0;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=f9e31b59ee"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=f4f13b420b"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
@@ -1567,7 +1557,7 @@ int64_t max_d2 = 0;</code></pre>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
   <script type="text/plain" data-defer src="js/topic-codelab.js?v=096611d91c"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=16090ab054"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=22b3c0f791"></script>
 
   <!-- App bootstrap & deferred script loader -->
   <script src="js/bootstrap.js?v=df2bb60aeb"></script>

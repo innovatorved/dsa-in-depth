@@ -7,12 +7,15 @@ const rootDir = path.resolve(__dirname, '..');
 const ctx = { window: {} };
 vm.createContext(ctx);
 
-// 1. Load existing curated labs first
+// 1. Load existing hand-curated labs (those with custom ASSERT_EQ / ASSERT_FALSE suites)
 vm.runInContext(fs.readFileSync(path.join(rootDir, 'data/topic_guided_labs.js'), 'utf8'), ctx);
 const existingLabs = {};
 if (ctx.window.TopicGuidedLabs) {
   for (const slug of ctx.window.TopicGuidedLabs.getAllCuratedSlugs()) {
-    existingLabs[slug] = ctx.window.TopicGuidedLabs.getLab(slug);
+    const lab = ctx.window.TopicGuidedLabs.getLab(slug);
+    if (lab && /ASSERT_EQ|ASSERT_FALSE/.test(lab.starterCode || '')) {
+      existingLabs[slug] = lab;
+    }
   }
 }
 
@@ -118,11 +121,46 @@ function defaultReturnForType(retType) {
   return '  return {};';
 }
 
+const DEFAULT_PHASES = [
+  'Phase 1 · State & Boundaries',
+  'Phase 2 · Core Transition',
+  'Phase 3 · Verification & Bounds'
+];
+
+function extractCompleteSentences(rawText, maxChars = 340) {
+  const clean = stripTags(rawText);
+  if (!clean) return '';
+  if (clean.length <= maxChars) return clean;
+  // Match complete sentences ending with ., !, or ? followed by space or end of string
+  const sentences = clean.match(/[^.!?]+[.!?]+(?=\s|$)/g);
+  if (sentences && sentences.length > 0) {
+    let acc = '';
+    for (const s of sentences) {
+      const trimmed = s.trim();
+      if (!acc) {
+        acc = trimmed;
+      } else if ((acc + ' ' + trimmed).length <= maxChars) {
+        acc += ' ' + trimmed;
+      } else {
+        break;
+      }
+    }
+    if (acc && acc.length <= maxChars + 60) {
+      return acc;
+    }
+  }
+  // Fallback: cut cleanly at the last word boundary before maxChars
+  const sub = clean.slice(0, maxChars);
+  const lastSpace = sub.lastIndexOf(' ');
+  const wordSafe = (lastSpace > maxChars * 0.6 ? sub.slice(0, lastSpace) : sub).replace(/[,;:\s—–-]+$/, '');
+  return wordSafe + '.';
+}
+
 function extractComplexity(html, modTitle) {
   let time = 'O(N log N)';
   let space = 'O(N)';
   const text = stripTags(html);
-  const bigOMatches = text.match(/O\([^)]{1,30}\)|\\mathcal\{O\}\([^)]{1,30}\)|\Theta\([^)]{1,30}\)/g) || [];
+  const bigOMatches = text.match(/O\((?:[^()]{1,35}|\([^()]{1,25}\)){1,35}\)|\\mathcal\{O\}\((?:[^()]{1,35}|\([^()]{1,25}\)){1,35}\)|\\Theta\((?:[^()]{1,35}|\([^()]{1,25}\)){1,35}\)/g) || [];
   const cleaned = bigOMatches.map(m =>
     m.replace(/\\mathcal\{O\}/g, 'O')
       .replace(/\\Theta/g, 'Θ')
@@ -176,13 +214,23 @@ function extractFunctions(code) {
   return fns;
 }
 
+function normalizeHandCuratedLab(ex, fallbackComplexity) {
+  return {
+    ...ex,
+    complexity: ex.complexity || fallbackComplexity,
+    steps: (ex.steps || []).map((s, idx) => ({
+      ...s,
+      phase: s.phase || DEFAULT_PHASES[idx] || `Phase ${idx + 1} · Implementation`,
+      targetFile: 'src/main.cpp',
+      cppTargetFile: 'src/main.cpp'
+    }))
+  };
+}
+
 function buildCuratedLabForUnit(unit, mod, entry) {
   if (existingLabs[unit.slug] && existingLabs[unit.slug].steps && existingLabs[unit.slug].steps.length >= 3) {
     const ex = existingLabs[unit.slug];
-    return {
-      ...ex,
-      complexity: ex.complexity || extractComplexity(entry.content, mod.title)
-    };
+    return normalizeHandCuratedLab(ex, extractComplexity(entry.content, mod.title));
   }
 
   const matches = [...(entry.content || '').matchAll(/<pre><code class="language-cpp">([\s\S]*?)<\/code><\/pre>/g)];
@@ -220,7 +268,6 @@ function buildCuratedLabForUnit(unit, mod, entry) {
     for (let idx = chosen.length - 1; idx >= 0; idx--) {
       const fn = chosen[idx];
       const stepNum = idx + 1;
-      const keyLines = fn.nonEmptyLines.slice(0, 3).join(' ');
       const defRet = defaultReturnForType(fn.ret);
       const todoBody = [
         '',
@@ -239,21 +286,26 @@ function buildCuratedLabForUnit(unit, mod, entry) {
     for (let idx = 0; idx < 3; idx++) {
       const fn = chosen[idx];
       const stepNum = idx + 1;
-      const takeaway = takeaways[idx] || `Enforce the core invariant for ${fn.name} within ${complexity.time} time.`;
+      const takeaway = extractCompleteSentences(
+        takeaways[idx] || `Enforce the core invariant for ${fn.name} within ${complexity.time} time.`,
+        260
+      );
       const hintLines = fn.nonEmptyLines.slice(0, 4).join('\n');
       steps.push({
         id: `step-${stepNum}`,
+        phase: DEFAULT_PHASES[idx] || `Phase ${stepNum} · Implementation`,
         title: `Step ${stepNum}: Implement ${fn.name}()`,
-        concept: takeaway.slice(0, 110) + (takeaway.length > 110 ? '...' : ''),
+        concept: takeaway,
         instructions: `Complete \`${fn.name}(${fn.args})\` in \`src/main.cpp\` by replacing \`TODO (Step ${stepNum})\` with the algorithm logic.`,
         hint: hintLines,
-        targetSymbol: fn.name
+        targetSymbol: fn.name,
+        targetFile: 'src/main.cpp',
+        cppTargetFile: 'src/main.cpp'
       });
     }
   } else if (fns.length >= 1) {
     // Split the main algorithm function into 3 logical phases (Initialization, Core Transition/Loop, Termination/Result)
     const mainFn = fns.reduce((a, b) => (b.body.length > a.body.length ? b : a), fns[0]);
-    const bodyLines = mainFn.body.split('\n');
     const meaningful = mainFn.nonEmptyLines;
     const third = Math.max(1, Math.ceil(meaningful.length / 3));
     const phase1Hint = meaningful.slice(0, third).join('\n');
@@ -280,27 +332,36 @@ function buildCuratedLabForUnit(unit, mod, entry) {
     steps.push(
       {
         id: 'step-1',
+        phase: DEFAULT_PHASES[0],
         title: `Step 1: State & Boundary Initialization (${mainFn.name})`,
-        concept: (takeaways[0] || `Initialize state and boundary guards for ${unit.title}`).slice(0, 110),
-        instructions: `Set up the initial data structures, base cases, and boundary invariants at \`TODO (Step 1)\` inside \`${mainFn.name}(${mainFn.args})\`.`,
+        concept: extractCompleteSentences(takeaways[0] || `Initialize state and boundary guards for ${unit.title}.`, 260),
+        instructions: `Set up the initial data structures, base cases, and boundary invariants at \`TODO (Step 1)\` inside \`${mainFn.name}(${mainFn.args})\` in \`src/main.cpp\`.`,
         hint: phase1Hint,
-        targetSymbol: mainFn.name
+        targetSymbol: mainFn.name,
+        targetFile: 'src/main.cpp',
+        cppTargetFile: 'src/main.cpp'
       },
       {
         id: 'step-2',
+        phase: DEFAULT_PHASES[1],
         title: `Step 2: Core Algorithmic Transition & Invariant`,
-        concept: (takeaways[1] || `Maintain ${complexity.time} time and ${complexity.space} space invariants`).slice(0, 110),
-        instructions: `Implement the primary iteration/recursion and state updates at \`TODO (Step 2)\` inside \`${mainFn.name}\`.`,
+        concept: extractCompleteSentences(takeaways[1] || `Maintain ${complexity.time} time and ${complexity.space} space invariants.`, 260),
+        instructions: `Implement the primary iteration/recursion and state updates at \`TODO (Step 2)\` inside \`${mainFn.name}\` in \`src/main.cpp\`.`,
         hint: phase2Hint,
-        targetSymbol: mainFn.name
+        targetSymbol: mainFn.name,
+        targetFile: 'src/main.cpp',
+        cppTargetFile: 'src/main.cpp'
       },
       {
         id: 'step-3',
+        phase: DEFAULT_PHASES[2],
         title: `Step 3: Result Extraction & Edge-Case Verification`,
-        concept: (takeaways[2] || `Verify post-conditions and boundary return values`).slice(0, 110),
-        instructions: `Complete \`TODO (Step 3)\` to finalize the output of \`${mainFn.name}\` and pass all C++20 unit assertions.`,
+        concept: extractCompleteSentences(takeaways[2] || `Verify post-conditions and boundary return values.`, 260),
+        instructions: `Complete \`TODO (Step 3)\` in \`src/main.cpp\` to finalize the output of \`${mainFn.name}\` and pass all C++20 unit assertions.`,
         hint: phase3Hint,
-        targetSymbol: mainFn.name
+        targetSymbol: mainFn.name,
+        targetFile: 'src/main.cpp',
+        cppTargetFile: 'src/main.cpp'
       }
     );
   }
@@ -331,7 +392,10 @@ function buildCuratedLabForUnit(unit, mod, entry) {
 
   return {
     title: `${unit.title} — Guided C++20 Coding Lab`,
-    summary: stripTags(entry.intuition || takeaways[0] || `Implement and verify ${unit.title} in C++20 adhering to ${complexity.time} time and ${complexity.space} space bounds.`).slice(0, 220),
+    summary: extractCompleteSentences(
+      entry.intuition || takeaways[0] || `Implement and verify ${unit.title} in C++20 adhering to ${complexity.time} time and ${complexity.space} space bounds.`,
+      360
+    ),
     complexity,
     steps,
     starterCode,
@@ -355,7 +419,7 @@ for (const part of ctx.window.CURRICULUM_DATA.parts) {
 // Preserve legacy aliases too
 for (const [k, v] of Object.entries(existingLabs)) {
   if (!allLabs[k] && v) {
-    allLabs[k] = v;
+    allLabs[k] = normalizeHandCuratedLab(v, v.complexity);
   }
 }
 
@@ -396,24 +460,33 @@ const outContent = `// Interactive Guided C++20 Topic Labs & In-Browser Test Sui
       steps: [
         {
           id: 'step-1',
+          phase: 'Phase 1 · State & Boundaries',
           title: 'Step 1: State & Invariant Initialization',
-          concept: 'Memory & Boundary Setup',
-          instructions: 'Initialize the data structures and boundary invariants required by the algorithm.',
-          hint: 'Compare your state initialization with the Reference Solution tab.'
+          concept: 'Initialize memory layout and boundary invariants required by the algorithm.',
+          instructions: 'Initialize the data structures and boundary invariants required by the algorithm in src/main.cpp.',
+          hint: 'Compare your state initialization with the Reference Solution tab.',
+          targetFile: 'src/main.cpp',
+          cppTargetFile: 'src/main.cpp'
         },
         {
           id: 'step-2',
+          phase: 'Phase 2 · Core Transition',
           title: 'Step 2: Core Algorithmic Transition',
-          concept: 'Asymptotic Time & Space Invariants',
-          instructions: 'Implement the primary loop/recursion transition while preserving the invariant.',
-          hint: 'Ensure all TODO markers are replaced with working C++20 statements.'
+          concept: 'Maintain asymptotic time and auxiliary space invariants across every state transition.',
+          instructions: 'Implement the primary loop/recursion transition in src/main.cpp while preserving the invariant.',
+          hint: 'Ensure all TODO markers are replaced with working C++20 statements.',
+          targetFile: 'src/main.cpp',
+          cppTargetFile: 'src/main.cpp'
         },
         {
           id: 'step-3',
+          phase: 'Phase 3 · Verification & Bounds',
           title: 'Step 3: Edge-Case & Unit Test Verification',
-          concept: 'Automated Test Suite',
-          instructions: 'Click "Run & Test" to compile and verify against all unit test assertions.',
-          hint: 'Inspect the terminal console for per-test pass/fail diagnostics.'
+          concept: 'Verify boundary conditions and pass all automated C++20 unit test assertions.',
+          instructions: 'Click "Run & Test" to compile src/main.cpp and verify against all unit test assertions.',
+          hint: 'Inspect the terminal console for per-test pass/fail diagnostics.',
+          targetFile: 'src/main.cpp',
+          cppTargetFile: 'src/main.cpp'
         }
       ],
       starterCode: fullSolution,
