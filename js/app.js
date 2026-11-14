@@ -38,13 +38,7 @@ window.App = (() => {
 
   function ensureDefaultCollapsedModules() {
     if (collapsedModulesInitialized) return;
-    const allIds = getAllModuleIds();
-    if (allIds.length === 0) return;
     collapsedModulesInitialized = true;
-    const activeModId = (currentSlug && getModuleIdForSlug(currentSlug)) || allIds[0];
-    for (const id of allIds) {
-      if (id !== activeModId) collapsedModules.add(id);
-    }
   }
 
   function syncCollapseModulesBtn() {
@@ -73,7 +67,10 @@ window.App = (() => {
   }
 
   function toggleDesktopSidebar(forceCollapsed) {
-    if (window.innerWidth <= 900 && sidebarOpen) {
+    const isOverlaySidebar = window.innerWidth <= 1024 ||
+      document.body.classList.contains('view-landing') ||
+      document.body.classList.contains('view-ecosystem');
+    if (isOverlaySidebar && sidebarOpen) {
       closeSidebar();
       return;
     }
@@ -1169,6 +1166,7 @@ window.App = (() => {
       sidebar.classList.add('open');
       sidebarOpen = true;
     }
+    document.getElementById('sidebar-overlay')?.classList.add('open');
   }
 
   function closeSidebar() {
@@ -1177,6 +1175,7 @@ window.App = (() => {
       sidebar.classList.remove('open');
       sidebarOpen = false;
     }
+    document.getElementById('sidebar-overlay')?.classList.remove('open');
   }
 
   // ── Theme ─────────────────────────────────────────────────
@@ -1656,6 +1655,14 @@ window.App = (() => {
     const hamburger = document.getElementById('hamburger-btn');
     if (hamburger) {
       hamburger.addEventListener('click', () => {
+        const body = document.body;
+        const hasDockedSidebar = window.innerWidth > 1024 &&
+          !body.classList.contains('view-landing') &&
+          !body.classList.contains('view-ecosystem');
+        if (hasDockedSidebar && body.classList.contains('sidebar-collapsed')) {
+          toggleDesktopSidebar(false);
+          return;
+        }
         sidebarOpen ? closeSidebar() : openSidebar();
       });
     }
@@ -1669,7 +1676,7 @@ window.App = (() => {
       });
     }
 
-    // Compact sidebar collapse & reopen buttons
+    // Compact sidebar collapse & reopen buttons + '[' keyboard shortcut
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
     if (sidebarCollapseBtn) {
       sidebarCollapseBtn.addEventListener('click', (e) => {
@@ -1684,6 +1691,19 @@ window.App = (() => {
         toggleDesktopSidebar(false);
       });
     }
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== '[' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable || t.closest?.('.cm-editor, code-lab'))) return;
+      const body = document.body;
+      const hasDockedSidebar = window.innerWidth > 1024 &&
+        !body.classList.contains('view-landing') &&
+        !body.classList.contains('view-ecosystem');
+      if (hasDockedSidebar) {
+        e.preventDefault();
+        toggleDesktopSidebar();
+      }
+    });
 
     // Sidebar overlay
     const overlay = document.getElementById('sidebar-overlay');
@@ -2076,11 +2096,6 @@ window.App = (() => {
       if (e.key === ' ' && currentView === 'topic' && !isInputFocused()) {
         e.preventDefault();
         if (currentSlug) toggleComplete(currentSlug);
-      }
-      // '[' to toggle desktop sidebar collapse
-      if (e.key === '[' && !e.metaKey && !e.ctrlKey && !e.altKey && !isInputFocused()) {
-        e.preventDefault();
-        toggleDesktopSidebar();
       }
     });
   }

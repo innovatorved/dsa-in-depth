@@ -3,7 +3,7 @@
  * Per-Page Open Graph & Twitter Card Generator — DSA In Depth
  * Generates 1200×630 PNG social cards in assets/og/*.png (plus assets/og-image.png)
  * for the landing page, hubs, 404, 12 challenges, 180 topic lessons, and 22 build labs
- * using the Neutral Charcoal (#0F0F10 / #18181A) + VedGupta Dark Blue (#1E40AF / #60A5FA) palette.
+ * using the Neutral Charcoal (#0F0F10 / #18181A) + Monochrome Crisp Ink (#F4F4F5) palette.
  *
  * Usage: node tools/generate-og.js
  */
@@ -79,16 +79,16 @@ function schematicSvg(variant) {
       <g transform="translate(855, 165)">
         <rect x="0" y="0" width="275" height="300" rx="12" fill="#18181A" stroke="#2D2D31" stroke-width="1.5"/>
         <text x="20" y="30" fill="#A1A1AA" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700">LLRB / SEGMENT HIERARCHY</text>
-        <line x1="138" y1="88" x2="72" y2="148" stroke="#60A5FA" stroke-width="1.8"/>
+        <line x1="138" y1="88" x2="72" y2="148" stroke="#E4E4E7" stroke-width="1.8"/>
         <line x1="138" y1="88" x2="204" y2="148" stroke="#52525B" stroke-width="1.8"/>
-        <circle cx="138" cy="72" r="22" fill="#1E40AF" fill-opacity="0.28" stroke="#60A5FA" stroke-width="1.6"/>
+        <circle cx="138" cy="72" r="22" fill="#27272A" stroke="#E4E4E7" stroke-width="1.6"/>
         <text x="138" y="77" text-anchor="middle" fill="#FAFAFA" font-family="Menlo, Monaco, monospace" font-size="13" font-weight="700">42</text>
-        <circle cx="72" cy="160" r="20" fill="#1E40AF" fill-opacity="0.32" stroke="#93C5FD" stroke-width="1.6"/>
+        <circle cx="72" cy="160" r="20" fill="#27272A" stroke="#F4F4F5" stroke-width="1.6"/>
         <text x="72" y="165" text-anchor="middle" fill="#FFFFFF" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700">19</text>
         <circle cx="204" cy="160" r="20" fill="#1F1F23" stroke="#3F3F46" stroke-width="1.5"/>
         <text x="204" y="165" text-anchor="middle" fill="#D4D4D8" font-family="Menlo, Monaco, monospace" font-size="12">73</text>
         <rect x="18" y="212" width="240" height="64" rx="6" fill="#121213" stroke="#27272A" stroke-width="1.5"/>
-        <text x="32" y="236" fill="#60A5FA" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">BLACK-HEIGHT INVARIANT</text>
+        <text x="32" y="236" fill="#F4F4F5" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">BLACK-HEIGHT INVARIANT</text>
         <text x="32" y="258" fill="#A1A1AA" font-family="Menlo, Monaco, monospace" font-size="11">h &lt;= 2 log2(N+1) · O(log N)</text>
       </g>`;
   }
@@ -100,9 +100,9 @@ function schematicSvg(variant) {
         <rect x="20" y="52" width="235" height="54" rx="6" fill="#1F1F23" stroke="#3F3F46" stroke-width="1.5"/>
         <text x="34" y="74" fill="#A1A1AA" font-family="Menlo, Monaco, monospace" font-size="11">H2 CTRL [16B SSE2 / NEON]</text>
         <text x="34" y="94" fill="#D4D4D8" font-family="Menlo, Monaco, monospace" font-size="12">0x5A 0x1F 0x80 0x3C ...</text>
-        <line x1="138" y1="106" x2="138" y2="134" stroke="#60A5FA" stroke-width="1.5"/>
-        <rect x="20" y="134" width="235" height="54" rx="6" fill="#1E40AF" fill-opacity="0.26" stroke="#60A5FA" stroke-width="1.5"/>
-        <text x="34" y="156" fill="#93C5FD" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">ROBIN HOOD SWAP · PSL=2</text>
+        <line x1="138" y1="106" x2="138" y2="134" stroke="#E4E4E7" stroke-width="1.5"/>
+        <rect x="20" y="134" width="235" height="54" rx="6" fill="#27272A" stroke="#F4F4F5" stroke-width="1.5"/>
+        <text x="34" y="156" fill="#E4E4E7" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">ROBIN HOOD SWAP · PSL=2</text>
         <text x="34" y="176" fill="#FFFFFF" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700">1 L1 cache line · O(1)</text>
         <rect x="20" y="214" width="235" height="62" rx="6" fill="#121213" stroke="#27272A" stroke-width="1.5"/>
         <text x="34" y="238" fill="#4ADE80" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">64-BYTE CACHE LOCALITY</text>
@@ -115,14 +115,14 @@ function schematicSvg(variant) {
       <text x="20" y="30" fill="#A1A1AA" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700">INVARIANT &amp; FRONTIER TRACE</text>
       <rect x="20" y="50" width="235" height="44" rx="6" fill="#1F1F23" stroke="#3F3F46" stroke-width="1.5"/>
       <text x="34" y="77" fill="#D4D4D8" font-family="Menlo, Monaco, monospace" font-size="12">1.HALF-OPEN [lo, hi) BOUND</text>
-      <line x1="138" y1="94" x2="138" y2="116" stroke="#60A5FA" stroke-width="1.5"/>
-      <rect x="20" y="116" width="235" height="44" rx="6" fill="#1E40AF" fill-opacity="0.26" stroke="#60A5FA" stroke-width="1.5"/>
+      <line x1="138" y1="94" x2="138" y2="116" stroke="#A1A1AA" stroke-width="1.5"/>
+      <rect x="20" y="116" width="235" height="44" rx="6" fill="#27272A" stroke="#F4F4F5" stroke-width="1.5"/>
       <text x="34" y="143" fill="#FFFFFF" font-family="Menlo, Monaco, monospace" font-size="12" font-weight="700">2.RELAXATION &amp; DP STATE</text>
-      <line x1="138" y1="160" x2="138" y2="182" stroke="#60A5FA" stroke-width="1.5"/>
+      <line x1="138" y1="160" x2="138" y2="182" stroke="#A1A1AA" stroke-width="1.5"/>
       <rect x="20" y="182" width="235" height="44" rx="6" fill="#1F1F23" stroke="#3F3F46" stroke-width="1.5"/>
       <text x="34" y="209" fill="#D4D4D8" font-family="Menlo, Monaco, monospace" font-size="12">3.AMORTIZED Φ PROOF</text>
       <rect x="20" y="242" width="235" height="40" rx="6" fill="#121213" stroke="#27272A" stroke-width="1.5"/>
-      <text x="34" y="267" fill="#60A5FA" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">69 Simulators · C++20 Labs</text>
+      <text x="34" y="267" fill="#E4E4E7" font-family="Menlo, Monaco, monospace" font-size="11" font-weight="700">69 Simulators · C++20 Labs</text>
     </g>`;
 }
 
@@ -146,15 +146,15 @@ function buildCardSvg({ badge, title, subtitle, variant }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#0F0F10"/>
   <rect x="24" y="24" width="1152" height="582" rx="16" fill="#141416" stroke="#27272A" stroke-width="1.5"/>
-  <rect x="24" y="24" width="1152" height="6" fill="#1E40AF"/>
+  <rect x="24" y="24" width="1152" height="6" fill="#F4F4F5"/>
 
   <!-- Brand & Module Header -->
-  <rect x="68" y="72" width="54" height="34" rx="6" fill="#1E40AF"/>
-  <text x="95" y="95" text-anchor="middle" fill="#FFFFFF" font-family="Menlo, Monaco, monospace" font-size="16" font-weight="700">DSA</text>
+  <rect x="68" y="72" width="54" height="34" rx="6" fill="#F4F4F5"/>
+  <text x="95" y="95" text-anchor="middle" fill="#0F0F10" font-family="Menlo, Monaco, monospace" font-size="16" font-weight="700">DSA</text>
   <text x="136" y="95" fill="#F4F4F5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="700">DSA IN DEPTH</text>
 
-  <rect x="68" y="128" width="${Math.min(720, Math.max(210, badge.length * 10 + 28))}" height="30" rx="6" fill="#111C33" stroke="#1E3A8A" stroke-width="1"/>
-  <text x="82" y="148" fill="#93C5FD" font-family="Menlo, Monaco, monospace" font-size="13" font-weight="700">${escXml(badge.toUpperCase())}</text>
+  <rect x="68" y="128" width="${Math.min(720, Math.max(210, badge.length * 10 + 28))}" height="30" rx="6" fill="#1C1C1F" stroke="#3F3F46" stroke-width="1"/>
+  <text x="82" y="148" fill="#E4E4E7" font-family="Menlo, Monaco, monospace" font-size="13" font-weight="700">${escXml(badge.toUpperCase())}</text>
 
   <!-- Title & Promise -->
   ${titleTspans}
@@ -165,7 +165,7 @@ function buildCardSvg({ badge, title, subtitle, variant }) {
 
   <!-- Footer -->
   <line x1="68" y1="530" x2="1132" y2="530" stroke="#27272A" stroke-width="1"/>
-  <text x="68" y="566" fill="#60A5FA" font-family="Menlo, Monaco, monospace" font-size="16" font-weight="700">dsa-in-depth.vedgupta.in</text>
+  <text x="68" y="566" fill="#E4E4E7" font-family="Menlo, Monaco, monospace" font-size="16" font-weight="700">dsa-in-depth.vedgupta.in</text>
   <text x="1132" y="566" text-anchor="end" fill="#A1A1AA" font-family="Menlo, Monaco, monospace" font-size="14">6 Tracks · 180 Topics · 69 Simulators &amp; C++20 Labs</text>
 </svg>`;
 }
