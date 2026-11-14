@@ -824,19 +824,19 @@
   color: var(--fg-faint);
 }
 
-/* ── Callout Boxes ─────────────────────────────────────────── */
+/* ── Callout Boxes (Craft-Floor: 1px Full Border + Semantic Tint) ── */
 .callout {
-  border-left: 3px solid var(--callout-border);
+  border: 1px solid var(--callout-border);
   background: var(--callout-bg);
-  border-radius: 0 var(--r-md) var(--r-md) 0;
-  padding: var(--space-3) var(--space-4);
-  margin: var(--space-4) 0;
+  border-radius: var(--r-lg);
+  padding: var(--space-4) var(--space-5);
+  margin: var(--space-5) 0;
 }
 
-.callout--note { border-left-color: var(--callout-note); }
-.callout--tip { border-left-color: var(--callout-tip); }
-.callout--warn { border-left-color: var(--callout-warn); }
-.callout--danger { border-left-color: var(--callout-danger); }
+.callout--note { background: var(--info-bg); border-color: var(--info-border); }
+.callout--tip { background: var(--success-bg); border-color: var(--success-border); }
+.callout--warn { background: var(--warning-bg); border-color: var(--warning-border); }
+.callout--danger { background: var(--error-bg); border-color: var(--error-border); }
 
 .callout__title {
   font-size: var(--text-sm);
@@ -2157,7 +2157,6 @@
   padding: var(--space-3) var(--space-4);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--border-strong);
   border-radius: var(--r-md);
 }
 .quiz-scenario-box__label {
@@ -3010,8 +3009,10 @@
   color: var(--cl-fg, var(--fg));
   line-height: 1.5;
   width: 100%;
-  padding-left: 10px;
-  border-left: 2px solid var(--border-strong, var(--border));
+  padding: 6px 10px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   word-break: break-word;
 }
 
@@ -5488,7 +5489,8 @@ body.view-ecosystem .main__content {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
-  border-left: 3px solid var(--info);
+  border: 1px solid var(--info-border);
+  background: var(--info-bg);
 }
 
 .code-hotfix-card__title {

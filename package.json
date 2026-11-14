@@ -1,13 +1,16 @@
 {
   "name": "dsa-in-depth",
   "version": "1.0.0",
-  "description": "Data Structures & Algorithms In Depth — An interactive, hardware-grounded, primary-source textbook, visual simulator suite, and zero-dependency coding lab platform.",
-  "private": true,
+  "description": "Data Structures & Algorithms In Depth — Open-source interactive curriculum, 69 step-by-step visualizers, and browser-native C++20/TypeScript coding labs.",
+  "homepage": "https://dsa-in-depth.vedgupta.in",
   "scripts": {
     "build": "node tools/build.js",
+    "og": "node tools/generate-og.js",
     "validate": "node tools/validate.js",
     "check:rendered": "node tools/check-rendered.js",
     "test": "node tools/validate.js && node tools/check-rendered.js",
+    "lint": "node tools/validate.js",
+    "typecheck": "node tools/check-rendered.js",
     "stamp": "node tools/stamp-assets.js",
     "stamp:check": "node tools/stamp-assets.js --check",
     "prerender": "node tools/generate-static.js",
@@ -17,17 +20,25 @@
     "type": "git",
     "url": "https://github.com/innovatorved/dsa-in-depth.git"
   },
+  "bugs": {
+    "url": "https://github.com/innovatorved/dsa-in-depth/issues"
+  },
   "keywords": [
     "algorithms",
     "data-structures",
     "computer-science",
     "interactive-simulators",
+    "cpp20",
+    "webassembly",
     "code-lab"
   ],
-  "author": "Ved Gupta",
-  "license": "MIT",
+  "author": "Ved Gupta (https://vedgupta.in)",
+  "license": "MIT AND CC-BY-4.0",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "@innovatorved/code-lab": "^0.3.2",
+    "@innovatorved/code-lab": "^0.4.0",
     "katex": "^0.19.1"
   }
 }

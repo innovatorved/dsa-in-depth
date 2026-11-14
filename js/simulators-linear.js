@@ -496,10 +496,10 @@ window.SIMULATORS = window.SIMULATORS || {};
         step++;
         const met = slow === fast;
         const tags = {};
-        if (met) tags[slow] = '🐢=🐇 MEET!';
+        if (met) tags[slow] = 'slow==fast MEET';
         else {
-          tags[slow] = '🐢 slow';
-          tags[fast] = '🐇 fast';
+          tags[slow] = 'slow';
+          tags[fast] = 'fast';
         }
         tags[3] = (tags[3] ? tags[3] + ' · ' : '') + 'μ=3 (entry)';
 

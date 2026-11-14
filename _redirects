@@ -1,10 +1,6 @@
-/roadmap /index.html 200
-/roadmap/* /index.html 200
-/challenges /index.html 200
-/challenges/* /index.html 200
-/sandbox /index.html 200
-/sandbox/* /index.html 200
-/dashboard /index.html 200
-/dashboard/* /index.html 200
-/glossary /index.html 200
-/glossary/* /index.html 200
+/roadmap/* /roadmap/ 200
+/challenges/* /challenges/ 200
+/sandbox/* /sandbox/ 200
+/dashboard/* /dashboard/ 200
+/glossary/* /glossary/ 200
+/projects/* /projects/ 200

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" class="no-shell">
+<html lang="en" data-product="dsa" data-theme="light" class="no-shell">
 <head>
   <meta charset="UTF-8">
   <base href="/">
@@ -7,20 +7,20 @@
   <title>Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#39;s Matrix Product — DSA In Depth</title>
   <meta name="description" content="In Master Theorem Case 1, when recursive branching dominates combine work a &gt; b^d, reducing the number of recursive subproblems a directly shrinks the.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f7f7f5">
   
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#39;s Matrix Product — DSA In Depth">
   <meta property="og:description" content="In Master Theorem Case 1, when recursive branching dominates combine work a &gt; b^d, reducing the number of recursive subproblems a directly shrinks the.">
   <meta property="og:url" content="https://dsa-in-depth.vedgupta.in/topic/karatsuba-strassen-algebraic-dc/">
-  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og/karatsuba-strassen-algebraic-dc.png">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#39;s Matrix Product — DSA In Depth">
   <meta name="twitter:description" content="In Master Theorem Case 1, when recursive branching dominates combine work a &gt; b^d, reducing the number of recursive subproblems a directly shrinks the.">
-  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og/karatsuba-strassen-algebraic-dc.png">
   
   <!-- Canonical -->
   <link rel="canonical" href="https://dsa-in-depth.vedgupta.in/topic/karatsuba-strassen-algebraic-dc/">
@@ -28,18 +28,21 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
-  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
-  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
-  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
-  <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
+  <!-- Stylesheets: Shared Design System + Self-Hosted KaTeX + Product Styles -->
+  <link rel="stylesheet" href="design-system/tokens.css?v=dee287f0ce">
+  <link rel="stylesheet" href="design-system/components.css?v=606a179125">
+  <link rel="stylesheet" href="css/vendor/katex/katex.min.css?v=83121916c0" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/variables.css?v=3127790d83">
+  <link rel="stylesheet" href="css/layout.css?v=0dc598dfac">
+  <link rel="stylesheet" href="css/components.css?v=0b0094ee0d">
+  <link rel="stylesheet" href="css/content.css?v=c40a7aea42" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/landing.css?v=33a22491bf">
+  <link rel="stylesheet" href="css/simulators.css?v=92fbb259dc" media="print" onload="this.media='all'">
 
   <!-- Core scripts: head initializer & asset manifest -->
-  <script src="js/init.js?v=2dc0b4ce1b"></script>
+  <script src="js/init.js?v=bbcf24c9ff"></script>
   <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
@@ -48,6 +51,7 @@
   "@type": "TechArticle",
   "headline": "Algebraic Divide-and-Conquer: Karatsuba Multiplication & Strassen's Matrix Product",
   "description": "In Master Theorem Case 1, when recursive branching dominates combine work a > b^d, reducing the number of recursive subproblems a directly shrinks the.",
+  "image": "https://dsa-in-depth.vedgupta.in/assets/og/karatsuba-strassen-algebraic-dc.png",
   "url": "https://dsa-in-depth.vedgupta.in/topic/karatsuba-strassen-algebraic-dc/",
   "author": {
     "@type": "Person",
@@ -87,21 +91,20 @@
     </div>
 
     <div class="topbar__actions">
-      <nav class="topbar__nav" aria-label="Primary navigation">
-        <a href="/roadmap" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
-        <a href="/challenges" class="topbar__nav-link" data-nav="challenges">Challenges</a>
-        <a href="/dashboard" class="topbar__nav-link" data-nav="dashboard">Dashboard</a>
-        <a href="/sandbox" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a href="/roadmap/" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
+        <a href="/challenges/" class="topbar__nav-link" data-nav="challenges">Challenges</a>
+        <a href="/sandbox/" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
         <a href="/glossary/" class="topbar__nav-link" data-nav="glossary">Glossary</a>
       </nav>
 
-      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+      <a href="/dashboard/" class="topbar__progress-pill" id="progress-pill" data-nav="dashboard" title="Your learning progress" aria-label="Your learning progress">
         <svg class="topbar__progress-ring" viewBox="0 0 20 20">
           <circle class="track" cx="10" cy="10" r="8"/>
           <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
         </svg>
         <span id="progress-text">0%</span>
-      </div>
+      </a>
 
       <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -115,9 +118,11 @@
   </header>
 
   <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
-    <nav class="sidebar__tabs" role="tablist">
-      <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+  <aside class="sidebar" id="sidebar" aria-label="Curriculum">
+    <div class="sidebar__tabs">
+      <div role="tablist" aria-label="Sidebar sections" style="display:flex;align-items:center;">
+        <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      </div>
       <div class="sidebar__header-actions">
         <button type="button" class="sidebar__collapse-modules-btn" id="sidebar-collapse-modules-btn" title="Collapse or expand all curriculum modules" aria-label="Collapse or expand all curriculum modules">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 15 12 20 17 15"/><polyline points="7 9 12 4 17 9"/></svg>
@@ -127,7 +132,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="14 9 11 12 14 15"/></svg>
         </button>
       </div>
-    </nav>
+    </div>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group collapsed" data-module="m01">
         <div class="module-group__header">
@@ -803,13 +808,15 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Main Content -->
-  <main class="main" id="main-content">
+  <main class="main" id="main-content" tabindex="-1">
     <button type="button" class="sidebar-reopen-btn" id="sidebar-expand-btn" title="Expand curriculum sidebar ( [ )" aria-label="Expand curriculum sidebar">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="12 9 15 12 12 15"/></svg>
       <span>Curriculum</span>
     </button>
     <div class="main__content" id="reader" data-prerendered="karatsuba-strassen-algebraic-dc">
 
+      <div class="ds-lesson-shell ds-lesson-shell--with-toc">
+        <div class="ds-lesson-article">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="/" data-nav="home">Home</a>
         <span class="breadcrumbs__sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
@@ -818,42 +825,36 @@
         <span class="breadcrumbs__current">Algebraic Divide-and-Conquer: Karatsuba Multiplication & Strassen's Matrix Product</span>
       </nav>
 
-      <div class="lesson-header">
+      <div class="lesson-header ds-lesson-hero">
         <div class="lesson-header__badge">
           <span class="lesson-header__kind lesson-header__kind--lesson">lesson</span>
            <span class="tag">karatsuba</span> <span class="tag">strassen</span> <span class="tag">divide-and-conquer</span>
         </div>
         <h1 class="lesson-header__title">Algebraic Divide-and-Conquer: Karatsuba Multiplication & Strassen's Matrix Product</h1>
+        <div class="ds-lesson-hero__promise">Trading expensive multiplications for additions to reduce big-integer multiplication to O(N^1.585) and matrix multiplication to O(N^2.807).</div>
         <div class="lesson-header__meta">
           <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min read</span>
           <span class="lesson-header__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Module 2.3: Binary Search on Monotonic Spaces & Divide-and-Conquer</span>
           <span class="lesson-header__meta-item" title="Content curriculum review date"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Updated Oct 19, 2026</span>
         </div>
-        <div class="lesson-header__actions" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+        <div class="lesson-header__actions ds-lesson-hero__toolbar" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
           <button class="completion-toggle" data-action="toggle-complete" data-slug="karatsuba-strassen-algebraic-dc">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg> Mark Complete
           </button>
-          <a href="#cheatsheet/m06" class="btn btn--sm btn--outline" title="View printable cheat sheet for this module">
-            📄 Cheat Sheet
+          <button type="button" class="btn btn--secondary btn--sm" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" title="Launch C++20 Coding Lab">
+            ▶ Run C++20 Lab
+          </button>
+          <a href="#cheatsheet/m06" class="btn btn--secondary btn--sm" title="View printable cheat sheet for this module">
+            Cheat Sheet
           </a>
+          <button type="button" class="ds-share-btn" data-action="share-page" data-share-url="https://dsa-in-depth.vedgupta.in/topic/karatsuba-strassen-algebraic-dc/" data-share-title="Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#039;s Matrix Product — DSA In Depth" title="Share link to this lesson">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span class="ds-share-btn__label">Share</span>
+          </button>
         </div>
-      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;JCbZayFr9RE&quot;,&quot;title&quot;:&quot;Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer&quot;,&quot;channel&quot;:&quot;Stanford Algorithms (Tim Roughgarden)&quot;,&quot;duration&quot;:&quot;12:39&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;13m&quot;,&quot;why&quot;:&quot;Tim Roughgarden derives Gauss&#039;s 3-multiplication algebraic trick that reduces O(n²) grade-school multiplication to O(n^(log₂ 3)) ≈ O(n^1.585).&quot;}">
-      <div class="video-embed" id="video-JCbZayFr9RE"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="JCbZayFr9RE">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/JCbZayFr9RE/hqdefault.jpg"
-               alt="Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Stanford Algorithms (Tim Roughgarden)</span>
-        <span class="video-embed__title">Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer</span>
-        <a href="https://www.youtube.com/watch?v=JCbZayFr9RE" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
       </div>
-      <p class="video-embed__why">Tim Roughgarden derives Gauss&#039;s 3-multiplication algebraic trick that reduces O(n²) grade-school multiplication to O(n^(log₂ 3)) ≈ O(n^1.585).</p></div>
         <aside class="intuition">
-          <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
+          <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p>In Master Theorem Case 1, when recursive branching dominates combine work (a > b^d), reducing the number of recursive subproblems <code>a</code> directly shrinks the polynomial exponent log_b(a). By trading cheap linear additions for expensive recursive multiplications, Karatsuba drops 4 limb multiplications to 3 (O(n^2) -> O(n^1.585)), and Strassen drops 8 block matrix multiplications to 7 (O(n^3) -> O(n^2.807)).</p></div>
         </aside>
       <div class="audio-player" id="audio-player-karatsuba-strassen-algebraic-dc">
@@ -870,35 +871,61 @@
           <div class="audio-player__progress" id="audio-bar-karatsuba-strassen-algebraic-dc" style="width: 0%;"></div>
         </div>
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="karatsuba-strassen-algebraic-dc" id="audio-speed-karatsuba-strassen-algebraic-dc" title="Playback speed">1x</button>
-        <audio id="audio-karatsuba-strassen-algebraic-dc" src="audio/karatsuba-strassen-algebraic-dc.mp3" preload="metadata"></audio>
+        <audio id="audio-karatsuba-strassen-algebraic-dc" data-src="audio/karatsuba-strassen-algebraic-dc.mp3" preload="none"></audio>
       </div>
-      <nav class="topic-quick-jump is-collapsed" aria-label="On this page">
+      <details class="ds-external-lecture">
+        <summary>
+          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer</span>
+          </span>
+          <span class="ds-pill" style="flex-shrink:0;">Stanford Algorithms (Tim Roughgarden) · 13m ▾</span>
+        </summary>
+        <div style="padding:0 16px 16px;">
+          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;JCbZayFr9RE&quot;,&quot;title&quot;:&quot;Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer&quot;,&quot;channel&quot;:&quot;Stanford Algorithms (Tim Roughgarden)&quot;,&quot;duration&quot;:&quot;12:39&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;13m&quot;,&quot;why&quot;:&quot;Tim Roughgarden derives Gauss&#039;s 3-multiplication algebraic trick that reduces O(n²) grade-school multiplication to O(n^(log₂ 3)) ≈ O(n^1.585).&quot;}">
+      <div class="video-embed" id="video-JCbZayFr9RE"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="JCbZayFr9RE">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/JCbZayFr9RE/hqdefault.jpg"
+               alt="Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Stanford Algorithms (Tim Roughgarden)</span>
+        <span class="video-embed__title">Karatsuba Sub-Quadratic Multiplication &amp; Algebraic Divide-and-Conquer</span>
+        <a href="https://www.youtube.com/watch?v=JCbZayFr9RE" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
+      </div>
+      <p class="video-embed__why">Tim Roughgarden derives Gauss&#039;s 3-multiplication algebraic trick that reduces O(n²) grade-school multiplication to O(n^(log₂ 3)) ≈ O(n^1.585).</p></div>
+        </div>
+      </details>
+      <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
             <span class="topic-quick-jump__label">Jump to:</span>
             <a class="topic-quick-jump__pill topic-quick-jump__pill--primary" href="#guided-coding-practice-karatsuba-strassen-algebraic-dc" data-action="quick-jump" data-target="guided-coding-practice-karatsuba-strassen-algebraic-dc">
-              <span>💻 C++20 Coding Lab</span>
+              <span>C++20 coding lab</span>
             </a>
             
               <a class="topic-quick-jump__pill" href="#topic-simulator-karatsuba-strassen-algebraic-dc" data-action="quick-jump" data-target="topic-simulator-karatsuba-strassen-algebraic-dc">
-                <span>⚡ Simulator</span>
+                <span>Simulator</span>
               </a>
             
             
               <a class="topic-quick-jump__pill" href="#check-slider-karatsuba-strassen-algebraic-dc" data-action="quick-jump" data-target="check-slider-karatsuba-strassen-algebraic-dc">
-                <span>🧠 Concept Check</span>
+                <span>Concept check</span>
               </a>
             
             
               <a class="topic-quick-jump__pill" href="#topic-takeaways-karatsuba-strassen-algebraic-dc" data-action="quick-jump" data-target="topic-takeaways-karatsuba-strassen-algebraic-dc">
-                <span>📌 Key Takeaways</span>
+                <span>Key takeaways</span>
               </a>
             
           </div>
           
-            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="false" title="Show or hide article sections">
+            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="true" title="Show or hide article sections">
               <span class="topic-quick-jump__toggle-text">Sections (2)</span>
-              <span class="topic-quick-jump__toggle-chevron">▼</span>
+              <span class="topic-quick-jump__toggle-chevron">▲</span>
             </button>
           
         </div>
@@ -984,10 +1011,10 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
               </div>
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <button type="button" class="dsa-sim__audio-btn is-on" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
-                  🔊 SFX On
+                  SFX: On
                 </button>
                 <button type="button" class="dsa-sim__audio-btn is-on" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
-                  🗣️ Voice On
+                  Voice: On
                 </button>
                 <span class="badge-onlogn">O(N log N) FFT / O(N log² N) CDQ</span>
               </div>
@@ -1033,7 +1060,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                 ▶ Run Custom
               </button>
               <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
-                🎲 Randomize
+                ↻ Randomize
               </button>
             </div>
 
@@ -1263,7 +1290,148 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           <p>When multiplying polynomials, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>+</mo><msub><mi>a</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">a_0 + a_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> has the exact same degree <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">a_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">a_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. When multiplying <strong>base-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>64</mn></msup></mrow><annotation encoding="application/x-tex">2^{64}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">64</span></span></span></span></span></span></span></span></span></span></span></span> big integers</strong>, however, the sum <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>+</mo><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_0 + x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> can produce a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>-bit carry into limb <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, making the recursive operands <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>m</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(m+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span> limbs wide! Moreover, subtracting <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">z_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">z_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> requires signed borrow handling. Production big-int libraries (like GMP) either work with redundant limb representations or handle the top carry bit explicitly outside the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span>-limb recursion.</p>
         </div>
       </div>
-    </article><div id="check-slider-karatsuba-strassen-algebraic-dc">
+    </article>
+      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-karatsuba-strassen-algebraic-dc" aria-label="Guided Algorithm Coding Practice">
+        <div class="build-lab-card__top">
+          <div class="build-lab-card__intro">
+            <div class="build-lab-card__eyebrow">
+              <span>Guided C++20 lab · 3 steps · runs in your browser</span>
+              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
+              
+                <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
+                  <span class="build-lab-card__collapse-text">Collapse Steps</span>
+                  <span class="build-lab-card__collapse-chevron">▲</span>
+                </button>
+              
+            </div>
+            <h2 class="build-lab-card__title">Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#039;s Matrix Product — Guided C++20 Coding Lab</h2>
+            <p class="build-lab-card__desc">In Master Theorem Case 1, when recursive branching dominates combine work (a &gt; b^d), reducing the number of recursive subproblems <code>a</code> directly shrinks the polynomial exponent log_b(a). 807)).</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span class="badge">Target time: <code>Θ(n^d)</code></span>
+              <span class="badge">Auxiliary space: <code>Θ(n^log_2 a)</code></span>
+              <span class="badge">Pattern: Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
+            </div>
+          </div>
+          <div class="build-lab-card__cta-col">
+            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span>Code Algorithm &amp; Run Tests</span>
+            </button>
+            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="solution">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>View Reference Solution</span>
+            </button>
+          </div>
+        </div>
+
+        
+          <div class="build-lab-steps-grid">
+            
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">01</span>
+                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
+                  </div>
+                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (karatsuba_rec)</div>
+                  <div class="build-lab-step-card__invariant">Karatsuba replaces 4 half-size multiplications with 3 using z_1 = (x_1 + x_0)(y_1 + y_0) - x_1*y_1 - x_0*y_0, reducing complexity from O(n^2) to O(n^{log_2 3}) = O(n^{1.585}).</div>
+                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at <code>TODO (Step 1)</code> inside <code>karatsuba_rec(const std::int64_t* a, const std::int64_t* b,
+                   std::int64_t* res, std::int64_t* scratch, std::size_t n)</code> in <code>src/main.cpp</code>.</div>
+                  
+                    <details class="quiz-hint-details">
+                      <summary>Show hint for step 1</summary>
+                      <pre><code>std::fill_n(res, 2 * n, 0);
+if (n &lt;= 32) {
+for (std::size_t i = 0; i &lt; n; ++i) {
+for (std::size_t j = 0; j &lt; n; ++j) {
+res[i + j] += a[i] * b[j];
+}
+}
+return;
+}
+const std::size_t m = n / 2;
+const std::int64_t* a0 = a;</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer">
+                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="0">
+                    Code Step 1 →
+                  </button>
+                </div>
+              </div>
+            
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">02</span>
+                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
+                  <div class="build-lab-step-card__invariant">Strassen replaces 8 block matrix multiplications with 7 and 18 block additions/subtractions, reducing complexity from O(n^3) to O(n^{log_2 7}) = O(n^{2.807}).</div>
+                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at <code>TODO (Step 2)</code> inside <code>karatsuba_rec</code> in <code>src/main.cpp</code>.</div>
+                  
+                    <details class="quiz-hint-details">
+                      <summary>Show hint for step 2</summary>
+                      <pre><code>const std::int64_t* a1 = a + m;
+const std::int64_t* b0 = b;
+const std::int64_t* b1 = b + m;
+std::int64_t* sum_a = scratch;
+std::int64_t* sum_b = scratch + m;
+std::int64_t* z_m   = scratch + 2 * m;
+std::int64_t* next_scratch = scratch + 4 * m;
+for (std::size_t i = 0; i &lt; m; ++i) {
+sum_a[i] = a0[i] + a1[i];
+sum_b[i] = b0[i] + b1[i];
+}</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer">
+                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="1">
+                    Code Step 2 →
+                  </button>
+                </div>
+              </div>
+            
+              <div class="build-lab-step-card">
+                <div class="build-lab-step-card__body">
+                  <div class="build-lab-step-card__header">
+                    <span class="build-lab-step-card__num">03</span>
+                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
+                  </div>
+                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
+                  <div class="build-lab-step-card__invariant">Because both recurrences fall into Master Theorem Case 1 (leaf-dominated), cutting off recursion at a base-case size (n &lt;= 32 or 64) and switching to a flat SIMD loop eliminates 90%+ of recursion overhead.</div>
+                  <div class="build-lab-step-card__concept">Complete <code>TODO (Step 3)</code> in <code>src/main.cpp</code> to finalize the output of <code>karatsuba_rec</code> and pass all C++20 unit assertions.</div>
+                  
+                    <details class="quiz-hint-details">
+                      <summary>Show hint for step 3</summary>
+                      <pre><code>karatsuba_rec(a0, b0, res, next_scratch, m);
+karatsuba_rec(a1, b1, res + 2 * m, next_scratch, m);
+karatsuba_rec(sum_a, sum_b, z_m, next_scratch, m);
+for (std::size_t i = 0; i &lt; 2 * m; ++i) {
+z_m[i] -= (res[i] + res[2 * m + i]);
+}
+for (std::size_t i = 0; i &lt; 2 * m; ++i) {
+res[m + i] += z_m[i];
+}</code></pre>
+                    </details>
+                  
+                </div>
+                <div class="build-lab-step-card__footer">
+                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
+                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="2">
+                    Code Step 3 →
+                  </button>
+                </div>
+              </div>
+            
+          </div>
+        
+      </section>
+    <div id="check-slider-karatsuba-strassen-algebraic-dc">
       <section class="check-slider" data-slug="karatsuba-strassen-algebraic-dc" data-total="4" aria-label="Check yourself">
         <div class="check-slider__head">
           <span class="check-slider__label">Check yourself</span>
@@ -1441,155 +1609,14 @@ std<span class="tok-op">::</span><span class="tok-type">vector</span><span class
           <button type="button" class="btn btn--sm btn--outline check-slider__retry">Try again</button>
         </div>
       </section></div>
-      <section class="build-lab-card topic-codelab-hero" id="guided-coding-practice-karatsuba-strassen-algebraic-dc" aria-label="Guided Algorithm Coding Practice">
-        <div class="build-lab-card__top">
-          <div class="build-lab-card__intro">
-            <div class="build-lab-card__eyebrow">
-              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
-              <span class="build-lab-card__progress">3 Guided Steps + Progressive Hints</span>
-              
-                <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
-                  <span class="build-lab-card__collapse-text">Collapse Steps</span>
-                  <span class="build-lab-card__collapse-chevron">▲</span>
-                </button>
-              
-            </div>
-            <h2 class="build-lab-card__title">Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#039;s Matrix Product — Guided C++20 Coding Lab</h2>
-            <p class="build-lab-card__desc">In Master Theorem Case 1, when recursive branching dominates combine work (a &gt; b^d), reducing the number of recursive subproblems <code>a</code> directly shrinks the polynomial exponent log_b(a). 807)).</p>
-            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
-              <span class="badge">⏱ Target Time: <code>Θ(n^d)</code></span>
-              <span class="badge">💾 Auxiliary Space: <code>Θ(n^log_2 a)</code></span>
-              <span class="badge">🧭 Pattern: Binary Search on Monotonic Spaces &amp; Divide-and-Conquer</span>
-            </div>
-          </div>
-          <div class="build-lab-card__cta-col">
-            <button type="button" class="btn btn--primary build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span>Code Algorithm &amp; Run Tests</span>
-            </button>
-            <button type="button" class="btn btn--outline build-lab-card__launch-btn" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="solution">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>View Reference Solution</span>
-            </button>
-          </div>
-        </div>
-
-        
-          <div class="build-lab-steps-grid">
-            
-              <div class="build-lab-step-card">
-                <div class="build-lab-step-card__body">
-                  <div class="build-lab-step-card__header">
-                    <span class="build-lab-step-card__num">01</span>
-                    <span class="build-lab-step-card__target">Phase 1 · State &amp; Boundaries</span>
-                  </div>
-                  <div class="build-lab-step-card__title">State &amp; Boundary Initialization (karatsuba_rec)</div>
-                  <div class="build-lab-step-card__invariant">Karatsuba replaces 4 half-size multiplications with 3 using z_1 = (x_1 + x_0)(y_1 + y_0) - x_1*y_1 - x_0*y_0, reducing complexity from O(n^2) to O(n^{log_2 3}) = O(n^{1.585}).</div>
-                  <div class="build-lab-step-card__concept">Set up the initial data structures, base cases, and boundary invariants at <code>TODO (Step 1)</code> inside <code>karatsuba_rec(const std::int64_t* a, const std::int64_t* b,
-                   std::int64_t* res, std::int64_t* scratch, std::size_t n)</code> in <code>src/main.cpp</code>.</div>
-                  
-                    <details class="quiz-hint-details">
-                      <summary>💡 Progressive Hint (Step 1)</summary>
-                      <pre><code>std::fill_n(res, 2 * n, 0);
-if (n &lt;= 32) {
-for (std::size_t i = 0; i &lt; n; ++i) {
-for (std::size_t j = 0; j &lt; n; ++j) {
-res[i + j] += a[i] * b[j];
-}
-}
-return;
-}
-const std::size_t m = n / 2;
-const std::int64_t* a0 = a;</code></pre>
-                    </details>
-                  
-                </div>
-                <div class="build-lab-step-card__footer">
-                  <span>Step 1 of 3 · <code>src/main.cpp</code></span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="0">
-                    Code Step 1 →
-                  </button>
-                </div>
-              </div>
-            
-              <div class="build-lab-step-card">
-                <div class="build-lab-step-card__body">
-                  <div class="build-lab-step-card__header">
-                    <span class="build-lab-step-card__num">02</span>
-                    <span class="build-lab-step-card__target">Phase 2 · Core Transition</span>
-                  </div>
-                  <div class="build-lab-step-card__title">Core Algorithmic Transition &amp; Invariant</div>
-                  <div class="build-lab-step-card__invariant">Strassen replaces 8 block matrix multiplications with 7 and 18 block additions/subtractions, reducing complexity from O(n^3) to O(n^{log_2 7}) = O(n^{2.807}).</div>
-                  <div class="build-lab-step-card__concept">Implement the primary iteration/recursion and state updates at <code>TODO (Step 2)</code> inside <code>karatsuba_rec</code> in <code>src/main.cpp</code>.</div>
-                  
-                    <details class="quiz-hint-details">
-                      <summary>💡 Progressive Hint (Step 2)</summary>
-                      <pre><code>const std::int64_t* a1 = a + m;
-const std::int64_t* b0 = b;
-const std::int64_t* b1 = b + m;
-std::int64_t* sum_a = scratch;
-std::int64_t* sum_b = scratch + m;
-std::int64_t* z_m   = scratch + 2 * m;
-std::int64_t* next_scratch = scratch + 4 * m;
-for (std::size_t i = 0; i &lt; m; ++i) {
-sum_a[i] = a0[i] + a1[i];
-sum_b[i] = b0[i] + b1[i];
-}</code></pre>
-                    </details>
-                  
-                </div>
-                <div class="build-lab-step-card__footer">
-                  <span>Step 2 of 3 · <code>src/main.cpp</code></span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="1">
-                    Code Step 2 →
-                  </button>
-                </div>
-              </div>
-            
-              <div class="build-lab-step-card">
-                <div class="build-lab-step-card__body">
-                  <div class="build-lab-step-card__header">
-                    <span class="build-lab-step-card__num">03</span>
-                    <span class="build-lab-step-card__target">Phase 3 · Verification &amp; Bounds</span>
-                  </div>
-                  <div class="build-lab-step-card__title">Result Extraction &amp; Edge-Case Verification</div>
-                  <div class="build-lab-step-card__invariant">Because both recurrences fall into Master Theorem Case 1 (leaf-dominated), cutting off recursion at a base-case size (n &lt;= 32 or 64) and switching to a flat SIMD loop eliminates 90%+ of recursion overhead.</div>
-                  <div class="build-lab-step-card__concept">Complete <code>TODO (Step 3)</code> in <code>src/main.cpp</code> to finalize the output of <code>karatsuba_rec</code> and pass all C++20 unit assertions.</div>
-                  
-                    <details class="quiz-hint-details">
-                      <summary>💡 Progressive Hint (Step 3)</summary>
-                      <pre><code>karatsuba_rec(a0, b0, res, next_scratch, m);
-karatsuba_rec(a1, b1, res + 2 * m, next_scratch, m);
-karatsuba_rec(sum_a, sum_b, z_m, next_scratch, m);
-for (std::size_t i = 0; i &lt; 2 * m; ++i) {
-z_m[i] -= (res[i] + res[2 * m + i]);
-}
-for (std::size_t i = 0; i &lt; 2 * m; ++i) {
-res[m + i] += z_m[i];
-}</code></pre>
-                    </details>
-                  
-                </div>
-                <div class="build-lab-step-card__footer">
-                  <span>Step 3 of 3 · <code>src/main.cpp</code></span>
-                  <button type="button" class="btn btn--sm btn--outline" data-action="open-topic-codelab" data-slug="karatsuba-strassen-algebraic-dc" data-mode="guided" data-step-index="2">
-                    Code Step 3 →
-                  </button>
-                </div>
-              </div>
-            
-          </div>
-        
-      </section>
-    
         <div class="takeaways" id="topic-takeaways-karatsuba-strassen-algebraic-dc">
-          <h3 class="takeaways__title">Key Takeaways</h3>
+          <h2 class="takeaways__title">Recap &amp; Key Takeaways</h2>
           <div class="takeaways__list">
             <div class="takeaways__item">Karatsuba replaces 4 half-size multiplications with 3 using z_1 = (x_1 + x_0)(y_1 + y_0) - x_1*y_1 - x_0*y_0, reducing complexity from O(n^2) to O(n^{log_2 3}) = O(n^{1.585}).</div><div class="takeaways__item">Strassen replaces 8 block matrix multiplications with 7 and 18 block additions/subtractions, reducing complexity from O(n^3) to O(n^{log_2 7}) = O(n^{2.807}).</div><div class="takeaways__item">Because both recurrences fall into Master Theorem Case 1 (leaf-dominated), cutting off recursion at a base-case size (n <= 32 or 64) and switching to a flat SIMD loop eliminates 90%+ of recursion overhead.</div><div class="takeaways__item">Passing a pre-allocated linear scratch buffer avoids O(n^{1.585}) heap allocations during recursion.</div>
           </div>
         </div>
         <div class="further-reading">
-          <h3 class="further-reading__title">Further Reading</h3>
+          <h2 class="further-reading__title">Primary Sources &amp; Further Reading</h2>
           <div class="further-reading__list">
             <a class="further-reading__link" href="https://www.mathnet.ru/eng/dan26914" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Karatsuba & Ofman (1962) — Multiplication of Many-Digital Numbers by Automatic Computers</a><a class="further-reading__link" href="https://doi.org/10.1007/BF02165411" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Strassen (1969) — Gaussian Elimination is Not Optimal (Numerische Mathematik)</a><a class="further-reading__link" href="https://doi.org/10.1137/1.9780898718027" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Higham — Accuracy and Stability of Numerical Algorithms (2nd Ed.), §23.2 Strassen's Method</a>
           </div>
@@ -1602,10 +1629,10 @@ res[m + i] += z_m[i];
           </div>
           <div class="lesson-feedback__actions">
             <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="karatsuba-strassen-algebraic-dc" data-vote="yes">
-              👍 Helpful
+              Helpful
             </button>
             <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="karatsuba-strassen-algebraic-dc" data-vote="no">
-              👎 Needs work
+              Needs work
             </button>
             <a href="https://github.com/innovatorved/dsa-in-depth/issues/new?title=%5BFeedback%5D%20Algebraic%20Divide-and-Conquer%3A%20Karatsuba%20Multiplication%20%26%20Strassen's%20Matrix%20Product&labels=feedback,curriculum&body=%23%23%23%20Topic%3A%20Algebraic%20Divide-and-Conquer%3A%20Karatsuba%20Multiplication%20%26%20Strassen's%20Matrix%20Product%0A**URL%3A**%20https%3A%2F%2Fdsa-in-depth.vedgupta.in%2Ftopic%2Fkaratsuba-strassen-algebraic-dc%2F%0A%0A%23%23%23%20Feedback%20%2F%20Correction%3A%0A" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline lesson-feedback__btn" title="Open an issue on GitHub">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> Report an issue
@@ -1618,9 +1645,77 @@ res[m + i] += z_m[i];
       </a><a class="lesson-nav__link lesson-nav__link--next" href="/topic/fast-fourier-transform-polynomials/" data-nav="topic" data-slug="fast-fourier-transform-polynomials">
         <span class="lesson-nav__label">Next →</span>
         <span class="lesson-nav__title">Fast Fourier Transform (Cooley-Tukey FFT) & O(N log N) Polynomial Convolution</span>
-      </a></div>
+      </a></div></div>
+        
+      <aside class="ds-toc" aria-label="On this page">
+        <div class="ds-toc__heading">On this page</div>
+        <ul class="ds-toc__list">
+          
+            <li>
+              <a class="ds-toc__link is-active" href="#sec-why-it-matters">Intuition First</a>
+            </li>
+          
+            <li>
+              <a class="ds-toc__link" href="#topic-sec-1">Trading Expensive Multiplications for Cheap Additions</a>
+            </li>
+          
+            <li>
+              <a class="ds-toc__link" href="#topic-sec-2">Production C++20 Implementation: Arena-Backed Karatsuba Polynomial Multiplier</a>
+            </li>
+          
+            <li>
+              <a class="ds-toc__link" href="#guided-coding-practice-karatsuba-strassen-algebraic-dc">3-Step C++20 Lab</a>
+            </li>
+          
+            <li>
+              <a class="ds-toc__link" href="#check-slider-karatsuba-strassen-algebraic-dc">Self-Check Quiz</a>
+            </li>
+          
+            <li>
+              <a class="ds-toc__link" href="#topic-takeaways-karatsuba-strassen-algebraic-dc">Recap &amp; Takeaways</a>
+            </li>
+          
+        </ul>
+        <div class="ds-toc__progress-card">
+          <div class="ds-toc__progress-row">
+            <span>Module 2.3</span>
+            <span>0/10 done</span>
+          </div>
+          <div class="ds-toc__progress-bar" aria-hidden="true">
+            <div class="ds-toc__progress-fill" style="width:0%"></div>
+          </div>
+          <button type="button" class="ds-share-btn" style="width:100%;justify-content:center;margin-top:4px;" data-action="share-page" data-share-url="https://dsa-in-depth.vedgupta.in/topic/karatsuba-strassen-algebraic-dc/" data-share-title="Algebraic Divide-and-Conquer: Karatsuba Multiplication &amp; Strassen&#039;s Matrix Product — DSA In Depth">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span class="ds-share-btn__label">Copy lesson link</span>
+          </button>
+        </div>
+      </aside>
+      </div>
     </div>
+    <footer class="ds-footer" aria-label="Site">
+      <div class="ds-footer__inner">
+        <div class="ds-footer__family">
+          <span class="ds-footer__label">In Depth Learning Family</span>
+          <a href="https://dsa-in-depth.vedgupta.in/" class="ds-footer__product is-current">DSA In Depth</a>
+          <a href="https://sql-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">SQL In Depth</a>
+          <a href="https://system-design-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">System Design In Depth</a>
+        </div>
+        <div class="ds-footer__links">
+          <a href="/sandbox/" data-nav="sandbox">Blueprint</a>
+          <a href="/roadmap/" data-nav="roadmap">Roadmap</a>
+          <a href="/challenges/" data-nav="challenges">Challenges</a>
+          <a href="/glossary/" data-nav="glossary">Glossary</a>
+          <a href="/projects/">Projects</a>
+          <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="ds-footer__meta">
+          <span>Free &amp; open-source first-principles algorithms &amp; data structures textbook by <a href="https://vedgupta.in" target="_blank" rel="noopener">Ved Gupta</a>. Code MIT · Prose CC-BY-4.0.</span>
+        </div>
+      </div>
+    </footer>
   </main>
+
+  <div class="ds-toast" id="ds-toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Search Modal -->
   <div class="search-modal" id="search-modal" role="dialog" aria-label="Search topics" aria-modal="true">
@@ -1628,7 +1723,7 @@ res[m + i] += z_m[i];
     <div class="search-modal__dialog">
       <div class="search-modal__input-wrap">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-modal__input" id="search-input" type="text" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
+        <input class="search-modal__input" id="search-input" type="text" aria-label="Search 180 topics, complexities, and build labs" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
       </div>
       <div class="search-modal__results" id="search-results"></div>
       <div class="search-modal__footer">
@@ -1692,28 +1787,28 @@ res[m + i] += z_m[i];
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=6a123f7bfa"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
-  <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=1007e83c82"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=a4c0333fa6"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=271068bb52"></script>
-  <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
+  <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
+  <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=8e5e923ea0"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=2d357b27f6"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=82b780ae4e"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=a7364b3923"></script>
 
   <!-- App bootstrap & deferred script loader -->
-  <script src="js/bootstrap.js?v=df2bb60aeb"></script>
+  <script src="js/bootstrap.js?v=062196c36b"></script>
 </body>
 </html>

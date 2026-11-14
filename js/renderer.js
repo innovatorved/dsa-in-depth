@@ -295,10 +295,10 @@ window.Renderer = (() => {
           <div><div class="hero__stat-value">${stats.tracks || 6}</div><div class="hero__stat-label">Tracks</div></div>
           <div><div class="hero__stat-value">${stats.units}</div><div class="hero__stat-label">Topics</div></div>
           <div><div class="hero__stat-value">${pct}%</div><div class="hero__stat-label">Complete</div></div>
-          <div><div class="hero__stat-value" style="color: ${streak > 0 ? '#f97316' : 'inherit'};">${streak} 🔥</div><div class="hero__stat-label">Day Streak</div></div>
+          <div><div class="hero__stat-value">${streak}</div><div class="hero__stat-label">Day Streak</div></div>
         </div>
         <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-          <a href="#/glossary" class="btn btn--sm btn--primary">📖 Glossary</a>
+          <a href="/glossary/" class="btn btn--sm btn--primary">Glossary</a>
         </div>
       </div>`;
 
@@ -560,33 +560,33 @@ window.Renderer = (() => {
     const safeSlug = escapeHtml(slug);
     const hasSections = Array.isArray(headings) && headings.length > 0;
     return `
-      <nav class="topic-quick-jump is-collapsed" aria-label="On this page">
+      <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
             <span class="topic-quick-jump__label">Jump to:</span>
             <a class="topic-quick-jump__pill topic-quick-jump__pill--primary" href="#guided-coding-practice-${safeSlug}" data-action="quick-jump" data-target="guided-coding-practice-${safeSlug}">
-              <span>💻 C++20 Coding Lab</span>
+              <span>C++20 coding lab</span>
             </a>
             ${opts.hasSim ? `
               <a class="topic-quick-jump__pill" href="#topic-simulator-${safeSlug}" data-action="quick-jump" data-target="topic-simulator-${safeSlug}">
-                <span>⚡ Simulator</span>
+                <span>Simulator</span>
               </a>
             ` : ''}
             ${opts.hasQuiz ? `
               <a class="topic-quick-jump__pill" href="#check-slider-${safeSlug}" data-action="quick-jump" data-target="check-slider-${safeSlug}">
-                <span>🧠 Concept Check</span>
+                <span>Concept check</span>
               </a>
             ` : ''}
             ${opts.hasTakeaways ? `
               <a class="topic-quick-jump__pill" href="#topic-takeaways-${safeSlug}" data-action="quick-jump" data-target="topic-takeaways-${safeSlug}">
-                <span>📌 Key Takeaways</span>
+                <span>Key takeaways</span>
               </a>
             ` : ''}
           </div>
           ${hasSections ? `
-            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="false" title="Show or hide article sections">
+            <button type="button" class="topic-quick-jump__toggle" data-action="toggle-quick-jump" aria-expanded="true" title="Show or hide article sections">
               <span class="topic-quick-jump__toggle-text">Sections (${headings.length})</span>
-              <span class="topic-quick-jump__toggle-chevron">▼</span>
+              <span class="topic-quick-jump__toggle-chevron">▲</span>
             </button>
           ` : ''}
         </div>
@@ -626,7 +626,7 @@ window.Renderer = (() => {
         <div class="build-lab-card__top">
           <div class="build-lab-card__intro">
             <div class="build-lab-card__eyebrow">
-              <span>Guided Algorithm Coding Practice · C++20 Workbench</span>
+              <span>Guided C++20 lab · 3 steps · runs in your browser</span>
               <span class="build-lab-card__progress">${totalSteps} Guided Steps + Progressive Hints</span>
               ${steps.length ? `
                 <button type="button" class="build-lab-card__collapse-btn" data-action="toggle-lab-steps" aria-expanded="true" title="Collapse or expand guided coding steps">
@@ -638,9 +638,9 @@ window.Renderer = (() => {
             <h2 class="build-lab-card__title">${escapeHtml(labTitle)}</h2>
             <p class="build-lab-card__desc">${formatInlineCode(labSummary)}</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
-              <span class="badge">⏱ Target Time: <code>${escapeHtml(comp.time || 'O(N log N)')}</code></span>
-              <span class="badge">💾 Auxiliary Space: <code>${escapeHtml(comp.space || 'O(N)')}</code></span>
-              <span class="badge">🧭 Pattern: ${escapeHtml(comp.pattern || mod?.title || 'Core Invariants')}</span>
+              <span class="badge">Target time: <code>${escapeHtml(comp.time || 'O(N log N)')}</code></span>
+              <span class="badge">Auxiliary space: <code>${escapeHtml(comp.space || 'O(N)')}</code></span>
+              <span class="badge">Pattern: ${escapeHtml(comp.pattern || mod?.title || 'Core Invariants')}</span>
             </div>
           </div>
           <div class="build-lab-card__cta-col">
@@ -673,7 +673,7 @@ window.Renderer = (() => {
                   <div class="build-lab-step-card__concept">${formatInlineCode(s.instructions || 'Implement and verify core invariants in `src/main.cpp`.')}</div>
                   ${s.hint ? `
                     <details class="quiz-hint-details">
-                      <summary>💡 Progressive Hint (Step ${idx + 1})</summary>
+                      <summary>Show hint for step ${idx + 1}</summary>
                       <pre><code>${escapeHtml(s.hint)}</code></pre>
                     </details>
                   ` : ''}
@@ -747,9 +747,12 @@ window.Renderer = (() => {
     }
 
     const reviewDate = formatReviewDate(unit.archive?.updated);
+    const promiseText = moduleContent?.promise || unit.archive?.excerpt || '';
+    const canonicalLessonUrl = `https://dsa-in-depth.vedgupta.in/topic/${escapeHtml(slug)}/`;
+    const shareIconSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
 
-    // Build header
-    let html = `
+    // Build header & main article column
+    let articleCol = `
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="/" data-nav="home">Home</a>
         <span class="breadcrumbs__sep">${icons.chevronRight}</span>
@@ -758,12 +761,13 @@ window.Renderer = (() => {
         <span class="breadcrumbs__current">${unit.title}</span>
       </nav>
 
-      <div class="lesson-header">
+      <div class="lesson-header ds-lesson-hero">
         <div class="lesson-header__badge">
           <span class="lesson-header__kind lesson-header__kind--${kindClass}">${unit.kind}</span>
           ${unit.archive?.tags?.map(t => ' <span class="tag">' + t + '</span>').join('') || ''}
         </div>
         <h1 class="lesson-header__title">${unit.title}</h1>
+        ${promiseText ? `<div class="ds-lesson-hero__promise">${escapeHtml(promiseText)}</div>` : ''}
         <div class="lesson-header__meta">
           ${(() => {
             const words = unit.archive?.wordCount || (moduleContent?.content ? moduleContent.content.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length : 0);
@@ -772,34 +776,35 @@ window.Renderer = (() => {
           <span class="lesson-header__meta-item">${icons.book} Module ${mod.number}: ${mod.title}</span>
           <span class="lesson-header__meta-item" title="Content curriculum review date">${icons.calendar} Updated ${reviewDate}</span>
         </div>
-        <div class="lesson-header__actions" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+        <div class="lesson-header__actions ds-lesson-hero__toolbar" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
           <button class="completion-toggle${isCompleted ? ' completed' : ''}" data-action="toggle-complete" data-slug="${slug}">
             ${isCompleted ? icons.check + ' Completed' : icons.circle + ' Mark Complete'}
           </button>
-          <a href="#cheatsheet/${mod.id}" class="btn btn--sm btn--outline" title="View printable cheat sheet for this module">
-            📄 Cheat Sheet
+          <button type="button" class="btn btn--secondary btn--sm" data-action="open-topic-codelab" data-slug="${slug}" data-mode="guided" title="Launch C++20 Coding Lab">
+            ▶ Run C++20 Lab
+          </button>
+          <a href="#cheatsheet/${mod.id}" class="btn btn--secondary btn--sm" title="View printable cheat sheet for this module">
+            Cheat Sheet
           </a>
+          <button type="button" class="ds-share-btn" data-action="share-page" data-share-url="${canonicalLessonUrl}" data-share-title="${escapeHtml(unit.title)} — DSA In Depth" title="Share link to this lesson">
+            ${shareIconSvg}
+            <span class="ds-share-btn__label">Share</span>
+          </button>
         </div>
       </div>`;
 
-    // Video embed (from module content)
-    if (moduleContent?.video?.youtubeId) {
-      html += renderVideoEmbed(moduleContent.video);
-      html += renderMoreVideos(moduleContent.videos);
-    }
-
-    // Intuition-first primer (plain-language mental model before the deep dive)
+    // Intuition-first primer (promoted to h2 so h1 -> h2 hierarchy has zero skipped heading levels)
     if (moduleContent?.intuition) {
-      html += `
+      articleCol += `
         <aside class="intuition">
-          <h3 class="intuition__title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition first</h3>
+          <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body">${convertMarkdownToHTML(moduleContent.intuition)}</div>
         </aside>`;
     }
 
     // Audio player
     const initialDuration = unit.archive?.audioDuration || unit.audioDuration || '--:--';
-    html += `
+    articleCol += `
       <div class="audio-player" id="audio-player-${slug}">
         <button class="audio-player__play-btn" id="audio-btn-${slug}" data-action="toggle-audio" data-slug="${slug}" aria-label="Play audio" title="Play audio">
           <svg id="audio-play-icon-${slug}" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -814,16 +819,20 @@ window.Renderer = (() => {
           <div class="audio-player__progress" id="audio-bar-${slug}" style="width: 0%;"></div>
         </div>
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="${slug}" id="audio-speed-${slug}" title="Playback speed">1x</button>
-        <audio id="audio-${slug}" src="audio/${slug}.mp3" preload="metadata"></audio>
+        <audio id="audio-${slug}" data-src="audio/${slug}.mp3" preload="none"></audio>
       </div>`;
+
+    // Curated Reference Lecture tucked cleanly inside a collapsible <details> disclosure
+    if (moduleContent?.video?.youtubeId) {
+      articleCol += renderVideoEmbed(moduleContent.video);
+      articleCol += renderMoreVideos(moduleContent.videos);
+    }
 
     // Content
     let rawArticleHtml = '';
 
     if (archiveContent && archiveContent.trim().length > 100) {
-      // Use authentic markdown from curriculum
       rawArticleHtml += convertMarkdownToHTML(archiveContent);
-      // If module content has complementary details (e.g. diagrams or breakdown), augment smoothly
       const isPlaceholder = moduleContent?.content?.includes('This topic is covered in depth in the curriculum archive');
       if (moduleContent?.content && !isPlaceholder && !archiveContent.includes('Real-World Usage')) {
         rawArticleHtml += '<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--divider);">';
@@ -849,7 +858,6 @@ window.Renderer = (() => {
       );
       rawArticleHtml += bodyHtml;
     } else {
-      // Fallback
       rawArticleHtml += renderFallbackContent(unit, mod);
     }
 
@@ -874,59 +882,98 @@ window.Renderer = (() => {
     const hasQuiz = Boolean(quizHtml && quizHtml.trim());
     const hasTakeaways = Boolean(moduleContent?.keyTakeaways?.length);
 
-    html += renderTopicQuickJump(slug, headings, { hasSim, hasQuiz, hasTakeaways });
-    html += '<article class="prose">' + htmlWithIds + '</article>';
+    articleCol += renderTopicQuickJump(slug, headings, { hasSim, hasQuiz, hasTakeaways });
+    articleCol += '<article class="prose">' + htmlWithIds + '</article>';
 
-    // Check yourself: unified slider with Concept Checks, Napkin Math (numeric), and Staff Trade-Off Matrix (tradeoff)
-    if (hasQuiz) html += `<div id="check-slider-${slug}">${quizHtml}</div>`;
+    if (simHtml) articleCol += simHtml;
 
-    // Interactive Visual Simulator (only if not already mounted inline via .simulator-mount)
-    if (simHtml) html += simHtml;
+    articleCol += renderTopicCodeLabCard(slug, unit, mod, moduleContent);
 
-    // Interactive Guided C++20 CodeLab Workbench Card (Unified Guided Algorithm Coding Practice)
-    html += renderTopicCodeLabCard(slug, unit, mod, moduleContent);
+    if (hasQuiz) articleCol += `<div id="check-slider-${slug}">${quizHtml}</div>`;
 
-    // Key takeaways
     if (hasTakeaways) {
-      html += `
+      articleCol += `
         <div class="takeaways" id="topic-takeaways-${slug}">
-          <h3 class="takeaways__title">Key Takeaways</h3>
+          <h2 class="takeaways__title">Recap &amp; Key Takeaways</h2>
           <div class="takeaways__list">
             ${moduleContent.keyTakeaways.map(t => '<div class="takeaways__item">' + t + '</div>').join('')}
           </div>
         </div>`;
     }
 
-    // Incident challenges and architecture blueprints for this lesson
-    html += renderLessonChallenges(slug);
-    html += renderLessonBlueprints(slug);
+    articleCol += renderLessonBuilds(slug);
+    articleCol += renderLessonChallenges(slug);
+    articleCol += renderLessonBlueprints(slug);
 
-    // Further reading
     if (moduleContent?.furtherReading?.length) {
-      html += `
+      articleCol += `
         <div class="further-reading">
-          <h3 class="further-reading__title">Further Reading</h3>
+          <h2 class="further-reading__title">Primary Sources &amp; Further Reading</h2>
           <div class="further-reading__list">
             ${moduleContent.furtherReading.map(r => '<a class="further-reading__link" href="' + r.url + '" target="_blank" rel="noopener">' + icons.link + ' ' + r.title + '</a>').join('')}
           </div>
         </div>`;
     } else if (unit.archive?.sources?.length) {
-      html += `
+      articleCol += `
         <div class="further-reading">
-          <h3 class="further-reading__title">Sources</h3>
+          <h2 class="further-reading__title">Primary Sources</h2>
           <div class="further-reading__list">
             ${unit.archive.sources.filter(s => s.startsWith('http')).map(s => '<a class="further-reading__link" href="' + s + '" target="_blank" rel="noopener">' + icons.link + ' ' + s.replace(/https?:\/\//, '').split('/').slice(0, 2).join('/') + '</a>').join('')}
           </div>
         </div>`;
     }
 
-    // Was this helpful / Report issue feedback bar
-    html += renderLessonFeedback(slug, unit);
+    articleCol += renderLessonFeedback(slug, unit);
+    articleCol += renderLessonNav(slug, mod, part);
 
-    // Prev/Next navigation
-    html += renderLessonNav(slug, mod, part);
+    const rawModProg = window.Progress?.getModuleProgress
+      ? window.Progress.getModuleProgress(mod.id)
+      : { completed: 0, total: mod.units.length };
+    const modTotal = rawModProg.total || (mod.units ? mod.units.length : 10);
+    const modCompleted = rawModProg.completed || 0;
+    const modPct = modTotal > 0 ? Math.round((modCompleted / modTotal) * 100) : 0;
 
-    return renderMathInHtml(html);
+    const tocEntries = [];
+    if (moduleContent?.intuition) tocEntries.push({ id: 'sec-why-it-matters', label: 'Intuition First' });
+    headings.forEach(h => {
+      tocEntries.push({ id: h.id, label: h.title.replace(/^\d+\.\s*/, '') });
+    });
+    tocEntries.push({ id: `guided-coding-practice-${slug}`, label: '3-Step C++20 Lab' });
+    if (hasQuiz) tocEntries.push({ id: `check-slider-${slug}`, label: 'Self-Check Quiz' });
+    if (hasTakeaways) tocEntries.push({ id: `topic-takeaways-${slug}`, label: 'Recap & Takeaways' });
+
+    const tocAside = `
+      <aside class="ds-toc" aria-label="On this page">
+        <div class="ds-toc__heading">On this page</div>
+        <ul class="ds-toc__list">
+          ${tocEntries.map((item, idx) => `
+            <li>
+              <a class="ds-toc__link${idx === 0 ? ' is-active' : ''}" href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>
+            </li>
+          `).join('')}
+        </ul>
+        <div class="ds-toc__progress-card">
+          <div class="ds-toc__progress-row">
+            <span>Module ${escapeHtml(String(mod.number))}</span>
+            <span>${modCompleted}/${modTotal} done</span>
+          </div>
+          <div class="ds-toc__progress-bar" aria-hidden="true">
+            <div class="ds-toc__progress-fill" style="width:${modPct}%"></div>
+          </div>
+          <button type="button" class="ds-share-btn" style="width:100%;justify-content:center;margin-top:4px;" data-action="share-page" data-share-url="${canonicalLessonUrl}" data-share-title="${escapeHtml(unit.title)} — DSA In Depth">
+            ${shareIconSvg}
+            <span class="ds-share-btn__label">Copy lesson link</span>
+          </button>
+        </div>
+      </aside>`;
+
+    const shellHtml = `
+      <div class="ds-lesson-shell ds-lesson-shell--with-toc">
+        <div class="ds-lesson-article">${articleCol}</div>
+        ${tocAside}
+      </div>`;
+
+    return renderMathInHtml(shellHtml);
   }
 
   // Order build files: README first, then implementation, demo, tests
@@ -953,7 +1000,7 @@ window.Renderer = (() => {
     if (!builds.length) return '';
     return `
       <div class="lesson-builds">
-        <h3 class="lesson-builds__title">${icons.code} Multi-File Capstone Algorithm Lab — Guided Implementation</h3>
+        <h2 class="lesson-builds__title">${icons.code} Multi-File Capstone Algorithm Lab — Guided Implementation</h2>
         ${builds.map(([id, b]) => {
           const prog = window.Progress?.getBuildProgress ? window.Progress.getBuildProgress(id) : null;
           const stepCount = prog?.completedSteps?.length || 0;
@@ -986,7 +1033,7 @@ window.Renderer = (() => {
     if (!challenges.length) return '';
     return `
       <div class="lesson-builds lesson-challenges">
-        <h3 class="lesson-builds__title">${icons.target} Debug This in Production — Incident Simulator &amp; Code Hotfix</h3>
+        <h2 class="lesson-builds__title">${icons.target} Debug This in Production — Incident Simulator &amp; Code Hotfix</h2>
         ${challenges.map(c => `
           <a class="lesson-builds__item" href="/challenges/${c.id}/" data-nav="challenges" data-challenge="${c.id}">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -1008,7 +1055,7 @@ window.Renderer = (() => {
     if (!bps.length) return '';
     return `
       <div class="lesson-builds lesson-blueprints">
-        <h3 class="lesson-builds__title">${icons.globe} Interactive Architecture Blueprint — Capacity Sandbox</h3>
+        <h2 class="lesson-builds__title">${icons.globe} Interactive Architecture Blueprint — Capacity Sandbox</h2>
         ${bps.map(bp => `
           <a class="lesson-builds__item" href="/sandbox/?blueprint=${bp.id}" data-nav="sandbox" data-blueprint="${bp.id}">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -1153,7 +1200,21 @@ window.Renderer = (() => {
    */
   function renderVideoEmbed(video) {
     if (!video?.youtubeId) return '';
-    return `<div class="video-main" data-video="${escapeHtml(JSON.stringify(video))}">${renderMainVideoInner(video, false)}</div>`;
+    const ch = String(video.channel || 'Reference Lecture').trim();
+    const len = video.length || video.duration || '';
+    return `
+      <details class="ds-external-lecture">
+        <summary>
+          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> ${escapeHtml(video.title || '')}</span>
+          </span>
+          <span class="ds-pill" style="flex-shrink:0;">${escapeHtml(ch)}${len ? ' · ' + escapeHtml(len) : ''} ▾</span>
+        </summary>
+        <div style="padding:0 16px 16px;">
+          <div class="video-main" data-video="${escapeHtml(JSON.stringify({ ...video, channel: ch }))}">${renderMainVideoInner({ ...video, channel: ch }, false)}</div>
+        </div>
+      </details>`;
   }
 
   // Player + caption for the main video; autoplay loads the iframe straight away (used when swapping in)
@@ -1287,10 +1348,10 @@ window.Renderer = (() => {
     // Phase 2: Process block-level markdown syntax (code blocks & inline code are safely extracted)
     html = html
       // GitHub alerts / blockquote callouts
-      .replace(/^>\s*\[!NOTE\]\s*(.*)$/gm, '<div class="callout callout--note"><div class="callout__title">ℹ️ Note</div><p>$1</p></div>')
-      .replace(/^>\s*\[!TIP\]\s*(.*)$/gm, '<div class="callout callout--tip"><div class="callout__title">💡 Tip</div><p>$1</p></div>')
-      .replace(/^>\s*\[!WARNING\]\s*(.*)$/gm, '<div class="callout callout--warn"><div class="callout__title">⚠️ Warning</div><p>$1</p></div>')
-      .replace(/^>\s*\[!IMPORTANT\]\s*(.*)$/gm, '<div class="callout callout--danger"><div class="callout__title">❗ Important</div><p>$1</p></div>')
+      .replace(/^>\s*\[!NOTE\]\s*(.*)$/gm, '<div class="callout callout--note"><div class="callout__title">Note</div><p>$1</p></div>')
+      .replace(/^>\s*\[!TIP\]\s*(.*)$/gm, '<div class="callout callout--tip"><div class="callout__title">Tip</div><p>$1</p></div>')
+      .replace(/^>\s*\[!WARNING\]\s*(.*)$/gm, '<div class="callout callout--warn"><div class="callout__title">Warning</div><p>$1</p></div>')
+      .replace(/^>\s*\[!IMPORTANT\]\s*(.*)$/gm, '<div class="callout callout--danger"><div class="callout__title">Important</div><p>$1</p></div>')
       .replace(/^>\s*(.*)$/gm, '<blockquote><p>$1</p></blockquote>')
       // Headers
       .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
@@ -1447,7 +1508,7 @@ window.Renderer = (() => {
 
     html += `
       <div class="callout callout--note">
-        <div class="callout__title">📚 Content Loading</div>
+        <div class="callout__title">Content Loading</div>
         <p>Detailed content for this topic is being prepared. In the meantime, explore the module overview and related topics in Module ${mod.number}: ${mod.title}.</p>
       </div>`;
 
@@ -1471,10 +1532,10 @@ window.Renderer = (() => {
           </div>
           <div class="lesson-feedback__actions">
             <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="${slug}" data-vote="yes">
-              👍 Helpful
+              Helpful
             </button>
             <button type="button" class="btn btn--sm btn--outline lesson-feedback__btn" data-action="feedback-vote" data-slug="${slug}" data-vote="no">
-              👎 Needs work
+              Needs work
             </button>
             <a href="${issueUrl}" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline lesson-feedback__btn" title="Open an issue on GitHub">
               ${icons.github} Report an issue
@@ -1799,7 +1860,7 @@ window.Renderer = (() => {
         <h1 class="lesson-header__title">DSA &amp; Systems Engineering Projects &amp; Case Studies</h1>
         <div class="lesson-header__actions" style="margin-top: var(--space-3); display: flex; gap: var(--space-3); flex-wrap: wrap;">
           <a href="/" data-nav="home" class="btn btn--sm btn--secondary">← Back to Curriculum</a>
-          <a href="https://code-lab-3dr.pages.dev" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--primary">${icons.code} Launch CodeLab Cloud IDE</a>
+          <a href="https://code-lab.vedgupta.in/" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--primary">${icons.code} Launch CodeLab Cloud IDE</a>
         </div>
       </div>
 
@@ -1902,7 +1963,7 @@ window.Renderer = (() => {
         <p class="hero__subtitle" style="margin-top:0.5rem;">${targetMod.summary}</p>
         <div class="lesson-header__actions" style="margin-top:1rem;">
           <button class="btn btn--sm btn--primary" data-action="window-print">
-            🖨️ Print / Save as PDF
+            Print / Save as PDF
           </button>
         </div>
       </div>

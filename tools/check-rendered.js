@@ -126,7 +126,7 @@ if (fs.existsSync(topicDir)) {
     }
 
     // Reader container check
-    const readerMatch = html.match(/id="reader"[^>]*>([\s\S]*?)<\/div>\s*<\/main>/i);
+    const readerMatch = html.match(/id="reader"[^>]*>([\s\S]*?)<\/div>\s*(?:<footer\b[\s\S]*?<\/footer>\s*)?<\/main>/i);
     if (!readerMatch) {
       reportError(`topic/${slug}`, `Missing #reader container`);
     } else {
@@ -159,7 +159,7 @@ if (fs.existsSync(buildDir)) {
       reportError(`build/${buildId}`, `Invalid or missing canonical link`);
     }
 
-    const readerMatch = html.match(/id="reader"[^>]*>([\s\S]*?)<\/div>\s*<\/main>/i);
+    const readerMatch = html.match(/id="reader"[^>]*>([\s\S]*?)<\/div>\s*(?:<footer\b[\s\S]*?<\/footer>\s*)?<\/main>/i);
     if (!readerMatch) {
       reportError(`build/${buildId}`, `Missing #reader container`);
     } else {

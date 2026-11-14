@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    DSA In Depth — Simulators, Complexity Badges & Callouts CSS
+   Dual-Theme Accessible · 1px Hairline Craft-Floor Compliant
    ═══════════════════════════════════════════════════════════════ */
 
 /* Complexity Badges */
@@ -8,7 +9,8 @@
 .badge-on,
 .badge-onlogn,
 .badge-on2,
-.badge-oexp {
+.badge-oexp,
+.badge-o2n {
   display: inline-block;
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
   font-size: 11.5px;
@@ -17,51 +19,63 @@
   border-radius: 999px;
   line-height: 1.4;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .badge-o1 {
-  background: rgba(16, 185, 129, 0.14);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
 }
 
 .badge-ologn {
-  background: rgba(59, 130, 246, 0.14);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.35);
+  background: rgba(14, 116, 144, 0.10);
+  color: #0e7490;
+  border: 1px solid rgba(14, 116, 144, 0.28);
+}
+[data-theme="dark"] .badge-ologn {
+  background: rgba(56, 189, 248, 0.14);
+  color: #7dd3fc;
+  border-color: rgba(56, 189, 248, 0.34);
 }
 
 .badge-on {
-  background: rgba(139, 92, 246, 0.14);
-  color: #a78bfa;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: var(--info-bg);
+  color: var(--info);
+  border: 1px solid var(--info-border);
 }
 
 .badge-onlogn {
-  background: rgba(245, 158, 11, 0.14);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
 }
 
 .badge-on2 {
-  background: rgba(249, 115, 22, 0.14);
+  background: rgba(194, 65, 12, 0.10);
+  color: #c2410c;
+  border: 1px solid rgba(194, 65, 12, 0.28);
+}
+[data-theme="dark"] .badge-on2 {
+  background: rgba(251, 146, 60, 0.14);
   color: #fb923c;
-  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-color: rgba(251, 146, 60, 0.34);
 }
 
-.badge-oexp {
-  background: rgba(239, 68, 68, 0.14);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.35);
+.badge-oexp,
+.badge-o2n {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error-border);
 }
 
 /* Complexity Matrix Table */
 .complexity-matrix {
   margin: 1.5rem 0;
-  border: 1px solid var(--border-subtle, #26262a);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg, 10px);
   overflow-x: auto;
-  background: var(--bg-secondary, #121215);
+  background: var(--surface);
 }
 
 .complexity-matrix table {
@@ -69,56 +83,57 @@
   border-collapse: collapse;
   margin: 0;
   font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
 }
 
 .complexity-matrix th {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-alt);
   font-size: 11.5px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--fg-muted, #9ca3af);
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
   padding: 10px 14px;
   text-align: left;
-  border-bottom: 1px solid var(--border-subtle, #26262a);
+  border-bottom: 1px solid var(--border);
 }
 
 .complexity-matrix td {
   padding: 10px 14px;
-  border-bottom: 1px solid var(--border-subtle, #26262a);
+  border-bottom: 1px solid var(--border);
   vertical-align: middle;
+  color: var(--fg-prose);
 }
 
 .complexity-matrix tr:last-child td {
   border-bottom: none;
 }
 
-/* Invariant & Hardware Reality Callout Boxes */
+/* Invariant & Hardware Reality Callout Boxes (1px full hairline, zero thick stripe) */
 .invariant-box,
 .hardware-box {
   margin: 1.5rem 0;
   padding: 1rem 1.25rem;
-  border-radius: 10px;
-  background: var(--bg-secondary, #121215);
-  border: 1px solid var(--border-subtle, #26262a);
-  border-left-width: 4px;
+  border-radius: var(--r-lg, 10px);
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 .invariant-box {
-  border-left-color: #6366f1;
-  background: linear-gradient(90deg, rgba(99, 102, 241, 0.08) 0%, rgba(18, 18, 21, 0.4) 100%);
+  background: var(--info-bg);
+  border-color: var(--info-border);
 }
 
 .hardware-box {
-  border-left-color: #10b981;
-  background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(18, 18, 21, 0.4) 100%);
+  background: var(--success-bg);
+  border-color: var(--success-border);
 }
 
 .invariant-box h4,
 .hardware-box h4 {
   margin: 0 0 0.5rem 0;
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.01em;
   display: flex;
   align-items: center;
@@ -126,11 +141,11 @@
 }
 
 .invariant-box h4 {
-  color: #818cf8;
+  color: var(--info);
 }
 
 .hardware-box h4 {
-  color: #34d399;
+  color: var(--success);
 }
 
 /* Interactive Visual Simulators */
@@ -139,12 +154,11 @@
 }
 
 .dsa-sim {
-  border: 1px solid var(--border-subtle, #27272a);
-  border-radius: 12px;
-  background: var(--bg-secondary, #111114);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl, 14px);
+  background: var(--surface);
   padding: 1.25rem;
   margin: 1.5rem 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
 .dsa-sim__header {
@@ -158,8 +172,8 @@
 
 .dsa-sim__title {
   font-size: 15px;
-  font-weight: 700;
-  color: var(--fg-primary, #f4f4f5);
+  font-weight: 600;
+  color: var(--fg);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -167,7 +181,7 @@
 
 .dsa-sim__subtitle {
   font-size: 13px;
-  color: var(--fg-muted, #a1a1aa);
+  color: var(--fg-muted);
   margin: 0 0 1rem 0;
   line-height: 1.5;
 }
@@ -178,15 +192,15 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle, #27272a);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
   border-radius: 8px;
   margin-bottom: 1rem;
 }
 
 .dsa-sim__stage {
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-subtle, #27272a);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1rem;
   min-height: 220px;
@@ -211,51 +225,53 @@
   min-width: 42px;
   padding: 8px 6px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle, #2e2e34);
+  background: var(--surface);
+  border: 1px solid var(--border);
   text-align: center;
   font-family: var(--font-mono, monospace);
   font-size: 12.5px;
-  transition: all 0.2s ease;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
   position: relative;
 }
 
 .dsa-sim__cell.is-active {
-  background: rgba(99, 102, 241, 0.22);
-  border-color: #6366f1;
-  color: #c7d2fe;
-  transform: translateY(-3px);
+  background: var(--info-bg);
+  border-color: var(--info);
+  color: var(--info);
+  transform: translateY(-2px);
 }
 
 .dsa-sim__cell.is-match,
 .dsa-sim__cell.is-hit {
-  background: rgba(16, 185, 129, 0.22);
-  border-color: #10b981;
-  color: #a7f3d0;
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success);
 }
 
 .dsa-sim__cell.is-warn,
 .dsa-sim__cell.is-miss {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: #ef4444;
-  color: #fecaca;
+  background: var(--error-bg);
+  border-color: var(--error);
+  color: var(--error);
 }
 
 .dsa-sim__cell.is-pivot {
-  background: rgba(245, 158, 11, 0.22);
-  border-color: #f59e0b;
-  color: #fde68a;
+  background: var(--warning-bg);
+  border-color: var(--warning);
+  color: var(--warning);
 }
 
 .dsa-sim__cell-idx {
   display: block;
   font-size: 10px;
-  color: var(--fg-faint, #71717a);
+  color: var(--fg-faint);
   margin-bottom: 2px;
 }
 
 .dsa-sim__cell-val {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 13px;
 }
 
@@ -263,7 +279,7 @@
   display: block;
   font-size: 9.5px;
   margin-top: 2px;
-  color: #818cf8;
+  color: var(--info);
 }
 
 .dsa-sim__metrics {
@@ -275,38 +291,41 @@
 
 .dsa-sim__metric {
   padding: 0.6rem 0.75rem;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border-subtle, #27272a);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
   border-radius: 6px;
 }
 
 .dsa-sim__metric-label {
   font-size: 10.5px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--fg-faint, #71717a);
+  letter-spacing: 0.04em;
+  color: var(--fg-faint);
 }
 
 .dsa-sim__metric-value {
   font-family: var(--font-mono, monospace);
   font-size: 14px;
-  font-weight: 700;
-  color: var(--fg-primary, #f4f4f5);
+  font-weight: 600;
+  color: var(--fg);
   margin-top: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 .dsa-sim__log {
+  position: relative;
   margin-top: 0.75rem;
   padding: 0.65rem 0.85rem;
-  background: #070709;
-  border: 1px solid var(--border-subtle, #27272a);
+  background: var(--code-bg);
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-family: var(--font-mono, monospace);
   font-size: 12px;
-  color: #a1a1aa;
+  color: var(--fg-muted);
   max-height: 125px;
   overflow-y: auto;
   line-height: 1.5;
+  transition: border-color 0.2s ease;
 }
 
 .dsa-sim__custom-bar {
@@ -315,8 +334,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 0.75rem;
-  background: rgba(99, 102, 241, 0.05);
-  border: 1px solid rgba(99, 102, 241, 0.22);
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
   border-radius: 8px;
   margin-bottom: 0.75rem;
 }
@@ -324,7 +343,7 @@
 .dsa-sim__custom-label {
   font-size: 11.5px;
   font-weight: 600;
-  color: #a5b4fc;
+  color: var(--info);
   font-family: var(--font-mono, monospace);
   white-space: nowrap;
 }
@@ -335,17 +354,16 @@
   padding: 5px 10px;
   font-size: 12.5px;
   font-family: var(--font-mono, monospace);
-  color: var(--fg-primary, #f4f4f5);
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-subtle, #3f3f46);
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 .dsa-sim__custom-input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+  border-color: var(--info);
 }
 
 .dsa-sim__scrubber-row {
@@ -359,7 +377,7 @@
 .dsa-sim__scrubber {
   flex: 1;
   height: 6px;
-  accent-color: #6366f1;
+  accent-color: var(--info);
   cursor: pointer;
 }
 
@@ -371,31 +389,33 @@
   font-size: 11.5px;
   font-family: var(--font-mono, monospace);
   border-radius: 6px;
-  border: 1px solid var(--border-subtle, #3f3f46);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--fg-muted, #a1a1aa);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg-muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .dsa-sim__audio-btn.is-on {
-  background: rgba(16, 185, 129, 0.14);
-  border-color: rgba(16, 185, 129, 0.45);
-  color: #34d399;
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success);
 }
 
 .dsa-sim__audio-btn:hover {
-  border-color: #6366f1;
-  color: var(--fg-primary, #f4f4f5);
+  border-color: var(--info);
+  color: var(--fg);
 }
 
+/* SVG stage preserves dark slate contrast so inline stroke colors remain legible in both themes */
 .dsa-sim__visual-canvas {
   width: 100%;
   overflow-x: auto;
   margin-bottom: 8px;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(9, 9, 11, 0.75) 100%);
+  background: #141417;
+  color: #e4e4e7;
   padding: 8px 10px;
 }
 
@@ -405,15 +425,9 @@
   font-family: var(--font-mono, monospace);
 }
 
-.dsa-sim__log {
-  position: relative;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
 .dsa-sim__log.is-speaking {
-  border-color: rgba(16, 185, 129, 0.55);
-  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
-  color: #e4e4e7;
+  border-color: var(--success-border);
+  color: var(--fg);
 }
 
 .dsa-sim__voice-pill {
@@ -424,9 +438,15 @@
   margin-right: 6px;
   border-radius: 999px;
   font-size: 10.5px;
-  font-weight: 700;
-  background: rgba(16, 185, 129, 0.16);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  font-weight: 600;
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
   vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dsa-sim__cell {
+    transition: none;
+  }
 }

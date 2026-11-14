@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" class="no-shell">
+<html lang="en" data-product="dsa" data-theme="light" class="no-shell">
 <head>
   <meta charset="UTF-8">
   <base href="/">
@@ -7,20 +7,20 @@
   <title>Left-Leaning Red-Black Order-Statistic Tree — Interactive Build Lab | DSA In Depth</title>
   <meta name="description" content="Left-Leaning Red-Black Order-Statistic Tree: A Left-Leaning Red-Black LLRB balanced binary search tree augmented with subtree sizes to support Olog n...">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f7f7f5">
   
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Left-Leaning Red-Black Order-Statistic Tree — Interactive Build Lab | DSA In Depth">
   <meta property="og:description" content="Left-Leaning Red-Black Order-Statistic Tree: A Left-Leaning Red-Black LLRB balanced binary search tree augmented with subtree sizes to support Olog n...">
   <meta property="og:url" content="https://dsa-in-depth.vedgupta.in/build/build-llrb-order-statistic-tree/">
-  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og/build-llrb-order-statistic-tree.png">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Left-Leaning Red-Black Order-Statistic Tree — Interactive Build Lab | DSA In Depth">
   <meta name="twitter:description" content="Left-Leaning Red-Black Order-Statistic Tree: A Left-Leaning Red-Black LLRB balanced binary search tree augmented with subtree sizes to support Olog n...">
-  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og/build-llrb-order-statistic-tree.png">
   
   <!-- Canonical -->
   <link rel="canonical" href="https://dsa-in-depth.vedgupta.in/build/build-llrb-order-statistic-tree/">
@@ -28,18 +28,21 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
-  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
-  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
-  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
-  <link rel="stylesheet" href="css/landing.css?v=14b77b8c3d">
-  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
+  <!-- Stylesheets: Shared Design System + Self-Hosted KaTeX + Product Styles -->
+  <link rel="stylesheet" href="design-system/tokens.css?v=dee287f0ce">
+  <link rel="stylesheet" href="design-system/components.css?v=606a179125">
+  <link rel="stylesheet" href="css/vendor/katex/katex.min.css?v=83121916c0" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/variables.css?v=3127790d83">
+  <link rel="stylesheet" href="css/layout.css?v=0dc598dfac">
+  <link rel="stylesheet" href="css/components.css?v=0b0094ee0d">
+  <link rel="stylesheet" href="css/content.css?v=c40a7aea42" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/landing.css?v=33a22491bf">
+  <link rel="stylesheet" href="css/simulators.css?v=92fbb259dc" media="print" onload="this.media='all'">
 
   <!-- Core scripts: head initializer & asset manifest -->
-  <script src="js/init.js?v=2dc0b4ce1b"></script>
+  <script src="js/init.js?v=bbcf24c9ff"></script>
   <script src="js/manifest.js?v=176086d31d"></script>
 
   <script type="application/ld+json">
@@ -48,6 +51,7 @@
   "@type": "TechArticle",
   "headline": "Left-Leaning Red-Black Order-Statistic Tree — Interactive Build Lab",
   "description": "Left-Leaning Red-Black Order-Statistic Tree: A Left-Leaning Red-Black LLRB balanced binary search tree augmented with subtree sizes to support Olog n...",
+  "image": "https://dsa-in-depth.vedgupta.in/assets/og/build-llrb-order-statistic-tree.png",
   "url": "https://dsa-in-depth.vedgupta.in/build/build-llrb-order-statistic-tree/",
   "author": {
     "@type": "Person",
@@ -87,21 +91,20 @@
     </div>
 
     <div class="topbar__actions">
-      <nav class="topbar__nav" aria-label="Primary navigation">
-        <a href="/roadmap" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
-        <a href="/challenges" class="topbar__nav-link" data-nav="challenges">Challenges</a>
-        <a href="/dashboard" class="topbar__nav-link" data-nav="dashboard">Dashboard</a>
-        <a href="/sandbox" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a href="/roadmap/" class="topbar__nav-link" data-nav="roadmap">Roadmap</a>
+        <a href="/challenges/" class="topbar__nav-link" data-nav="challenges">Challenges</a>
+        <a href="/sandbox/" class="topbar__nav-link" data-nav="sandbox">Blueprint</a>
         <a href="/glossary/" class="topbar__nav-link" data-nav="glossary">Glossary</a>
       </nav>
 
-      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+      <a href="/dashboard/" class="topbar__progress-pill" id="progress-pill" data-nav="dashboard" title="Your learning progress" aria-label="Your learning progress">
         <svg class="topbar__progress-ring" viewBox="0 0 20 20">
           <circle class="track" cx="10" cy="10" r="8"/>
           <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
         </svg>
         <span id="progress-text">0%</span>
-      </div>
+      </a>
 
       <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -115,9 +118,11 @@
   </header>
 
   <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
-    <nav class="sidebar__tabs" role="tablist">
-      <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+  <aside class="sidebar" id="sidebar" aria-label="Curriculum">
+    <div class="sidebar__tabs">
+      <div role="tablist" aria-label="Sidebar sections" style="display:flex;align-items:center;">
+        <button class="sidebar__tab active" data-tab="curriculum" role="tab" aria-selected="true">Curriculum</button>
+      </div>
       <div class="sidebar__header-actions">
         <button type="button" class="sidebar__collapse-modules-btn" id="sidebar-collapse-modules-btn" title="Collapse or expand all curriculum modules" aria-label="Collapse or expand all curriculum modules">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 15 12 20 17 15"/><polyline points="7 9 12 4 17 9"/></svg>
@@ -127,7 +132,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="14 9 11 12 14 15"/></svg>
         </button>
       </div>
-    </nav>
+    </div>
     <div class="sidebar__content" id="sidebar-content">
 <div style="padding:4px 16px 4px;font-size:11px;font-weight:600;color:var(--fg-faint);text-transform:uppercase;letter-spacing:0.05em;">Foundations, Memory Hierarchy &amp; Linear Structures</div><div class="module-group collapsed" data-module="m01">
         <div class="module-group__header">
@@ -803,7 +808,7 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Main Content -->
-  <main class="main" id="main-content">
+  <main class="main" id="main-content" tabindex="-1">
     <button type="button" class="sidebar-reopen-btn" id="sidebar-expand-btn" title="Expand curriculum sidebar ( [ )" aria-label="Expand curriculum sidebar">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="12 9 15 12 12 15"/></svg>
       <span>Curriculum</span>
@@ -988,7 +993,30 @@
         <div id="codelab-mount-build-llrb-order-statistic-tree" class="build-lab-overlay__mount" data-build-id="build-llrb-order-statistic-tree"></div>
       </div>
     </div>
+    <footer class="ds-footer" aria-label="Site">
+      <div class="ds-footer__inner">
+        <div class="ds-footer__family">
+          <span class="ds-footer__label">In Depth Learning Family</span>
+          <a href="https://dsa-in-depth.vedgupta.in/" class="ds-footer__product is-current">DSA In Depth</a>
+          <a href="https://sql-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">SQL In Depth</a>
+          <a href="https://system-design-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">System Design In Depth</a>
+        </div>
+        <div class="ds-footer__links">
+          <a href="/sandbox/" data-nav="sandbox">Blueprint</a>
+          <a href="/roadmap/" data-nav="roadmap">Roadmap</a>
+          <a href="/challenges/" data-nav="challenges">Challenges</a>
+          <a href="/glossary/" data-nav="glossary">Glossary</a>
+          <a href="/projects/">Projects</a>
+          <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="ds-footer__meta">
+          <span>Free &amp; open-source first-principles algorithms &amp; data structures textbook by <a href="https://vedgupta.in" target="_blank" rel="noopener">Ved Gupta</a>. Code MIT · Prose CC-BY-4.0.</span>
+        </div>
+      </div>
+    </footer>
   </main>
+
+  <div class="ds-toast" id="ds-toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Search Modal -->
   <div class="search-modal" id="search-modal" role="dialog" aria-label="Search topics" aria-modal="true">
@@ -996,7 +1024,7 @@
     <div class="search-modal__dialog">
       <div class="search-modal__input-wrap">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-modal__input" id="search-input" type="text" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
+        <input class="search-modal__input" id="search-input" type="text" aria-label="Search 180 topics, complexities, and build labs" placeholder="Search 180 topics, complexities, and build labs…" autocomplete="off" spellcheck="false">
       </div>
       <div class="search-modal__results" id="search-results"></div>
       <div class="search-modal__footer">
@@ -1062,28 +1090,28 @@
   <script type="text/plain" data-defer src="js/progress.js?v=20e4822556"></script>
   <script type="text/plain" data-defer src="js/search.js?v=406c34b844"></script>
   <script type="text/plain" data-defer src="js/exercises.js?v=6a123f7bfa"></script>
-  <script type="text/plain" data-defer src="js/simulators.js?v=998c3ec664"></script>
-  <script type="text/plain" data-defer src="js/simulators-linear.js?v=56e83f6701"></script>
+  <script type="text/plain" data-defer src="js/simulators.js?v=1007e83c82"></script>
+  <script type="text/plain" data-defer src="js/simulators-linear.js?v=a4c0333fa6"></script>
   <script type="text/plain" data-defer src="js/simulators-hashing.js?v=b5654e0057"></script>
   <script type="text/plain" data-defer src="js/simulators-trees.js?v=93f6a6bd7e"></script>
   <script type="text/plain" data-defer src="js/simulators-strings.js?v=5db5bcb6db"></script>
   <script type="text/plain" data-defer src="js/simulators-graphs.js?v=18112e6bdb"></script>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
-  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script type="text/plain" data-defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=271068bb52"></script>
-  <script type="text/plain" data-defer src="js/landing.js?v=d5aa5031fb"></script>
+  <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
+  <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
   <script type="text/plain" data-defer src="js/roadmap.js?v=afdc0360a7"></script>
   <script type="text/plain" data-defer src="js/challenges.js?v=a08b5b8a96"></script>
   <script type="text/plain" data-defer src="js/dashboard.js?v=2b08560f48"></script>
   <script type="text/plain" data-defer src="js/sandbox.js?v=b33bc2f39d"></script>
-  <script type="text/plain" data-defer src="js/topic-codelab.js?v=8e5e923ea0"></script>
+  <script type="text/plain" data-defer src="js/topic-codelab.js?v=2d357b27f6"></script>
   
-  <script type="text/plain" data-defer src="js/app.js?v=82b780ae4e"></script>
+  <script type="text/plain" data-defer src="js/app.js?v=a7364b3923"></script>
 
   <!-- App bootstrap & deferred script loader -->
-  <script src="js/bootstrap.js?v=df2bb60aeb"></script>
+  <script src="js/bootstrap.js?v=062196c36b"></script>
 </body>
 </html>

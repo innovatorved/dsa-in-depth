@@ -1,30 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-product="dsa" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>404 — Page Not Found | DSA In Depth</title>
-  <meta name="description" content="The data structure, algorithm lesson, or coding lab you are looking for cannot be found. Explore our 6 tracks, 180 units, 32 simulators, and 22 from-scratch builds.">
-  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
-  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og-image.png">
+  <meta name="description" content="The data structure, algorithm lesson, or coding lab you are looking for cannot be found. Explore our 6 tracks, 180 units, 69 simulators, and 22 from-scratch builds.">
+  <meta property="og:image" content="https://dsa-in-depth.vedgupta.in/assets/og/404.png">
+  <meta name="twitter:image" content="https://dsa-in-depth.vedgupta.in/assets/og/404.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="robots" content="noindex, follow">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f7f7f5">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/variables.css?v=5d2c36c681">
-  <link rel="stylesheet" href="css/layout.css?v=d060ab19e6">
-  <link rel="stylesheet" href="css/components.css?v=719e5fdf2d">
-  <link rel="stylesheet" href="css/content.css?v=98b657b5e4">
-  <link rel="stylesheet" href="css/simulators.css?v=e2fd7df3e0">
+  <link rel="stylesheet" href="design-system/tokens.css?v=dee287f0ce">
+  <link rel="stylesheet" href="design-system/components.css?v=606a179125">
+  <link rel="stylesheet" href="css/variables.css?v=3127790d83">
+  <link rel="stylesheet" href="css/layout.css?v=0dc598dfac">
+  <link rel="stylesheet" href="css/components.css?v=0b0094ee0d">
+  <link rel="stylesheet" href="css/content.css?v=c40a7aea42">
+  <link rel="stylesheet" href="css/simulators.css?v=92fbb259dc">
 
   <!-- Core scripts: head initializer & asset manifest -->
-  <script src="js/init.js?v=2dc0b4ce1b"></script>
+  <script src="js/init.js?v=bbcf24c9ff"></script>
   <script src="js/manifest.js?v=176086d31d"></script>
 
   <style>
@@ -34,8 +37,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: var(--bg-primary);
-      color: var(--fg-primary);
+      background: var(--bg);
+      color: var(--fg);
     }
     .not-found-main {
       flex: 1;
@@ -48,31 +51,29 @@
       max-width: 680px;
       width: 100%;
       text-align: center;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
       border-radius: var(--radius-lg, 12px);
       padding: 48px 36px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
     .not-found-card__badge {
       display: inline-block;
+      font-family: var(--font-mono);
       font-size: 12px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       padding: 4px 12px;
-      border-radius: 999px;
-      background: rgba(239, 68, 68, 0.12);
-      color: #ef4444;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      margin-bottom: 20px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      border: 1px solid var(--accent-border);
+      margin-bottom: 16px;
     }
     .not-found-card__title {
       font-size: 32px;
       font-weight: 700;
       line-height: 1.2;
       margin: 0 0 12px 0;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
     }
     .not-found-card__desc {
       font-size: 15px;
@@ -90,10 +91,10 @@
     .not-found-search input {
       flex: 1;
       padding: 10px 14px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-subtle);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: var(--radius-md, 8px);
-      color: var(--fg-primary);
+      color: var(--fg);
       font-size: 14px;
       outline: none;
       transition: border-color 0.15s ease;
@@ -110,15 +111,13 @@
     }
     .not-found-popular {
       text-align: left;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--border);
       padding-top: 24px;
     }
     .not-found-popular__title {
       font-size: 12px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--fg-faint);
+      color: var(--fg-muted);
       margin-bottom: 12px;
     }
     .not-found-popular__grid {
@@ -129,40 +128,24 @@
     .not-found-popular__link {
       display: block;
       padding: 10px 14px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-subtle);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm, 6px);
-      color: var(--fg-primary);
+      color: var(--fg);
       text-decoration: none;
       font-size: 13px;
       font-weight: 500;
-      transition: all 0.15s ease;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
     .not-found-popular__link:hover {
       border-color: var(--accent);
-      background: var(--bg-primary);
-    }
-    .not-found-footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      color: var(--fg-faint);
-      border-top: 1px solid var(--border-subtle);
-    }
-    .not-found-footer a {
-      color: var(--fg-muted);
-      text-decoration: none;
-    }
-    .not-found-footer a:hover {
-      text-decoration: underline;
+      background: var(--bg-elevated);
     }
   </style>
 </head>
 <body>
-  <!-- Skip to content -->
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <!-- Standard Top Bar -->
   <header class="topbar">
     <a href="/" class="topbar__brand" data-nav="home">
       <span class="topbar__brand-icon">DSA</span>
@@ -179,17 +162,20 @@
     </div>
 
     <div class="topbar__actions">
-      <nav class="topbar__nav" style="display:flex; gap:0.4rem; margin-right:0.5rem;">
-        <a href="/#/glossary" class="btn btn--sm btn--outline" style="font-size:11px; padding:4px 8px; text-decoration:none; white-space:nowrap;">📖 Glossary</a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a href="/roadmap/" class="topbar__nav-link">Roadmap</a>
+        <a href="/challenges/" class="topbar__nav-link">Challenges</a>
+        <a href="/sandbox/" class="topbar__nav-link">Blueprint</a>
+        <a href="/glossary/" class="topbar__nav-link">Glossary</a>
       </nav>
 
-      <div class="topbar__progress-pill" id="progress-pill" title="Overall progress">
+      <a href="/dashboard/" class="topbar__progress-pill" id="progress-pill" title="Your learning progress" aria-label="Your learning progress">
         <svg class="topbar__progress-ring" viewBox="0 0 20 20">
           <circle class="track" cx="10" cy="10" r="8"/>
           <circle class="fill" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="progress-ring-fill"/>
         </svg>
         <span id="progress-text">0%</span>
-      </div>
+      </a>
 
       <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener noreferrer" class="topbar__btn topbar__btn--github" id="github-repo-btn" aria-label="GitHub Repository" title="GitHub Repository" data-repo-placement="topbar">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -203,30 +189,26 @@
   </header>
 
   <div class="not-found-wrapper">
-    <!-- Main Content -->
-    <main class="not-found-main" id="main-content">
+    <main class="not-found-main" id="main-content" tabindex="-1">
       <div class="not-found-card">
-        <div class="not-found-card__badge">404 Error</div>
+        <div class="not-found-card__badge">HTTP 404</div>
         <h1 class="not-found-card__title">Page Not Found</h1>
         <p class="not-found-card__desc">
           The data structure, algorithm visualizer, or coding lab you are looking for has been moved, renamed, or does not exist.
         </p>
 
-        <!-- Quick Search Form -->
         <form class="not-found-search">
-          <input type="text" id="error-search-input" placeholder="Search 180 topics &amp; 22 builds (e.g. Red-Black, Dijkstra, SwissTable)…" autocomplete="off" spellcheck="false">
+          <input type="text" id="error-search-input" aria-label="Search 180 topics and 22 builds" placeholder="Search 180 topics &amp; 22 builds (e.g. Red-Black, Dijkstra, SwissTable)…" autocomplete="off" spellcheck="false">
           <button type="submit" class="btn btn--primary" style="padding:0 16px;">Search</button>
         </form>
 
-        <!-- Primary Action Links -->
         <div class="not-found-actions">
           <a class="btn btn--primary" href="/">← Return to Home</a>
           <a class="btn btn--outline" href="/topic/ram-model-vs-modern-cpu/">Start Curriculum</a>
           <a class="btn btn--outline" href="/build/build-robin-hood-hash-map/">22 Build Labs</a>
-          <a class="btn btn--outline" href="/projects">Projects</a>
+          <a class="btn btn--outline" href="/projects/">Projects</a>
         </div>
 
-        <!-- Popular Topics -->
         <div class="not-found-popular">
           <div class="not-found-popular__title">Popular Topics, Simulators &amp; Build Labs</div>
           <div class="not-found-popular__grid">
@@ -241,12 +223,29 @@
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="not-found-footer">
-      <span>DSA In Depth &copy; 2024–2026 Ved Gupta. <a href="/">Curriculum</a> &bull; <a href="/build/build-robin-hood-hash-map/">22 Builds</a> &bull; <a href="/projects">Projects</a> &bull; <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener">GitHub</a></span>
+    <footer class="ds-footer" aria-label="Site">
+      <div class="ds-footer__inner">
+        <div class="ds-footer__family">
+          <span class="ds-footer__label">In Depth Learning Family</span>
+          <a href="https://dsa-in-depth.vedgupta.in/" class="ds-footer__product is-current">DSA In Depth</a>
+          <a href="https://sql-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">SQL In Depth</a>
+          <a href="https://system-design-in-depth.vedgupta.in/" class="ds-footer__product" target="_blank" rel="noopener">System Design In Depth</a>
+        </div>
+        <div class="ds-footer__links">
+          <a href="/sandbox/">Blueprint</a>
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/challenges/">Challenges</a>
+          <a href="/glossary/">Glossary</a>
+          <a href="/projects/">Projects</a>
+          <a href="https://github.com/innovatorved/dsa-in-depth" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="ds-footer__meta">
+          <span>Free &amp; open-source first-principles algorithms &amp; data structures textbook by <a href="https://vedgupta.in" target="_blank" rel="noopener">Ved Gupta</a>. Code MIT · Prose CC-BY-4.0.</span>
+        </div>
+      </div>
     </footer>
   </div>
 
-  <script src="js/404.js?v=97fa3c03f4"></script>
+  <script src="js/404.js?v=783b990de1"></script>
 </body>
 </html>

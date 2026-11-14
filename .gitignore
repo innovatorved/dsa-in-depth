@@ -11,20 +11,19 @@ Thumbs.db
 
 # Node
 node_modules/
-package-lock.json
 
 # Python
 __pycache__/
 *.pyc
 .env
 
-# Temp
+# Temp & Local Tooling
 /tmp/
 *.tmp
+scratch/
 .wrangler/
 .cloudflare/
-
-# Agents & Build Output
 .agents/
-dist/
 
+# Production Build Output
+dist/

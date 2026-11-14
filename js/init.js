@@ -32,7 +32,7 @@
     const stored = localStorage.getItem('sd-theme');
     const dark = stored === 'dark';
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#000000' : '#ffffff');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0f0f10' : '#f7f7f5');
   } catch {}
 
   // 4. Google Analytics 4 & Consent Mode v2 (GDPR / DPDP compliant)
@@ -57,7 +57,7 @@
 
   gtag('js', new Date());
   gtag('config', 'G-GF7VK3LRPJ', {
-    send_page_view: false // Handled dynamically on SPA route changes by js/analytics.js
+    send_page_view: false
   });
 
   // 5. DOM-dependent initializations before first paint
@@ -66,7 +66,6 @@
       document.body.classList.add('view-landing');
     }
 
-    // Personalize prerendered landing shell and progress indicator from saved state
     const shell = document.querySelector('.landing-shell');
     if (shell) {
       try {
@@ -87,7 +86,7 @@
           const bar = card.querySelector('.landing-module__bar > span');
           if (bar && n) bar.style.width = Math.round((n / units.length) * 100) + '%';
         }
-        const pct = Math.round((completed.length / ((window.SITE_COUNTS && window.SITE_COUNTS.topics) || 200)) * 100);
+        const pct = Math.round((completed.length / ((window.SITE_COUNTS && window.SITE_COUNTS.topics) || 180)) * 100);
         const text = document.getElementById('progress-text');
         const ring = document.getElementById('progress-ring-fill');
         if (text) text.textContent = pct + '%';

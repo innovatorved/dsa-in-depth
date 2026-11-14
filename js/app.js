@@ -19,6 +19,8 @@ window.App = (() => {
   let currentBuildParams = new URLSearchParams();
   let currentRouteParams = new URLSearchParams();
   let landingCleanup = null;  // live demo on the landing page
+  let _tocScrollCleanup = null;
+  let _toastTimer = null;
   const collapsedModules = new Set();
   let collapsedModulesInitialized = false;
 
@@ -435,7 +437,7 @@ window.App = (() => {
   function navigateToRoadmap(tab, event) {
     if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)) return;
     if (event) event.preventDefault();
-    const targetPath = tab && tab !== 'graph' ? `/roadmap/${tab}` : '/roadmap';
+    const targetPath = tab && tab !== 'graph' ? `/roadmap/${tab}/` : '/roadmap/';
     if (window.location.pathname !== targetPath || window.location.hash) {
       history.pushState(null, '', targetPath);
     }
@@ -449,7 +451,7 @@ window.App = (() => {
   function navigateToChallenges(challengeId, event) {
     if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)) return;
     if (event) event.preventDefault();
-    const targetPath = challengeId ? `/challenges/${challengeId}` : '/challenges';
+    const targetPath = challengeId ? `/challenges/${challengeId}/` : '/challenges/';
     if (window.location.pathname !== targetPath || window.location.hash) {
       history.pushState(null, '', targetPath);
     }
@@ -463,7 +465,7 @@ window.App = (() => {
   function navigateToDashboard(tab, event) {
     if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)) return;
     if (event) event.preventDefault();
-    const targetPath = tab && tab !== 'overview' ? `/dashboard/${tab}` : '/dashboard';
+    const targetPath = tab && tab !== 'overview' ? `/dashboard/${tab}/` : '/dashboard/';
     if (window.location.pathname !== targetPath || window.location.hash) {
       history.pushState(null, '', targetPath);
     }
@@ -477,7 +479,7 @@ window.App = (() => {
   function navigateToSandbox(blueprintId, event) {
     if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)) return;
     if (event) event.preventDefault();
-    const targetPath = blueprintId ? `/sandbox/${blueprintId}` : '/sandbox';
+    const targetPath = blueprintId ? `/sandbox/${blueprintId}/` : '/sandbox/';
     if (window.location.pathname !== targetPath || window.location.hash) {
       history.pushState(null, '', targetPath);
     }
@@ -537,6 +539,10 @@ window.App = (() => {
     if (activeSandbox) {
       if (window.SandboxController?.unmount) window.SandboxController.unmount();
       activeSandbox = false;
+    }
+    if (_tocScrollCleanup) {
+      _tocScrollCleanup();
+      _tocScrollCleanup = null;
     }
 
     // Landing page & ecosystem hubs are full-width
@@ -705,6 +711,7 @@ window.App = (() => {
         
         initMermaid();
         renderMathOnPage(reader);
+        setupLessonTocScrollSpy(reader);
         if (window.TopicCodeLab && typeof window.TopicCodeLab.init === 'function') {
           window.TopicCodeLab.init(reader);
         }
@@ -964,19 +971,19 @@ window.App = (() => {
         if (!window.GUIDED_LABS_DATA) {
           neededBuildScripts.push('data/guided_labs.js');
         }
-        if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
+        if (!document.querySelector('link[href*="code-lab.css"], link[href*="@innovatorved/code-lab"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
-          link.crossOrigin = 'anonymous';
+          link.href = 'css/vendor/code-lab.css';
           link.onerror = function () {
             this.onerror = null;
-            this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
+            this.crossOrigin = 'anonymous';
+            this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.css';
           };
           document.head.appendChild(link);
         }
         if (!window.CodeLab) {
-          neededBuildScripts.push('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.js');
+          neededBuildScripts.push('js/vendor/code-lab.js');
         }
 
         if (neededBuildScripts.length > 0 && window.loadScript) {
@@ -1190,7 +1197,7 @@ window.App = (() => {
 
     // Update theme-color meta
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', next === 'dark' ? '#000000' : '#ffffff');
+    if (meta) meta.setAttribute('content', next === 'dark' ? '#0f0f10' : '#f7f7f5');
 
     // Re-init mermaid with correct theme
     if (window.mermaid) {
@@ -1199,27 +1206,27 @@ window.App = (() => {
         theme: 'base', // base honours themeVariables; 'default'/'dark' override them
         themeVariables: {
           darkMode: next === 'dark',
-          background: next === 'dark' ? '#0a0a0a' : '#ffffff',
-          primaryColor: next === 'dark' ? '#171717' : '#fafafa',
-          primaryTextColor: next === 'dark' ? '#ffffff' : '#0a0a0a',
-          primaryBorderColor: next === 'dark' ? '#404040' : '#d4d4d4',
-          lineColor: next === 'dark' ? '#737373' : '#a1a1a1',
-          secondaryColor: next === 'dark' ? '#0a0a0a' : '#f5f5f5',
-          tertiaryColor: next === 'dark' ? '#262626' : '#e5e5e5',
-          mainBkg: (next === 'dark') ? '#171717' : '#fafafa',
-          nodeBorder: (next === 'dark') ? '#404040' : '#d4d4d4',
-          clusterBkg: (next === 'dark') ? '#0a0a0a' : '#ffffff',
-          clusterBorder: (next === 'dark') ? '#262626' : '#e5e5e5',
-          textColor: (next === 'dark') ? '#e5e5e5' : '#262626',
-          edgeLabelBackground: (next === 'dark') ? '#0a0a0a' : '#ffffff',
-          actorBkg: (next === 'dark') ? '#171717' : '#fafafa',
-          actorBorder: (next === 'dark') ? '#404040' : '#d4d4d4',
-          actorTextColor: (next === 'dark') ? '#ffffff' : '#0a0a0a',
-          signalColor: (next === 'dark') ? '#a1a1a1' : '#525252',
-          signalTextColor: (next === 'dark') ? '#e5e5e5' : '#262626',
-          noteBkgColor: (next === 'dark') ? '#262626' : '#f5f5f5',
-          noteBorderColor: (next === 'dark') ? '#404040' : '#d4d4d4',
-          noteTextColor: (next === 'dark') ? '#e5e5e5' : '#262626',
+          background: next === 'dark' ? '#171719' : '#ffffff',
+          primaryColor: next === 'dark' ? '#1f1f22' : '#f7f7f5',
+          primaryTextColor: next === 'dark' ? '#f3f3f4' : '#141413',
+          primaryBorderColor: next === 'dark' ? '#3a3a40' : '#d6d5d0',
+          lineColor: next === 'dark' ? '#a1a1aa' : '#575653',
+          secondaryColor: next === 'dark' ? '#171719' : '#efefec',
+          tertiaryColor: next === 'dark' ? '#26262a' : '#e6e5e0',
+          mainBkg: (next === 'dark') ? '#1f1f22' : '#f7f7f5',
+          nodeBorder: (next === 'dark') ? '#3a3a40' : '#d6d5d0',
+          clusterBkg: (next === 'dark') ? '#171719' : '#ffffff',
+          clusterBorder: (next === 'dark') ? '#26262a' : '#e6e5e0',
+          textColor: (next === 'dark') ? '#f3f3f4' : '#141413',
+          edgeLabelBackground: (next === 'dark') ? '#171719' : '#ffffff',
+          actorBkg: (next === 'dark') ? '#1f1f22' : '#f7f7f5',
+          actorBorder: (next === 'dark') ? '#3a3a40' : '#d6d5d0',
+          actorTextColor: (next === 'dark') ? '#f3f3f4' : '#141413',
+          signalColor: (next === 'dark') ? '#a1a1aa' : '#575653',
+          signalTextColor: (next === 'dark') ? '#f3f3f4' : '#141413',
+          noteBkgColor: (next === 'dark') ? '#26262a' : '#efefec',
+          noteBorderColor: (next === 'dark') ? '#3a3a40' : '#d6d5d0',
+          noteTextColor: (next === 'dark') ? '#f3f3f4' : '#141413',
           fontFamily: '"Geist", -apple-system, sans-serif',
           fontSize: '13px'
         }
@@ -2012,7 +2019,14 @@ window.App = (() => {
         return;
       }
 
-      // 8. Cheat sheet print
+      // 8. Cheat sheet print & page share
+      const shareBtn = target.closest('[data-action="share-page"]');
+      if (shareBtn) {
+        e.preventDefault();
+        sharePageUrl(shareBtn.getAttribute('data-url'), shareBtn.getAttribute('data-title'), shareBtn);
+        return;
+      }
+
       const printBtn = target.closest('[data-action="window-print"]');
       if (printBtn) {
         e.preventDefault();
@@ -2074,20 +2088,22 @@ window.App = (() => {
   let globalCodeLabInstance = null;
 
   function ensureCodeLabLoaded() {
-    if (!document.querySelector('link[href*="@innovatorved/code-lab"], link[href*="innovatorved/code-lab"]')) {
+    if (!document.querySelector('link[href*="code-lab.css"], link[href*="@innovatorved/code-lab"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
-      link.crossOrigin = 'anonymous';
+      link.href = 'css/vendor/code-lab.css';
       link.onerror = function () {
         this.onerror = null;
-        this.href = 'https://unpkg.com/@innovatorved/code-lab@0.3.2/dist/code-lab.css';
+        this.crossOrigin = 'anonymous';
+        this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.css';
       };
       document.head.appendChild(link);
     }
     if (window.CodeLab) return Promise.resolve(window.CodeLab);
     if (window.loadScript) {
-      return window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.3.2/dist/code-lab.js').then(() => window.CodeLab);
+      return window.loadScript('js/vendor/code-lab.js')
+        .catch(() => window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.js'))
+        .then(() => window.CodeLab);
     }
     return Promise.resolve(null);
   }
@@ -3341,7 +3357,7 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.3.2 C++20 Workbench...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.4.0 C++20 Workbench...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {
@@ -3648,6 +3664,114 @@ window.App = (() => {
     return slugs;
   }
 
+  function showToast(message) {
+    let el = document.getElementById('ds-toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'ds-toast';
+      el.className = 'ds-toast';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      document.body.appendChild(el);
+    }
+    el.textContent = message;
+    el.hidden = false;
+    el.classList.add('is-visible');
+    if (_toastTimer) clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => {
+      el.classList.remove('is-visible');
+      setTimeout(() => { el.hidden = true; }, 180);
+    }, 2400);
+  }
+
+  function sharePageUrl(url, title, triggerBtn) {
+    const cleanUrl = url || window.location.href;
+    const isMobile = typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile && navigator.share) {
+      navigator.share({ title: title || document.title, url: cleanUrl }).catch(() => {});
+      return;
+    }
+    const copyDone = () => {
+      showToast('Link copied to clipboard');
+      if (triggerBtn) {
+        const labelEl = triggerBtn.querySelector('.ds-share-btn__label');
+        if (labelEl) {
+          const orig = labelEl.textContent;
+          labelEl.textContent = 'Copied!';
+          setTimeout(() => { labelEl.textContent = orig; }, 1800);
+        }
+      }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cleanUrl).then(copyDone).catch(() => {
+        showToast(cleanUrl);
+      });
+    } else {
+      showToast(cleanUrl);
+    }
+  }
+
+  function setupLessonTocScrollSpy(container) {
+    if (_tocScrollCleanup) {
+      _tocScrollCleanup();
+      _tocScrollCleanup = null;
+    }
+    if (!container) return;
+    const tocLinks = Array.from(container.querySelectorAll('.ds-toc__link[href^="#"]'));
+    if (tocLinks.length === 0) return;
+
+    const targets = tocLinks
+      .map(link => {
+        const id = link.getAttribute('href').slice(1);
+        const el = id ? document.getElementById(id) : null;
+        return el ? { link, el, id } : null;
+      })
+      .filter(Boolean);
+
+    if (targets.length === 0) return;
+
+    tocLinks.forEach(link => {
+      link.addEventListener('click', (ev) => {
+        const id = link.getAttribute('href').slice(1);
+        const dest = id ? document.getElementById(id) : null;
+        if (dest) {
+          ev.preventDefault();
+          dest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', window.location.pathname + window.location.search + '#' + id);
+        }
+      });
+    });
+
+    let ticking = false;
+    const updateActive = () => {
+      ticking = false;
+      const threshold = 120;
+      let activeItem = targets[0];
+      for (const item of targets) {
+        const rect = item.el.getBoundingClientRect();
+        if (rect.top <= threshold) {
+          activeItem = item;
+        } else {
+          break;
+        }
+      }
+      targets.forEach(item => {
+        item.link.classList.toggle('is-active', item === activeItem);
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateActive);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateActive();
+    _tocScrollCleanup = () => window.removeEventListener('scroll', onScroll);
+  }
+
   const App = {
     navigate,
     navigateTo,
@@ -3674,6 +3798,8 @@ window.App = (() => {
     openSnippetInCodeLab,
     openRepoInCodeLab,
     openChallengeCodeLab,
+    showToast,
+    sharePageUrl,
     getCurrentSlug: () => currentSlug,
     getCurrentView: () => currentView,
     getActiveTab: () => activeTab

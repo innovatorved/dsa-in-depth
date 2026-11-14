@@ -608,7 +608,7 @@ window.Simulators = (() => {
       if (val > best) best = val;
       seen.push(i);
       const isHit = val === target;
-      const tags = { [i]: isHit ? `🎯 == ${target}` : `curr (${val})` };
+      const tags = { [i]: isHit ? `HIT == ${target}` : `curr (${val})` };
       if (i > 0) tags[i - 1] = 'done';
 
       out.push({
@@ -905,7 +905,7 @@ window.Simulators = (() => {
     return `
       <div class="dsa-sim__visual-canvas">
         <div class="dsa-sim__visual-label">
-          <span>📊 Live Magnitude &amp; Pointer Stage — ${esc(title)}</span>
+          <span>Live Magnitude &amp; Pointer Stage — ${esc(title)}</span>
           <span class="dsa-sim__legend">
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active</span>
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot</span>
@@ -969,7 +969,7 @@ window.Simulators = (() => {
     return `
       <div class="dsa-sim__visual-canvas">
         <div class="dsa-sim__visual-label">
-          <span>🌳 Live 2D Hierarchical Tree Topology — ${esc(title)}</span>
+          <span>Live 2D Hierarchical Tree Topology — ${esc(title)}</span>
           <span class="dsa-sim__legend">
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Visited/Active</span>
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Pivot/Root</span>
@@ -1045,7 +1045,7 @@ window.Simulators = (() => {
     return `
       <div class="dsa-sim__visual-canvas">
         <div class="dsa-sim__visual-label">
-          <span>🧭 Live Hash Ring &amp; Bucket Probe Telemetry — ${esc(title)}</span>
+          <span>Live Hash Ring &amp; Bucket Probe Telemetry — ${esc(title)}</span>
           <span class="dsa-sim__legend">
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Probe</span>
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#f59e0b"></span>Collision/Swap</span>
@@ -1125,7 +1125,7 @@ window.Simulators = (() => {
     return `
       <div class="dsa-sim__visual-canvas">
         <div class="dsa-sim__visual-label">
-          <span>🔗 Live Pointer &amp; State Transition Graph — ${esc(title)}</span>
+          <span>Live Pointer &amp; State Transition Graph — ${esc(title)}</span>
           <span class="dsa-sim__legend">
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#3b82f6"></span>Active Pointer</span>
             <span class="dsa-sim__legend-item"><span class="dsa-sim__legend-dot" style="background:#8b5cf6"></span>Jump/Transition</span>
@@ -1197,10 +1197,10 @@ window.Simulators = (() => {
               </div>
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <button type="button" class="dsa-sim__audio-btn ${sfxOn ? 'is-on' : ''}" data-role="sfx-toggle" title="Toggle Step Sound Effects (Web Audio Synth)">
-                  ${sfxOn ? '🔊 SFX On' : '🔇 SFX Off'}
+                  ${sfxOn ? 'SFX: On' : 'SFX: Off'}
                 </button>
                 <button type="button" class="dsa-sim__audio-btn ${voiceOn ? 'is-on' : ''}" data-role="voice-toggle" title="Toggle Step Voice Narration (Speech Synthesis)">
-                  ${voiceOn ? '🗣️ Voice On' : '🗣️ Voice Off'}
+                  ${voiceOn ? 'Voice: On' : 'Voice: Off'}
                 </button>
                 <span class="${esc(badgeClass)}">${esc(config.badge || 'Interactive')}</span>
               </div>
@@ -1246,7 +1246,7 @@ window.Simulators = (() => {
                 ▶ Run Custom
               </button>
               <button type="button" class="btn btn--secondary btn--sm" data-role="randomize" title="Generate random input values and run">
-                🎲 Randomize
+                ↻ Randomize
               </button>
             </div>
 
@@ -1317,11 +1317,11 @@ window.Simulators = (() => {
           const vOn = sound.isVoiceOn();
           if (elSfxToggle) {
             elSfxToggle.classList.toggle('is-on', sOn);
-            elSfxToggle.textContent = sOn ? '🔊 SFX On' : '🔇 SFX Off';
+            elSfxToggle.textContent = sOn ? 'SFX: On' : 'SFX: Off';
           }
           if (elVoiceToggle) {
             elVoiceToggle.classList.toggle('is-on', vOn);
-            elVoiceToggle.textContent = vOn ? '🗣️ Voice On' : '🗣️ Voice Off';
+            elVoiceToggle.textContent = vOn ? 'Voice: On' : 'Voice: Off';
           }
         }
 
@@ -1366,7 +1366,7 @@ window.Simulators = (() => {
             const logsUpToNow = frames.slice(0, idx + 1).map((fr, i) => {
               const isLatest = i === idx;
               const pill = (isLatest && isSpeakingNow)
-                ? `<span class="dsa-sim__voice-pill">🎙️ Speaking</span> `
+                ? `<span class="dsa-sim__voice-pill">Speaking</span> `
                 : '';
               return `<div style="${isLatest ? 'font-weight:600;color:var(--fg-primary);' : 'opacity:0.8;'}">${pill}${esc(`[Step ${i + 1}] ${fr.log || ''}`)}</div>`;
             });

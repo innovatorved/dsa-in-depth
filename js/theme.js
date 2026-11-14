@@ -7,27 +7,27 @@ window.ThemeManager = (() => {
     const isDark = theme === 'dark';
     return {
       darkMode: isDark,
-      background: isDark ? '#0a0a0a' : '#ffffff',
-      primaryColor: isDark ? '#171717' : '#fafafa',
-      primaryTextColor: isDark ? '#ffffff' : '#0a0a0a',
-      primaryBorderColor: isDark ? '#404040' : '#d4d4d4',
-      lineColor: isDark ? '#737373' : '#a1a1a1',
-      secondaryColor: isDark ? '#0a0a0a' : '#f5f5f5',
-      tertiaryColor: isDark ? '#262626' : '#e5e5e5',
-      mainBkg: isDark ? '#171717' : '#fafafa',
-      nodeBorder: isDark ? '#404040' : '#d4d4d4',
-      clusterBkg: isDark ? '#0a0a0a' : '#ffffff',
-      clusterBorder: isDark ? '#262626' : '#e5e5e5',
-      textColor: isDark ? '#e5e5e5' : '#262626',
-      edgeLabelBackground: isDark ? '#0a0a0a' : '#ffffff',
-      actorBkg: isDark ? '#171717' : '#fafafa',
-      actorBorder: isDark ? '#404040' : '#d4d4d4',
-      actorTextColor: isDark ? '#ffffff' : '#0a0a0a',
-      signalColor: isDark ? '#a1a1a1' : '#525252',
-      signalTextColor: isDark ? '#e5e5e5' : '#262626',
-      noteBkgColor: isDark ? '#262626' : '#f5f5f5',
-      noteBorderColor: isDark ? '#404040' : '#d4d4d4',
-      noteTextColor: isDark ? '#e5e5e5' : '#262626',
+      background: isDark ? '#141416' : '#ffffff',
+      primaryColor: isDark ? '#1c1c1f' : '#f7f7f5',
+      primaryTextColor: isDark ? '#f4f4f5' : '#1a1917',
+      primaryBorderColor: isDark ? '#3a3a3e' : '#d3d0c9',
+      lineColor: isDark ? '#8e8e97' : '#8a857d',
+      secondaryColor: isDark ? '#141415' : '#f1f1ee',
+      tertiaryColor: isDark ? '#27272a' : '#e6e4df',
+      mainBkg: isDark ? '#1c1c1f' : '#f7f7f5',
+      nodeBorder: isDark ? '#3a3a3e' : '#d3d0c9',
+      clusterBkg: isDark ? '#141416' : '#ffffff',
+      clusterBorder: isDark ? '#27272a' : '#e6e4df',
+      textColor: isDark ? '#d4d4d8' : '#2e2c29',
+      edgeLabelBackground: isDark ? '#141416' : '#ffffff',
+      actorBkg: isDark ? '#1c1c1f' : '#f7f7f5',
+      actorBorder: isDark ? '#3a3a3e' : '#d3d0c9',
+      actorTextColor: isDark ? '#f4f4f5' : '#1a1917',
+      signalColor: isDark ? '#a1a1aa' : '#5c5853',
+      signalTextColor: isDark ? '#d4d4d8' : '#2e2c29',
+      noteBkgColor: isDark ? '#27272a' : '#f1f1ee',
+      noteBorderColor: isDark ? '#3a3a3e' : '#d3d0c9',
+      noteTextColor: isDark ? '#d4d4d8' : '#2e2c29',
       fontFamily: '"Geist", -apple-system, sans-serif',
       fontSize: '13px'
     };
@@ -58,7 +58,7 @@ window.ThemeManager = (() => {
     }
 
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', next === 'dark' ? '#000000' : '#ffffff');
+    if (meta) meta.setAttribute('content', next === 'dark' ? '#0f0f10' : '#f7f7f5');
 
     if (window.mermaid) {
       window.mermaid.initialize({
