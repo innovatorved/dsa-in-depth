@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;BK5x7IUTIyU&quot;,&quot;title&quot;:&quot;K-D Trees &amp; Spatial Indexing Data Structures&quot;,&quot;channel&quot;:&quot;Computerphile&quot;,&quot;duration&quot;:&quot;48m&quot;,&quot;length&quot;:&quot;48:20&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Compares space-partitioning trees (k-d trees, Quadtrees) against data-partitioning bounding-box hierarchies (R-Trees) and space-filling Z-order curves used in modern GIS and vector databases.&quot;}">
+      <div class="video-embed" id="video-BK5x7IUTIyU"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="BK5x7IUTIyU">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/BK5x7IUTIyU/hqdefault.jpg"
+               alt="K-D Trees &amp; Spatial Indexing Data Structures"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Computerphile</span>
+        <span class="video-embed__title">K-D Trees &amp; Spatial Indexing Data Structures</span>
+        <a href="https://www.youtube.com/watch?v=BK5x7IUTIyU" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Compares space-partitioning trees (k-d trees, Quadtrees) against data-partitioning bounding-box hierarchies (R-Trees) and space-filling Z-order curves used in modern GIS and vector databases.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p>How do PostgreSQL/PostGIS, game engines, and Lidar point-cloud processors find all objects inside a 2D/3D bounding box or the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span></span></span></span> nearest neighbors to a query point without scanning all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> records? <strong>Space-partitioning trees</strong> like <strong>k-d Trees</strong> (Bentley 1975, cycling splitting axes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">x, y, z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.044em;">z</span></span></span></span> at median points) and <strong>Quadtrees/Octrees</strong> recursively bisect space into disjoint cells. <strong>Data-partitioning trees</strong> like <strong>R-Trees</strong> (Guttman 1984) generalize B-Trees by grouping nearby geometric objects into Minimum Bounding Rectangles (MBRs) aligned with disk pages. And <strong>Space-Filling Curves</strong> like the <strong>Z-Order (Morton) Curve</strong> interleave the bits of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span></span></span></span> into a single 64-bit integer so standard 1D B-Trees can answer 2D range queries with sequential memory scans!</p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="spatial-indexing-kd-quad-rtrees" id="audio-speed-spatial-indexing-kd-quad-rtrees" title="Playback speed">1x</button>
         <audio id="audio-spatial-indexing-kd-quad-rtrees" data-src="audio/spatial-indexing-kd-quad-rtrees.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> K-D Trees &amp; Spatial Indexing Data Structures</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">Computerphile · 48:20 ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;BK5x7IUTIyU&quot;,&quot;title&quot;:&quot;K-D Trees &amp; Spatial Indexing Data Structures&quot;,&quot;channel&quot;:&quot;Computerphile&quot;,&quot;duration&quot;:&quot;48m&quot;,&quot;length&quot;:&quot;48:20&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Compares space-partitioning trees (k-d trees, Quadtrees) against data-partitioning bounding-box hierarchies (R-Trees) and space-filling Z-order curves used in modern GIS and vector databases.&quot;}">
-      <div class="video-embed" id="video-BK5x7IUTIyU"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="BK5x7IUTIyU">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/BK5x7IUTIyU/hqdefault.jpg"
-               alt="K-D Trees &amp; Spatial Indexing Data Structures"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Computerphile</span>
-        <span class="video-embed__title">K-D Trees &amp; Spatial Indexing Data Structures</span>
-        <a href="https://www.youtube.com/watch?v=BK5x7IUTIyU" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Compares space-partitioning trees (k-d trees, Quadtrees) against data-partitioning bounding-box hierarchies (R-Trees) and space-filling Z-order curves used in modern GIS and vector databases.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1745,7 +1733,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

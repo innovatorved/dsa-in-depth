@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;R6uoSjZ2imo&quot;,&quot;id&quot;:&quot;R6uoSjZ2imo&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/R6uoSjZ2imo&quot;,&quot;title&quot;:&quot;Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)&quot;,&quot;channel&quot;:&quot;take U forward&quot;,&quot;duration&quot;:&quot;27:30&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;27m&quot;,&quot;why&quot;:&quot;Connects DAG scheduling, critical-path latency, and strongly connected component cycle diagnostics to large-scale software build systems.&quot;}">
+      <div class="video-embed" id="video-R6uoSjZ2imo"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="R6uoSjZ2imo">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/R6uoSjZ2imo/hqdefault.jpg"
+               alt="Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">take U forward</span>
+        <span class="video-embed__title">Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)</span>
+        <a href="https://www.youtube.com/watch?v=R6uoSjZ2imo" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Connects DAG scheduling, critical-path latency, and strongly connected component cycle diagnostics to large-scale software build systems.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p><p>Every invocation of <code>cargo build</code>, <code>bazel build //...</code>, or <code>turbo run build</code> constructs a directed dependency graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G = (V, E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mclose">)</span></span></span></span> where vertices are compilation units (crates, targets, or monorepo packages) and directed edges <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mclose">)</span></span></span></span> encode that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> must finish building before <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span> can begin. A monorepo at Google or Meta contains millones of targets; scheduling them with maximum parallelism while immediately diagnosing circular dependencies is a mission-critical graph problem.</p><p>Production build engines combine three algorithms from this module: <strong>Tarjan's SCC</strong> to isolate minimal circular dependency chains, <strong>Kahn's event-driven work-stealing queue</strong> to feed worker threads dynamically as dependencies resolve, and <strong>Critical-Path DAG DP</strong> to prioritize targets sitting on the longest compilation chain.</p></p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="case-bundler-build-graph-cycles" id="audio-speed-case-bundler-build-graph-cycles" title="Playback speed">1x</button>
         <audio id="audio-case-bundler-build-graph-cycles" data-src="audio/case-bundler-build-graph-cycles.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">take U forward · 27m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;R6uoSjZ2imo&quot;,&quot;id&quot;:&quot;R6uoSjZ2imo&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/R6uoSjZ2imo&quot;,&quot;title&quot;:&quot;Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)&quot;,&quot;channel&quot;:&quot;take U forward&quot;,&quot;duration&quot;:&quot;27:30&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;27m&quot;,&quot;why&quot;:&quot;Connects DAG scheduling, critical-path latency, and strongly connected component cycle diagnostics to large-scale software build systems.&quot;}">
-      <div class="video-embed" id="video-R6uoSjZ2imo"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="R6uoSjZ2imo">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/R6uoSjZ2imo/hqdefault.jpg"
-               alt="Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">take U forward</span>
-        <span class="video-embed__title">Strongly Connected Components (Kosaraju&#039;s Two-Pass Algorithm &amp; Condensation DAGs)</span>
-        <a href="https://www.youtube.com/watch?v=R6uoSjZ2imo" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Connects DAG scheduling, critical-path latency, and strongly connected component cycle diagnostics to large-scale software build systems.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1857,7 +1845,7 @@ return res;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;MGdlTzVyyrE&quot;,&quot;id&quot;:&quot;MGdlTzVyyrE&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/MGdlTzVyyrE&quot;,&quot;title&quot;:&quot;How Computers Compress Text: Huffman Coding and Huffman Trees&quot;,&quot;channel&quot;:&quot;Tom Scott&quot;,&quot;duration&quot;:&quot;31:15&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;31m&quot;,&quot;why&quot;:&quot;Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces.&quot;}">
+      <div class="video-embed" id="video-MGdlTzVyyrE"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="MGdlTzVyyrE">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/MGdlTzVyyrE/hqdefault.jpg"
+               alt="How Computers Compress Text: Huffman Coding and Huffman Trees"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Tom Scott</span>
+        <span class="video-embed__title">How Computers Compress Text: Huffman Coding and Huffman Trees</span>
+        <a href="https://www.youtube.com/watch?v=MGdlTzVyyrE" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p><p>Have you ever added a new function to a source file, run <code>git diff</code>, and seen Git claim that you deleted the closing brace <code>}</code> of the previous function and inserted the closing brace of the new function inside the old one? Mathematically, Eugene Myers' <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>D</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(ND)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mclose">)</span></span></span></span> algorithm found a valid <strong>Shortest Edit Script</strong>—because every line has weight <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, matching two boilerplate <code>}</code> or blank lines is worth the exact same score as matching two unique function signatures!</p><p>To produce human-readable diffs that respect semantic code structure, Bram Cohen invented <strong>Patience Diff</strong> and <code>JGit</code> / <code>git diff --histogram</code> refined it into <strong>Histogram Diff</strong>: before running Myers, anchor the diff on the <strong>lowest-frequency matching lines</strong> (such as unique function headers <code>fn parse_header() {</code> that occur <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> time in both files) via Longest Increasing Subsequence (LIS), and recursively diff the regions between those anchors!</p></p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="case-git-myers-histogram-diff" id="audio-speed-case-git-myers-histogram-diff" title="Playback speed">1x</button>
         <audio id="audio-case-git-myers-histogram-diff" data-src="audio/case-git-myers-histogram-diff.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> How Computers Compress Text: Huffman Coding and Huffman Trees</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">Tom Scott · 31m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;MGdlTzVyyrE&quot;,&quot;id&quot;:&quot;MGdlTzVyyrE&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/MGdlTzVyyrE&quot;,&quot;title&quot;:&quot;How Computers Compress Text: Huffman Coding and Huffman Trees&quot;,&quot;channel&quot;:&quot;Tom Scott&quot;,&quot;duration&quot;:&quot;31:15&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;31m&quot;,&quot;why&quot;:&quot;Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces.&quot;}">
-      <div class="video-embed" id="video-MGdlTzVyyrE"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="MGdlTzVyyrE">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/MGdlTzVyyrE/hqdefault.jpg"
-               alt="How Computers Compress Text: Huffman Coding and Huffman Trees"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Tom Scott</span>
-        <span class="video-embed__title">How Computers Compress Text: Huffman Coding and Huffman Trees</span>
-        <a href="https://www.youtube.com/watch?v=MGdlTzVyyrE" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Compares git diff --myers, --patience, and --histogram on real C/Rust refactoring commits to show how low-frequency anchor lines prevent misaligned closing braces.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1758,7 +1746,7 @@ return anchors;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

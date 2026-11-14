@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;8mlan8WbwV0&quot;,&quot;id&quot;:&quot;8mlan8WbwV0&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/8mlan8WbwV0&quot;,&quot;title&quot;:&quot;Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton&quot;,&quot;channel&quot;:&quot;Niema Moshiri&quot;,&quot;duration&quot;:&quot;26:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;26m&quot;,&quot;why&quot;:&quot;Examines how Andrew Gallant&#039;s ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton.&quot;}">
+      <div class="video-embed" id="video-8mlan8WbwV0"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="8mlan8WbwV0">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/8mlan8WbwV0/hqdefault.jpg"
+               alt="Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Niema Moshiri</span>
+        <span class="video-embed__title">Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton</span>
+        <a href="https://www.youtube.com/watch?v=8mlan8WbwV0" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Examines how Andrew Gallant&#039;s ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p><p>When you run <code>rg "(ERR|WARN|FATAL)_SOCKET_[0-9]{4}"</code> over a 10 GB log directory, why does Andrew Gallant's <code>ripgrep</code> finish in 80 milliseconds while naive regular expression engines take several seconds? Because <code>ripgrep</code> refuses to feed 10 GB of raw bytes through a finite automaton one byte at a time. Instead, its regex compiler parses the abstract syntax tree (AST), extracts required literal prefixes (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mtext mathvariant="monospace">&quot;ERR_SOCKET_&quot;</mtext><mo separator="true">,</mo><mtext mathvariant="monospace">&quot;WARN_SOCKET_&quot;</mtext><mo separator="true">,</mo><mtext mathvariant="monospace">&quot;FATAL_SOCKET_&quot;</mtext><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{\texttt{&quot;ERR\_SOCKET\_&quot;}, \texttt{&quot;WARN\_SOCKET\_&quot;}, \texttt{&quot;FATAL\_SOCKET\_&quot;}\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord text"><span class="mord texttt">&quot;ERR_SOCKET_&quot;</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord texttt">&quot;WARN_SOCKET_&quot;</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord texttt">&quot;FATAL_SOCKET_&quot;</span></span><span class="mclose">}</span></span></span></span>), and hands those literals to a vectorized SIMD prefilter that rejects 99.99% of the file at memory-bandwidth speeds (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>15</mn><mtext> GB/s</mtext></mrow><annotation encoding="application/x-tex">&gt; 15\text{ GB/s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">15</span><span class="mord text"><span class="mord"> GB/s</span></span></span></span></span> per core).</p><p>Depending on whether the literal set contains one string, a small set of 2–64 strings, or thousands of strings, <code>ripgrep</code> dynamically selects between Packed-Pair SIMD (<code>memchr::memmem</code>), the <strong>SIMD Teddy</strong> nibble-lookup multi-pattern algorithm (originally invented for Intel's Hyperscan), or a contiguous DFA Aho-Corasick automaton— invoking the full Thompson/DFA regex verifier only on the rare lines where a literal candidate hits.</p></p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="case-ripgrep-teddy-simd" id="audio-speed-case-ripgrep-teddy-simd" title="Playback speed">1x</button>
         <audio id="audio-case-ripgrep-teddy-simd" data-src="audio/case-ripgrep-teddy-simd.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">Niema Moshiri · 26m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;8mlan8WbwV0&quot;,&quot;id&quot;:&quot;8mlan8WbwV0&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/8mlan8WbwV0&quot;,&quot;title&quot;:&quot;Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton&quot;,&quot;channel&quot;:&quot;Niema Moshiri&quot;,&quot;duration&quot;:&quot;26:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;26m&quot;,&quot;why&quot;:&quot;Examines how Andrew Gallant&#039;s ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton.&quot;}">
-      <div class="video-embed" id="video-8mlan8WbwV0"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="8mlan8WbwV0">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/8mlan8WbwV0/hqdefault.jpg"
-               alt="Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Niema Moshiri</span>
-        <span class="video-embed__title">Advanced Data Structures: Aho-Corasick Multi-Pattern Automaton</span>
-        <a href="https://www.youtube.com/watch?v=8mlan8WbwV0" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Examines how Andrew Gallant&#039;s ripgrep extracts literal prefixes from ASTs and dispatches them to AVX2 packed-pair and Teddy shuffle masks before running the regex automaton.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1832,7 +1820,7 @@ return hits;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

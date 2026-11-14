@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;GU7DpgHINWQ&quot;,&quot;id&quot;:&quot;GU7DpgHINWQ&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/GU7DpgHINWQ&quot;,&quot;title&quot;:&quot;Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)&quot;,&quot;channel&quot;:&quot;Errichto Algorithms&quot;,&quot;duration&quot;:&quot;32:44&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;32m&quot;,&quot;why&quot;:&quot;Demonstrates why ad-hoc binary search implementations fail on 2-element boundary cases and establishes the monotonic F...FT...T predicate partition invariant.&quot;}">
+      <div class="video-embed" id="video-GU7DpgHINWQ"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="GU7DpgHINWQ">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/GU7DpgHINWQ/hqdefault.jpg"
+               alt="Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Errichto Algorithms</span>
+        <span class="video-embed__title">Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)</span>
+        <a href="https://www.youtube.com/watch?v=GU7DpgHINWQ" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Demonstrates why ad-hoc binary search implementations fail on 2-element boundary cases and establishes the monotonic F...FT...T predicate partition invariant.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p>Stop thinking of binary search as 'looking for a target value' and start viewing it as locating the unique boundary between <strong>False</strong> and <strong>True</strong> in a monotonic boolean array <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>F</mi><mo separator="true">,</mo><mi>F</mi><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>F</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[F, F, \dots, F, T, T, \dots, T]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mclose">]</span></span></span></span>. When you maintain the strict invariant that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi></mrow><annotation encoding="application/x-tex">lo</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span></span></span></span> lies in the False region and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">hi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">hi</span></span></span></span> lies in the True region, off-by-one bugs and 2-element infinite loops become mathematically impossible.</p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="binary-search-boundary-invariants" id="audio-speed-binary-search-boundary-invariants" title="Playback speed">1x</button>
         <audio id="audio-binary-search-boundary-invariants" data-src="audio/binary-search-boundary-invariants.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">Errichto Algorithms · 32m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;GU7DpgHINWQ&quot;,&quot;id&quot;:&quot;GU7DpgHINWQ&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/GU7DpgHINWQ&quot;,&quot;title&quot;:&quot;Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)&quot;,&quot;channel&quot;:&quot;Errichto Algorithms&quot;,&quot;duration&quot;:&quot;32:44&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;32m&quot;,&quot;why&quot;:&quot;Demonstrates why ad-hoc binary search implementations fail on 2-element boundary cases and establishes the monotonic F...FT...T predicate partition invariant.&quot;}">
-      <div class="video-embed" id="video-GU7DpgHINWQ"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="GU7DpgHINWQ">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/GU7DpgHINWQ/hqdefault.jpg"
-               alt="Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Errichto Algorithms</span>
-        <span class="video-embed__title">Binary Search Boundary Invariants &amp; Monotonic Predicates (Without Off-by-One Bugs)</span>
-        <a href="https://www.youtube.com/watch?v=GU7DpgHINWQ" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Demonstrates why ad-hoc binary search implementations fail on 2-element boundary cases and establishes the monotonic F...FT...T predicate partition invariant.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1857,7 +1845,7 @@ while (lo &lt; hi) {
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

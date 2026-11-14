@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;bSkpMdDe4g4&quot;,&quot;id&quot;:&quot;bSkpMdDe4g4&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/bSkpMdDe4g4&quot;,&quot;title&quot;:&quot;CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)&quot;,&quot;channel&quot;:&quot;CppCon (Matt Godbolt)&quot;,&quot;duration&quot;:&quot;53:18&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;53m&quot;,&quot;why&quot;:&quot;Charles Leiserson explains superscalar instruction pipelines, branch target buffers, 15–20 cycle misprediction flushes, and conditional move (CMOV) transformations.&quot;}">
+      <div class="video-embed" id="video-bSkpMdDe4g4"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="bSkpMdDe4g4">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/bSkpMdDe4g4/hqdefault.jpg"
+               alt="CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">CppCon (Matt Godbolt)</span>
+        <span class="video-embed__title">CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)</span>
+        <a href="https://www.youtube.com/watch?v=bSkpMdDe4g4" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Charles Leiserson explains superscalar instruction pipelines, branch target buffers, 15–20 cycle misprediction flushes, and conditional move (CMOV) transformations.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p><p>Why does summing all elements <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>128</mn></mrow><annotation encoding="application/x-tex">\ge 128</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">128</span></span></span></span> in a <strong>sorted</strong> array run <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mtext>–</mtext><mn>6</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">4\times\text{–}6\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">–</span></span><span class="mord">6</span><span class="mord">×</span></span></span></span> faster than running the exact same <code>if (a[i] >= 128) sum += a[i];</code> loop over an <strong>unsorted</strong> array of identical elements? Both execute the exact same number of iterations and the exact same <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> comparisons!</p><p>The answer lies inside the CPU's <strong>14-to-20 stage superscalar execution pipeline</strong>. To issue 4–6 instructions per clock cycle, the front-end cannot wait for an <code>if</code> condition to evaluate before fetching the next instruction—it must <em>guess</em> using its hardware <strong>Branch Predictor (TAGE)</strong>. On sorted data, the branch is 100% predictable; on random data, it is a 50/50 coin flip that mispredicts half the time, flushing the entire speculative pipeline and burning <strong>15 to 20 wasted cycles per misprediction</strong>.</p></p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="branch-prediction-simd-cost" id="audio-speed-branch-prediction-simd-cost" title="Playback speed">1x</button>
         <audio id="audio-branch-prediction-simd-cost" data-src="audio/branch-prediction-simd-cost.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">CppCon (Matt Godbolt) · 53m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;bSkpMdDe4g4&quot;,&quot;id&quot;:&quot;bSkpMdDe4g4&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/bSkpMdDe4g4&quot;,&quot;title&quot;:&quot;CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)&quot;,&quot;channel&quot;:&quot;CppCon (Matt Godbolt)&quot;,&quot;duration&quot;:&quot;53:18&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;53m&quot;,&quot;why&quot;:&quot;Charles Leiserson explains superscalar instruction pipelines, branch target buffers, 15–20 cycle misprediction flushes, and conditional move (CMOV) transformations.&quot;}">
-      <div class="video-embed" id="video-bSkpMdDe4g4"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="bSkpMdDe4g4">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/bSkpMdDe4g4/hqdefault.jpg"
-               alt="CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">CppCon (Matt Godbolt)</span>
-        <span class="video-embed__title">CppCon 2017: What Has My Compiler Done for Me Lately? (Branchless Assembly &amp; SIMD)</span>
-        <a href="https://www.youtube.com/watch?v=bSkpMdDe4g4" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Charles Leiserson explains superscalar instruction pipelines, branch target buffers, 15–20 cycle misprediction flushes, and conditional move (CMOV) transformations.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1756,7 +1744,7 @@ return base + (*base &lt; target);</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

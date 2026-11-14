@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;nDPrcBv8iJU&quot;,&quot;id&quot;:&quot;nDPrcBv8iJU&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/nDPrcBv8iJU&quot;,&quot;title&quot;:&quot;3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)&quot;,&quot;channel&quot;:&quot;Interview Kickstart&quot;,&quot;duration&quot;:&quot;16:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;16m&quot;,&quot;why&quot;:&quot;Robert Sedgewick traces Hoare&#039;s two-pointer crossing scheme, demonstrates why duplicate keys trigger quadratic degradation without 3-way partitioning, and presents Dijkstra&#039;s Dutch National Flag and Bentley-McIlroy partitioning.&quot;}">
+      <div class="video-embed" id="video-nDPrcBv8iJU"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="nDPrcBv8iJU">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/nDPrcBv8iJU/hqdefault.jpg"
+               alt="3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">Interview Kickstart</span>
+        <span class="video-embed__title">3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)</span>
+        <a href="https://www.youtube.com/watch?v=nDPrcBv8iJU" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Robert Sedgewick traces Hoare&#039;s two-pointer crossing scheme, demonstrates why duplicate keys trigger quadratic degradation without 3-way partitioning, and presents Dijkstra&#039;s Dutch National Flag and Bentley-McIlroy partitioning.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p>Quicksort's speed—and its Achilles' heel—lives entirely inside its partitioning loop. Lomuto's single-direction scan performs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mord">×</span></span></span></span> more swaps than Hoare's bidirectional pointers and degrades to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Theta(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">Θ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> when all keys are equal; Hoare's crossing pointers stay balanced on duplicates by swapping equal keys; and Dijkstra / Bentley-McIlroy 3-way partitioning groups duplicates into a dead-center band that finishes in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span></span></span></span> linear time when key entropy is low.</p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="quicksort-partition-schemes" id="audio-speed-quicksort-partition-schemes" title="Playback speed">1x</button>
         <audio id="audio-quicksort-partition-schemes" data-src="audio/quicksort-partition-schemes.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> 3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">Interview Kickstart · 16m ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;nDPrcBv8iJU&quot;,&quot;id&quot;:&quot;nDPrcBv8iJU&quot;,&quot;url&quot;:&quot;https://www.youtube.com/embed/nDPrcBv8iJU&quot;,&quot;title&quot;:&quot;3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)&quot;,&quot;channel&quot;:&quot;Interview Kickstart&quot;,&quot;duration&quot;:&quot;16:40&quot;,&quot;start&quot;:0,&quot;length&quot;:&quot;16m&quot;,&quot;why&quot;:&quot;Robert Sedgewick traces Hoare&#039;s two-pointer crossing scheme, demonstrates why duplicate keys trigger quadratic degradation without 3-way partitioning, and presents Dijkstra&#039;s Dutch National Flag and Bentley-McIlroy partitioning.&quot;}">
-      <div class="video-embed" id="video-nDPrcBv8iJU"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="nDPrcBv8iJU">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/nDPrcBv8iJU/hqdefault.jpg"
-               alt="3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">Interview Kickstart</span>
-        <span class="video-embed__title">3-Way Quicksort Partitioning (Dutch National Flag &amp; Hoare Partition Schemes)</span>
-        <a href="https://www.youtube.com/watch?v=nDPrcBv8iJU" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Robert Sedgewick traces Hoare&#039;s two-pointer crossing scheme, demonstrates why duplicate keys trigger quadratic degradation without 3-way partitioning, and presents Dijkstra&#039;s Dutch National Flag and Bentley-McIlroy partitioning.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1875,7 +1863,7 @@ const T pivot = a[mid];</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>

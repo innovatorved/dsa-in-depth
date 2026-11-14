@@ -852,7 +852,21 @@
             <span class="ds-share-btn__label">Share</span>
           </button>
         </div>
+      </div><div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;YX40hbAHx3s&quot;,&quot;title&quot;:&quot;P vs. NP and the Computational Complexity Zoo&quot;,&quot;channel&quot;:&quot;hackerdashery&quot;,&quot;duration&quot;:&quot;51m&quot;,&quot;length&quot;:&quot;51:20&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Clarifies the direction of Karp reductions (A &lt;=_p B), the Cook-Levin theorem, and the canonical gadget chain from 3-SAT to Independent Set, Vertex Cover, Clique, and Subset Sum.&quot;}">
+      <div class="video-embed" id="video-YX40hbAHx3s"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="YX40hbAHx3s">
+          <img class="video-embed__thumb" src="https://img.youtube.com/vi/YX40hbAHx3s/hqdefault.jpg"
+               alt="P vs. NP and the Computational Complexity Zoo"
+               loading="lazy">
+          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div></div>
+      <div class="video-embed__info">
+        <span class="video-embed__channel">hackerdashery</span>
+        <span class="video-embed__title">P vs. NP and the Computational Complexity Zoo</span>
+        <a href="https://www.youtube.com/watch?v=YX40hbAHx3s" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          Watch on YouTube ↗
+        </a>
       </div>
+      <p class="video-embed__why">Clarifies the direction of Karp reductions (A &lt;=_p B), the Cook-Levin theorem, and the canonical gadget chain from 3-SAT to Independent Set, Vertex Cover, Clique, and Subset Sum.</p></div>
         <aside class="intuition">
           <h2 class="intuition__title" id="sec-why-it-matters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Intuition First</h2>
           <div class="intuition__body"><p><strong>NP</strong> does <em>not</em> stand for 'Non-Polynomial'—it stands for <strong>Nondeterministic Polynomial time</strong>: the class of decision problems where a 'YES' answer has a short certificate (witness) that can be <em>verified</em> in polynomial time! By the <strong>Cook-Levin Theorem (1971)</strong>, any NP verification circuit can be encoded as a Boolean satisfiability formula (<strong>SAT</strong>). To prove a new problem <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span></span></span></span> is <strong>NP-Hard</strong>, we must construct a polynomial-time Karp reduction <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><msub><mo>≤</mo><mi>p</mi></msub><mi>B</mi></mrow><annotation encoding="application/x-tex">A \le_p B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel">≤</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span></span></span></span> from a known NP-Hard problem <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> TO <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span></span></span></span>—showing that if someone gave us a magic polynomial-time solver for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span></span></span></span>, we could use it to solve <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> in polynomial time!</p></div>
@@ -873,32 +887,6 @@
         <button class="audio-player__speed-btn" data-action="cycle-audio-speed" data-slug="np-completeness-reductions" id="audio-speed-np-completeness-reductions" title="Playback speed">1x</button>
         <audio id="audio-np-completeness-reductions" data-src="audio/np-completeness-reductions.mp3" preload="none"></audio>
       </div>
-      <details class="ds-external-lecture">
-        <summary>
-          <span style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent);flex-shrink:0;" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Reference Lecture:</strong> P vs. NP and the Computational Complexity Zoo</span>
-          </span>
-          <span class="ds-pill" style="flex-shrink:0;">hackerdashery · 51:20 ▾</span>
-        </summary>
-        <div style="padding:0 16px 16px;">
-          <div class="video-main" data-video="{&quot;youtubeId&quot;:&quot;YX40hbAHx3s&quot;,&quot;title&quot;:&quot;P vs. NP and the Computational Complexity Zoo&quot;,&quot;channel&quot;:&quot;hackerdashery&quot;,&quot;duration&quot;:&quot;51m&quot;,&quot;length&quot;:&quot;51:20&quot;,&quot;start&quot;:0,&quot;why&quot;:&quot;Clarifies the direction of Karp reductions (A &lt;=_p B), the Cook-Levin theorem, and the canonical gadget chain from 3-SAT to Independent Set, Vertex Cover, Clique, and Subset Sum.&quot;}">
-      <div class="video-embed" id="video-YX40hbAHx3s"><div class="video-embed__placeholder" data-action="load-youtube" data-video-id="YX40hbAHx3s">
-          <img class="video-embed__thumb" src="https://img.youtube.com/vi/YX40hbAHx3s/hqdefault.jpg"
-               alt="P vs. NP and the Computational Complexity Zoo"
-               loading="lazy">
-          <div class="video-embed__play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div></div>
-      <div class="video-embed__info">
-        <span class="video-embed__channel">hackerdashery</span>
-        <span class="video-embed__title">P vs. NP and the Computational Complexity Zoo</span>
-        <a href="https://www.youtube.com/watch?v=YX40hbAHx3s" target="_blank" rel="noopener noreferrer" style="margin-left:auto; font-size:11px; color:var(--accent,#6366f1); text-decoration:none; display:flex; align-items:center; gap:2px;">
-          Watch on YouTube ↗
-        </a>
-      </div>
-      <p class="video-embed__why">Clarifies the direction of Karp reductions (A &lt;=_p B), the Cook-Levin theorem, and the canonical gadget chain from 3-SAT to Independent Set, Vertex Cover, Clique, and Subset Sum.</p></div>
-        </div>
-      </details>
       <nav class="topic-quick-jump" aria-label="Jump to section">
         <div class="topic-quick-jump__bar">
           <div class="topic-quick-jump__pills">
@@ -1740,7 +1728,7 @@ return out;</code></pre>
   <script type="text/plain" data-defer src="js/simulators-dp-adv.js?v=538f8f549f"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/katex.min.js?v=6d481709e3"></script>
   <script type="text/plain" data-defer src="js/vendor/katex/auto-render.min.js?v=82dca94048"></script>
-  <script type="text/plain" data-defer src="js/renderer.js?v=e839e54474"></script>
+  <script type="text/plain" data-defer src="js/renderer.js?v=cbbffda274"></script>
   <script type="text/plain" data-defer src="js/landing.js?v=7ef29e0643"></script>
   
   <script type="text/plain" data-defer src="js/quiz.js?v=81225a727d"></script>
