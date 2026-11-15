@@ -946,23 +946,24 @@ window.App = (() => {
         if (!document.querySelector('link[href*="code-lab.css"], link[href*="@innovatorved/code-lab"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'css/vendor/code-lab.css';
+          const cssHash = window.LAZY_MANIFEST?.['css/vendor/code-lab.css'] || window.ASSET_VERSION || '';
+          link.href = 'css/vendor/code-lab.css' + (cssHash ? '?v=' + cssHash : '');
           link.onerror = function () {
             this.onerror = null;
             this.crossOrigin = 'anonymous';
-            this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.css';
+            this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.6.1/dist/code-lab.css';
           };
           document.head.appendChild(link);
         }
         if (!window.CodeLab) {
-          neededBuildScripts.push('js/vendor/code-lab.js');
+          neededBuildScripts.push(['js/vendor/code-lab.js', 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.6.1/dist/code-lab.js']);
         }
 
         if (neededBuildScripts.length > 0 && window.loadScript) {
           if (!isPrerenderedBuild) {
             reader.innerHTML = '<div class="prose"><p style="padding:2rem 0;color:var(--fg-muted);">Loading Interactive IDE Lab &amp; Reference Build...</p></div>';
           }
-          Promise.all(neededBuildScripts.map(s => window.loadScript(s))).then(renderBuildView).catch(err => {
+          Promise.all(neededBuildScripts.map(s => Array.isArray(s) ? window.loadScript(s[0], s[1]) : window.loadScript(s))).then(renderBuildView).catch(err => {
             console.error('[Failed to load build lab scripts]', err);
             renderBuildView();
           });
@@ -2075,18 +2076,18 @@ window.App = (() => {
     if (!document.querySelector('link[href*="code-lab.css"], link[href*="@innovatorved/code-lab"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'css/vendor/code-lab.css';
+      const cssHash = window.LAZY_MANIFEST?.['css/vendor/code-lab.css'] || window.ASSET_VERSION || '';
+      link.href = 'css/vendor/code-lab.css' + (cssHash ? '?v=' + cssHash : '');
       link.onerror = function () {
         this.onerror = null;
         this.crossOrigin = 'anonymous';
-        this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.css';
+        this.href = 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.6.1/dist/code-lab.css';
       };
       document.head.appendChild(link);
     }
     if (window.CodeLab) return Promise.resolve(window.CodeLab);
     if (window.loadScript) {
-      return window.loadScript('js/vendor/code-lab.js')
-        .catch(() => window.loadScript('https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.4.0/dist/code-lab.js'))
+      return window.loadScript('js/vendor/code-lab.js', 'https://cdn.jsdelivr.net/npm/@innovatorved/code-lab@0.6.1/dist/code-lab.js')
         .then(() => window.CodeLab);
     }
     return Promise.resolve(null);
@@ -3341,7 +3342,7 @@ window.App = (() => {
       globalCodeLabInstance = null;
     }
     if (mountEl) {
-      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.4.0 C++20 Workbench...</div>';
+      mountEl.innerHTML = '<div style="padding:2rem;color:var(--fg-muted);font-family:var(--font-mono);">Loading @innovatorved/code-lab@0.6.1 C++20 Workbench...</div>';
     }
 
     return ensureCodeLabLoaded().then((CodeLab) => {

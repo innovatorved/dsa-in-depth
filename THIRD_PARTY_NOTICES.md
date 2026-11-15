@@ -6,10 +6,10 @@ This project incorporates, bundles, or interfaces with the following open-source
 
 ## 1. Client-Side Libraries & Bundled Assets
 
-### `@innovatorved/code-lab` (`v0.4.0`)
+### `@innovatorved/code-lab` (`v0.6.1`)
 - **License:** MIT License
 - **Copyright:** (c) 2026 Ved Gupta (`https://github.com/innovatorved/code-lab`)
-- **Usage:** Browser-native IDE workbench, POSIX shell, guided lab stepper, and Web Worker C++20/TypeScript/JavaScript/Python WebAssembly runtime bundled under `js/vendor/code-lab.js`, `js/vendor/guided-lab.js`, and `css/vendor/code-lab.css` with CDN fallback.
+- **Usage:** Browser-native IDE workbench, POSIX shell, guided lab stepper, and Web Worker C++20/TypeScript/JavaScript/Python WebAssembly runtime bundled under `js/vendor/code-lab.js`, `js/vendor/guided-lab.js`, `css/vendor/code-lab.css`, and `preview-sw.js` with CDN fallback (`@innovatorved/code-lab@0.6.1`).
 
 ### KaTeX
 - **License:** MIT License
