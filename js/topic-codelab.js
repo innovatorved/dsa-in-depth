@@ -1,6 +1,6 @@
 /**
  * Topic Guided CodeLab Controller — DSA In Depth
- * Connects topic guided lab cards to @innovatorved/code-lab@0.6.1 workbench.
+ * Connects topic guided lab cards to @innovatorved/code-lab@0.7.0 workbench.
  */
 (function () {
   'use strict';
