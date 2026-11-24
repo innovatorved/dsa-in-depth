@@ -17,7 +17,7 @@ DSA In Depth is a static-first, progressive-enhancement web application that del
 └───────────────────────────────────────┼────────────────────────────────────┘
                                         │
 ┌───────────────────────────────────────▼────────────────────────────────────┐
-│            Vendored @innovatorved/code-lab v0.7.0 Workbench                │
+│            Vendored @innovatorved/code-lab v0.7.1 Workbench                │
 │  • Isolated Web Worker C++20 / TypeScript / JavaScript / Python Runtime    │
 │  • 180 Topic Guided Labs + 22 Multi-File From-Scratch Algorithm Builds     │
 └────────────────────────────────────────────────────────────────────────────┘
@@ -38,7 +38,7 @@ DSA In Depth is a static-first, progressive-enhancement web application that del
 | `data/implementations_code.js` & `data/guided_labs.js` | 22 multi-file capstone algorithm implementations and step-by-step guided specs |
 | `data/challenges.js` & `data/whiteboard-blueprints.js` | Production incident debugging challenges and capacity/topology blueprints |
 | `js/simulators*.js` | 69 lifecycle-managed (`render`, `mount`, `unmount`) visual step simulators |
-| `js/vendor/` | Self-hosted KaTeX (`js/vendor/katex/`) and `@innovatorved/code-lab` `v0.7.0` bundles |
+| `js/vendor/` | Self-hosted KaTeX (`js/vendor/katex/`) and `@innovatorved/code-lab` `v0.7.1` bundles |
 | `tools/` | Static site generator (`generate-static.js`), OG card renderer (`generate-og.js`), asset stamper (`stamp-assets.js`), bundler (`build.js`), and validators (`validate.js`, `check-rendered.js`) |
 
 ---
@@ -49,4 +49,4 @@ DSA In Depth is a static-first, progressive-enhancement web application that del
    - Evaluates `Renderer.renderLesson(slug)` and `Renderer.renderBuild(buildId)` inside a deterministic Node VM with build-time KaTeX math rendering.
    - Emits standalone `index.html` directories for all 180 `/topic/<slug>/` units, 22 `/build/<id>/` capstones, challenge entry routes, and hub routes (`/roadmap/`, `/challenges/`, `/sandbox/`, `/dashboard/`, `/glossary/`, `/projects/`).
 2. **Self-Hosted Zero-Blocking Assets (`js/bootstrap.js`, `tools/stamp-assets.js`)**:
-   - Fonts (`fonts/geist-latin.woff2`, `fonts/geist-mono-latin.woff2`), KaTeX (`css/vendor/katex/katex.min.css`), and `@innovatorved/code-lab` (`v0.7.0`) are served locally with content-addressed `?v=<sha1>` cache keys.
+   - Fonts (`fonts/geist-latin.woff2`, `fonts/geist-mono-latin.woff2`), KaTeX (`css/vendor/katex/katex.min.css`), and `@innovatorved/code-lab` (`v0.7.1`) are served locally with content-addressed `?v=<sha1>` cache keys.

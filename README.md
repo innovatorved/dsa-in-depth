@@ -10,7 +10,7 @@ Open-source interactive curriculum for data structures, hardware cache hierarchy
 
 - **Hardware-Grounded First Principles**: Connects asymptotic analysis (`O`, `Ω`, `Θ`, Akra-Bazzi, amortized potential `Φ`) to actual 64-byte CPU cache lines, branch mispredictions, SIMD probing, and pointer-chasing latency.
 - **69 Interactive Step Simulators**: Step through Robin Hood & SwissTable probing, Red-Black / LLRB rotations, segment tree lazy propagation, Aho-Corasick failure links, Dijkstra/A* frontiers, and Dinic blocking flows.
-- **180 Guided Algorithm Labs & 22 From-Scratch Builds**: Progressive 3-step C++20 coding practice on every topic, plus 22 multi-file capstone data structure and algorithm implementations powered by [`@innovatorved/code-lab`](https://github.com/innovatorved/code-lab) (`v0.7.0`).
+- **180 Guided Algorithm Labs & 22 From-Scratch Builds**: Progressive 3-step C++20 coding practice on every topic, plus 22 multi-file capstone data structure and algorithm implementations powered by [`@innovatorved/code-lab`](https://github.com/innovatorved/code-lab) (`v0.7.1`).
 - **Primary-Source Citations**: Every unit cites peer-reviewed papers, canonical textbooks (CLRS, Knuth TAOCP, Sedgewick, Erickson, Tarjan), and production systems (`hashbrown`, Linux `rbtree`, V8, `ripgrep`, Git Myers diff).
 
 ---

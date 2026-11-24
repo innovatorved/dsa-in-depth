@@ -4,7 +4,7 @@
 
 DSA In Depth is a pure static client-side web application (`https://dsa-in-depth.vedgupta.in`) with zero backend execution servers and zero user authentication databases.
 
-1. **Client-Side CodeLab Isolation (`@innovatorved/code-lab` `v0.7.0`)**:
+1. **Client-Side CodeLab Isolation (`@innovatorved/code-lab` `v0.7.1`)**:
    - User-authored C++20, TypeScript, JavaScript, and Python code in Guided Labs and From-Scratch Builds executes exclusively inside the visitor's own browser inside a dedicated `Blob`-backed Web Worker with hard timeout preemption and iframe `sandbox` isolation (`allow-scripts allow-forms allow-modals`, opaque `null` origin).
    - Dynamic prose, search queries, and simulator inputs are HTML-escaped before DOM insertion.
 2. **Static Hosting Headers (`_headers`)**:
